@@ -1,7 +1,7 @@
-# Churn
+# ChurnPhp
 Help discover good candidates for refactoring
 
-[![Build Status](https://travis-ci.org/bmitch/Churn.svg?branch=master)](https://travis-ci.org/bmitch/Churn) [![codecov](https://codecov.io/gh/bmitch/Churn/branch/master/graph/badge.svg)](https://codecov.io/gh/bmitch/Churn) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bmitch/Churn/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bmitch/Churn/?branch=master) [![Code Climate](https://codeclimate.com/github/bmitch/Churn/badges/gpa.svg)](https://codeclimate.com/github/bmitch/Churn) [![Packagist](https://img.shields.io/packagist/v/bmitch/codor.svg)]() [![Packagist](https://img.shields.io/packagist/l/bmitch/codor.svg)]()
+[![Build Status](https://travis-ci.org/bmitch/ChurnPhp.svg?branch=master)](https://travis-ci.org/bmitch/ChurnPhp) [![codecov](https://codecov.io/gh/bmitch/ChurnPhp/branch/master/graph/badge.svg)](https://codecov.io/gh/bmitch/ChurnPhp) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bmitch/ChurnPhp/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bmitch/ChurnPhp/?branch=master) [![Code Climate](https://codeclimate.com/github/bmitch/ChurnPhp/badges/gpa.svg)](https://codeclimate.com/github/bmitch/ChurnPhp) [![Packagist](https://img.shields.io/packagist/v/bmitch/churnphp.svg)]() [![Packagist](https://img.shields.io/packagist/l/bmitch/churnphp.svg)]()
 ----------
 
 * [What Is it?](#what-is-it)
@@ -19,7 +19,7 @@ Help discover good candidates for refactoring
 
 Install via Composer:
 ```
-composer require bmitch/churn --dev
+composer require bmitch/churnphp --dev
 ```
 
 ## How to Use? ##
