@@ -1,11 +1,11 @@
 {
-    "name": "bmitch/Churn",
+    "name": "bmitch/ChurnPhp",
     "description": "Discover files in need of refactoring.",
     "keywords": [
         "bmitch",
-        "Churn"
+        "ChurnPhp"
     ],
-    "homepage": "https://github.com/bmitch/Churn",
+    "homepage": "https://github.com/bmitch/ChurnPhp",
     "license": "MIT",
     "authors": [
         {
@@ -30,12 +30,12 @@
     },
     "autoload": {
         "psr-4": {
-            "bmitch\\Churn\\": "src"
+            "Codor\\": "src/Churn/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "bmitch\\Churn\\Test\\": "tests"
+            "Churn\\Tests\\": "tests"
         }
     },
     "scripts": {

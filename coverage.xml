@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1497110796">
-  <project timestamp="1497110796">
+<coverage generated="1497111136">
+  <project timestamp="1497111136">
     <package name="Churn">
-      <file name="/home/bmitch/Code/Churn/src/Class.php">
+      <file name="/home/bmitch/Code/ChurnPhp/src/Class.php">
         <class name="ClassLengthSniff" namespace="Churn">
           <metrics complexity="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
         </class>

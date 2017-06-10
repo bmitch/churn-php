@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Bmitch\Churn\Test;
+namespace Churn\Test;
 
 use PHPUnit\Framework\TestCase;
 
