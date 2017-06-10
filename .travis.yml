@@ -1,0 +1,23 @@
+language: php
+
+php:
+ - 7.0
+ - 7.1
+ - nightly
+
+before_script:
+  - travis_retry composer self-update
+  - travis_retry composer install --no-interaction --prefer-source --dev
+
+script:
+ - vendor/bin/phpcs --standard=psr2 src
+ - vendor/bin/phpcs --standard=phpcs.xml src tests
+ - vendor/bin/phpcs --standard=codor.xml src -spn
+ - vendor/bin/phpunit --debug --coverage-clover=coverage.xml
+ - vendor/bin/phpmd src text codesize,unusedcode,naming
+ - vendor/bin/phploc src
+ - vendor/bin/phpcpd src
+
+
+after_success:
+ # - bash <(curl -s https://codecov.io/bash)

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<ruleset name="MyStandard">
+  <description>My custom coding standard.</description>
+
+  <!-- Dock Blocks -->
+  <rule ref="Squiz.Commenting.FunctionComment" />
+  <rule ref="Squiz.Commenting.FunctionCommentThrowTag" />
+  <rule ref="Squiz.Commenting.VariableComment" />
+
+<!-- Forbid some functions -->
+<rule ref="Generic.PHP.ForbiddenFunctions">
+  <properties>
+    <property name="forbiddenFunctions" type="array" value="mysql_fetch_assoc=>null,mysql_query=>null,mysql_connect=>null,dd=>null,die=>null,var_dump=>null,sizeof=>count,delete=>unset,create_function=>null"/>
+  </properties>
+</rule>
+
+<rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
+    <exclude name="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
+    <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameInAnnotation"/>
+    <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameAfterKeyword"/>
+    <exclude name="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces"/>
+    <exclude name="SlevomatCodingStandard.Types.EmptyLinesAroundTypeBraces"/>
+    <exclude name="SlevomatCodingStandard.Files.TypeNameMatchesFileName"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingTraversableReturnTypeHintSpecification"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingTraversableParameterTypeHintSpecification"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingTraversablePropertyTypeHintSpecification"/>
+    <exclude name="SlevomatCodingStandard.ControlStructures.DisallowEqualOperators.DisallowedEqualOperator"/>
+    <exclude name="Squiz.Commenting.FunctionComment.ScalarTypeHintMissing"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint"/>
+    <exclude name="Squiz.Commenting.FunctionComment.TypeHintMissing"/>
+</rule>
+</ruleset>
