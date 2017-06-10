@@ -25,8 +25,7 @@ composer require bmitch/churn --dev
 ## How to Use? ##
 
 ## Similar Packages
-* https://github.com/object-calisthenics/phpcs-calisthenics-rules
-* https://github.com/slevomat/coding-standard
+* https://github.com/danmayer/churn (Ruby)
 
 ## Contributing ##
 Please see [CONTRIBUTING.md](CONTRIBUTING.md)
