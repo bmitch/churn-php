@@ -29,5 +29,6 @@
     <exclude name="Squiz.Commenting.FunctionComment.ScalarTypeHintMissing"/>
     <exclude name="SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint"/>
     <exclude name="Squiz.Commenting.FunctionComment.TypeHintMissing"/>
+    <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions.NonFullyQualifiedException"/>
 </rule>
 </ruleset>

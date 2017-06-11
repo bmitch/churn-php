@@ -67,9 +67,4 @@ class CyclomaticComplexityAssessorTest extends BaseTestCase
     {
         return (new CyclomaticComplexityAssessor)->assess($filename);
     }
-
-    public function setup()
-    {
-        
-    }
 }
