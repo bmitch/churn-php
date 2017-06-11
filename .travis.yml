@@ -11,7 +11,7 @@ before_script:
 
 script:
  - vendor/bin/phpcs --standard=psr2 src
- - vendor/bin/phpcs --standard=phpcs.xml src tests
+ - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" ]]; then vendor/bin/phpcs --standard=phpcs.xml src --ignore=tests/Sniffs; fi
  - vendor/bin/phpcs --standard=codor.xml src -spn
  - vendor/bin/phpunit --debug --coverage-clover=coverage.xml
  - vendor/bin/phpmd src text codesize,unusedcode,naming
@@ -20,4 +20,4 @@ script:
 
 
 after_success:
- # - bash <(curl -s https://codecov.io/bash)
+ - bash <(curl -s https://codecov.io/bash)

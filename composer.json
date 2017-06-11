@@ -1,11 +1,11 @@
 {
-    "name": "bmitch/ChurnPhp",
+    "name": "bmitch/churn-php",
     "description": "Discover files in need of refactoring.",
     "keywords": [
         "bmitch",
-        "ChurnPhp"
+        "churn-php"
     ],
-    "homepage": "https://github.com/bmitch/ChurnPhp",
+    "homepage": "https://github.com/bmitch/churn-php",
     "license": "MIT",
     "authors": [
         {
@@ -30,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Codor\\": "src/Churn/"
+            "Churn\\": "src"
         }
     },
     "autoload-dev": {
@@ -46,7 +46,7 @@
             "vendor/bin/phpcs --standard=codor.xml src -spn",
             "vendor/bin/phpunit --debug --coverage-clover=coverage.xml",
             "vendor/bin/phpmd src text codesize,unusedcode,naming",
-            "vendor/bin/phploc src --progress",
+            "vendor/bin/phploc src",
             "vendor/bin/phpcpd src",
             "vendor/bin/phpunit"
         ]
