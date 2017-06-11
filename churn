@@ -1,0 +1,10 @@
+#!/usr/bin/env php
+<?php
+require_once 'vendor/autoload.php';
+
+use Churn\Commands\ChurnCommand;
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+$application->add(new ChurnCommand());
+$application->run();

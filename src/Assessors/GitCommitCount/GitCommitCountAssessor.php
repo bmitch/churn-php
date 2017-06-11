@@ -3,7 +3,6 @@
 namespace Churn\Assessors\GitCommitCount;
 
 use Churn\Services\CommandService;
-use Churn\Exceptions\CommandServiceException;
 
 class GitCommitCountAssessor
 {
@@ -25,15 +24,15 @@ class GitCommitCountAssessor
     /**
      * See how many commits the file at $filePath has.
      * @param  string $filePath Path and filename.
-     * @throws CommandServiceException If command resulted in an error.
      * @return integer
      */
     public function assess($filePath): int
     {
         $command = $this->buildCommand($filePath);
+
         $result = $this->commandService->execute($command);
         if (! isset($result[0])) {
-            throw new CommandServiceException('Command resulted in an error (Does specified file exist?)');
+            return 0;
         }
         $result = trim($result[0]);
         $explodedResult = explode(' ', $result);
@@ -47,7 +46,14 @@ class GitCommitCountAssessor
      */
     protected function buildCommand($filePath): string
     {
-        $commandTemplate = "git log --name-only --pretty=format: %s | sort | uniq -c | sort -nr | grep %s";
+        $commandTemplate = "git log --name-only --pretty=format: %s | sort | uniq -c | sort -nr";
+
+        $pos =strrpos($filePath, '/');
+        if ($pos) {
+            $folder = substr($filePath, 0, $pos);
+            $commandTemplate = "cd {$folder} && git log --name-only --pretty=format: %s | sort | uniq -c | sort -nr";
+        }
+
         return sprintf($commandTemplate, $filePath, $filePath);
     }
 }

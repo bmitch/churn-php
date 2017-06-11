@@ -20,6 +20,7 @@ class CyclomaticComplexityAssessor
         $this->score = 0;
 
         $contents = $this->getFileContents($filePath);
+
         $this->countTheMethods($contents);
         $this->countTheIfStatements($contents);
         $this->countTheElseIfStatements($contents);
@@ -54,7 +55,7 @@ class CyclomaticComplexityAssessor
      */
     protected function countTheIfStatements($contents)
     {
-        $this->score += $this->howmAnyPatternMatches("/[ ]if[ ]{0,}\(/", $contents);
+        $this->score += $this->howmAnyPatternMatches("/[ ]if[ ]/", $contents);
     }
 
     /**
@@ -64,7 +65,7 @@ class CyclomaticComplexityAssessor
      */
     protected function countTheElseIfStatements($contents)
     {
-        $this->score += $this->howmAnyPatternMatches("/else[ ]{0,}if[ ]{0,}\(/", $contents);
+        $this->score += $this->howmAnyPatternMatches("/elseif/", $contents);
     }
 
     /**
@@ -74,7 +75,7 @@ class CyclomaticComplexityAssessor
      */
     protected function countTheWhileLoops($contents)
     {
-        $this->score += $this->howmAnyPatternMatches("/while[ ]{0,}\(/", $contents);
+        $this->score += $this->howmAnyPatternMatches("/while/", $contents);
     }
 
     /**
@@ -84,8 +85,7 @@ class CyclomaticComplexityAssessor
      */
     protected function countTheForLoops($contents)
     {
-        // dd($this->howmAnyPatternMatches("/[ ]for(each){0,1}[ ]{0,}\(/", $contents));
-        $this->score += $this->howmAnyPatternMatches("/[ ]for(each){0,1}[ ]{0,}\(/", $contents);
+        $this->score += $this->howmAnyPatternMatches("/for(each){0,1}[ ]{0,}\(/", $contents);
     }
 
     /**
@@ -95,7 +95,7 @@ class CyclomaticComplexityAssessor
      */
     protected function countTheCaseStatements($contents)
     {
-        $this->score += $this->howmAnyPatternMatches("/[ ]case[ ]{1}(.*)\:/", $contents);
+        $this->score += $this->howmAnyPatternMatches("/case/", $contents);
     }
 
     /**
