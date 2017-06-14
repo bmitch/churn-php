@@ -13,6 +13,10 @@
             "email": "wkmitch@gmail.com"
         }
     ],
+    "bin": [
+        "churn"
+    ],
+
     "require": {
         "php": ">=7.0.0",
         "symfony/console": "^3.3",
