@@ -7,6 +7,11 @@ use Churn\Assessors\CyclomaticComplexity\CyclomaticComplexityAssessor;
 
 class CyclomaticComplexityAssessorTest extends BaseTestCase
 {
+    /** @test */
+    public function the_class_itself_has_a_complexity_of_four()
+    {
+        $this->assertEquals(4, $this->assess('src/Assessors/CyclomaticComplexity/CyclomaticComplexityAssessor.php'));
+    }
 
     /** @test */
     public function an_empty_class_should_have_a_complexity_of_one()
@@ -48,6 +53,7 @@ class CyclomaticComplexityAssessorTest extends BaseTestCase
     public function a_class_with_a_method_containing_a_for_loop_has_a_complexity_of_two()
     {
         $this->assertEquals(2, $this->assess('tests/Unit/Assessors/CyclomaticComplexity/Assets/ClassWithForLoop.inc'));
+        $this->assertEquals(1, $this->assess('tests/Unit/Assessors/CyclomaticComplexity/Assets/ClassWithNoForLoops.inc'));
     }
 
     /** @test */
@@ -61,6 +67,7 @@ class CyclomaticComplexityAssessorTest extends BaseTestCase
     {
         $this->assertEquals(11, $this->assess('tests/Unit/Assessors/CyclomaticComplexity/Assets/ClassWithManyMethodsAndLotsOfBranches.inc'));
     }
+
     
 
     protected function assess($filename)

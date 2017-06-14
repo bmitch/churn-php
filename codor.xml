@@ -3,4 +3,10 @@
     <description>Project Coding Standard</description>
 
     <rule ref="vendor/bmitch/codor/src/Codor/ruleset.xml"/>
+    <rule ref="Codor.Files.IndentationLevel">
+        <properties>
+            <property name="indentationLimit" value="3"/>
+        </properties>
+    </rule>
+
 </ruleset>
