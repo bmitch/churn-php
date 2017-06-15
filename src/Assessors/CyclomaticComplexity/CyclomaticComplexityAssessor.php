@@ -15,7 +15,7 @@ class CyclomaticComplexityAssessor
      * @param  string $filePath Path and file name.
      * @return integer
      */
-    public function assess($filePath): int
+    public function assess(string $filePath): int
     {
         $this->score = 0;
 
@@ -41,7 +41,7 @@ class CyclomaticComplexityAssessor
      * @param  string $contents File contents.
      * @return void
      */
-    protected function countTheMethods($contents)
+    protected function countTheMethods(string $contents)
     {
         preg_match("/[ ]function[ ]/", $contents, $matches);
         if (isset($matches[0])) {
@@ -54,7 +54,7 @@ class CyclomaticComplexityAssessor
      * @param  string $contents File contents.
      * @return void
      */
-    protected function countTheIfStatements($contents)
+    protected function countTheIfStatements(string $contents)
     {
         $this->score += $this->howmAnyPatternMatches("/[ ]if[ ]{0,}\(/", $contents);
     }
@@ -64,7 +64,7 @@ class CyclomaticComplexityAssessor
      * @param  string $contents File contents.
      * @return void
      */
-    protected function countTheElseIfStatements($contents)
+    protected function countTheElseIfStatements(string $contents)
     {
         $this->score += $this->howmAnyPatternMatches("/else[ ]{0,}if[ ]{0,}\(/", $contents);
     }
@@ -74,7 +74,7 @@ class CyclomaticComplexityAssessor
      * @param  string $contents File contents.
      * @return void
      */
-    protected function countTheWhileLoops($contents)
+    protected function countTheWhileLoops(string $contents)
     {
         $this->score += $this->howmAnyPatternMatches("/while[ ]{0,}\(/", $contents);
     }
@@ -84,7 +84,7 @@ class CyclomaticComplexityAssessor
      * @param  string $contents File contents.
      * @return void
      */
-    protected function countTheForLoops($contents)
+    protected function countTheForLoops(string $contents)
     {
         $this->score += $this->howmAnyPatternMatches("/[ ]for(each){0,1}[ ]{0,}\(/", $contents);
     }
@@ -94,7 +94,7 @@ class CyclomaticComplexityAssessor
      * @param  string $contents File contents.
      * @return void
      */
-    protected function countTheCaseStatements($contents)
+    protected function countTheCaseStatements(string $contents)
     {
         $this->score += $this->howmAnyPatternMatches("/[ ]case[ ]{1}(.*)\:/", $contents);
     }
@@ -104,7 +104,7 @@ class CyclomaticComplexityAssessor
      * @param  string $contents File contents.
      * @return void
      */
-    protected function countTheTernaryOperators($contents)
+    protected function countTheTernaryOperators(string $contents)
     {
         $this->score += $this->howmAnyPatternMatches("/[ ]\?.*:.*;/", $contents);
     }
@@ -114,7 +114,7 @@ class CyclomaticComplexityAssessor
      * @param  string $contents File contents.
      * @return void
      */
-    protected function countTheLogicalAnds($contents)
+    protected function countTheLogicalAnds(string $contents)
     {
         $this->score += $this->howmAnyPatternMatches("/[ ]&&[ ]/", $contents);
     }
@@ -124,7 +124,7 @@ class CyclomaticComplexityAssessor
      * @param  string $contents File contents.
      * @return void
      */
-    protected function countTheLogicalOrs($contents)
+    protected function countTheLogicalOrs(string $contents)
     {
         $this->score += $this->howmAnyPatternMatches("/[ ]\|\|[ ]/", $contents);
     }
@@ -135,7 +135,7 @@ class CyclomaticComplexityAssessor
      * @param  string $string  Any string.
      * @return integer
      */
-    protected function howManyPatternMatches($pattern, $string): int
+    protected function howManyPatternMatches(string $pattern, string $string): int
     {
         preg_match_all($pattern, $string, $matches);
         if (isset($matches[0])) {
@@ -149,7 +149,7 @@ class CyclomaticComplexityAssessor
      * @param  string $filePath Path and filename.
      * @return string
      */
-    protected function getFileContents($filePath): string
+    protected function getFileContents(string $filePath): string
     {
         return file_get_contents($filePath);
     }

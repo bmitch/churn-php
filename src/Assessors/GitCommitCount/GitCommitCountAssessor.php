@@ -26,7 +26,7 @@ class GitCommitCountAssessor
      * @param  string $filePath Path and filename.
      * @return integer
      */
-    public function assess($filePath): int
+    public function assess(string $filePath): int
     {
         $command = $this->buildCommand($filePath);
 
@@ -44,7 +44,7 @@ class GitCommitCountAssessor
      * @param  string $filePath Patha nd filename.
      * @return string
      */
-    protected function buildCommand($filePath): string
+    protected function buildCommand(string $filePath): string
     {
         $commandTemplate = "git log --name-only --pretty=format: %s | sort | uniq -c | sort -nr";
 
