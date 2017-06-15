@@ -12,12 +12,11 @@ before_script:
 script:
  - vendor/bin/phpcs --standard=psr2 src
  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" ]]; then vendor/bin/phpcs --standard=phpcs.xml src --ignore=tests/Sniffs; fi
- - vendor/bin/phpcs --standard=codor.xml src -spn
+ - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" ]]; then vendor/bin/phpcs --standard=codor.xml src -spn; fi
  - vendor/bin/phpunit --debug --coverage-clover=coverage.xml
  - vendor/bin/phpmd src text codesize,unusedcode,naming
  - vendor/bin/phploc src
  - vendor/bin/phpcpd src
-
 
 after_success:
  - bash <(curl -s https://codecov.io/bash)
