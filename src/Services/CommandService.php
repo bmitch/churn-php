@@ -9,7 +9,7 @@ class CommandService
      * @param  string $command Command to execute.
      * @return array
      */
-    public function execute($command): array
+    public function execute(string $command): array
     {
         exec($command, $output);
         return $output;
