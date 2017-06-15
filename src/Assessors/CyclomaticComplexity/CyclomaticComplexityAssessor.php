@@ -25,8 +25,10 @@ class CyclomaticComplexityAssessor
         $this->countTheElseIfStatements($contents);
         $this->countTheWhileLoops($contents);
         $this->countTheForLoops($contents);
-
         $this->countTheCaseStatements($contents);
+        $this->countTheTernaryOperators($contents);
+        $this->countTheLogicalAnds($contents);
+        $this->countTheLogicalOrs($contents);
 
         if ($this->score == 0) {
             $this->score = 1;
@@ -36,7 +38,7 @@ class CyclomaticComplexityAssessor
 
     /**
      * Count how many methods there are.
-     * @param  string $contents Path and filename.
+     * @param  string $contents File contents.
      * @return void
      */
     protected function countTheMethods($contents)
@@ -49,7 +51,7 @@ class CyclomaticComplexityAssessor
 
     /**
      * Count how many if statements there are.
-     * @param  string $contents Path and filename.
+     * @param  string $contents File contents.
      * @return void
      */
     protected function countTheIfStatements($contents)
@@ -59,7 +61,7 @@ class CyclomaticComplexityAssessor
 
     /**
      * Count how many else if statements there are.
-     * @param  string $contents Path and filename.
+     * @param  string $contents File contents.
      * @return void
      */
     protected function countTheElseIfStatements($contents)
@@ -69,7 +71,7 @@ class CyclomaticComplexityAssessor
 
     /**
      * Count how many while loops there are.
-     * @param  string $contents Path and filename.
+     * @param  string $contents File contents.
      * @return void
      */
     protected function countTheWhileLoops($contents)
@@ -79,23 +81,52 @@ class CyclomaticComplexityAssessor
 
     /**
      * Count how many for loops there are.
-     * @param  string $contents Path and filename.
+     * @param  string $contents File contents.
      * @return void
      */
     protected function countTheForLoops($contents)
     {
-        // dd($this->howmAnyPatternMatches("/[ ]for(each){0,1}[ ]{0,}\(/", $contents));
         $this->score += $this->howmAnyPatternMatches("/[ ]for(each){0,1}[ ]{0,}\(/", $contents);
     }
 
     /**
      * Count how many case statements there are.
-     * @param  string $contents Path and filename.
+     * @param  string $contents File contents.
      * @return void
      */
     protected function countTheCaseStatements($contents)
     {
         $this->score += $this->howmAnyPatternMatches("/[ ]case[ ]{1}(.*)\:/", $contents);
+    }
+
+    /**
+     * Count how many ternary operators there are.
+     * @param  string $contents File contents.
+     * @return void
+     */
+    protected function countTheTernaryOperators($contents)
+    {
+        $this->score += $this->howmAnyPatternMatches("/[ ]\?.*:.*;/", $contents);
+    }
+
+    /**
+     * Count how many '&&' there are.
+     * @param  string $contents File contents.
+     * @return void
+     */
+    protected function countTheLogicalAnds($contents)
+    {
+        $this->score += $this->howmAnyPatternMatches("/[ ]&&[ ]/", $contents);
+    }
+
+    /**
+     * Count how many '||' there are.
+     * @param  string $contents File contents.
+     * @return void
+     */
+    protected function countTheLogicalOrs($contents)
+    {
+        $this->score += $this->howmAnyPatternMatches("/[ ]\|\|[ ]/", $contents);
     }
 
     /**

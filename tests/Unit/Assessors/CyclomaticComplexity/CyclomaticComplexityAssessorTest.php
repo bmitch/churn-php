@@ -68,7 +68,23 @@ class CyclomaticComplexityAssessorTest extends BaseTestCase
         $this->assertEquals(11, $this->assess('tests/Unit/Assessors/CyclomaticComplexity/Assets/ClassWithManyMethodsAndLotsOfBranches.inc'));
     }
 
-    
+    /** @test */
+    public function a_class_with_a_ternary_opererator_should_return_two()
+    {
+        $this->assertEquals(2, $this->assess('tests/Unit/Assessors/CyclomaticComplexity/Assets/ClassWithTernary.inc'));
+    }
+
+    /** @test */
+    public function a_class_with_a_logical_and_should_return_two()
+    {
+        $this->assertEquals(2, $this->assess('tests/Unit/Assessors/CyclomaticComplexity/Assets/ClassWithLogicalAnd.inc'));        
+    }
+
+    /** @test */
+    public function a_class_with_a_logical_or_should_return_two()
+    {
+        $this->assertEquals(2, $this->assess('tests/Unit/Assessors/CyclomaticComplexity/Assets/ClassWithLogicalOr.inc'));        
+    }
 
     protected function assess($filename)
     {
