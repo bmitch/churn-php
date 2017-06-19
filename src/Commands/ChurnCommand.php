@@ -6,14 +6,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
-use Churn\Assessors\GitCommitCount\GitCommitCountAssessor;
-use Churn\Assessors\CyclomaticComplexity\CyclomaticComplexityAssessor;
-use Churn\Services\CommandService;
 use Symfony\Component\Console\Helper\Table;
-use Illuminate\Support\Collection;
-use SplFileInfo;
+use Churn\Results\ResultsGenerator;
+use Churn\Managers\FileManager;
+use Churn\Results\ResultCollection;
 
 class ChurnCommand extends Command
 {
@@ -23,8 +19,8 @@ class ChurnCommand extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->commitCountAssessor = new GitCommitCountAssessor(new CommandService);
-        $this->complexityAssessor = new CyclomaticComplexityAssessor();
+        $this->resultsGenerator = new ResultsGenerator;
+        $this->fileManager = new FileManager;
     }
 
     /**
@@ -47,51 +43,24 @@ class ChurnCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $path = $input->getArgument('path');
-
-        $directoryIterator = new RecursiveDirectoryIterator($path);
-
-        $results = Collection::make();
-        foreach (new RecursiveIteratorIterator($directoryIterator) as $file) {
-            if ($file->getExtension() !== 'php') {
-                continue;
-            }
-            $results->push($this->getResults($file));
-        }
-        $results = $results->sortByDesc('score');
-        $this->displayTable($output, $results);
-    }
-
-    /**
-     * Calculate the results for a file.
-     * @param  \SplFileInfo $file File.
-     * @return array
-     */
-    protected function getResults(SplFileInfo $file): array
-    {
-        $commits    = $this->commitCountAssessor->assess($file->getRealPath());
-        $complexity = $this->complexityAssessor->assess($file->getRealPath());
-
-        return [
-            'file'       => $file->getRealPath(),
-            'commits'    => $commits,
-            'complexity' => $complexity,
-            'score'      => ($commits/ 10) * ($complexity * 8.75),
-        ];
+        $path     = $input->getArgument('path');
+        $phpFiles = $this->fileManager->getPhpFiles($path);
+        $results  = $this->resultsGenerator->getResults($phpFiles);
+        $this->displayResults($output, $results);
     }
 
     /**
      * Displays the results in a table.
      * @param  OutputInterface                $output  Output.
-     * @param  \Illuminate\Support\Collection $results Results.
+     * @param  Churn\Results\ResultCollection $results Results Collection.
      * @return void
      */
-    protected function displayTable(OutputInterface $output, Collection $results)
+    protected function displayResults(OutputInterface $output, ResultCollection $results)
     {
         $table = new Table($output);
         $table->setHeaders(['File', 'Times Changed', 'Complexity', 'Score']);
-        foreach ($results as $resultsRow) {
-            $table->addRow($resultsRow);
+        foreach ($results->orderByScoreDesc() as $result) {
+            $table->addRow($result->toArray());
         }
         $table->render();
     }
