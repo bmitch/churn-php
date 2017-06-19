@@ -46,16 +46,16 @@ class ResultsGenerator
 
     /**
      * Returns a Result object for the provided $file.
-     * @param  string $file File.
+     * @param  array $file FileData.
      * @return Result
      */
-    protected function getResultsForFile(string $file): Result
+    protected function getResultsForFile(array $file): Result
     {
-        $commits    = $this->commitCountAssessor->assess($file);
-        $complexity = $this->complexityAssessor->assess($file);
+        $commits    = $this->commitCountAssessor->assess($file['fullPath']);
+        $complexity = $this->complexityAssessor->assess($file['fullPath']);
 
         return new Result([
-            'file'       => $file,
+            'file'       => $file['displayPath'],
             'commits'    => $commits,
             'complexity' => $complexity,
         ]);
