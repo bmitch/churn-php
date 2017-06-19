@@ -5,7 +5,7 @@ Helps discover good candidates for refactoring.
 ----------
 
 * [What Is it?](#what-is-it)
-* [Compatiblity](#compatibility)
+* [Compatibility](#compatibility)
 * [How to Install?](#how-to-install)
 * [How to Use?](#how-to-use)
 * [Similar Packages](#similar-packages)
