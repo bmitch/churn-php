@@ -21,7 +21,8 @@ class FileManager
             if ($file->getExtension() !== 'php') {
                 continue;
             }
-            $files[] = $file->getRealPath();
+
+            $files[] = ['fullPath' => $file->getRealPath(), 'displayPath' => $file->getPathName()];
         }
         return $files;
     }
