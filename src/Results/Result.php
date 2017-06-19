@@ -12,13 +12,13 @@ class Result
 
     /**
      * The commits property.
-     * @var string
+     * @var integer
      */
     private $commits;
 
     /**
      * The complexity property.
-     * @var string
+     * @var integer
      */
     private $complexity;
 
@@ -44,36 +44,36 @@ class Result
 
     /**
      * Get the file property.
-     * @return string
+     * @return integer
      */
-    public function getCommits(): string
+    public function getCommits(): int
     {
         return $this->commits;
     }
 
     /**
      * Get the file property.
-     * @return string
+     * @return integer
      */
-    public function getComplexity(): string
+    public function getComplexity(): int
     {
         return $this->complexity;
     }
 
     /**
      * Calculate the score.
-     * @return string
+     * @return integer
      */
-    public function getScore(): string
+    public function getScore(): int
     {
         return $this->getCommits() + $this->getComplexity();
     }
 
     /**
      * Output results to an array.
-     * @return string
+     * @return array
      */
-    public function toArray(): string
+    public function toArray(): array
     {
         return [
             $this->getFile(),
