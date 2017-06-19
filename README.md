@@ -39,7 +39,7 @@ A file that changes a lot and has a high complexity might be a higher candidate 
 
 `churn-php` only intends to assist the developer identifying files for refactoring. It's best to use the results in addition to your own judgement to decide which files you may want to refactor.
 
-## Compatiblity ##
+## Compatibility ##
 * PHP 7+
 
 ## How to Install? ##
