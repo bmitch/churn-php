@@ -43,6 +43,19 @@ class ResultTest extends BaseTestCase
         $this->assertSame(12, $this->result->getScore());
     }
 
+    /** @test */
+    public function it_can_be_returned_as_an_array()
+    {
+        $this->assertSame([
+                'filename.php',
+                5,
+                7,
+                12
+            ],
+            $this->result->toArray()
+        );
+    }
+
     public function setup()
     {
         $this->result = new Result([
