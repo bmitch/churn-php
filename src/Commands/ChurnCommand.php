@@ -22,7 +22,7 @@ class ChurnCommand extends Command
     public function __construct()
     {
         parent::__construct();
-        $commitCountAssessor = new GitCommitCountAssessor(new CommandService);
+        $commitCountAssessor    = new GitCommitCountAssessor(new CommandService);
         $complexityAssessor     = new CyclomaticComplexityAssessor();
         $this->resultsGenerator = new ResultsGenerator($commitCountAssessor, $complexityAssessor);
         $this->fileManager      = new FileManager;
