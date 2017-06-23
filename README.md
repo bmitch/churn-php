@@ -51,8 +51,8 @@ composer require bmitch/churn-php --dev
 ## How to Use? ##
 ```
 vendor/bin/churn run <path to source code>
-
 ```
+
 ## Similar Packages
 * https://github.com/danmayer/churn (Ruby)
 
