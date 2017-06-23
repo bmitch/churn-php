@@ -2,6 +2,9 @@
 
 namespace Churn\Commands;
 
+use Churn\Services\CommandService;
+use Churn\Assessors\GitCommitCount\GitCommitCountAssessor;
+use Churn\Assessors\CyclomaticComplexity\CyclomaticComplexityAssessor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,8 +22,10 @@ class ChurnCommand extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->resultsGenerator = new ResultsGenerator;
-        $this->fileManager = new FileManager;
+        $commitCountAssessor = new GitCommitCountAssessor(new CommandService);
+        $complexityAssessor     = new CyclomaticComplexityAssessor();
+        $this->resultsGenerator = new ResultsGenerator($commitCountAssessor, $complexityAssessor);
+        $this->fileManager      = new FileManager;
     }
 
     /**

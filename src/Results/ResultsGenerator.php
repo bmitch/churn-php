@@ -2,7 +2,6 @@
 
 namespace Churn\Results;
 
-use Churn\Services\CommandService;
 use Churn\Assessors\GitCommitCount\GitCommitCountAssessor;
 use Churn\Assessors\CyclomaticComplexity\CyclomaticComplexityAssessor;
 
@@ -20,14 +19,16 @@ class ResultsGenerator
      * @var CyclomaticComplexityAssessor
      */
     protected $complexityAssessor;
-
+   
     /**
      * Class constructor.
+     * @param GitCommitCountAssessor       $commitCountAssessor Git Commit Count Assessor.
+     * @param CyclomaticComplexityAssessor $complexityAssessor  Cyclomatic Complexity Assessor.
      */
-    public function __construct()
+    public function __construct(GitCommitCountAssessor $commitCountAssessor, CyclomaticComplexityAssessor $complexityAssessor)
     {
-        $this->commitCountAssessor = new GitCommitCountAssessor(new CommandService);
-        $this->complexityAssessor = new CyclomaticComplexityAssessor();
+        $this->commitCountAssessor = $commitCountAssessor;
+        $this->complexityAssessor = $complexityAssessor;
     }
 
     /**
