@@ -20,7 +20,8 @@
     "require": {
         "php": ">=7.0.0",
         "symfony/console": "^3.3",
-        "tightenco/collect": "^5.4"
+        "tightenco/collect": "^5.4",
+        "symfony/process": "^3.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7",
@@ -51,11 +52,16 @@
             "vendor/bin/phpcs --standard=psr2 src -spn",
             "vendor/bin/phpcs --standard=phpcs.xml src -spn",
             "vendor/bin/phpcs --standard=codor.xml src -spn",
-            "vendor/bin/phpunit --debug --coverage-clover=coverage.xml",
             "vendor/bin/phpmd src text codesize,unusedcode,naming",
             "vendor/bin/phploc src",
             "vendor/bin/phpcpd src",
-            "vendor/bin/phpunit"
+            "vendor/bin/phpunit --debug --coverage-clover=coverage.xml",
+            "churn run src"
+        ],
+        "fix": [
+            "vendor/bin/phpcbf -n --standard=phpcs.xml src/",
+            "vendor/bin/phpcbf --standard=codor.xml src -spn",
+            "vendor/bin/phpcbf --standard=psr2 src -sp"
         ]
     }
 }

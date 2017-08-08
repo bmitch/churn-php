@@ -2,30 +2,58 @@
 
 namespace Churn\Commands;
 
-use Churn\Services\CommandService;
-use Churn\Assessors\GitCommitCount\GitCommitCountAssessor;
-use Churn\Assessors\CyclomaticComplexity\CyclomaticComplexityAssessor;
+use Churn\Processes\CyclomaticComplexityProcess;
+use Churn\Processes\GitCommitCountProcess;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Helper\Table;
-use Churn\Results\ResultsGenerator;
 use Churn\Managers\FileManager;
 use Churn\Results\ResultCollection;
+use Illuminate\Support\Collection;
+use Churn\Results\ResultsParser;
 
 class ChurnCommand extends Command
 {
+    /**
+     * The file manager.
+     * @var FileManager
+     */
+    private $fileManager;
+
+    /**
+     * Th results parser.
+     * @var ResultsParser
+     */
+    private $resultsParser;
+
+    /**
+     * Collection of files to run the processes on.
+     * @var Collection
+     */
+    private $files;
+
+    /**
+     * Collection of processes currently running.
+     * @var Collection
+     */
+    private $runningProcesses;
+
+    /**
+     * Array of completed processes.
+     * @var array
+     */
+    private $completedProcessesArray;
+
     /**
      * Class constructor.
      */
     public function __construct()
     {
         parent::__construct();
-        $commitCountAssessor    = new GitCommitCountAssessor(new CommandService);
-        $complexityAssessor     = new CyclomaticComplexityAssessor();
-        $this->resultsGenerator = new ResultsGenerator($commitCountAssessor, $complexityAssessor);
-        $this->fileManager      = new FileManager;
+        $this->fileManager = new FileManager;
+        $this->resultsParser = new ResultsParser;
     }
 
     /**
@@ -48,10 +76,43 @@ class ChurnCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $path     = $input->getArgument('path');
-        $phpFiles = $this->fileManager->getPhpFiles($path);
-        $results  = $this->resultsGenerator->getResults($phpFiles);
+        $path = $input->getArgument('path');
+        $this->files = $this->fileManager->getPhpFiles($path);
+
+        $this->runningProcesses = new Collection;
+        $this->completedProcessesArray = [];
+        while ($this->files->count() || $this->runningProcesses->count()) {
+            $this->getProcessResults();
+        }
+        $completedProcesses = new Collection($this->completedProcessesArray);
+
+        $results = $this->resultsParser->parse($completedProcesses);
         $this->displayResults($output, $results);
+    }
+
+    /**
+     * Gets the output from processes and stores them in the completedProcessArray member.
+     * @return void
+     */
+    private function getProcessResults()
+    {
+        for ($index = $this->runningProcesses->count(); $this->files->count() > 0 && $index < 10; $index++) {
+            $file = $this->files->shift();
+
+            $process = new GitCommitCountProcess($file);
+            $process->start();
+            $this->runningProcesses->put($process->getKey(), $process);
+            $process = new CyclomaticComplexityProcess($file);
+            $process->start();
+            $this->runningProcesses->put($process->getKey(), $process);
+        }
+
+        foreach ($this->runningProcesses as $file => $process) {
+            if ($process->isSuccessful()) {
+                $this->runningProcesses->forget($process->getKey());
+                $this->completedProcessesArray[$process->getFileName()][$process->getType()] = $process;
+            }
+        }
     }
 
     /**
@@ -62,9 +123,17 @@ class ChurnCommand extends Command
      */
     protected function displayResults(OutputInterface $output, ResultCollection $results)
     {
+        echo "\n
+  ___  _   _  __  __  ____  _  _     ____  _   _  ____ 
+ / __)( )_( )(  )(  )(  _ \( \( )___(  _ \( )_( )(  _ \
+( (__  ) _ (  )(__)(  )   / )  ((___))___/ ) _ (  )___/
+ \___)(_) (_)(______)(_)\_)(_)\_)   (__)  (_) (_)(__)      https://github.com/bmitch/churn-php
+ 
+";
         $table = new Table($output);
         $table->setHeaders(['File', 'Times Changed', 'Complexity', 'Score']);
-        foreach ($results->orderByScoreDesc() as $result) {
+
+        foreach ($results->orderByScoreDesc()->take(10) as $result) {
             $table->addRow($result->toArray());
         }
         $table->render();

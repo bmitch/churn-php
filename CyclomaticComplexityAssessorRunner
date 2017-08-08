@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+require_once 'vendor/autoload.php';
+
+use Churn\Assessors\CyclomaticComplexity\CyclomaticComplexityAssessor;
+
+$file = $argv[1];
+$assessor = new CyclomaticComplexityAssessor();
+echo $assessor->assess($file);
