@@ -13,6 +13,11 @@ use Symfony\Component\Console\Helper\Table;
 use Churn\Results\ResultsGenerator;
 use Churn\Managers\FileManager;
 use Churn\Results\ResultCollection;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\PhpProcess;
+use Churn\Processes\Output\GitProcessOutput;
+use Churn\Processes\Output\CyclomaticComplexityProcessOutput;
+use Illuminate\Support\Collection;
 
 class ChurnCommand extends Command
 {
@@ -48,8 +53,63 @@ class ChurnCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $path     = $input->getArgument('path');
-        $phpFiles = $this->fileManager->getPhpFiles($path);
+        $path = $input->getArgument('path');
+        $files = $this->fileManager->getPhpFiles($path);
+        $processes = new Collection;
+        // foreach ($files as $file) {
+        //     echo ".";
+        //     $folder = $file->getFolder();
+        //     $fullPath = $file->getFullPath();
+        //     $displayPath = $file->getDisplayPath();
+
+        //     $command = "cd {$folder} && git log --name-only --pretty=format: {$fullPath} | sort | uniq -c | sort -nr";
+        //     $process = new Process($command);
+        //     // $process->run();
+        //     $processes->push(['file' => $displayPath, 'type' => 'git', 'process' => $process]);
+
+        //     $rootFolder = __DIR__ . '/../../';
+        //     $command = "php {$rootFolder}CyclomaticComplexityAssessorRunner {$fullPath}";
+        //     $process = new Process($command);
+        //     // $process->run();
+        //     $processes->push(['file' => $displayPath, 'type' => 'complexity', 'process' => $process]);
+        // }
+
+        $running = [];
+        $output = [];
+        while ($files || $running) {
+            for ($index = count($running); $files && $index < 10; $index++) {
+                echo ".";
+                $file = array_shift($files);
+                $folder = $file->getFolder();
+                $fullPath = $file->getFullPath();
+                // $displayPath = $file->getDisplayPath();
+
+                $command = "git -C /home/bmitch/Code/nn4m/startrite/vendor/nn4m-clients/sr/ log --name-only --pretty=format: {$fullPath} | sort | uniq -c | sort -nr";
+                // dd($command);
+                $process = new Process($command);
+                $process->start();
+                $running[$fullPath] = $process;
+
+                $rootFolder = __DIR__ . '/../../';
+                $command = "php {$rootFolder}CyclomaticComplexityAssessorRunner {$fullPath}";
+                $process = new Process($command);
+                $process->start();
+                $running[$fullPath . 'a'] = $process;
+            }
+
+            foreach ($running as $file => $process) {
+                if ($process->isSuccessful()) {
+                    unset($running[$file]);
+                    $output[] = new GitProcessOutput($process->getOutput());
+                }
+                // if ($process['complexity']->isSuccessful()) {
+                //     // unset($running[$file]['complexity']);
+                //     $output[$file]['complexity'] = new CyclomaticComplexityProcessOutput($process['complexity']->getOutput());
+                // }
+            }
+
+        }
+        dd($output);
         $results  = $this->resultsGenerator->getResults($phpFiles);
         $this->displayResults($output, $results);
     }

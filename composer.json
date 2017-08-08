@@ -20,7 +20,8 @@
     "require": {
         "php": ">=7.0.0",
         "symfony/console": "^3.3",
-        "tightenco/collect": "^5.4"
+        "tightenco/collect": "^5.4",
+        "symfony/process": "^3.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7",

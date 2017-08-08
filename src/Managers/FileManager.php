@@ -4,6 +4,7 @@ namespace Churn\Managers;
 
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use Churn\Values\File;
 
 class FileManager
 {
@@ -22,8 +23,9 @@ class FileManager
                 continue;
             }
 
-            $files[] = ['fullPath' => $file->getRealPath(), 'displayPath' => $file->getPathName()];
+            $files[] = new File($file);
         }
+
         return $files;
     }
 }
