@@ -2,8 +2,7 @@
 
 namespace Churn\Commands;
 
-use Churn\Processes\CyclomaticComplexityProcess;
-use Churn\Processes\GitCommitCountProcess;
+use Churn\Factories\ProcessFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -54,6 +53,7 @@ class ChurnCommand extends Command
         parent::__construct();
         $this->fileManager = new FileManager;
         $this->resultsParser = new ResultsParser;
+        $this->processFactory = new ProcessFactory;
     }
 
     /**
@@ -99,10 +99,12 @@ class ChurnCommand extends Command
         for ($index = $this->runningProcesses->count(); $this->files->count() > 0 && $index < 10; $index++) {
             $file = $this->files->shift();
 
-            $process = new GitCommitCountProcess($file);
+            $process = $this->processFactory->createGitCommitProcess($file);
+
             $process->start();
             $this->runningProcesses->put($process->getKey(), $process);
-            $process = new CyclomaticComplexityProcess($file);
+
+            $process = $this->processFactory->createCyclomaticComplexityProcess($file);
             $process->start();
             $this->runningProcesses->put($process->getKey(), $process);
         }
