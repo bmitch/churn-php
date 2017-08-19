@@ -6,7 +6,7 @@ namespace Churn\Processes;
 use Churn\Values\File;
 use Symfony\Component\Process\Process;
 
-class GitCommitCountProcess
+class ChurnProcess
 {
     /**
      * The Symfony Process Component.
@@ -16,11 +16,15 @@ class GitCommitCountProcess
 
     /**
      * GitCommitCountProcess constructor.
-     * @param File $file The file the process is being executed on.
+     * @param File    $file    The file the process is being executed on.
+     * @param Process $process The process being executed on the file.
+     * @param string  $type    The type of process.
      */
-    public function __construct(File $file)
+    public function __construct(File $file, Process $process, string $type)
     {
         $this->file = $file;
+        $this->process = $process;
+        $this->type = $type;
     }
 
     /**
@@ -29,8 +33,6 @@ class GitCommitCountProcess
      */
     public function start()
     {
-        $command = $this->getCommandString();
-        $this->process = new Process($command);
         $this->process->start();
     }
 
@@ -68,7 +70,7 @@ class GitCommitCountProcess
      */
     public function getKey(): string
     {
-        return 'GitCommitCountProcess' . $this->file->getFullPath();
+        return $this->getType() . $this->file->getFullPath();
     }
 
     /**
@@ -77,15 +79,6 @@ class GitCommitCountProcess
      */
     public function getType(): string
     {
-        return 'GitCommitCountProcess';
-    }
-
-    /**
-     * The process command.
-     * @return string
-     */
-    private function getCommandString(): string
-    {
-        return 'git -C ' . getcwd() . " log --name-only --pretty=format: " . $this->file->getFullPath(). " | sort | uniq -c | sort -nr";
+        return $this->type;
     }
 }

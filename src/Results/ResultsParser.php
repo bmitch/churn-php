@@ -3,7 +3,7 @@
 
 namespace Churn\Results;
 
-use Churn\Processes\GitCommitCountProcess;
+use Churn\Processes\ChurnProcess;
 use Illuminate\Support\Collection;
 
 class ResultsParser
@@ -39,7 +39,7 @@ class ResultsParser
      */
     private function parseCompletedProcessesForFile(string $file, array $processes)
     {
-        $commits = (integer) $this->parseCommits($processes['GitCommitCountProcess']);
+        $commits = (integer) $this->parseCommits($processes['GitCommitProcess']);
         $complexity = (integer) $processes['CyclomaticComplexityProcess']->getOutput();
 
         $result = new Result([
@@ -53,10 +53,10 @@ class ResultsParser
 
     /**
      * Parse the number of commits on the file from the raw process output.
-     * @param GitCommitCountProcess $process Git Commit Count Process.
+     * @param ChurnProcess $process Git Commit Count Process.
      * @return integer
      */
-    private function parseCommits(GitCommitCountProcess $process): int
+    private function parseCommits(ChurnProcess $process): int
     {
         $output = $process->getOutput();
         preg_match("/([0-9]{1,})/", $output, $matches);
