@@ -31,7 +31,7 @@ class ChurnCommand extends Command
      * Collection of files to run the processes on.
      * @var Collection
      */
-    private $files;
+    private $filesCollection;
 
     /**
      * Collection of processes currently running.
@@ -77,11 +77,11 @@ class ChurnCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $path = $input->getArgument('path');
-        $this->files = $this->fileManager->getPhpFiles($path);
+        $this->filesCollection = $this->fileManager->getPhpFiles($path);
 
         $this->runningProcesses = new Collection;
         $this->completedProcessesArray = [];
-        while ($this->files->count() || $this->runningProcesses->count()) {
+        while ($this->filesCollection->hasFiles() || $this->runningProcesses->count()) {
             $this->getProcessResults();
         }
         $completedProcesses = new Collection($this->completedProcessesArray);
@@ -96,8 +96,8 @@ class ChurnCommand extends Command
      */
     private function getProcessResults()
     {
-        for ($index = $this->runningProcesses->count(); $this->files->count() > 0 && $index < 10; $index++) {
-            $file = $this->files->shift();
+        for ($index = $this->runningProcesses->count(); $this->filesCollection->hasFiles() > 0 && $index < 10; $index++) {
+            $file = $this->filesCollection->getNextFile();
 
             $process = $this->processFactory->createGitCommitProcess($file);
 
