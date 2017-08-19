@@ -60,6 +60,9 @@ class ResultsParser
     {
         $output = $process->getOutput();
         preg_match("/([0-9]{1,})/", $output, $matches);
-        return (integer) $matches[1] ?? 0;
+        if (! isset($matches[1])) {
+            return 0;
+        }
+        return (integer) $matches[1];
     }
 }

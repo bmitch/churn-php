@@ -2,7 +2,7 @@
 
 namespace Churn\Managers;
 
-use Illuminate\Support\Collection;
+use Churn\Collections\FileCollection;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Churn\Values\File;
@@ -13,12 +13,12 @@ class FileManager
      * Recursively finds all files with the .php extension in the provided
      * $path and returns list as array.
      * @param  string $path Path to look for .php files.
-     * @return Collection
+     * @return FileCollection
      */
-    public function getPhpFiles(string $path): Collection
+    public function getPhpFiles(string $path): FileCollection
     {
         $directoryIterator = new RecursiveDirectoryIterator($path);
-        $files = new Collection;
+        $files = new FileCollection;
         foreach (new RecursiveIteratorIterator($directoryIterator) as $file) {
             if ($file->getExtension() !== 'php') {
                 continue;
