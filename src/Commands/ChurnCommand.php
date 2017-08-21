@@ -76,9 +76,10 @@ class ChurnCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->startTime = microtime(true);
         $path = $input->getArgument('path');
         $this->filesCollection = $this->fileManager->getPhpFiles($path);
-
+        $this->filesCount = $this->filesCollection->count();
         $this->runningProcesses = new Collection;
         $this->completedProcessesArray = [];
         while ($this->filesCollection->hasFiles() || $this->runningProcesses->count()) {
@@ -125,13 +126,13 @@ class ChurnCommand extends Command
      */
     protected function displayResults(OutputInterface $output, ResultCollection $results)
     {
+        $totalTime = microtime(true) - $this->startTime;
         echo "\n
-  ___  _   _  __  __  ____  _  _     ____  _   _  ____ 
- / __)( )_( )(  )(  )(  _ \( \( )___(  _ \( )_( )(  _ \
-( (__  ) _ (  )(__)(  )   / )  ((___))___/ ) _ (  )___/
- \___)(_) (_)(______)(_)\_)(_)\_)   (__)  (_) (_)(__)      https://github.com/bmitch/churn-php
- 
-";
+    ___  _   _  __  __  ____  _  _     ____  _   _  ____ 
+   / __)( )_( )(  )(  )(  _ \( \( )___(  _ \( )_( )(  _ \
+  ( (__  ) _ (  )(__)(  )   / )  ((___))___/ ) _ (  )___/
+   \___)(_) (_)(______)(_)\_)(_)\_)   (__)  (_) (_)(__)      https://github.com/bmitch/churn-php\n\n";
+
         $table = new Table($output);
         $table->setHeaders(['File', 'Times Changed', 'Complexity', 'Score']);
 
@@ -139,5 +140,6 @@ class ChurnCommand extends Command
             $table->addRow($result->toArray());
         }
         $table->render();
+        echo "  " . $this->filesCount . " files analysed in {$totalTime} seconds.\n\n";
     }
 }
