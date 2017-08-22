@@ -3,6 +3,7 @@
 namespace Churn\Commands;
 
 use Churn\Factories\ProcessFactory;
+use Churn\Values\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,6 +13,7 @@ use Churn\Managers\FileManager;
 use Churn\Results\ResultCollection;
 use Illuminate\Support\Collection;
 use Churn\Results\ResultsParser;
+use Symfony\Component\Yaml\Yaml;
 
 class ChurnCommand extends Command
 {
@@ -51,9 +53,10 @@ class ChurnCommand extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->fileManager = new FileManager;
+        $this->config = new Config(Yaml::parse(@file_get_contents(getcwd() . '/churn.yml')) ?? []);
+        $this->fileManager = new FileManager($this->config);
+        $this->processFactory = new ProcessFactory($this->config);
         $this->resultsParser = new ResultsParser;
-        $this->processFactory = new ProcessFactory;
     }
 
     /**
@@ -97,7 +100,7 @@ class ChurnCommand extends Command
      */
     private function getProcessResults()
     {
-        for ($index = $this->runningProcesses->count(); $this->filesCollection->hasFiles() > 0 && $index < 10; $index++) {
+        for ($index = $this->runningProcesses->count(); $this->filesCollection->hasFiles() > 0 && $index < $this->config->getParallelJobs(); $index++) {
             $file = $this->filesCollection->getNextFile();
 
             $process = $this->processFactory->createGitCommitProcess($file);
@@ -135,11 +138,10 @@ class ChurnCommand extends Command
 
         $table = new Table($output);
         $table->setHeaders(['File', 'Times Changed', 'Complexity', 'Score']);
-
-        foreach ($results->orderByScoreDesc()->take(10) as $result) {
+        foreach ($results->orderByScoreDesc()->take($this->config->getFilesToShow()) as $result) {
             $table->addRow($result->toArray());
         }
         $table->render();
-        echo "  " . $this->filesCount . " files analysed in {$totalTime} seconds.\n\n";
+        echo "  " . $this->filesCount . " files analysed in {$totalTime} seconds using " . $this->config->getParallelJobs() .  " parallel jobs.\n\n";
     }
 }
