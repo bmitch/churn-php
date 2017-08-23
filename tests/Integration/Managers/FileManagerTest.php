@@ -4,6 +4,7 @@ namespace Churn\Tests\Integration\Managers;
 
 use Churn\Managers\FileManager;
 use Churn\Tests\BaseTestCase;
+use Churn\Values\Config;
 use Churn\Values\File;
 use Illuminate\Support\Collection;
 
@@ -35,6 +36,6 @@ class FileManagerTest extends BaseTestCase
     {
         parent::setup();
 
-        $this->fileManager = new FileManager;
+        $this->fileManager = new FileManager(new Config);
     }
 }

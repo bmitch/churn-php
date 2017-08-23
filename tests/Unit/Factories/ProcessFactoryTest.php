@@ -6,6 +6,7 @@ use Churn\Processes\ChurnProcess;
 use Churn\Tests\BaseTestCase;
 use Churn\Factories\ProcessFactory;
 use Churn\Values\File;
+use Churn\Values\Config;
 
 class ProcessFactoryTest extends BaseTestCase
 {
@@ -38,6 +39,6 @@ class ProcessFactoryTest extends BaseTestCase
 
     public function setup()
     {
-        $this->processFactory = new ProcessFactory;
+        $this->processFactory = new ProcessFactory(new Config);
     }
 }

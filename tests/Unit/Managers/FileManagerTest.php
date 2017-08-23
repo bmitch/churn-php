@@ -4,6 +4,7 @@ namespace Churn\Tests\Results;
 
 use Churn\Tests\BaseTestCase;
 use Churn\Managers\FileManager;
+use Churn\Values\Config;
 
 class FileManagerTest extends BaseTestCase
 {
@@ -27,6 +28,6 @@ class FileManagerTest extends BaseTestCase
 
     public function setup()
     {
-        $this->fileManager = new FileManager();
+        $this->fileManager = new FileManager(new Config);
     }
 }
