@@ -7,6 +7,7 @@ use Churn\Values\Config;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Churn\Values\File;
+use SplFileInfo;
 
 class FileManager
 {
@@ -34,13 +35,31 @@ class FileManager
                 continue;
             }
 
-            if (in_array($file->getPathname(), $this->config->getFilesToIgnore())) {
+            if ($this->fileShouldBeIgnored($file)) {
                 continue;
             }
+
 
             $files->push(new File(['displayPath' => $file->getPathName(), 'fullPath' => $file->getRealPath()]));
         }
 
         return $files;
+    }
+
+    /**
+     * Determines if a file should be ignored.
+     * @param \SplFileInfo $file File.
+     * @return boolean
+     */
+    private function fileShouldBeIgnored(SplFileInfo $file): bool
+    {
+        foreach ($this->config->getFilesToIgnore() as $fileToIgnore) {
+            $fileToIgnore = str_replace('/', '\/', $fileToIgnore);
+            if (preg_match("/{$fileToIgnore}/", $file->getPathName())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

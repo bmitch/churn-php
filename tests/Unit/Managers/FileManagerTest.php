@@ -26,6 +26,13 @@ class FileManagerTest extends BaseTestCase
         $this->assertCount(3, $this->fileManager->getPhpFiles(__DIR__ . '/../Assets'));
     }
 
+    /** @test **/
+    public function it_ignores_files_specified_to_ignore_in_the_config()
+    {
+        $fileManager = new FileManager(new Config(['filesToIgnore' => ['Assets/Baz.php']]));
+        $this->assertCount(2, $fileManager->getPhpFiles(__DIR__ . '/../Assets'));
+    }
+
     public function setup()
     {
         $this->fileManager = new FileManager(new Config);
