@@ -10,6 +10,12 @@ use Symfony\Component\Process\Process;
 class ProcessFactory
 {
     /**
+     * The config values.
+     * @var Config
+     */
+    private $config;
+
+    /**
      * ProcessFactory constructor.
      * @param Config $config Configuration Settings.
      */

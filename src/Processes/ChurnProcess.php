@@ -9,6 +9,18 @@ use Symfony\Component\Process\Process;
 class ChurnProcess
 {
     /**
+     * The file the process will be executed on.
+     * @var File
+     */
+    private $file;
+
+    /**
+     * The type of process.
+     * @var string
+     */
+    private $type;
+
+    /**
      * The Symfony Process Component.
      * @var Process
      */

@@ -18,10 +18,22 @@ use Symfony\Component\Yaml\Yaml;
 class ChurnCommand extends Command
 {
     /**
+     * The config values.
+     * @var Config
+     */
+    private $config;
+
+    /**
      * The file manager.
      * @var FileManager
      */
     private $fileManager;
+
+    /**
+     * The process factory.
+     * @var ProcessFactory
+     */
+    private $processFactory;
 
     /**
      * Th results parser.
@@ -46,6 +58,18 @@ class ChurnCommand extends Command
      * @var array
      */
     private $completedProcessesArray;
+
+    /**
+     * The start time.
+     * @var integer
+     */
+    private $startTime;
+
+    /**
+     * Keeps track of how many files were processed.
+     * @var integer
+     */
+    private $filesCount;
 
     /**
      * Class constructor.
