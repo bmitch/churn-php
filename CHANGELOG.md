@@ -1,1 +1,123 @@
-# Changelog
+# Change Log
+
+## [Unreleased](https://github.com/bmitch/churn-php/tree/HEAD)
+
+[Full Changelog](https://github.com/bmitch/churn-php/compare/0.0.6...HEAD)
+
+**Closed issues:**
+
+- Some missing declarations [\#64](https://github.com/bmitch/churn-php/issues/64)
+- Test to make sure FileManager ignores files specified to ignore in config. [\#62](https://github.com/bmitch/churn-php/issues/62)
+- Add sniff to check for use of: instanceof [\#61](https://github.com/bmitch/churn-php/issues/61)
+
+**Merged pull requests:**
+
+- Fix doc block [\#66](https://github.com/bmitch/churn-php/pull/66) ([bmitch](https://github.com/bmitch))
+- Fixes \#64 - Added missing member declarations [\#65](https://github.com/bmitch/churn-php/pull/65) ([bmitch](https://github.com/bmitch))
+- Fixes \#62 - Test for file manager to ignore files [\#63](https://github.com/bmitch/churn-php/pull/63) ([bmitch](https://github.com/bmitch))
+
+## [0.0.6](https://github.com/bmitch/churn-php/tree/0.0.6) (2017-08-24)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/0.0.5...0.0.6)
+
+**Closed issues:**
+
+- Limit git history when counting changes. [\#51](https://github.com/bmitch/churn-php/issues/51)
+- Config file \(yml\) [\#40](https://github.com/bmitch/churn-php/issues/40)
+- Ability to only show top X results. [\#25](https://github.com/bmitch/churn-php/issues/25)
+- Ability to ignore files [\#23](https://github.com/bmitch/churn-php/issues/23)
+
+**Merged pull requests:**
+
+- Downgrade to symfony/process 3.2 allowing this package to work with Laravel 5.4 installs. [\#60](https://github.com/bmitch/churn-php/pull/60) ([gms8994](https://github.com/gms8994))
+
+## [0.0.5](https://github.com/bmitch/churn-php/tree/0.0.5) (2017-08-23)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/0.0.4...0.0.5)
+
+**Closed issues:**
+
+- Add footer with misc data under table? [\#42](https://github.com/bmitch/churn-php/issues/42)
+
+**Merged pull requests:**
+
+- Fixes \#42 [\#59](https://github.com/bmitch/churn-php/pull/59) ([bmitch](https://github.com/bmitch))
+- Fixes \#42 [\#52](https://github.com/bmitch/churn-php/pull/52) ([bmitch](https://github.com/bmitch))
+
+## [0.0.4](https://github.com/bmitch/churn-php/tree/0.0.4) (2017-08-19)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/0.0.3...0.0.4)
+
+**Closed issues:**
+
+- Changes for next version [\#39](https://github.com/bmitch/churn-php/issues/39)
+
+**Merged pull requests:**
+
+- Lower console version requirement [\#50](https://github.com/bmitch/churn-php/pull/50) ([bmitch](https://github.com/bmitch))
+
+## [0.0.3](https://github.com/bmitch/churn-php/tree/0.0.3) (2017-08-19)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/0.0.2...0.0.3)
+
+**Closed issues:**
+
+- Add some sort of header above table [\#41](https://github.com/bmitch/churn-php/issues/41)
+- Run in parallel [\#38](https://github.com/bmitch/churn-php/issues/38)
+- Make FileManager return an object instead of an array? [\#33](https://github.com/bmitch/churn-php/issues/33)
+
+**Merged pull requests:**
+
+- New test [\#49](https://github.com/bmitch/churn-php/pull/49) ([bmitch](https://github.com/bmitch))
+- Add PHP 7.2 to Travis-CI build [\#48](https://github.com/bmitch/churn-php/pull/48) ([bmitch](https://github.com/bmitch))
+- Fixes \#33 - FileManager returns FileCollection [\#47](https://github.com/bmitch/churn-php/pull/47) ([bmitch](https://github.com/bmitch))
+- Refactor [\#46](https://github.com/bmitch/churn-php/pull/46) ([bmitch](https://github.com/bmitch))
+- Fixes \#38 - Run in parallel [\#44](https://github.com/bmitch/churn-php/pull/44) ([bmitch](https://github.com/bmitch))
+
+## [0.0.2](https://github.com/bmitch/churn-php/tree/0.0.2) (2017-06-23)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/0.0.1...0.0.2)
+
+**Closed issues:**
+
+- ResutlsGenerator tests [\#35](https://github.com/bmitch/churn-php/issues/35)
+- Tests for FileManager [\#31](https://github.com/bmitch/churn-php/issues/31)
+- Tests for ResultCollection [\#29](https://github.com/bmitch/churn-php/issues/29)
+- Tests for Result object [\#27](https://github.com/bmitch/churn-php/issues/27)
+- Missing tests [\#20](https://github.com/bmitch/churn-php/issues/20)
+- Once ready - update readme.md [\#10](https://github.com/bmitch/churn-php/issues/10)
+
+**Merged pull requests:**
+
+- Command test [\#37](https://github.com/bmitch/churn-php/pull/37) ([bmitch](https://github.com/bmitch))
+- Fixes \#35 [\#36](https://github.com/bmitch/churn-php/pull/36) ([bmitch](https://github.com/bmitch))
+- Add result test [\#34](https://github.com/bmitch/churn-php/pull/34) ([bmitch](https://github.com/bmitch))
+- Fixes \#31 [\#32](https://github.com/bmitch/churn-php/pull/32) ([bmitch](https://github.com/bmitch))
+- Fixes \#29 [\#30](https://github.com/bmitch/churn-php/pull/30) ([bmitch](https://github.com/bmitch))
+- Fixes \#27 [\#28](https://github.com/bmitch/churn-php/pull/28) ([bmitch](https://github.com/bmitch))
+
+## [0.0.1](https://github.com/bmitch/churn-php/tree/0.0.1) (2017-06-19)
+**Closed issues:**
+
+- Make results show files relative to provided path. [\#19](https://github.com/bmitch/churn-php/issues/19)
+- Fix failing build [\#16](https://github.com/bmitch/churn-php/issues/16)
+- Add the sniff for SlevomatCodingStandard [\#13](https://github.com/bmitch/churn-php/issues/13)
+- How to calculate the scoring? [\#11](https://github.com/bmitch/churn-php/issues/11)
+- Refactor churn command [\#9](https://github.com/bmitch/churn-php/issues/9)
+- Make churn command live in bin folder for easy execution. [\#8](https://github.com/bmitch/churn-php/issues/8)
+- Tighten up Cyc Complex assessor with some more tests. [\#7](https://github.com/bmitch/churn-php/issues/7)
+- Command to display results. [\#5](https://github.com/bmitch/churn-php/issues/5)
+- Number of git commits assessor. [\#3](https://github.com/bmitch/churn-php/issues/3)
+- Cyclomatic Complexity Assessor [\#1](https://github.com/bmitch/churn-php/issues/1)
+
+**Merged pull requests:**
+
+- Fixes \#19 [\#22](https://github.com/bmitch/churn-php/pull/22) ([bmitch](https://github.com/bmitch))
+- Fix type hints [\#21](https://github.com/bmitch/churn-php/pull/21) ([bmitch](https://github.com/bmitch))
+- Fixes \#9 [\#18](https://github.com/bmitch/churn-php/pull/18) ([bmitch](https://github.com/bmitch))
+- Fixes \#16 [\#17](https://github.com/bmitch/churn-php/pull/17) ([bmitch](https://github.com/bmitch))
+- Fixes \#13 [\#15](https://github.com/bmitch/churn-php/pull/15) ([bmitch](https://github.com/bmitch))
+- Fixes \#7 [\#14](https://github.com/bmitch/churn-php/pull/14) ([bmitch](https://github.com/bmitch))
+- Fixes \#8 [\#12](https://github.com/bmitch/churn-php/pull/12) ([bmitch](https://github.com/bmitch))
+- Fixes \#5 [\#6](https://github.com/bmitch/churn-php/pull/6) ([bmitch](https://github.com/bmitch))
+- Fixes \#3 [\#4](https://github.com/bmitch/churn-php/pull/4) ([bmitch](https://github.com/bmitch))
+- Fixes \#1 [\#2](https://github.com/bmitch/churn-php/pull/2) ([bmitch](https://github.com/bmitch))
+
+
+
+\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
