@@ -61,7 +61,7 @@ class ChurnCommand extends Command
 
     /**
      * The start time.
-     * @var integer
+     * @var float
      */
     private $startTime;
 
