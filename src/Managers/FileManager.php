@@ -12,6 +12,12 @@ use SplFileInfo;
 class FileManager
 {
     /**
+     * The config values.
+     * @var Config
+     */
+    private $config;
+
+    /**
      * FileManager constructor.
      * @param Config $config Configuration Settings.
      */
