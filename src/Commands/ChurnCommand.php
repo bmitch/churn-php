@@ -104,8 +104,8 @@ class ChurnCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->startTime = microtime(true);
-        $path = $input->getArgument('path');
-        $this->filesCollection = $this->fileManager->getPhpFiles($path);
+        $paths = $input->getArgument('path');
+        $this->filesCollection = $this->fileManager->getPhpFiles($paths);
         $this->filesCount = $this->filesCollection->count();
         $this->runningProcesses = new Collection;
         $this->completedProcessesArray = [];
@@ -155,7 +155,7 @@ class ChurnCommand extends Command
     {
         $totalTime = microtime(true) - $this->startTime;
         echo "\n
-    ___  _   _  __  __  ____  _  _     ____  _   _  ____ 
+    ___  _   _  __  __  ____  _  _     ____  _   _  ____
    / __)( )_( )(  )(  )(  _ \( \( )___(  _ \( )_( )(  _ \
   ( (__  ) _ (  )(__)(  )   / )  ((___))___/ ) _ (  )___/
    \___)(_) (_)(______)(_)\_)(_)\_)   (__)  (_) (_)(__)      https://github.com/bmitch/churn-php\n\n";

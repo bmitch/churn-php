@@ -59,11 +59,13 @@ composer require bmitch/churn-php --dev
 
 ## How to Use? ##
 ```
-vendor/bin/churn run <path to source code>
+vendor/bin/churn run <one or more paths to source code> ...
+vendor/bin/churn run src
+vendor/bin/churn run src tests
 ```
 
 ## How to Configure?
-You may add an optional `churn.yml` file to the root of your project which can be used to configure churn-php. A sample `churm.yml` file looks like:
+You may add an optional `churn.yml` file to the root of your project which can be used to configure churn-php. A sample `churn.yml` file looks like:
 
 ```yml
 # The maximum number of files to display in the results table.
@@ -86,7 +88,7 @@ filesToIgnore:
  - src/Results/ResultsParser.php
  ```
 
-If a `churm.yml` file is omitted or an individual setting is omitted the default values above will be used.
+If a `churn.yml` file is omitted or an individual setting is omitted the default values above will be used.
 
 ## Similar Packages
 * https://github.com/danmayer/churn (Ruby)

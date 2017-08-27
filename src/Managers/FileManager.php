@@ -29,24 +29,26 @@ class FileManager
     /**
      * Recursively finds all files with the .php extension in the provided
      * $path and returns list as array.
-     * @param  string $path Path to look for .php files.
+     * @param  array $paths Paths in which to look for .php files.
      * @return FileCollection
      */
-    public function getPhpFiles(string $path): FileCollection
+    public function getPhpFiles(array $paths): FileCollection
     {
-        $directoryIterator = new RecursiveDirectoryIterator($path);
         $files = new FileCollection;
-        foreach (new RecursiveIteratorIterator($directoryIterator) as $file) {
-            if ($file->getExtension() !== 'php') {
-                continue;
+        foreach ($paths as $path) {
+            $directoryIterator = new RecursiveDirectoryIterator($path);
+            foreach (new RecursiveIteratorIterator($directoryIterator) as $file) {
+                if ($file->getExtension() !== 'php') {
+                    continue;
+                }
+
+                if ($this->fileShouldBeIgnored($file)) {
+                    continue;
+                }
+
+
+                $files->push(new File(['displayPath' => $file->getPathName(), 'fullPath' => $file->getRealPath()]));
             }
-
-            if ($this->fileShouldBeIgnored($file)) {
-                continue;
-            }
-
-
-            $files->push(new File(['displayPath' => $file->getPathName(), 'fullPath' => $file->getRealPath()]));
         }
 
         return $files;
