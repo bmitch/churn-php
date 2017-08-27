@@ -90,7 +90,7 @@ class ChurnCommand extends Command
     protected function configure()
     {
         $this->setName('run')
-            ->addArgument('path', InputArgument::REQUIRED, 'Path to source to check.')
+            ->addArgument('path', InputArgument::IS_ARRAY, 'Path to source to check.')
             ->setDescription('Check files')
             ->setHelp('Checks the churn on the provided path argument(s).');
     }
