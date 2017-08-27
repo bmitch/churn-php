@@ -18,6 +18,12 @@ class FileManager
     private $config;
 
     /**
+     * Collection of File objects.
+     * @var FileCollection;
+     */
+    private $files;
+
+    /**
      * FileManager constructor.
      * @param Config $config Configuration Settings.
      */
@@ -28,30 +34,40 @@ class FileManager
 
     /**
      * Recursively finds all files with the .php extension in the provided
-     * $path and returns list as array.
+     * $paths and returns list as array.
      * @param  array $paths Paths in which to look for .php files.
      * @return FileCollection
      */
     public function getPhpFiles(array $paths): FileCollection
     {
-        $files = new FileCollection;
+        $this->files = new FileCollection;
         foreach ($paths as $path) {
-            $directoryIterator = new RecursiveDirectoryIterator($path);
-            foreach (new RecursiveIteratorIterator($directoryIterator) as $file) {
-                if ($file->getExtension() !== 'php') {
-                    continue;
-                }
-
-                if ($this->fileShouldBeIgnored($file)) {
-                    continue;
-                }
-
-
-                $files->push(new File(['displayPath' => $file->getPathName(), 'fullPath' => $file->getRealPath()]));
-            }
+            $this->getPhpFilesFromPath($path);
         }
 
-        return $files;
+        return $this->files;
+    }
+
+    /**
+     * Recursively finds all files with the .php extension in the provided
+     * $path adds them to $this->files.
+     * @param  string $path Path in which to look for .php files.
+     * @return void
+     */
+    private function getPhpFilesFromPath(string $path)
+    {
+        $directoryIterator = new RecursiveDirectoryIterator($path);
+        foreach (new RecursiveIteratorIterator($directoryIterator) as $file) {
+            if ($file->getExtension() !== 'php') {
+                continue;
+            }
+
+            if ($this->fileShouldBeIgnored($file)) {
+                continue;
+            }
+
+            $this->files->push(new File(['displayPath' => $file->getPathName(), 'fullPath' => $file->getRealPath()]));
+        }
     }
 
     /**
