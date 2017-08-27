@@ -90,7 +90,7 @@ class ChurnCommand extends Command
     protected function configure()
     {
         $this->setName('run')
-            ->addArgument('path', InputArgument::IS_ARRAY, 'Path to source to check.')
+            ->addArgument('paths', InputArgument::IS_ARRAY, 'Path to source to check.')
             ->setDescription('Check files')
             ->setHelp('Checks the churn on the provided path argument(s).');
     }
@@ -104,7 +104,7 @@ class ChurnCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->startTime = microtime(true);
-        $paths = $input->getArgument('path');
+        $paths = $input->getArgument('paths');
         $this->filesCollection = $this->fileManager->getPhpFiles($paths);
         $this->filesCount = $this->filesCollection->count();
         $this->runningProcesses = new Collection;
