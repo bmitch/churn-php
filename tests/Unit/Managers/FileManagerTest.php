@@ -23,14 +23,20 @@ class FileManagerTest extends BaseTestCase
     /** @test */
     public function it_can_get_the_php_files_in_a_filter()
     {
-        $this->assertCount(3, $this->fileManager->getPhpFiles(__DIR__ . '/../Assets'));
+        $this->assertCount(3, $this->fileManager->getPhpFiles([__DIR__ . '/../Assets']));
+    }
+
+    /** @test */
+    public function it_can_get_the_php_files_in_multiple_directories()
+    {
+        $this->assertCount(4, $this->fileManager->getPhpFiles([__DIR__ . '/../Assets', __DIR__ . '/../Assets2']));
     }
 
     /** @test **/
     public function it_ignores_files_specified_to_ignore_in_the_config()
     {
         $fileManager = new FileManager(new Config(['filesToIgnore' => ['Assets/Baz.php']]));
-        $this->assertCount(2, $fileManager->getPhpFiles(__DIR__ . '/../Assets'));
+        $this->assertCount(2, $fileManager->getPhpFiles([__DIR__ . '/../Assets']));
     }
 
     public function setup()

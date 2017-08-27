@@ -25,8 +25,8 @@ class FileManagerTest extends BaseTestCase
     /** @test **/
     public function it_can_recursively_get_the_php_files_in_a_path()
     {
-        $path = __DIR__ . '';
-        $results = $this->fileManager->getPhpFiles($path);
+        $paths = [__DIR__ . ''];
+        $results = $this->fileManager->getPhpFiles($paths);
         $this->assertInstanceOf(Collection::class, $results);
         $this->assertCount(1, $results);
         $this->assertInstanceOf(File::class, $results[0]);
