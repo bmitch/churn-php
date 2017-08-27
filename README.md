@@ -59,7 +59,9 @@ composer require bmitch/churn-php --dev
 
 ## How to Use? ##
 ```
-vendor/bin/churn run <path to source code>
+vendor/bin/churn run <one or more paths to source code> ...
+vendor/bin/churn run src
+vendor/bin/churn run src tests
 ```
 
 ## How to Configure?
@@ -86,7 +88,7 @@ filesToIgnore:
  - src/Results/ResultsParser.php
  ```
 
-If a `churm.yml` file is omitted or an individual setting is omitted the default values above will be used.
+If a `churn.yml` file is omitted or an individual setting is omitted the default values above will be used.
 
 ## Similar Packages
 * https://github.com/danmayer/churn (Ruby)
