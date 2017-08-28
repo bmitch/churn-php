@@ -56,7 +56,7 @@ class CyclomaticComplexityAssessor
      */
     protected function countTheIfStatements(string $contents)
     {
-        $this->score += $this->howmAnyPatternMatches("/[ ]if[ ]{0,}\(/", $contents);
+        $this->score += $this->howManyPatternMatches("/[ ]if[ ]{0,}\(/", $contents);
     }
 
     /**
@@ -66,7 +66,7 @@ class CyclomaticComplexityAssessor
      */
     protected function countTheElseIfStatements(string $contents)
     {
-        $this->score += $this->howmAnyPatternMatches("/else[ ]{0,}if[ ]{0,}\(/", $contents);
+        $this->score += $this->howManyPatternMatches("/else[ ]{0,}if[ ]{0,}\(/", $contents);
     }
 
     /**
@@ -76,7 +76,7 @@ class CyclomaticComplexityAssessor
      */
     protected function countTheWhileLoops(string $contents)
     {
-        $this->score += $this->howmAnyPatternMatches("/while[ ]{0,}\(/", $contents);
+        $this->score += $this->howManyPatternMatches("/while[ ]{0,}\(/", $contents);
     }
 
     /**
@@ -86,7 +86,7 @@ class CyclomaticComplexityAssessor
      */
     protected function countTheForLoops(string $contents)
     {
-        $this->score += $this->howmAnyPatternMatches("/[ ]for(each){0,1}[ ]{0,}\(/", $contents);
+        $this->score += $this->howManyPatternMatches("/[ ]for(each){0,1}[ ]{0,}\(/", $contents);
     }
 
     /**
@@ -96,7 +96,7 @@ class CyclomaticComplexityAssessor
      */
     protected function countTheCaseStatements(string $contents)
     {
-        $this->score += $this->howmAnyPatternMatches("/[ ]case[ ]{1}(.*)\:/", $contents);
+        $this->score += $this->howManyPatternMatches("/[ ]case[ ]{1}(.*)\:/", $contents);
     }
 
     /**
@@ -106,7 +106,7 @@ class CyclomaticComplexityAssessor
      */
     protected function countTheTernaryOperators(string $contents)
     {
-        $this->score += $this->howmAnyPatternMatches("/[ ]\?.*:.*;/", $contents);
+        $this->score += $this->howManyPatternMatches("/[ ]\?.*:.*;/", $contents);
     }
 
     /**
@@ -116,7 +116,7 @@ class CyclomaticComplexityAssessor
      */
     protected function countTheLogicalAnds(string $contents)
     {
-        $this->score += $this->howmAnyPatternMatches("/[ ]&&[ ]/", $contents);
+        $this->score += $this->howManyPatternMatches("/[ ]&&[ ]/", $contents);
     }
 
     /**
@@ -126,7 +126,7 @@ class CyclomaticComplexityAssessor
      */
     protected function countTheLogicalOrs(string $contents)
     {
-        $this->score += $this->howmAnyPatternMatches("/[ ]\|\|[ ]/", $contents);
+        $this->score += $this->howManyPatternMatches("/[ ]\|\|[ ]/", $contents);
     }
 
     /**
