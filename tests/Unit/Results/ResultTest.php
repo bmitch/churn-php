@@ -4,6 +4,7 @@ namespace Churn\Tests\Results;
 
 use Churn\Tests\BaseTestCase;
 use Churn\Results\Result;
+use Churn\Values\Config;
 
 class ResultTest extends BaseTestCase
 {
@@ -16,7 +17,7 @@ class ResultTest extends BaseTestCase
     /** @test */
     public function it_can_be_created()
     {
-        $this->assertInstanceOf(Result::class, $this->result);
+        $this->assertInstanceOf(Result::class, $this->result, new Config);
     }
 
     /** @test */
@@ -58,10 +59,13 @@ class ResultTest extends BaseTestCase
 
     public function setup()
     {
-        $this->result = new Result([
-            'file'       => 'filename.php',
-            'commits'    => 5,
-            'complexity' => 7,
-        ]);
+        $this->result = new Result(
+            [
+                'file'       => 'filename.php',
+                'commits'    => 5,
+                'complexity' => 7,
+            ],
+            new Config
+        );
     }
 }

@@ -4,6 +4,7 @@
 namespace Churn\Results;
 
 use Churn\Processes\ChurnProcess;
+use Churn\Values\Config;
 use Illuminate\Support\Collection;
 
 class ResultsParser
@@ -13,6 +14,21 @@ class ResultsParser
      * @var ResultCollection
      */
     private $resultsCollection;
+
+    /**
+     * The config values.
+     * @var Config
+     */
+    private $config;
+
+    /**
+     * ResultsParser constructor.
+     * @param Config $config Configuration Settings.
+     */
+    public function __construct(Config $config)
+    {
+        $this->config = $config;
+    }
 
     /**
      * Turns a collection of completed processes into a
@@ -42,11 +58,14 @@ class ResultsParser
         $commits = (integer) $this->parseCommits($processes['GitCommitProcess']);
         $complexity = (integer) $processes['CyclomaticComplexityProcess']->getOutput();
 
-        $result = new Result([
-            'file' => $file,
-            'commits' => $commits,
-            'complexity' => $complexity,
-        ]);
+        $result = new Result(
+            [
+                'file' => $file,
+                'commits' => $commits,
+                'complexity' => $complexity,
+            ],
+            $this->config
+        );
 
         $this->resultsCollection->push($result);
     }

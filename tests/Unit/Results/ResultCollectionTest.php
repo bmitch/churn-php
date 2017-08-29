@@ -5,6 +5,7 @@ namespace Churn\Tests\Results;
 use Churn\Tests\BaseTestCase;
 use Churn\Results\Result;
 use Churn\Results\ResultCollection;
+use Churn\Values\Config;
 
 class ResultCollectionTest extends BaseTestCase
 {
@@ -30,9 +31,9 @@ class ResultCollectionTest extends BaseTestCase
     public function setup()
     {
         $this->resultCollection = new ResultCollection([
-            new Result(['file' => 'filename.php', 'commits'    => 5, 'complexity' => 7]),
-            new Result(['file' => 'filename2.php', 'commits'   => 6, 'complexity' => 8]),
-            new Result(['file' => 'filename3.php', 'commits'   => 7, 'complexity' => 9]),
+            new Result(['file' => 'filename.php', 'commits'    => 5, 'complexity' => 7], new Config),
+            new Result(['file' => 'filename2.php', 'commits'   => 6, 'complexity' => 8], new Config),
+            new Result(['file' => 'filename3.php', 'commits'   => 7, 'complexity' => 9], new Config),
         ]);
     }
 }

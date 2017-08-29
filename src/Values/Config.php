@@ -30,6 +30,12 @@ class Config
     private $filesToIgnore;
 
     /**
+     * The math formula to calculate the score
+     * @var string
+     */
+    private $formula;
+
+    /**
      * Config constructor.
      * @param array $rawData Raw config data.
      */
@@ -39,6 +45,7 @@ class Config
         $this->parallelJobs = $rawData['parallelJobs'] ?? 10;
         $this->commitsSince = $rawData['commitsSince'] ?? '10 years ago';
         $this->filesToIgnore = $rawData['filesToIgnore'] ?? [];
+        $this->formula = $rawData['formula'] ?? '[[commits]] + [[complexity]]';
     }
 
     /**
@@ -75,5 +82,14 @@ class Config
     public function getFilesToIgnore(): array
     {
         return $this->filesToIgnore;
+    }
+
+    /**
+     * Get the formula to calculate the score
+     * @return string
+     */
+    public function getFormula(): string
+    {
+        return $this->formula;
     }
 }

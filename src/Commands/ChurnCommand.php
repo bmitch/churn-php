@@ -80,7 +80,7 @@ class ChurnCommand extends Command
         $this->config = new Config(Yaml::parse(@file_get_contents(getcwd() . '/churn.yml')) ?? []);
         $this->fileManager = new FileManager($this->config);
         $this->processFactory = new ProcessFactory($this->config);
-        $this->resultsParser = new ResultsParser;
+        $this->resultsParser = new ResultsParser($this->config);
     }
 
     /**
