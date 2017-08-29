@@ -88,7 +88,11 @@ commitsSince: One year ago
 filesToIgnore:
  - src/Commands/ChurnCommand.php
  - src/Results/ResultsParser.php
- ```
+
+# The math formula to calculate the score
+# Default: number of commits + the complexity of each files
+formula: '[[commits]] + [[complexity]]'
+```
 
 If a `churn.yml` file is omitted or an individual setting is omitted the default values above will be used.
 

@@ -29,6 +29,7 @@ class ConfigTest extends BaseTestCase
         $this->assertSame(10, $config->getParallelJobs());
         $this->assertSame('10 years ago', $config->getCommitsSince());
         $this->assertSame([], $config->getFilesToIgnore());
+        $this->assertSame('[[commits]] + [[complexity]]', $config->getFormula());
     }
 
     /** @test **/
@@ -38,12 +39,14 @@ class ConfigTest extends BaseTestCase
             'filesToShow' => 13,
             'parallelJobs' => 7,
             'commitsSince' => '4 years ago',
-            'filesToIgnore' => ['foo.php', 'bar.php', 'baz.php']
+            'filesToIgnore' => ['foo.php', 'bar.php', 'baz.php'],
+            'formula' => '[[commits]] * [[complexity]]'
         ]);
         $this->assertSame(13, $config->getFilesToShow());
         $this->assertSame(7, $config->getParallelJobs());
         $this->assertSame('4 years ago', $config->getCommitsSince());
         $this->assertSame(['foo.php', 'bar.php', 'baz.php'], $config->getFilesToIgnore());
+        $this->assertSame('[[commits]] * [[complexity]]', $config->getFormula());
     }
 
 }

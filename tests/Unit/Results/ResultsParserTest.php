@@ -7,6 +7,7 @@ use Churn\Processes\ChurnProcess;
 use Mockery as m;
 use Churn\Results\ResultsParser;
 use Churn\Tests\BaseTestCase;
+use Churn\Values\Config;
 use Churn\Values\File;
 use Illuminate\Support\Collection;
 use Symfony\Component\Process\Process;
@@ -16,7 +17,7 @@ class ResultsParserTest extends BaseTestCase
     /** @test **/
     public function it_can_be_instantiated()
     {
-       $this->assertInstanceOf(ResultsParser::class, new ResultsParser());
+       $this->assertInstanceOf(ResultsParser::class, new ResultsParser(new Config));
     }
 
     /** @test **/
@@ -41,7 +42,7 @@ class ResultsParserTest extends BaseTestCase
         $churnProcess = new ChurnProcess($file, $process, 'CyclomaticComplexityProcess');
         $completedProcesses[$process->getFileName()][$process->getType()] = $churnProcess;
 
-        $resultsParser = new ResultsParser;
+        $resultsParser = new ResultsParser(new Config);
         $parsedResults = $resultsParser->parse(new Collection($completedProcesses));
 
         $this->assertCount(1, $parsedResults);
@@ -71,7 +72,7 @@ class ResultsParserTest extends BaseTestCase
         $churnProcess = new ChurnProcess($file, $process, 'CyclomaticComplexityProcess');
         $completedProcesses[$process->getFileName()][$process->getType()] = $churnProcess;
 
-        $resultsParser = new ResultsParser;
+        $resultsParser = new ResultsParser(new Config);
         $parsedResults = $resultsParser->parse(new Collection($completedProcesses));
 
         $this->assertCount(1, $parsedResults);

@@ -2,6 +2,8 @@
 
 namespace Churn\Results;
 
+use Churn\Values\Config;
+
 class Result
 {
     /**
@@ -23,14 +25,21 @@ class Result
     private $complexity;
 
     /**
+     * The config values.
+     * @var Config
+     */
+    private $config;
+
+    /**
      * Class constructor.
      * @param array $data Data to store in the object.
      */
-    public function __construct(array $data)
+    public function __construct(array $data, Config $config)
     {
         $this->file       = $data['file'];
         $this->commits    = $data['commits'];
         $this->complexity = $data['complexity'];
+        $this->config     = $config;
     }
 
     /**
@@ -66,7 +75,13 @@ class Result
      */
     public function getScore(): int
     {
-        return $this->getCommits() + $this->getComplexity();
+        $replacement = [
+            '[[commits]]' => $this->getCommits(),
+            '[[complexity]]' => $this->getComplexity()
+        ];
+        $formula = str_replace(array_keys($replacement), $replacement, $this->config->getFormula());
+
+        return eval('return ' . $formula . ';');
     }
 
     /**
