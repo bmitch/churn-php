@@ -4,14 +4,32 @@
 
 [Full Changelog](https://github.com/bmitch/churn-php/compare/0.0.6...HEAD)
 
+**Implemented enhancements:**
+
+- \[Config\] Paths of files [\#57](https://github.com/bmitch/churn-php/issues/57)
+
 **Closed issues:**
 
+- `churn` has `require`: should be `require\_once` [\#79](https://github.com/bmitch/churn-php/issues/79)
+- Build failing - FileManager has too many indentation levels. [\#74](https://github.com/bmitch/churn-php/issues/74)
+- Note in readme that this currently only works on unix command line [\#70](https://github.com/bmitch/churn-php/issues/70)
 - Some missing declarations [\#64](https://github.com/bmitch/churn-php/issues/64)
 - Test to make sure FileManager ignores files specified to ignore in config. [\#62](https://github.com/bmitch/churn-php/issues/62)
 - Add sniff to check for use of: instanceof [\#61](https://github.com/bmitch/churn-php/issues/61)
+- Ability to only display results where score \> X [\#26](https://github.com/bmitch/churn-php/issues/26)
+- Ability to provide multiple paths. [\#24](https://github.com/bmitch/churn-php/issues/24)
 
 **Merged pull requests:**
 
+- Fixes \#79 - require should be require\_once [\#81](https://github.com/bmitch/churn-php/pull/81) ([bmitch](https://github.com/bmitch))
+- Tweaked composer file [\#80](https://github.com/bmitch/churn-php/pull/80) ([GrahamCampbell](https://github.com/GrahamCampbell))
+- Enable global package installation [\#78](https://github.com/bmitch/churn-php/pull/78) ([jakzal](https://github.com/jakzal))
+- Fix camelCase call [\#77](https://github.com/bmitch/churn-php/pull/77) ([EdouardTack](https://github.com/EdouardTack))
+- Fixes \#74 - Reduce indentation levels in FileManager [\#75](https://github.com/bmitch/churn-php/pull/75) ([bmitch](https://github.com/bmitch))
+- Fixes \#70 [\#73](https://github.com/bmitch/churn-php/pull/73) ([bmitch](https://github.com/bmitch))
+- Multiple paths [\#72](https://github.com/bmitch/churn-php/pull/72) ([josephzidell](https://github.com/josephzidell))
+- Fixed typo in name of churn.yml file [\#69](https://github.com/bmitch/churn-php/pull/69) ([sbkrogers](https://github.com/sbkrogers))
+- Added a changelog [\#67](https://github.com/bmitch/churn-php/pull/67) ([bmitch](https://github.com/bmitch))
 - Fix doc block [\#66](https://github.com/bmitch/churn-php/pull/66) ([bmitch](https://github.com/bmitch))
 - Fixes \#64 - Added missing member declarations [\#65](https://github.com/bmitch/churn-php/pull/65) ([bmitch](https://github.com/bmitch))
 - Fixes \#62 - Test for file manager to ignore files [\#63](https://github.com/bmitch/churn-php/pull/63) ([bmitch](https://github.com/bmitch))
