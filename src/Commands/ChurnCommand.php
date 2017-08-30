@@ -2,18 +2,20 @@
 
 namespace Churn\Commands;
 
-use Churn\Factories\ProcessFactory;
-use Churn\Values\Config;
+use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Helper\Table;
-use Churn\Managers\FileManager;
-use Churn\Results\ResultCollection;
 use Illuminate\Support\Collection;
+use Churn\Values\Config;
+use Churn\Results\Result;
+use Churn\Managers\FileManager;
 use Churn\Results\ResultsParser;
-use Symfony\Component\Yaml\Yaml;
+use Churn\Factories\ProcessFactory;
+use Churn\Results\ResultCollection;
+use Churn\Collections\FileCollection;
 
 class ChurnCommand extends Command
 {
@@ -43,7 +45,7 @@ class ChurnCommand extends Command
 
     /**
      * Collection of files to run the processes on.
-     * @var Collection
+     * @var FileCollection
      */
     private $filesCollection;
 
@@ -77,10 +79,19 @@ class ChurnCommand extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->config = new Config(Yaml::parse(@file_get_contents(getcwd() . '/churn.yml')) ?? []);
+        $this->setConfig(new Config(Yaml::parse(@file_get_contents(getcwd() . '/churn.yml')) ?? []));
         $this->fileManager = new FileManager($this->config);
         $this->processFactory = new ProcessFactory($this->config);
         $this->resultsParser = new ResultsParser;
+    }
+
+    /**
+     * Config setter.
+     * @param Config $config
+     */
+    public function setConfig(Config $config)
+    {
+        $this->config = $config;
     }
 
     /**
@@ -96,7 +107,7 @@ class ChurnCommand extends Command
     }
 
     /**
-     * Exectute the command
+     * Execute the command
      * @param  InputInterface  $input  Input.
      * @param  OutputInterface $output Output.
      * @return void
@@ -128,7 +139,6 @@ class ChurnCommand extends Command
             $file = $this->filesCollection->getNextFile();
 
             $process = $this->processFactory->createGitCommitProcess($file);
-
             $process->start();
             $this->runningProcesses->put($process->getKey(), $process);
 
@@ -147,8 +157,8 @@ class ChurnCommand extends Command
 
     /**
      * Displays the results in a table.
-     * @param  OutputInterface                $output  Output.
-     * @param  Churn\Results\ResultCollection $results Results Collection.
+     * @param  OutputInterface  $output  Output.
+     * @param  ResultCollection $results Results Collection.
      * @return void
      */
     protected function displayResults(OutputInterface $output, ResultCollection $results)
@@ -162,10 +172,50 @@ class ChurnCommand extends Command
 
         $table = new Table($output);
         $table->setHeaders(['File', 'Times Changed', 'Complexity', 'Score']);
-        foreach ($results->orderByScoreDesc()->take($this->config->getFilesToShow()) as $result) {
-            $table->addRow($result->toArray());
-        }
+
+        $table->addRows($this->handleResults($results));
+
         $table->render();
         echo "  " . $this->filesCount . " files analysed in {$totalTime} seconds using " . $this->config->getParallelJobs() .  " parallel jobs.\n\n";
+    }
+
+    /**
+     * Handle the results.
+     * @param  ResultCollection $results
+     * @return array
+     */
+    public function handleResults(ResultCollection $results): array
+    {
+        return array_values(
+            $results
+                ->orderByScoreDesc()
+                ->when($this->minScoreExists(), $this->filterByMinScore())
+                ->take($this->config->getFilesToShow())
+                ->toArray()
+        );
+    }
+
+    /**
+     * Whether min score exists in config file.
+     * @return bool
+     */
+    private function minScoreExists(): bool
+    {
+        return $this->config->getMinScoreToShow() !== 0;
+    }
+
+    /**
+     * Filter by min score.
+     * @return \Closure
+     */
+    private function filterByMinScore(): \Closure
+    {
+        return function (ResultCollection $results) {
+            $minScore = $this->config->getMinScoreToShow();
+
+            return $results->filter(function (Result $result) use ($minScore) {
+                return $result->getScore() >= $minScore;
+            });
+        };
     }
 }

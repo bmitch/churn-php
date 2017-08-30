@@ -54,6 +54,10 @@ You may add an optional `churn.yml` file to the root of your project which can b
 # Default: 10
 filesToShow: 10
 
+# The minimum score a file need to display in the results table.
+# Default: 0
+minScoreToShow: 0
+
 # The number of parallel jobs to use when processing files.
 # Default 10:
 parallelJobs: 10

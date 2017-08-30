@@ -27,6 +27,18 @@ class ResultCollectionTest extends BaseTestCase
         $this->assertSame(16, $this->resultCollection->orderByScoreDesc()->first()->getScore());
     }
 
+    /** @test */
+    public function it_can_convert_to_array()
+    {
+        $this->assertEquals(gettype($this->resultCollection->toArray()), 'array');
+    }
+
+    /** @test */
+    public function it_can_convert_to_array_recursively()
+    {
+        $this->assertEquals(gettype($this->resultCollection->toArray()[0]), 'array');
+    }
+
     public function setup()
     {
         $this->resultCollection = new ResultCollection([

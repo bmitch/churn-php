@@ -12,7 +12,7 @@ class ResultCollection extends Collection
      */
     public function orderByScoreDesc(): self
     {
-        return $this->sortByDesc(function ($result) {
+        return $this->sortByDesc(function (Result $result) {
             return $result->getScore();
         });
     }

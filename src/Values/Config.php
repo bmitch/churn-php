@@ -1,6 +1,5 @@
 <?php declare(strict_types = 1);
 
-
 namespace Churn\Values;
 
 class Config
@@ -10,6 +9,12 @@ class Config
      * @var integer
      */
     private $filesToShow;
+
+    /**
+     * The minimum score a file need to display in the results table.
+     * @var integer
+     */
+    private $minScoreToShow;
 
     /**
      * The number of parallel jobs to use to process the files.
@@ -36,6 +41,7 @@ class Config
     public function __construct(array $rawData = [])
     {
         $this->filesToShow = $rawData['filesToShow'] ?? 10;
+        $this->minScoreToShow = $rawData['minScoreToShow'] ?? 0;
         $this->parallelJobs = $rawData['parallelJobs'] ?? 10;
         $this->commitsSince = $rawData['commitsSince'] ?? '10 years ago';
         $this->filesToIgnore = $rawData['filesToIgnore'] ?? [];
@@ -48,6 +54,16 @@ class Config
     public function getFilesToShow(): int
     {
         return $this->filesToShow;
+    }
+
+
+    /**
+     * Get the minimum score a file need to display.
+     * @return integer
+     */
+    public function getMinScoreToShow(): int
+    {
+        return $this->minScoreToShow;
     }
 
     /**

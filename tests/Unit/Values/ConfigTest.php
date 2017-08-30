@@ -26,6 +26,7 @@ class ConfigTest extends BaseTestCase
     {
         $config = new Config;
         $this->assertSame(10, $config->getFilesToShow());
+        $this->assertSame(0, $config->getMinScoreToShow());
         $this->assertSame(10, $config->getParallelJobs());
         $this->assertSame('10 years ago', $config->getCommitsSince());
         $this->assertSame([], $config->getFilesToIgnore());
@@ -36,11 +37,13 @@ class ConfigTest extends BaseTestCase
     {
         $config = new Config([
             'filesToShow' => 13,
+            'minScoreToShow' => 5,
             'parallelJobs' => 7,
             'commitsSince' => '4 years ago',
             'filesToIgnore' => ['foo.php', 'bar.php', 'baz.php']
         ]);
         $this->assertSame(13, $config->getFilesToShow());
+        $this->assertSame(5, $config->getMinScoreToShow());
         $this->assertSame(7, $config->getParallelJobs());
         $this->assertSame('4 years ago', $config->getCommitsSince());
         $this->assertSame(['foo.php', 'bar.php', 'baz.php'], $config->getFilesToIgnore());
