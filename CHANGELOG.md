@@ -2,7 +2,14 @@
 
 ## [Unreleased](https://github.com/bmitch/churn-php/tree/HEAD)
 
-[Full Changelog](https://github.com/bmitch/churn-php/compare/0.0.6...HEAD)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/0.1.0...HEAD)
+
+**Implemented enhancements:**
+
+- \[Config\] Score modifier? \(saving for possible future enhancement\) [\#55](https://github.com/bmitch/churn-php/issues/55)
+
+## [0.1.0](https://github.com/bmitch/churn-php/tree/0.1.0) (2017-08-29)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/0.0.6...0.1.0)
 
 **Implemented enhancements:**
 
@@ -21,6 +28,7 @@
 
 **Merged pull requests:**
 
+- Changelog update [\#82](https://github.com/bmitch/churn-php/pull/82) ([bmitch](https://github.com/bmitch))
 - Fixes \#79 - require should be require\_once [\#81](https://github.com/bmitch/churn-php/pull/81) ([bmitch](https://github.com/bmitch))
 - Tweaked composer file [\#80](https://github.com/bmitch/churn-php/pull/80) ([GrahamCampbell](https://github.com/GrahamCampbell))
 - Enable global package installation [\#78](https://github.com/bmitch/churn-php/pull/78) ([jakzal](https://github.com/jakzal))
