@@ -176,7 +176,11 @@ class ChurnCommand extends Command
         $table->addRows($this->handleResults($results));
 
         $table->render();
-        echo "  " . $this->filesCount . " files analysed in {$totalTime} seconds using " . $this->config->getParallelJobs() .  " parallel jobs.\n\n";
+        echo "  "
+            . $this->filesCount
+            . " files analysed in {$totalTime} seconds using "
+            . $this->config->getParallelJobs()
+            . " parallel jobs.\n\n";
     }
 
     /**
