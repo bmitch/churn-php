@@ -35,7 +35,6 @@ class ResultCollection extends Collection
 
     /**
      * Filter by min score.
-     *
      * @param  int $minScore Minimum Score.
      * @return \Closure
      */
