@@ -4,6 +4,7 @@ namespace Churn\Results;
 
 use Illuminate\Support\Collection;
 use Churn\Values\Config;
+use Closure;
 
 class ResultCollection extends Collection
 {
@@ -20,7 +21,7 @@ class ResultCollection extends Collection
 
     /**
      * Normalize results against config.
-     * @param  Config $config
+     * @param  Config $config Config settings.
      * @return self
      */
     public function normalizeAgainst(Config $config): self
@@ -35,10 +36,10 @@ class ResultCollection extends Collection
     /**
      * Filter by min score.
      *
-     * @param  int      $minScore
+     * @param  int $minScore Minimum Score.
      * @return \Closure
      */
-    private function filterByMinScore($minScore): \Closure
+    private function filterByMinScore(int $minScore): Closure
     {
         return function (ResultCollection $results) use ($minScore) {
             return $results->filter(function (Result $result) use ($minScore) {

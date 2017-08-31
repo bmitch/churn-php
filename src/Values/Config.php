@@ -56,7 +56,6 @@ class Config
         return $this->filesToShow;
     }
 
-
     /**
      * Get the minimum score a file need to display.
      * @return integer

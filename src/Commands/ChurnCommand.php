@@ -14,7 +14,6 @@ use Churn\Managers\FileManager;
 use Churn\Results\ResultsParser;
 use Churn\Factories\ProcessFactory;
 use Churn\Results\ResultCollection;
-use Churn\Collections\FileCollection;
 
 class ChurnCommand extends Command
 {
