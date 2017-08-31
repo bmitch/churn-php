@@ -30,7 +30,7 @@ class CyclomaticComplexityAssessor
         $this->countTheLogicalAnds($contents);
         $this->countTheLogicalOrs($contents);
 
-        if ($this->score == 0) {
+        if ($this->score === 0) {
             $this->score = 1;
         }
         return $this->score;
@@ -45,7 +45,7 @@ class CyclomaticComplexityAssessor
     {
         preg_match("/[ ]function[ ]/", $contents, $matches);
         if (isset($matches[0])) {
-            $this->score ++;
+            $this->score++;
         }
     }
 
