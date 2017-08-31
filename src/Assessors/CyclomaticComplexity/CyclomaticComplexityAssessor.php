@@ -137,11 +137,7 @@ class CyclomaticComplexityAssessor
      */
     protected function howManyPatternMatches(string $pattern, string $string): int
     {
-        preg_match_all($pattern, $string, $matches);
-        if (isset($matches[0])) {
-            return count($matches[0]);
-        }
-        return 0;
+        return preg_match_all($pattern, $string);
     }
 
     /**

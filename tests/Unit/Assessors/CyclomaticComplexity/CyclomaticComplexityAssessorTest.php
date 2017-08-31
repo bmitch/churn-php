@@ -10,7 +10,7 @@ class CyclomaticComplexityAssessorTest extends BaseTestCase
     /** @test */
     public function the_class_itself_has_a_complexity_of_four()
     {
-        $this->assertEquals(4, $this->assess('src/Assessors/CyclomaticComplexity/CyclomaticComplexityAssessor.php'));
+        $this->assertEquals(3, $this->assess('src/Assessors/CyclomaticComplexity/CyclomaticComplexityAssessor.php'));
     }
 
     /** @test */
