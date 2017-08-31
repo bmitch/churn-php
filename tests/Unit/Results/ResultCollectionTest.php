@@ -41,19 +41,19 @@ class ResultCollectionTest extends BaseTestCase
     }
 
     /** @test */
-    public function it_can_normalize_to_array()
+    public function it_can_normalize_and_return_a_result_collection()
     {
         $config = new Config();
-        $resultsArray = $this->resultCollection->normalizeAgainst($config);
+        $results = $this->resultCollection->normalizeAgainst($config);
 
-        $this->assertSame(gettype($resultsArray), 'array');
+        $this->assertInstanceOf(ResultCollection::class, $results);
     }
 
     /** @test */
     public function it_can_normalize_against_no_custom_config()
     {
         $config = new Config();
-        $resultsArray = $this->resultCollection->normalizeAgainst($config);
+        $resultsArray = $this->resultCollection->normalizeAgainst($config)->toArray();
 
         $this->assertSame(5, count($resultsArray));
         $this->assertSame(['filename3.php', 7, 9, 16], $resultsArray[0]);
@@ -67,7 +67,7 @@ class ResultCollectionTest extends BaseTestCase
     public function it_can_normalize_against_custom_file_number()
     {
         $config = new Config(['filesToShow' => 2]);
-        $resultsArray = $this->resultCollection->normalizeAgainst($config);
+        $resultsArray = $this->resultCollection->normalizeAgainst($config)->toArray();
 
         $this->assertSame(2, count($resultsArray));
         $this->assertSame(['filename3.php', 7, 9, 16], $resultsArray[0]);
@@ -78,7 +78,7 @@ class ResultCollectionTest extends BaseTestCase
     public function it_can_normalize_against_custom_min_score()
     {
         $config = new Config(['minScoreToShow' => 15]);
-        $resultsArray = $this->resultCollection->normalizeAgainst($config);
+        $resultsArray = $this->resultCollection->normalizeAgainst($config)->toArray();
 
         $this->assertSame(1, count($resultsArray));
         $this->assertSame(['filename3.php', 7, 9, 16], $resultsArray[0]);
@@ -91,7 +91,7 @@ class ResultCollectionTest extends BaseTestCase
             'filesToShow' => 3,
             'minScoreToShow' => 1,
         ]);
-        $resultsArray = $this->resultCollection->normalizeAgainst($config);
+        $resultsArray = $this->resultCollection->normalizeAgainst($config)->toArray();
 
         $this->assertSame(3, count($resultsArray));
         $this->assertSame(['filename3.php', 7, 9, 16], $resultsArray[0]);
@@ -106,7 +106,7 @@ class ResultCollectionTest extends BaseTestCase
             'filesToShow' => 4,
             'minScoreToShow' => 13,
         ]);
-        $resultsArray = $this->resultCollection->normalizeAgainst($config);
+        $resultsArray = $this->resultCollection->normalizeAgainst($config)->toArray();
 
         $this->assertSame(2, count($resultsArray));
         $this->assertSame(['filename3.php', 7, 9, 16], $resultsArray[0]);

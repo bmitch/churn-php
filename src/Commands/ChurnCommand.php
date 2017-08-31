@@ -13,6 +13,7 @@ use Churn\Values\Config;
 use Churn\Managers\FileManager;
 use Churn\Results\ResultsParser;
 use Churn\Factories\ProcessFactory;
+use Churn\Results\ResultCollection;
 use Churn\Collections\FileCollection;
 
 class ChurnCommand extends Command
@@ -148,11 +149,11 @@ class ChurnCommand extends Command
 
     /**
      * Displays the results in a table.
-     * @param  OutputInterface $output  Output.
-     * @param  array           $results Results Collection.
+     * @param  OutputInterface  $output  Output.
+     * @param  ResultCollection $results Results Collection.
      * @return void
      */
-    protected function displayResults(OutputInterface $output, array $results)
+    protected function displayResults(OutputInterface $output, ResultCollection $results)
     {
         $totalTime = microtime(true) - $this->startTime;
         echo "\n
@@ -163,7 +164,7 @@ class ChurnCommand extends Command
 
         $table = new Table($output);
         $table->setHeaders(['File', 'Times Changed', 'Complexity', 'Score']);
-        $table->addRows($results);
+        $table->addRows($results->toArray());
 
         $table->render();
 

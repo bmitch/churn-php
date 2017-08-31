@@ -21,18 +21,15 @@ class ResultCollection extends Collection
     /**
      * Normalize results against config.
      * @param  Config $config
-     * @return array
+     * @return self
      */
-    public function normalizeAgainst(Config $config): array
+    public function normalizeAgainst(Config $config): self
     {
         $minScore = $config->getMinScoreToShow();
 
-        return array_values(
-            $this->orderByScoreDesc()
-                ->when($minScore !== 0, $this->filterByMinScore($minScore))
-                ->take($config->getFilesToShow())
-                ->toArray()
-        );
+        return $this->orderByScoreDesc()
+            ->when($minScore !== 0, $this->filterByMinScore($minScore))
+            ->take($config->getFilesToShow());
     }
 
     /**
@@ -48,5 +45,15 @@ class ResultCollection extends Collection
                 return $result->getScore() >= $minScore;
             });
         };
+    }
+
+    /**
+     * Override the original toArray() method to remove those disordered indices.
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return array_values(parent::toArray());
     }
 }
