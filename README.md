@@ -23,7 +23,7 @@ Helps discover good candidates for refactoring.
 
 The results are displayed in a table:
 
-![](img/result.png)
+![](img/output.png)
 
 A file that changes a lot and has a high complexity might be a better candidate for refactoring than a file that doesn't change a lot and has a low complexity.
 

@@ -10,11 +10,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Illuminate\Support\Collection;
 use Churn\Values\Config;
-use Churn\Results\Result;
 use Churn\Managers\FileManager;
 use Churn\Results\ResultsParser;
 use Churn\Factories\ProcessFactory;
-use Churn\Results\ResultCollection;
 use Churn\Collections\FileCollection;
 
 class ChurnCommand extends Command
@@ -79,19 +77,10 @@ class ChurnCommand extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->setConfig(new Config(Yaml::parse(@file_get_contents(getcwd() . '/churn.yml')) ?? []));
+        $this->config = new Config(Yaml::parse(@file_get_contents(getcwd() . '/churn.yml')) ?? []);
         $this->fileManager = new FileManager($this->config);
         $this->processFactory = new ProcessFactory($this->config);
         $this->resultsParser = new ResultsParser;
-    }
-
-    /**
-     * Config setter.
-     * @param Config $config
-     */
-    public function setConfig(Config $config)
-    {
-        $this->config = $config;
     }
 
     /**
@@ -125,7 +114,9 @@ class ChurnCommand extends Command
         }
         $completedProcesses = new Collection($this->completedProcessesArray);
 
-        $results = $this->resultsParser->parse($completedProcesses);
+        $results = $this->resultsParser
+            ->parse($completedProcesses)
+            ->normalizeAgainst($this->config);
         $this->displayResults($output, $results);
     }
 
@@ -157,11 +148,11 @@ class ChurnCommand extends Command
 
     /**
      * Displays the results in a table.
-     * @param  OutputInterface  $output  Output.
-     * @param  ResultCollection $results Results Collection.
+     * @param  OutputInterface $output  Output.
+     * @param  array           $results Results Collection.
      * @return void
      */
-    protected function displayResults(OutputInterface $output, ResultCollection $results)
+    protected function displayResults(OutputInterface $output, array $results)
     {
         $totalTime = microtime(true) - $this->startTime;
         echo "\n
@@ -172,54 +163,14 @@ class ChurnCommand extends Command
 
         $table = new Table($output);
         $table->setHeaders(['File', 'Times Changed', 'Complexity', 'Score']);
-
-        $table->addRows($this->handleResults($results));
+        $table->addRows($results);
 
         $table->render();
+
         echo "  "
             . $this->filesCount
             . " files analysed in {$totalTime} seconds using "
             . $this->config->getParallelJobs()
             . " parallel jobs.\n\n";
-    }
-
-    /**
-     * Handle the results.
-     * @param  ResultCollection $results
-     * @return array
-     */
-    public function handleResults(ResultCollection $results): array
-    {
-        return array_values(
-            $results
-                ->orderByScoreDesc()
-                ->when($this->minScoreExists(), $this->filterByMinScore())
-                ->take($this->config->getFilesToShow())
-                ->toArray()
-        );
-    }
-
-    /**
-     * Whether min score exists in config file.
-     * @return bool
-     */
-    private function minScoreExists(): bool
-    {
-        return $this->config->getMinScoreToShow() !== 0;
-    }
-
-    /**
-     * Filter by min score.
-     * @return \Closure
-     */
-    private function filterByMinScore(): \Closure
-    {
-        return function (ResultCollection $results) {
-            $minScore = $this->config->getMinScoreToShow();
-
-            return $results->filter(function (Result $result) use ($minScore) {
-                return $result->getScore() >= $minScore;
-            });
-        };
     }
 }
