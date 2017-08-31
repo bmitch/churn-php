@@ -34,7 +34,7 @@ class ResultsParser
     /**
      * Parse the list of processes for a file.
      * @param string $file      The file the processes were executed on.
-     * @param array  $processes The proceses that were executed on the file.
+     * @param array  $processes The processes that were executed on the file.
      * @return void
      */
     private function parseCompletedProcessesForFile(string $file, array $processes)

@@ -22,29 +22,8 @@ Helps discover good candidates for refactoring.
 * Creates a score based on these two values.
 
 The results are displayed in a table:
-```
-    ___  _   _  __  __  ____  _  _     ____  _   _  ____
-   / __)( )_( )(  )(  )(  _ \( \( )___(  _ \( )_( )(  _ \
-  ( (__  ) _ (  )(__)(  )   / )  ((___))___/ ) _ (  )___/
-   \___)(_) (_)(______)(_)\_)(_)\_)   (__)  (_) (_)(__)      https://github.com/bmitch/churn-php
 
-+---------------------------------------------------------------------+---------------+------------+-------+
-| File                                                                | Times Changed | Complexity | Score |
-+---------------------------------------------------------------------+---------------+------------+-------+
-| src/Managers/FileManager.php                                        | 5             | 4          | 9     |
-| src/Assessors/CyclomaticComplexity/CyclomaticComplexityAssessor.php | 4             | 4          | 8     |
-| src/Results/ResultsParser.php                                       | 3             | 3          | 6     |
-| src/Results/Result.php                                              | 2             | 1          | 3     |
-| src/Factories/ProcessFactory.php                                    | 2             | 1          | 3     |
-| src/Results/ResultCollection.php                                    | 1             | 1          | 2     |
-| src/Values/File.php                                                 | 1             | 1          | 2     |
-| src/Collections/FileCollection.php                                  | 1             | 1          | 2     |
-| src/Values/Config.php                                               | 1             | 1          | 2     |
-| src/Processes/ChurnProcess.php                                      | 1             | 1          | 2     |
-+---------------------------------------------------------------------+---------------+------------+-------+
-  10 files analysed in 0.24276995658875 seconds using 15 parallel jobs.
-```
-
+![](img/output.png)
 
 A file that changes a lot and has a high complexity might be a better candidate for refactoring than a file that doesn't change a lot and has a low complexity.
 
@@ -74,6 +53,10 @@ You may add an optional `churn.yml` file to the root of your project which can b
 # The maximum number of files to display in the results table.
 # Default: 10
 filesToShow: 10
+
+# The minimum score a file need to display in the results table.
+# Default: 0
+minScoreToShow: 0
 
 # The number of parallel jobs to use when processing files.
 # Default 10:

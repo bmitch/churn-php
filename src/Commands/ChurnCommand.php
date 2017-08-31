@@ -2,18 +2,19 @@
 
 namespace Churn\Commands;
 
-use Churn\Factories\ProcessFactory;
-use Churn\Values\Config;
+use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Helper\Table;
-use Churn\Managers\FileManager;
-use Churn\Results\ResultCollection;
 use Illuminate\Support\Collection;
+use Churn\Values\Config;
+use Churn\Managers\FileManager;
 use Churn\Results\ResultsParser;
-use Symfony\Component\Yaml\Yaml;
+use Churn\Factories\ProcessFactory;
+use Churn\Results\ResultCollection;
+use Churn\Collections\FileCollection;
 
 class ChurnCommand extends Command
 {
@@ -43,7 +44,7 @@ class ChurnCommand extends Command
 
     /**
      * Collection of files to run the processes on.
-     * @var Collection
+     * @var FileCollection
      */
     private $filesCollection;
 
@@ -96,7 +97,7 @@ class ChurnCommand extends Command
     }
 
     /**
-     * Exectute the command
+     * Execute the command
      * @param  InputInterface  $input  Input.
      * @param  OutputInterface $output Output.
      * @return void
@@ -114,7 +115,9 @@ class ChurnCommand extends Command
         }
         $completedProcesses = new Collection($this->completedProcessesArray);
 
-        $results = $this->resultsParser->parse($completedProcesses);
+        $results = $this->resultsParser
+            ->parse($completedProcesses)
+            ->normalizeAgainst($this->config);
         $this->displayResults($output, $results);
     }
 
@@ -128,7 +131,6 @@ class ChurnCommand extends Command
             $file = $this->filesCollection->getNextFile();
 
             $process = $this->processFactory->createGitCommitProcess($file);
-
             $process->start();
             $this->runningProcesses->put($process->getKey(), $process);
 
@@ -147,8 +149,8 @@ class ChurnCommand extends Command
 
     /**
      * Displays the results in a table.
-     * @param  OutputInterface                $output  Output.
-     * @param  Churn\Results\ResultCollection $results Results Collection.
+     * @param  OutputInterface  $output  Output.
+     * @param  ResultCollection $results Results Collection.
      * @return void
      */
     protected function displayResults(OutputInterface $output, ResultCollection $results)
@@ -162,10 +164,14 @@ class ChurnCommand extends Command
 
         $table = new Table($output);
         $table->setHeaders(['File', 'Times Changed', 'Complexity', 'Score']);
-        foreach ($results->orderByScoreDesc()->take($this->config->getFilesToShow()) as $result) {
-            $table->addRow($result->toArray());
-        }
+        $table->addRows($results->toArray());
+
         $table->render();
-        echo "  " . $this->filesCount . " files analysed in {$totalTime} seconds using " . $this->config->getParallelJobs() .  " parallel jobs.\n\n";
+
+        echo "  "
+            . $this->filesCount
+            . " files analysed in {$totalTime} seconds using "
+            . $this->config->getParallelJobs()
+            . " parallel jobs.\n\n";
     }
 }

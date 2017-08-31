@@ -2,7 +2,9 @@
 
 namespace Churn\Results;
 
-class Result
+use Illuminate\Contracts\Support\Arrayable;
+
+class Result implements Arrayable
 {
     /**
      * The file property.
