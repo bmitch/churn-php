@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/bmitch/churn-php/tree/HEAD)
-
-[Full Changelog](https://github.com/bmitch/churn-php/compare/0.1.0...HEAD)
+## [0.2.0](https://github.com/bmitch/churn-php/tree/0.2.0) (2017-09-02)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/0.1.0...0.2.0)
 
 **Implemented enhancements:**
 
@@ -16,6 +15,7 @@
 
 **Merged pull requests:**
 
+- Changelog update [\#91](https://github.com/bmitch/churn-php/pull/91) ([bmitch](https://github.com/bmitch))
 - Cleanup [\#90](https://github.com/bmitch/churn-php/pull/90) ([bmitch](https://github.com/bmitch))
 - Make build green again [\#89](https://github.com/bmitch/churn-php/pull/89) ([bmitch](https://github.com/bmitch))
 - Simplify Cyc Complex Assessor [\#88](https://github.com/bmitch/churn-php/pull/88) ([bmitch](https://github.com/bmitch))
