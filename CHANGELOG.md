@@ -6,7 +6,22 @@
 
 **Implemented enhancements:**
 
+- \[Config\] Threshold [\#56](https://github.com/bmitch/churn-php/issues/56)
 - \[Config\] Score modifier? \(saving for possible future enhancement\) [\#55](https://github.com/bmitch/churn-php/issues/55)
+- Set a max score a file can reach - if file is above it turns red in results? [\#53](https://github.com/bmitch/churn-php/issues/53)
+
+**Closed issues:**
+
+- Update sample output in Readme with a screen shot? [\#68](https://github.com/bmitch/churn-php/issues/68)
+
+**Merged pull requests:**
+
+- Cleanup [\#90](https://github.com/bmitch/churn-php/pull/90) ([bmitch](https://github.com/bmitch))
+- Make build green again [\#89](https://github.com/bmitch/churn-php/pull/89) ([bmitch](https://github.com/bmitch))
+- Simplify Cyc Complex Assessor [\#88](https://github.com/bmitch/churn-php/pull/88) ([bmitch](https://github.com/bmitch))
+- add min score threshold and some tests [\#87](https://github.com/bmitch/churn-php/pull/87) ([riverrun46](https://github.com/riverrun46))
+- update readme [\#86](https://github.com/bmitch/churn-php/pull/86) ([bmitch](https://github.com/bmitch))
+- Update changelog [\#85](https://github.com/bmitch/churn-php/pull/85) ([bmitch](https://github.com/bmitch))
 
 ## [0.1.0](https://github.com/bmitch/churn-php/tree/0.1.0) (2017-08-29)
 [Full Changelog](https://github.com/bmitch/churn-php/compare/0.0.6...0.1.0)
