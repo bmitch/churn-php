@@ -78,6 +78,7 @@ If a `churn.yml` file is omitted or an individual setting is omitted the default
 
 ## Similar Packages
 * https://github.com/danmayer/churn (Ruby)
+* https://github.com/chad/turbulence (Ruby)
 
 ## Contact ##
 Questions, comments, feedback? [@bmitch2112](https://twitter.com/bmitch2112)
