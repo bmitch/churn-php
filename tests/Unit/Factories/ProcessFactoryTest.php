@@ -23,9 +23,9 @@ class ProcessFactoryTest extends BaseTestCase
     public function it_can_create_a_git_commit_count_process()
     {
         $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
-        $result = $this->processFactory->createGitCommitProcess($file);
+        $result = $this->processFactory->createVcsCommitProcess($file);
         $this->assertInstanceOf(ChurnProcess::class, $result);
-        $this->assertSame('GitCommitProcess', $result->getType());
+        $this->assertSame('VcsCommitProcess', $result->getType());
     }
 
     /** @test **/

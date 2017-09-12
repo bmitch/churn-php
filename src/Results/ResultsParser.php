@@ -39,7 +39,7 @@ class ResultsParser
      */
     private function parseCompletedProcessesForFile(string $file, array $processes)
     {
-        $commits = (integer) $this->parseCommits($processes['GitCommitProcess']);
+        $commits = (integer) $this->parseCommits($processes['VcsCommitProcess']);
         $complexity = (integer) $processes['CyclomaticComplexityProcess']->getOutput();
 
         $result = new Result([

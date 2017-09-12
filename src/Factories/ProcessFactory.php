@@ -6,6 +6,8 @@ use Churn\Processes\ChurnProcess;
 use Churn\Values\Config;
 use Churn\Values\File;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\ProcessUtils;
 
 class ProcessFactory
 {
@@ -25,17 +27,15 @@ class ProcessFactory
     }
 
     /**
-     * Creates a Git Commit Process that will run on $file.
+     * Creates a VCS Commit Process that will run on $file.
      * @param File $file File that the process will execute on.
      * @return ChurnProcess
      */
-    public function createGitCommitProcess(File $file): ChurnProcess
+    public function createVcsCommitProcess(File $file): ChurnProcess
     {
-        $process = new Process(
-            'git -C ' . getcwd() . " log --since=\"" . $this->config->getCommitsSince() . "\"  --name-only --pretty=format: " . $file->getFullPath(). " | sort | uniq -c | sort -nr"
-        );
+        $process = new Process($this->getVscCommand($file) . ' | sort | uniq -c | sort -nr');
 
-        return new ChurnProcess($file, $process, 'GitCommitProcess');
+        return new ChurnProcess($file, $process, 'VcsCommitProcess');
     }
 
     /**
@@ -52,5 +52,26 @@ class ProcessFactory
         );
 
         return new ChurnProcess($file, $process, 'CyclomaticComplexityProcess');
+    }
+
+    private function getVscCommand(File $file): string
+    {
+        $path = $file->getFullPath();
+        while ($dir = dirname($path)) {
+            if ($dir == $path) {
+                break;
+            }
+
+            if (is_dir($dir . '/.git')) {
+                return 'git log --since="' . $this->config->getCommitsSince() . '"  --name-only --pretty=format: ' . $file->getFullPath();
+            } elseif (is_dir($dir . '/.hg')) {
+                $since = date('Y-m-d', strtotime($this->config->getCommitsSince()));
+                return 'hg log ' . $file->getFullPath() . ' --date "' . $since . ' to now" --template "' . $file->getDisplayPath() . '\n"';
+            }
+
+            $path = $dir;
+        }
+
+        throw new \InvalidArgumentException($file->getFullPath() . ' is not located in a known VCS');
     }
 }

@@ -26,11 +26,11 @@ class ResultsParserTest extends BaseTestCase
         $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
         $process = m::mock(Process::class);
         $process->shouldReceive('getFileName')->andReturn('foo/bar/baz.php');
-        $process->shouldReceive('getType')->andReturn('GitCommitProcess');
+        $process->shouldReceive('getType')->andReturn('VcsCommitProcess');
         $process->shouldReceive('getOutput')->andReturn("
         3 foo/bar/baz.php\n
         2 \n");
-        $churnProcess = new ChurnProcess($file, $process, 'GitCommitProcess');
+        $churnProcess = new ChurnProcess($file, $process, 'VcsCommitProcess');
         $completedProcesses[$process->getFileName()][$process->getType()] = $churnProcess;
 
         $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
@@ -58,9 +58,9 @@ class ResultsParserTest extends BaseTestCase
         $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
         $process = m::mock(Process::class);
         $process->shouldReceive('getFileName')->andReturn('foo/bar/baz.php');
-        $process->shouldReceive('getType')->andReturn('GitCommitProcess');
+        $process->shouldReceive('getType')->andReturn('VcsCommitProcess');
         $process->shouldReceive('getOutput')->andReturn('');
-        $churnProcess = new ChurnProcess($file, $process, 'GitCommitProcess');
+        $churnProcess = new ChurnProcess($file, $process, 'VcsCommitProcess');
         $completedProcesses[$process->getFileName()][$process->getType()] = $churnProcess;
 
         $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);

@@ -129,7 +129,7 @@ class ChurnCommand extends Command
         for ($index = $this->runningProcesses->count(); $this->filesCollection->hasFiles() > 0 && $index < $this->config->getParallelJobs(); $index++) {
             $file = $this->filesCollection->getNextFile();
 
-            $process = $this->processFactory->createGitCommitProcess($file);
+            $process = $this->processFactory->createVcsCommitProcess($file);
             $process->start();
             $this->runningProcesses->put($process->getKey(), $process);
 
