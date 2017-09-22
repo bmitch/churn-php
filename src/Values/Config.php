@@ -35,6 +35,12 @@ class Config
     private $filesToIgnore;
 
     /**
+     * The file extensions to use when processing.
+     * @var array
+     */
+    private $fileExtensions;
+
+    /**
      * Config constructor.
      * @param array $rawData Raw config data.
      */
@@ -45,6 +51,7 @@ class Config
         $this->parallelJobs = $rawData['parallelJobs'] ?? 10;
         $this->commitsSince = $rawData['commitsSince'] ?? '10 years ago';
         $this->filesToIgnore = $rawData['filesToIgnore'] ?? [];
+        $this->fileExtensions = $rawData['fileExtensions'] ?? ['php'];
     }
 
     /**
@@ -90,5 +97,14 @@ class Config
     public function getFilesToIgnore(): array
     {
         return $this->filesToIgnore;
+    }
+
+    /**
+     * Get the file extensions to use when processing.
+     * @return array
+     */
+    public function getFileExtensions(): array
+    {
+        return $this->fileExtensions;
     }
 }

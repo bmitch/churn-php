@@ -59,12 +59,12 @@ filesToShow: 10
 minScoreToShow: 0
 
 # The number of parallel jobs to use when processing files.
-# Default 10:
+# Default: 10
 parallelJobs: 10
 
 # How far back in the git history to count the number of commits to a file
 # Can be a human readable date like 'One week ago' or a date like '2017-07-12'
-# Default '10 Years ago'
+# Default: '10 Years ago'
 commitsSince: One year ago
 
 # Files to ignore when processing. The full path to the file relative to the root of your project is required
@@ -72,6 +72,12 @@ commitsSince: One year ago
 filesToIgnore:
  - src/Commands/ChurnCommand.php
  - src/Results/ResultsParser.php
+
+# File extensions to use when processing.
+# Default: php
+fileExtensions:
+ - php
+ - inc
  ```
 
 If a `churn.yml` file is omitted or an individual setting is omitted the default values above will be used.
