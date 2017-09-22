@@ -58,7 +58,7 @@ class FileManager
     {
         $directoryIterator = new RecursiveDirectoryIterator($path);
         foreach (new RecursiveIteratorIterator($directoryIterator) as $file) {
-            if ($file->getExtension() !== 'php') {
+            if (!in_array($file->getExtension(), $this->config->getFileExtensions())) {
                 continue;
             }
 
