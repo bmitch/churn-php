@@ -39,6 +39,13 @@ class FileManagerTest extends BaseTestCase
         $this->assertCount(2, $fileManager->getPhpFiles([__DIR__ . '/../Assets']));
     }
 
+    /** @test **/
+    public function it_uses_extensions_specified_in_the_config()
+    {
+      $fileManager = new FileManager(new Config(['fileExtensions' => ['php', 'inc']]));
+      $this->assertCount(4, $fileManager->getPhpFiles([__DIR__ . '/../Assets']));
+    }
+
     public function setup()
     {
         $this->fileManager = new FileManager(new Config);
