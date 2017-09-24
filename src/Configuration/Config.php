@@ -2,10 +2,7 @@
 
 namespace Churn\Configuration;
 
-use Throwable;
 use Webmozart\Assert\Assert;
-use DateTime;
-use InvalidArgumentException;
 
 class Config
 {
@@ -165,11 +162,6 @@ class Config
     {
         if (array_key_exists('commitsSince', $configuration)) {
             Assert::string($configuration['commitsSince'], 'Commits since should be a string');
-            try {
-                new DateTime($configuration['commitsSince']);
-            } catch (Throwable $e) {
-                throw new InvalidArgumentException('Commits since should be in a valid date format');
-            }
         }
     }
 
