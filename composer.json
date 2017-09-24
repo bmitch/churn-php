@@ -57,7 +57,7 @@
             "vendor/bin/phploc src",
             "vendor/bin/phpcpd src",
             "vendor/bin/phpunit --debug --coverage-clover=coverage.xml",
-            "churn run src"
+            "php churn run src"
         ],
         "fix": [
             "vendor/bin/phpcbf -n --standard=phpcs.xml src/",
