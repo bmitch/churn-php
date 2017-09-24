@@ -54,7 +54,7 @@ class FileManager
      * @param  string $path Path in which to look for .php files.
      * @return void
      */
-    private function getPhpFilesFromPath(string $path): void
+    private function getPhpFilesFromPath(string $path)
     {
         $directoryIterator = new RecursiveDirectoryIterator($path);
         foreach (new RecursiveIteratorIterator($directoryIterator) as $file) {
