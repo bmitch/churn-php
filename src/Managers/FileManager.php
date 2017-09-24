@@ -3,10 +3,10 @@
 namespace Churn\Managers;
 
 use Churn\Collections\FileCollection;
-use Churn\Values\Config;
+use Churn\Configuration\Config;
+use Churn\Values\File;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use Churn\Values\File;
 use SplFileInfo;
 
 class FileManager

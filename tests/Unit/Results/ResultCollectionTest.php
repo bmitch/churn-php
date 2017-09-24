@@ -2,10 +2,10 @@
 
 namespace Churn\Tests\Results;
 
-use Churn\Values\Config;
+use Churn\Configuration\Config;
 use Churn\Results\Result;
-use Churn\Tests\BaseTestCase;
 use Churn\Results\ResultCollection;
+use Churn\Tests\BaseTestCase;
 
 class ResultCollectionTest extends BaseTestCase
 {
@@ -43,7 +43,7 @@ class ResultCollectionTest extends BaseTestCase
     /** @test */
     public function it_can_normalize_and_return_a_result_collection()
     {
-        $config = new Config();
+        $config = Config::createFromDefaultValues();
         $results = $this->resultCollection->normalizeAgainst($config);
 
         $this->assertInstanceOf(ResultCollection::class, $results);
@@ -52,7 +52,7 @@ class ResultCollectionTest extends BaseTestCase
     /** @test */
     public function it_can_normalize_against_no_custom_config()
     {
-        $config = new Config();
+        $config = Config::createFromDefaultValues();
         $resultsArray = $this->resultCollection->normalizeAgainst($config)->toArray();
 
         $this->assertSame(5, count($resultsArray));
@@ -66,7 +66,7 @@ class ResultCollectionTest extends BaseTestCase
     /** @test */
     public function it_can_normalize_against_custom_file_number()
     {
-        $config = new Config(['filesToShow' => 2]);
+        $config = Config::create(['filesToShow' => 2]);
         $resultsArray = $this->resultCollection->normalizeAgainst($config)->toArray();
 
         $this->assertSame(2, count($resultsArray));
@@ -77,7 +77,7 @@ class ResultCollectionTest extends BaseTestCase
     /** @test */
     public function it_can_normalize_against_custom_min_score()
     {
-        $config = new Config(['minScoreToShow' => 15]);
+        $config = Config::create(['minScoreToShow' => 15]);
         $resultsArray = $this->resultCollection->normalizeAgainst($config)->toArray();
 
         $this->assertSame(1, count($resultsArray));
@@ -87,7 +87,7 @@ class ResultCollectionTest extends BaseTestCase
     /** @test */
     public function it_can_normalize_against_custom_file_number_and_min_score_1()
     {
-        $config = new Config([
+        $config = Config::create([
             'filesToShow' => 3,
             'minScoreToShow' => 1,
         ]);
@@ -102,7 +102,7 @@ class ResultCollectionTest extends BaseTestCase
     /** @test */
     public function it_can_normalize_against_custom_file_number_and_min_score_2()
     {
-        $config = new Config([
+        $config = Config::create([
             'filesToShow' => 4,
             'minScoreToShow' => 13,
         ]);

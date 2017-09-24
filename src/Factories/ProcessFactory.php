@@ -2,8 +2,8 @@
 
 namespace Churn\Factories;
 
+use Churn\Configuration\Config;
 use Churn\Processes\ChurnProcess;
-use Churn\Values\Config;
 use Churn\Values\File;
 use Symfony\Component\Process\Process;
 

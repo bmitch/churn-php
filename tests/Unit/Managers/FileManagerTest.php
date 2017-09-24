@@ -2,9 +2,9 @@
 
 namespace Churn\Tests\Results;
 
-use Churn\Tests\BaseTestCase;
+use Churn\Configuration\Config;
 use Churn\Managers\FileManager;
-use Churn\Values\Config;
+use Churn\Tests\BaseTestCase;
 
 class FileManagerTest extends BaseTestCase
 {
@@ -35,19 +35,19 @@ class FileManagerTest extends BaseTestCase
     /** @test **/
     public function it_ignores_files_specified_to_ignore_in_the_config()
     {
-        $fileManager = new FileManager(new Config(['filesToIgnore' => ['Assets/Baz.php']]));
+        $fileManager = new FileManager(Config::create(['filesToIgnore' => ['Assets/Baz.php']]));
         $this->assertCount(2, $fileManager->getPhpFiles([__DIR__ . '/../Assets']));
     }
 
     /** @test **/
     public function it_uses_extensions_specified_in_the_config()
     {
-        $fileManager = new FileManager(new Config(['fileExtensions' => ['php', 'inc']]));
+        $fileManager = new FileManager(Config::create(['fileExtensions' => ['php', 'inc']]));
         $this->assertCount(4, $fileManager->getPhpFiles([__DIR__ . '/../Assets']));
     }
 
     public function setup()
     {
-        $this->fileManager = new FileManager(new Config);
+        $this->fileManager = new FileManager(Config::createFromDefaultValues());
     }
 }
