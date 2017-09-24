@@ -35,7 +35,7 @@ class ConfigTest extends BaseTestCase
         $this->assertSame(Config::MINIMUM_SCORE_TO_SHOW, $config->getMinScoreToShow());
         $this->assertSame(Config::AMOUNT_OF_PARALLEL_JOBS, $config->getParallelJobs());
         $this->assertSame(Config::SHOW_COMMITS_SINCE, $config->getCommitsSince());
-        $this->assertSame(Config::IGNORE_FILES, $config->getFilesToIgnore());
+        $this->assertSame(Config::FILES_TO_IGNORE, $config->getFilesToIgnore());
         $this->assertSame(Config::FILE_EXTENSIONS_TO_PARSE, $config->getFileExtensions());
     }
 

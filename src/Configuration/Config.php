@@ -2,6 +2,7 @@
 
 namespace Churn\Configuration;
 
+use Throwable;
 use Webmozart\Assert\Assert;
 use DateTime;
 use InvalidArgumentException;
@@ -13,7 +14,7 @@ class Config
     const MINIMUM_SCORE_TO_SHOW = 0;
     const AMOUNT_OF_PARALLEL_JOBS = 10;
     const SHOW_COMMITS_SINCE = '10 years ago';
-    const IGNORE_FILES = [];
+    const FILES_TO_IGNORE = [];
     const FILE_EXTENSIONS_TO_PARSE = ['php'];
 
     /**
@@ -32,19 +33,12 @@ class Config
     }
 
     /**
-     * create a config with default configuration
+     * Create a config with default configuration
      * @return Config
      */
     public static function createFromDefaultValues(): Config
     {
-        return new self([
-            'filesToShow' => self::FILES_TO_SHOW,
-            'minScoreToShow' => self::MINIMUM_SCORE_TO_SHOW,
-            'parallelJobs' => self::AMOUNT_OF_PARALLEL_JOBS,
-            'commitsSince' => self::SHOW_COMMITS_SINCE,
-            'filesToIgnore' => self::IGNORE_FILES,
-            'fileExtensions' => self::FILE_EXTENSIONS_TO_PARSE,
-        ]);
+        return new self();
     }
 
     /**
@@ -52,49 +46,10 @@ class Config
      * @param array $configuration Raw config data.
      * @throws InvalidArgumentException If parameters is badly defined.
      */
-    private function __construct(array $configuration)
+    private function __construct(array $configuration = [])
     {
-        Assert::notEmpty($configuration, 'Configuration should contain elements');
-
-        if (array_key_exists('filesToShow', $configuration)) {
-            Assert::integer($configuration['filesToShow'], 'Files to show should be an integer');
-        } else {
-            $configuration['filesToShow'] = self::FILES_TO_SHOW;
-        }
-
-        if (array_key_exists('minScoreToShow', $configuration)) {
-            Assert::integer($configuration['minScoreToShow'], 'Minimum score to show should be an integer');
-        } else {
-            $configuration['minScoreToShow'] = self::MINIMUM_SCORE_TO_SHOW;
-        }
-
-        if (array_key_exists('parallelJobs', $configuration)) {
-            Assert::integer($configuration['parallelJobs'], 'Amount of parallel jobs should be an integer');
-        } else {
-            $configuration['parallelJobs'] = self::AMOUNT_OF_PARALLEL_JOBS;
-        }
-
-        if (array_key_exists('commitsSince', $configuration)) {
-            Assert::string($configuration['commitsSince'], 'Commits since should be a string');
-            try {
-                new DateTime($configuration['commitsSince']);
-            } catch (Throwable $e) {
-                throw new InvalidArgumentException('Commits since should be in a valid date format');
-            }
-        } else {
-            $configuration['commitsSince'] = self::SHOW_COMMITS_SINCE;
-        }
-
-        if (array_key_exists('filesToIgnore', $configuration)) {
-            Assert::isArray($configuration['filesToIgnore'], 'Files to ignore should be an array of strings');
-        } else {
-            $configuration['filesToIgnore'] = self::IGNORE_FILES;
-        }
-
-        if (array_key_exists('fileExtensions', $configuration)) {
-            Assert::isArray($configuration['fileExtensions'], 'File extensions should be an array of strings');
-        } else {
-            $configuration['fileExtensions'] = self::FILE_EXTENSIONS_TO_PARSE;
+        if (!empty($configuration)) {
+            $this->validateConfigurationValues($configuration);
         }
 
         $this->configuration = $configuration;
@@ -106,7 +61,7 @@ class Config
      */
     public function getFilesToShow(): int
     {
-        return $this->configuration['filesToShow'];
+        return $this->configuration['filesToShow'] ?? self::FILES_TO_SHOW;
     }
 
     /**
@@ -115,7 +70,7 @@ class Config
      */
     public function getMinScoreToShow(): int
     {
-        return $this->configuration['minScoreToShow'];
+        return $this->configuration['minScoreToShow'] ?? self::MINIMUM_SCORE_TO_SHOW;
     }
 
     /**
@@ -124,7 +79,7 @@ class Config
      */
     public function getParallelJobs(): int
     {
-        return $this->configuration['parallelJobs'];
+        return $this->configuration['parallelJobs'] ?? self::AMOUNT_OF_PARALLEL_JOBS;
     }
 
     /**
@@ -133,7 +88,7 @@ class Config
      */
     public function getCommitsSince(): string
     {
-        return $this->configuration['commitsSince'];
+        return $this->configuration['commitsSince'] ?? self::SHOW_COMMITS_SINCE;
     }
 
     /**
@@ -142,7 +97,7 @@ class Config
      */
     public function getFilesToIgnore(): array
     {
-        return $this->configuration['filesToIgnore'];
+        return $this->configuration['filesToIgnore'] ?? self::FILES_TO_IGNORE;
     }
 
     /**
@@ -151,6 +106,92 @@ class Config
      */
     public function getFileExtensions(): array
     {
-        return $this->configuration['fileExtensions'];
+        return $this->configuration['fileExtensions'] ?? self::FILE_EXTENSIONS_TO_PARSE;
+    }
+
+    /**
+     * @param array $configuration The array containing the configuration values.
+     * @return void
+     */
+    private function validateConfigurationValues(array $configuration): void
+    {
+        $this->validateFilesToShow($configuration);
+        $this->validateMinScoreToShow($configuration);
+        $this->validateParallelJobs($configuration);
+        $this->validateCommitsSince($configuration);
+        $this->validateFilesToIgnore($configuration);
+        $this->validateFileExtensions($configuration);
+    }
+
+    /**
+     * @param array $configuration The array containing the configuration values.
+     * @return void
+     */
+    private function validateFilesToShow(array $configuration): void
+    {
+        if (array_key_exists('filesToShow', $configuration)) {
+            Assert::integer($configuration['filesToShow'], 'Files to show should be an integer');
+        }
+    }
+
+    /**
+     * @param array $configuration The array containing the configuration values.
+     * @return void
+     */
+    private function validateMinScoreToShow(array $configuration): void
+    {
+        if (array_key_exists('minScoreToShow', $configuration)) {
+            Assert::integer($configuration['minScoreToShow'], 'Minimum score to show should be an integer');
+        }
+    }
+
+    /**
+     * @param array $configuration The array containing the configuration values.
+     * @return void
+     */
+    private function validateParallelJobs(array $configuration): void
+    {
+        if (array_key_exists('parallelJobs', $configuration)) {
+            Assert::integer($configuration['parallelJobs'], 'Amount of parallel jobs should be an integer');
+        }
+    }
+
+    /**
+     * @param array $configuration The array containing the configuration values.
+     * @return void
+     * @throws InvalidArgumentException If date is in a bad format.
+     */
+    private function validateCommitsSince(array $configuration): void
+    {
+        if (array_key_exists('commitsSince', $configuration)) {
+            Assert::string($configuration['commitsSince'], 'Commits since should be a string');
+            try {
+                new DateTime($configuration['commitsSince']);
+            } catch (Throwable $e) {
+                throw new InvalidArgumentException('Commits since should be in a valid date format');
+            }
+        }
+    }
+
+    /**
+     * @param array $configuration The array containing the configuration values.
+     * @return void
+     */
+    private function validateFilesToIgnore(array $configuration): void
+    {
+        if (array_key_exists('filesToIgnore', $configuration)) {
+            Assert::isArray($configuration['filesToIgnore'], 'Files to ignore should be an array of strings');
+        }
+    }
+
+    /**
+     * @param array $configuration The array containing the configuration values.
+     * @return void
+     */
+    private function validateFileExtensions(array $configuration): void
+    {
+        if (array_key_exists('fileExtensions', $configuration)) {
+            Assert::isArray($configuration['fileExtensions'], 'File extensions should be an array of strings');
+        }
     }
 }
