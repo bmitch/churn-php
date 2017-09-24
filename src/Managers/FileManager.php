@@ -3,7 +3,6 @@
 namespace Churn\Managers;
 
 use Churn\Collections\FileCollection;
-use Churn\Configuration\Config;
 use Churn\Values\File;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -12,12 +11,6 @@ use SplFileInfo;
 class FileManager
 {
     /**
-     * The config values.
-     * @var Config
-     */
-    private $config;
-
-    /**
      * Collection of File objects.
      * @var FileCollection;
      */
@@ -25,11 +18,13 @@ class FileManager
 
     /**
      * FileManager constructor.
-     * @param Config $config Configuration Settings.
+     * @param array $fileExtensions List of file extensions to look for.
+     * @param array $filesToIgnore  List of files to ignore.
      */
-    public function __construct(Config $config)
+    public function __construct(array $fileExtensions, array $filesToIgnore)
     {
-        $this->config = $config;
+        $this->fileExtensions = $fileExtensions;
+        $this->filesToIgnore = $filesToIgnore;
     }
 
     /**
@@ -58,7 +53,7 @@ class FileManager
     {
         $directoryIterator = new RecursiveDirectoryIterator($path);
         foreach (new RecursiveIteratorIterator($directoryIterator) as $file) {
-            if (!in_array($file->getExtension(), $this->config->getFileExtensions())) {
+            if (! in_array($file->getExtension(), $this->fileExtensions)) {
                 continue;
             }
 
@@ -77,7 +72,7 @@ class FileManager
      */
     private function fileShouldBeIgnored(SplFileInfo $file): bool
     {
-        foreach ($this->config->getFilesToIgnore() as $fileToIgnore) {
+        foreach ($this->filesToIgnore as $fileToIgnore) {
             $fileToIgnore = str_replace('/', '\/', $fileToIgnore);
             if (preg_match("/{$fileToIgnore}/", $file->getPathName())) {
                 return true;
