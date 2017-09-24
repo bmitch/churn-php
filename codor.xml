@@ -25,6 +25,7 @@
         <exclude name="SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingTraversableParameterTypeHintSpecification"/>
         <exclude name="SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingTraversablePropertyTypeHintSpecification"/>
         <exclude name="SlevomatCodingStandard.ControlStructures.DisallowEqualOperators.DisallowedEqualOperator"/>
+        <exclude name="SlevomatCodingStandard.Classes.ClassConstantVisibility.MissingConstantVisibility"/>
     </rule>
 
 </ruleset>

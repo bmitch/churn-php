@@ -30,5 +30,6 @@
     <exclude name="SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint"/>
     <exclude name="Squiz.Commenting.FunctionComment.TypeHintMissing"/>
     <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions.NonFullyQualifiedException"/>
+    <exclude name="SlevomatCodingStandard.Classes.ClassConstantVisibility.MissingConstantVisibility"/>
 </rule>
 </ruleset>

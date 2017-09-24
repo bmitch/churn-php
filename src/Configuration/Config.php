@@ -2,9 +2,9 @@
 
 namespace Churn\Configuration;
 
-use Churn\Configuration\Values\FilesToShow;
-use Exception;
 use Webmozart\Assert\Assert;
+use DateTime;
+use InvalidArgumentException;
 
 class Config
 {
@@ -23,10 +23,10 @@ class Config
 
     /**
      * Create a config with given configuration
-     * @param array $configuration
+     * @param array $configuration The array containing the configuration values.
      * @return Config
      */
-    public static function create(array $configuration)
+    public static function create(array $configuration): Config
     {
         return new self($configuration);
     }
@@ -35,7 +35,7 @@ class Config
      * create a config with default configuration
      * @return Config
      */
-    public static function createFromDefaultValues()
+    public static function createFromDefaultValues(): Config
     {
         return new self([
             'filesToShow' => self::FILES_TO_SHOW,
@@ -43,13 +43,14 @@ class Config
             'parallelJobs' => self::AMOUNT_OF_PARALLEL_JOBS,
             'commitsSince' => self::SHOW_COMMITS_SINCE,
             'filesToIgnore' => self::IGNORE_FILES,
-            'fileExtensions' => self::FILE_EXTENSIONS_TO_PARSE
+            'fileExtensions' => self::FILE_EXTENSIONS_TO_PARSE,
         ]);
     }
 
     /**
      * Config constructor.
      * @param array $configuration Raw config data.
+     * @throws InvalidArgumentException If parameters is badly defined.
      */
     private function __construct(array $configuration)
     {
@@ -76,9 +77,9 @@ class Config
         if (array_key_exists('commitsSince', $configuration)) {
             Assert::string($configuration['commitsSince'], 'Commits since should be a string');
             try {
-                new \DateTime($configuration['commitsSince']);
-            } catch (Exception $e) {
-                throw new \InvalidArgumentException('Commits since should be in a valid date format');
+                new DateTime($configuration['commitsSince']);
+            } catch (Throwable $e) {
+                throw new InvalidArgumentException('Commits since should be in a valid date format');
             }
         } else {
             $configuration['commitsSince'] = self::SHOW_COMMITS_SINCE;
