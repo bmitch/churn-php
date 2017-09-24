@@ -36,6 +36,6 @@ class FileManagerTest extends BaseTestCase
     {
         parent::setup();
 
-        $this->fileManager = new FileManager(Config::createFromDefaultValues());
+        $this->fileManager = new FileManager(['php'], []);
     }
 }

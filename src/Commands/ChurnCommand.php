@@ -2,18 +2,17 @@
 
 namespace Churn\Commands;
 
-use Churn\Configuration\Config;
+use Churn\Results\ResultCollection;
+use Illuminate\Support\Collection;
 use Churn\Factories\ProcessFactory;
 use Churn\Managers\FileManager;
-use Churn\Results\ResultCollection;
 use Churn\Results\ResultsParser;
-use Illuminate\Support\Collection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Yaml\Yaml;
+use Churn\Configuration\Config;
 
 class ChurnCommand extends Command
 {
@@ -72,15 +71,20 @@ class ChurnCommand extends Command
     private $filesCount;
 
     /**
-     * Class constructor.
+     * ChurnCommand constructor.
+     * @param Config         $config         Configuration.
+     * @param FileManager    $fileManager    File Manager.
+     * @param ProcessFactory $processFactory Process Factory.
+     * @param ResultsParser  $resultsParser  The results parser.
      */
-    public function __construct()
+    public function __construct(Config $config, FileManager $fileManager, ProcessFactory $processFactory, ResultsParser $resultsParser) // @codingStandardsIgnoreLine
     {
         parent::__construct();
-        $this->config = Config::create(Yaml::parse(@file_get_contents(getcwd() . '/churn.yml')) ?? []);
-        $this->fileManager = new FileManager($this->config);
-        $this->processFactory = new ProcessFactory($this->config);
-        $this->resultsParser = new ResultsParser;
+
+        $this->config = $config;
+        $this->fileManager = $fileManager;
+        $this->processFactory = $processFactory;
+        $this->resultsParser = $resultsParser;
     }
 
     /**
