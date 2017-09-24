@@ -2,9 +2,9 @@
 
 namespace Churn\Results;
 
-use Illuminate\Support\Collection;
-use Churn\Values\Config;
+use Churn\Configuration\Config;
 use Closure;
+use Illuminate\Support\Collection;
 
 class ResultCollection extends Collection
 {
