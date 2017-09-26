@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/bmitch/churn-php/tree/HEAD)
-
-[Full Changelog](https://github.com/bmitch/churn-php/compare/0.2.0...HEAD)
+## [0.3.0](https://github.com/bmitch/churn-php/tree/0.3.0) (2017-09-26)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/0.2.0...0.3.0)
 
 **Closed issues:**
 
@@ -10,6 +9,7 @@
 
 **Merged pull requests:**
 
+- update changelog [\#102](https://github.com/bmitch/churn-php/pull/102) ([bmitch](https://github.com/bmitch))
 - Inject dependencies into ChurnCommand [\#101](https://github.com/bmitch/churn-php/pull/101) ([bmitch](https://github.com/bmitch))
 - Fixes config issue with non-date strings [\#100](https://github.com/bmitch/churn-php/pull/100) ([bmitch](https://github.com/bmitch))
 - Validate data being used to create config class \#54 [\#99](https://github.com/bmitch/churn-php/pull/99) ([loekiedepo](https://github.com/loekiedepo))
