@@ -11,6 +11,7 @@ Helps discover good candidates for refactoring.
 * [How to Install?](#how-to-install)
 * [How to Use?](#how-to-use)
 * [How to Configure?](#how-to-configure)
+* [Tests](#tests)
 * [Similar Packages](#similar-packages)
 * [Contact](#contact)
 * [Contributing](#contributing)
@@ -82,6 +83,9 @@ fileExtensions:
  ```
 
 If a `churn.yml` file is omitted or an individual setting is omitted the default values above will be used.
+
+## Tests
+If making code changes please run `composer test` before submitting a pull request.
 
 ## Similar Packages
 * https://github.com/danmayer/churn (Ruby)
