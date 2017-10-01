@@ -29,7 +29,7 @@ class FileManagerTest extends BaseTestCase
     /** @test */
     public function it_can_get_the_php_files_in_multiple_directories()
     {
-        $this->assertCount(4, $this->fileManager->getPhpFiles([__DIR__ . '/../Assets', __DIR__ . '/../Assets2']));
+        $this->assertCount(7, $this->fileManager->getPhpFiles([__DIR__ . '/../Assets', __DIR__ . '/../Assets2']));
     }
 
     /** @test **/
@@ -37,6 +37,29 @@ class FileManagerTest extends BaseTestCase
     {
         $fileManager = new FileManager(['php'], ['Assets/Baz.php']);
         $this->assertCount(2, $fileManager->getPhpFiles([__DIR__ . '/../Assets']));
+    }
+
+    /** @test */
+    public function it_ignores_everything_within_a_folder()
+    {
+        $fileManager = new FileManager(['php'], ['Assets2/DeepAssets/*']);
+        $this->assertCount(1, $fileManager->getPhpFiles([__DIR__ . '/../Assets2']));
+
+        $fileManager = new FileManager(['php', 'inc'], ['Assets2/DeepAssets/*']);
+        $this->assertCount(2, $fileManager->getPhpFiles([__DIR__ . '/../Assets2']));
+    }
+
+    /** @test */
+    public function it_ignores_everything_starts_with_a_string()
+    {
+        $fileManager = new FileManager(['php'], ['Assets2/F*']);
+        $this->assertCount(3, $fileManager->getPhpFiles([__DIR__ . '/../Assets2']));
+
+        $fileManager = new FileManager(['php'], ['Assets2/DeepAssets/Deep*']);
+        $this->assertCount(2, $fileManager->getPhpFiles([__DIR__ . '/../Assets2']));
+
+        $fileManager = new FileManager(['php'], ['Assets2/DeepAssets/Dif*']);
+        $this->assertCount(3, $fileManager->getPhpFiles([__DIR__ . '/../Assets2']));
     }
 
     /** @test **/
