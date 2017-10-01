@@ -5,17 +5,7 @@ require_once(__DIR__ . '/bootstrap.php');
 
 use Churn\Commands\ChurnCommand;
 use Symfony\Component\Console\Application;
-use Churn\Configuration\Config;
-use Churn\Managers\FileManager;
-use Churn\Factories\ProcessFactory;
-use Churn\Results\ResultsParser;
-use Symfony\Component\Yaml\Yaml;
-
-$config = Config::create(Yaml::parse(@file_get_contents(getcwd() . '/churn.yml')) ?? []);
-$fileManager = new FileManager($config->getFileExtensions(), $config->getFilesToIgnore());
-$processFactory = new ProcessFactory($config);
-$resultsParser = new ResultsParser;
 
 $application = new Application();
-$application->add(new ChurnCommand($config, $fileManager, $processFactory, $resultsParser));
+$application->add(new ChurnCommand);
 $application->run();

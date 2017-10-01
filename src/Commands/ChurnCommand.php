@@ -11,8 +11,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Churn\Configuration\Config;
+use Symfony\Component\Yaml\Yaml;
 
 class ChurnCommand extends Command
 {
@@ -21,12 +23,6 @@ class ChurnCommand extends Command
      * @var Config
      */
     private $config;
-
-    /**
-     * The file manager.
-     * @var FileManager
-     */
-    private $fileManager;
 
     /**
      * The process factory.
@@ -72,19 +68,12 @@ class ChurnCommand extends Command
 
     /**
      * ChurnCommand constructor.
-     * @param Config         $config         Configuration.
-     * @param FileManager    $fileManager    File Manager.
-     * @param ProcessFactory $processFactory Process Factory.
-     * @param ResultsParser  $resultsParser  The results parser.
      */
-    public function __construct(Config $config, FileManager $fileManager, ProcessFactory $processFactory, ResultsParser $resultsParser) // @codingStandardsIgnoreLine
+    public function __construct()
     {
         parent::__construct();
 
-        $this->config = $config;
-        $this->fileManager = $fileManager;
-        $this->processFactory = $processFactory;
-        $this->resultsParser = $resultsParser;
+        $this->resultsParser = new ResultsParser();
     }
 
     /**
@@ -95,6 +84,7 @@ class ChurnCommand extends Command
     {
         $this->setName('run')
             ->addArgument('paths', InputArgument::IS_ARRAY, 'Path to source to check.')
+            ->addOption('configuration', 'c', InputOption::VALUE_OPTIONAL, 'Path to the configuration file', 'churn.yml')  // @codingStandardsIgnoreLine
             ->setDescription('Check files')
             ->setHelp('Checks the churn on the provided path argument(s).');
     }
@@ -108,8 +98,9 @@ class ChurnCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->startTime = microtime(true);
-        $paths = $input->getArgument('paths');
-        $this->filesCollection = $this->fileManager->getPhpFiles($paths);
+        $this->setupProcessor($input->getOption('configuration'));
+
+        $this->filesCollection = $this->createFileManager()->getPhpFiles($input->getArgument('paths'));
         $this->filesCount = $this->filesCollection->count();
         $this->runningProcesses = new Collection;
         $this->completedProcessesArray = [];
@@ -176,5 +167,23 @@ class ChurnCommand extends Command
             . " files analysed in {$totalTime} seconds using "
             . $this->config->getParallelJobs()
             . " parallel jobs.\n\n";
+    }
+
+    /**
+     * @param string $configFile
+     * @return void
+     */
+    private function setupProcessor(string $configFile)
+    {
+        $this->config = Config::create(Yaml::parse(@file_get_contents($configFile)) ?? []);
+        $this->processFactory = new ProcessFactory($this->config);
+    }
+
+    /**
+     * @return FileManager
+     */
+    private function createFileManager() : FileManager
+    {
+        return new FileManager($this->config->getFileExtensions(), $this->config->getFilesToIgnore());
     }
 }
