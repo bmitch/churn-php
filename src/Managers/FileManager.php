@@ -73,8 +73,8 @@ class FileManager
     private function fileShouldBeIgnored(SplFileInfo $file): bool
     {
         foreach ($this->filesToIgnore as $fileToIgnore) {
-            $fileToIgnore = str_replace('/', '\/', $fileToIgnore);
-            if (preg_match("/{$fileToIgnore}/", $file->getPathName())) {
+            $fileToIgnore = preg_replace("#/(.*)\*$#", "/$1.+$", $fileToIgnore);
+            if (preg_match("#{$fileToIgnore}#", $file->getPathName())) {
                 return true;
             }
         }
