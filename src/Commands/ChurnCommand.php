@@ -2,6 +2,7 @@
 
 namespace Churn\Commands;
 
+use Churn\Collections\FileCollection;
 use Churn\Results\ResultCollection;
 use Illuminate\Support\Collection;
 use Churn\Factories\ProcessFactory;
@@ -80,7 +81,7 @@ class ChurnCommand extends Command
      * Configure the command
      * @return void
      */
-    protected function configure(): void
+    protected function configure()
     {
         $this->setName('run')
             ->addArgument('paths', InputArgument::IS_ARRAY, 'Path to source to check.')
@@ -95,12 +96,12 @@ class ChurnCommand extends Command
      * @param  OutputInterface $output Output.
      * @return void
      */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->startTime = microtime(true);
         $this->setupProcessor($input->getOption('configuration'));
 
-        $this->filesCollection = $this->createFileManager()->getPhpFiles($input->getArgument('paths'));
+        $this->filesCollection = $this->getPhpFiles($input->getArgument('paths'));
         $this->filesCount = $this->filesCollection->count();
         $this->runningProcesses = new Collection;
         $this->completedProcessesArray = [];
@@ -119,7 +120,7 @@ class ChurnCommand extends Command
      * Gets the output from processes and stores them in the completedProcessArray member.
      * @return void
      */
-    private function getProcessResults(): void
+    private function getProcessResults()
     {
         for ($index = $this->runningProcesses->count(); $this->filesCollection->hasFiles() > 0 && $index < $this->config->getParallelJobs(); $index++) {
             $file = $this->filesCollection->getNextFile();
@@ -147,7 +148,7 @@ class ChurnCommand extends Command
      * @param  ResultCollection $results Results Collection.
      * @return void
      */
-    protected function displayResults(OutputInterface $output, ResultCollection $results): void
+    protected function displayResults(OutputInterface $output, ResultCollection $results)
     {
         $totalTime = microtime(true) - $this->startTime;
         echo "\n
@@ -173,17 +174,20 @@ class ChurnCommand extends Command
      * @param string $configFile Relative path churn.yml configuration file.
      * @return void
      */
-    private function setupProcessor(string $configFile): void
+    private function setupProcessor(string $configFile)
     {
         $this->config = Config::create(Yaml::parse(@file_get_contents($configFile)) ?? []);
         $this->processFactory = new ProcessFactory($this->config);
     }
 
     /**
-     * @return FileManager
+     * @param array $directory Directories.
+     * @return FileCollection
      */
-    private function createFileManager(): FileManager
+    private function getPhpFiles(array $directory): FileCollection
     {
-        return new FileManager($this->config->getFileExtensions(), $this->config->getFilesToIgnore());
+        $fileManager = new FileManager($this->config->getFileExtensions(), $this->config->getFilesToIgnore());
+
+        return $fileManager->getPhpFiles($directory);
     }
 }
