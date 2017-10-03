@@ -73,12 +73,23 @@ class FileManager
     private function fileShouldBeIgnored(SplFileInfo $file): bool
     {
         foreach ($this->filesToIgnore as $fileToIgnore) {
-            $fileToIgnore = str_replace('/', '\/', $fileToIgnore);
-            if (preg_match("/{$fileToIgnore}/", $file->getPathName())) {
+            $regex = $this->patternToRegex($fileToIgnore);
+            if (preg_match("#{$regex}#", $file->getPathName())) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    /**
+     * Translate file path pattern to regex string.
+     * @param string $filePattern File pattern to be ignored.
+     * @return string
+     */
+    private function patternToRegex(string $filePattern): string
+    {
+        $regex = preg_replace("#/(.*)\*$#", "/$1.+$", $filePattern);
+        return $regex;
     }
 }
