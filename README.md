@@ -34,6 +34,7 @@ A file that changes a lot and has a high complexity might be a better candidate 
 ## Compatibility ##
 * PHP 7+
 * Currently does not work on Windows command line. See [#71](https://github.com/bmitch/churn-php/issues/71) for more details.
+* Your project is using git for version control.
 
 ## How to Install? ##
 Install via Composer:
