@@ -5,6 +5,7 @@ namespace Churn\Tests\Results;
 use Churn\Configuration\Config;
 use Churn\Managers\FileManager;
 use Churn\Tests\BaseTestCase;
+use Churn\Values\File;
 
 class FileManagerTest extends BaseTestCase
 {
@@ -60,6 +61,19 @@ class FileManagerTest extends BaseTestCase
 
         $fileManager = new FileManager(['php'], ['Assets2/DeepAssets/Dif*']);
         $this->assertCount(3, $fileManager->getPhpFiles([__DIR__ . '/../Assets2']));
+    }
+
+    /** @test */
+    public function it_ignores_multiple_matching_patterns_in_multiple_folders()
+    {
+        $fileManager = new FileManager(['php'], ['Assets2/F*', 'Assets/B*']);
+        $this->assertCount(4, $fileManager->getPhpFiles([__DIR__ . '/../Assets', __DIR__ . '/../Assets2']));
+
+        $fileManager = new FileManager(['php', 'inc'], ['Assets2/DeepAssets/De*', 'Assets/B*']);
+        $this->assertCount(5, $fileManager->getPhpFiles([__DIR__ . '/../Assets', __DIR__ . '/../Assets2']));
+
+        $fileManager = new FileManager(['php', 'inc'], ['Assets2/DeepAssets/Di*', 'Assets2/DeepAssets/De*', 'Assets2/F*']);
+        $this->assertCount(1, $fileManager->getPhpFiles([__DIR__ . '/../Assets2']));
     }
 
     /** @test **/
