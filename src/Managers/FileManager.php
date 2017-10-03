@@ -85,9 +85,9 @@ class FileManager
     /**
      * Translate file path pattern to regex string
      * @param $filePattern
-     * @return String
+     * @return string
      */
-    private function patternToRegex($filePattern): String
+    private function patternToRegex($filePattern): string
     {
         $regex = preg_replace("#/(.*)\*$#", "/$1.+$", $filePattern);
         return $regex;
