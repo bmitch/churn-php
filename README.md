@@ -69,11 +69,13 @@ parallelJobs: 10
 # Default: '10 Years ago'
 commitsSince: One year ago
 
-# Files to ignore when processing. The full path to the file relative to the root of your project is required
+# Files to ignore when processing. The full path to the file relative to the root of your project is required.
+# Also supports regular expressions.
 # Default: All PHP files in the path provided to churn-php are processed.
 filesToIgnore:
  - src/Commands/ChurnCommand.php
  - src/Results/ResultsParser.php
+ - src/Foo/Ba*
 
 # File extensions to use when processing.
 # Default: php
