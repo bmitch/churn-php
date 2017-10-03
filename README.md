@@ -86,9 +86,6 @@ fileExtensions:
 
 If a `churn.yml` file is omitted or an individual setting is omitted the default values above will be used.
 
-## Tests
-If making code changes please run `composer test` before submitting a pull request.
-
 ## Similar Packages
 * https://github.com/danmayer/churn (Ruby)
 * https://github.com/chad/turbulence (Ruby)
@@ -97,7 +94,9 @@ If making code changes please run `composer test` before submitting a pull reque
 Questions, comments, feedback? [@bmitch2112](https://twitter.com/bmitch2112)
 
 ## Contributing ##
-Please see [CONTRIBUTING.md](CONTRIBUTING.md)
+* Please run `composer test` on PHP 7.0 and ensure it passes.
+* If you do have access to PHP 7.0 please make sure that CI build passes when you make pull request. If you are unable to get it to pass in the pull request please ping me and I can help.
+* Please see [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## License ##
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
