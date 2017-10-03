@@ -83,8 +83,8 @@ class FileManager
     }
 
     /**
-     * Translate file path pattern to regex string
-     * @param string $filePattern
+     * Translate file path pattern to regex string.
+     * @param string $filePattern file pattern to be ignored.
      * @return string
      */
     private function patternToRegex(string $filePattern): string
