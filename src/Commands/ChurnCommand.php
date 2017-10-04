@@ -3,6 +3,7 @@
 namespace Churn\Commands;
 
 use Churn\Collections\FileCollection;
+use Churn\Results\Result;
 use Churn\Results\ResultCollection;
 use Illuminate\Support\Collection;
 use Churn\Factories\ProcessFactory;
@@ -19,6 +20,9 @@ use Symfony\Component\Yaml\Yaml;
 
 class ChurnCommand extends Command
 {
+    const FORMAT_JSON = 'json';
+    const FORMAT_TEXT = 'text';
+
     /**
      * The config values.
      * @var Config
@@ -86,6 +90,7 @@ class ChurnCommand extends Command
         $this->setName('run')
             ->addArgument('paths', InputArgument::IS_ARRAY, 'Path to source to check.')
             ->addOption('configuration', 'c', InputOption::VALUE_OPTIONAL, 'Path to the configuration file', 'churn.yml')  // @codingStandardsIgnoreLine
+            ->addOption('format', null, InputOption::VALUE_REQUIRED, 'The output format to use', 'text')
             ->setDescription('Check files')
             ->setHelp('Checks the churn on the provided path argument(s).');
     }
@@ -113,7 +118,7 @@ class ChurnCommand extends Command
         $results = $this->resultsParser
             ->parse($completedProcesses)
             ->normalizeAgainst($this->config);
-        $this->displayResults($output, $results);
+        $this->displayResults($input->getOption('format'), $output, $results);
     }
 
     /**
@@ -148,26 +153,15 @@ class ChurnCommand extends Command
      * @param  ResultCollection $results Results Collection.
      * @return void
      */
-    protected function displayResults(OutputInterface $output, ResultCollection $results)
+    protected function displayResults(string $format, OutputInterface $output, ResultCollection $results)
     {
-        $totalTime = microtime(true) - $this->startTime;
-        echo "\n
-    ___  _   _  __  __  ____  _  _     ____  _   _  ____
-   / __)( )_( )(  )(  )(  _ \( \( )___(  _ \( )_( )(  _ \
-  ( (__  ) _ (  )(__)(  )   / )  ((___))___/ ) _ (  )___/
-   \___)(_) (_)(______)(_)\_)(_)\_)   (__)  (_) (_)(__)      https://github.com/bmitch/churn-php\n\n";
-
-        $table = new Table($output);
-        $table->setHeaders(['File', 'Times Changed', 'Complexity', 'Score']);
-        $table->addRows($results->toArray());
-
-        $table->render();
-
-        echo "  "
-            . $this->filesCount
-            . " files analysed in {$totalTime} seconds using "
-            . $this->config->getParallelJobs()
-            . " parallel jobs.\n\n";
+        if ($format === self::FORMAT_JSON) {
+            $this->displayResultsJson($output, $results);
+        } elseif ($format === self::FORMAT_TEXT) {
+            $this->displayResultsText($output, $results);
+        } else {
+            throw new \InvalidArgumentException('Invalid output format provided');
+        }
     }
 
     /**
@@ -189,5 +183,45 @@ class ChurnCommand extends Command
         $fileManager = new FileManager($this->config->getFileExtensions(), $this->config->getFilesToIgnore());
 
         return $fileManager->getPhpFiles($directory);
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @param ResultCollection $results
+     */
+    private function displayResultsText(OutputInterface $output, ResultCollection $results)
+    {
+        $totalTime = microtime(true) - $this->startTime;
+        echo "\n
+    ___  _   _  __  __  ____  _  _     ____  _   _  ____
+   / __)( )_( )(  )(  )(  _ \( \( )___(  _ \( )_( )(  _ \
+  ( (__  ) _ (  )(__)(  )   / )  ((___))___/ ) _ (  )___/
+   \___)(_) (_)(______)(_)\_)(_)\_)   (__)  (_) (_)(__)      https://github.com/bmitch/churn-php\n\n";
+
+        $table = new Table($output);
+        $table->setHeaders(['File', 'Times Changed', 'Complexity', 'Score']);
+        $table->addRows($results->toArray());
+
+        $table->render();
+
+        echo "  "
+            . $this->filesCount
+            . " files analysed in {$totalTime} seconds using "
+            . $this->config->getParallelJobs()
+            . " parallel jobs.\n\n";
+    }
+
+    private function displayResultsJson(OutputInterface $output, ResultCollection $results)
+    {
+        $data = array_map(function(array $result) {
+            return [
+                'file' => $result[0],
+                'commits' => $result[1],
+                'complexity' => $result[2],
+                'score' => $result[3]
+            ];
+        }, $results->toArray());
+
+        $output->write(json_encode($data));
     }
 }
