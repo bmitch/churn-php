@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Churn\Tests\Results;
 
@@ -15,17 +15,36 @@ class ResultCollectionTest extends BaseTestCase
      */
     protected $resultCollection;
 
-    /** @test */
-    public function it_can_be_created()
+    public function setup()
     {
-        $this->assertInstanceOf(ResultCollection::class, $this->resultCollection);
+        $this->resultCollection = new ResultCollection([
+            // many commits, high complexity, score: 0.625
+            new Result(['file' => 'filename1.php', 'commits' => 5, 'complexity' => 7]),
+
+            // average commits, average complexity, score: 0.24217517235989
+            new Result(['file' => 'filename2.php', 'commits' => 3, 'complexity' => 4]),
+
+            // few commits, high complexity, score: 0.079534002224295
+            new Result(['file' => 'filename3.php', 'commits' => 1, 'complexity' => 5]),
+
+            // few commits, low complexity, score: -0.22487504568875
+            new Result(['file' => 'filename4.php', 'commits' => 1, 'complexity' => 1]),
+
+            // many commits, low complexity, score: 0.14285714285714
+            new Result(['file' => 'filename5.php', 'commits' => 8, 'complexity' => 1]),
+        ]);
     }
 
     /** @test */
     public function it_can_order_the_results_by_score_descending()
     {
-        $this->assertSame(12, $this->resultCollection->first()->getScore());
-        $this->assertSame(16, $this->resultCollection->orderByScoreDesc()->first()->getScore());
+        $this->assertResultsAre([
+            'filename1.php',
+            'filename2.php',
+            'filename5.php',
+            'filename3.php',
+            'filename4.php',
+        ], $this->resultCollection->orderByScoreDesc());
     }
 
     /** @test */
@@ -53,35 +72,36 @@ class ResultCollectionTest extends BaseTestCase
     public function it_can_normalize_against_no_custom_config()
     {
         $config = Config::createFromDefaultValues();
-        $resultsArray = $this->resultCollection->normalizeAgainst($config)->toArray();
+        $results = $this->resultCollection->normalizeAgainst($config);
 
-        $this->assertSame(5, count($resultsArray));
-        $this->assertSame(['filename3.php', 7, 9, 16], $resultsArray[0]);
-        $this->assertSame(['filename2.php', 6, 8, 14], $resultsArray[1]);
-        $this->assertSame(['filename1.php', 5, 7, 12], $resultsArray[2]);
-        $this->assertSame(['filename5.php', 0, 1, 1], $resultsArray[3]);
-        $this->assertSame(['filename4.php', 0, 0, 0], $resultsArray[4]);
+        $this->assertResultsAre([
+            'filename1.php',
+            'filename2.php',
+            'filename5.php'
+        ], $results);
     }
 
     /** @test */
     public function it_can_normalize_against_custom_file_number()
     {
         $config = Config::create(['filesToShow' => 2]);
-        $resultsArray = $this->resultCollection->normalizeAgainst($config)->toArray();
+        $results = $this->resultCollection->normalizeAgainst($config);
 
-        $this->assertSame(2, count($resultsArray));
-        $this->assertSame(['filename3.php', 7, 9, 16], $resultsArray[0]);
-        $this->assertSame(['filename2.php', 6, 8, 14], $resultsArray[1]);
+        $this->assertResultsAre([
+            'filename1.php',
+            'filename2.php'
+        ], $results);
     }
 
     /** @test */
     public function it_can_normalize_against_custom_min_score()
     {
-        $config = Config::create(['minScoreToShow' => 15]);
-        $resultsArray = $this->resultCollection->normalizeAgainst($config)->toArray();
+        $config = Config::create(['minScoreToShow' => 0.6]);
+        $results = $this->resultCollection->normalizeAgainst($config);
 
-        $this->assertSame(1, count($resultsArray));
-        $this->assertSame(['filename3.php', 7, 9, 16], $resultsArray[0]);
+        $this->assertResultsAre([
+            'filename1.php'
+        ], $results);
     }
 
     /** @test */
@@ -89,38 +109,40 @@ class ResultCollectionTest extends BaseTestCase
     {
         $config = Config::create([
             'filesToShow' => 3,
-            'minScoreToShow' => 1,
+            'minScoreToShow' => 0,
         ]);
-        $resultsArray = $this->resultCollection->normalizeAgainst($config)->toArray();
+        $results = $this->resultCollection->normalizeAgainst($config);
 
-        $this->assertSame(3, count($resultsArray));
-        $this->assertSame(['filename3.php', 7, 9, 16], $resultsArray[0]);
-        $this->assertSame(['filename2.php', 6, 8, 14], $resultsArray[1]);
-        $this->assertSame(['filename1.php', 5, 7, 12], $resultsArray[2]);
+        $this->assertResultsAre([
+            'filename1.php',
+            'filename2.php',
+            'filename5.php'
+        ], $results);
     }
 
     /** @test */
     public function it_can_normalize_against_custom_file_number_and_min_score_2()
     {
         $config = Config::create([
-            'filesToShow' => 4,
-            'minScoreToShow' => 13,
+            'filesToShow' => 10,
+            'minScoreToShow' => 0.05,
         ]);
-        $resultsArray = $this->resultCollection->normalizeAgainst($config)->toArray();
+        $results = $this->resultCollection->normalizeAgainst($config);
 
-        $this->assertSame(2, count($resultsArray));
-        $this->assertSame(['filename3.php', 7, 9, 16], $resultsArray[0]);
-        $this->assertSame(['filename2.php', 6, 8, 14], $resultsArray[1]);
+        $this->assertResultsAre([
+            'filename1.php',
+            'filename2.php',
+            'filename5.php',
+            'filename3.php',
+        ], $results);
     }
 
-    public function setup()
+    private function assertResultsAre(array $expectedFileNames, ResultCollection $collection)
     {
-        $this->resultCollection = new ResultCollection([
-            new Result(['file' => 'filename1.php', 'commits' => 5, 'complexity' => 7]),
-            new Result(['file' => 'filename2.php', 'commits' => 6, 'complexity' => 8]),
-            new Result(['file' => 'filename3.php', 'commits' => 7, 'complexity' => 9]),
-            new Result(['file' => 'filename4.php', 'commits' => 0, 'complexity' => 0]),
-            new Result(['file' => 'filename5.php', 'commits' => 0, 'complexity' => 1]),
-        ]);
+        $actualFileNames = array_map(function (array $data) {
+            return $data[0];
+        }, $collection->toArray());
+
+        $this->assertEquals($expectedFileNames, $actualFileNames);
     }
 }

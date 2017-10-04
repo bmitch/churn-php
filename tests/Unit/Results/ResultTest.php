@@ -40,7 +40,10 @@ class ResultTest extends BaseTestCase
     /** @test */
     public function it_can_calculate_the_score()
     {
-        $this->assertSame(12, $this->result->getScore());
+        $maxCommits = 10;
+        $maxComplexity = 10;
+
+        $this->assertEquals(0.41690481051547, $this->result->getScore($maxCommits, $maxComplexity));
     }
 
     /** @test */
@@ -49,8 +52,7 @@ class ResultTest extends BaseTestCase
         $this->assertSame([
                 'filename.php',
                 5,
-                7,
-                12
+                7
             ],
             $this->result->toArray()
         );

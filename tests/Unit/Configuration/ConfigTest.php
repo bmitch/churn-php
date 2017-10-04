@@ -60,7 +60,7 @@ class ConfigTest extends BaseTestCase
         ]);
 
         $this->assertSame($filesToShow, $config->getFilesToShow());
-        $this->assertSame($minScoreToShow, $config->getMinScoreToShow());
+        $this->assertEquals($minScoreToShow, $config->getMinScoreToShow());
         $this->assertSame($parallelJobs, $config->getParallelJobs());
         $this->assertSame($commitsSince, $config->getCommitsSince());
         $this->assertSame($filesToIgnore, $config->getFilesToIgnore());

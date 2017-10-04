@@ -1,9 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Churn\Results;
 
 use Churn\Configuration\Config;
-use Closure;
 use Illuminate\Support\Collection;
 
 class ResultCollection extends Collection
@@ -15,7 +14,7 @@ class ResultCollection extends Collection
     public function orderByScoreDesc(): self
     {
         return $this->sortByDesc(function (Result $result) {
-            return $result->getScore();
+            return $result->getScore($this->maxCommits(), $this->maxComplexity());
         });
     }
 
@@ -29,22 +28,26 @@ class ResultCollection extends Collection
         $minScore = $config->getMinScoreToShow();
 
         return $this->orderByScoreDesc()
-            ->when($minScore !== 0, $this->filterByMinScore($minScore))
+            ->filter(
+                function (Result $result) use ($minScore) {
+                    return $result->getScore($this->maxCommits(), $this->maxComplexity()) >= $minScore;
+                }
+            )
             ->take($config->getFilesToShow());
     }
 
-    /**
-     * Filter by min score.
-     * @param  int $minScore Minimum Score.
-     * @return \Closure
-     */
-    private function filterByMinScore(int $minScore): Closure
+    public function maxCommits(): int
     {
-        return function (ResultCollection $results) use ($minScore) {
-            return $results->filter(function (Result $result) use ($minScore) {
-                return $result->getScore() >= $minScore;
-            });
-        };
+        return $this->max(function (Result $result) {
+            return $result->getCommits();
+        });
+    }
+
+    public function maxComplexity(): int
+    {
+        return $this->max(function (Result $result) {
+            return $result->getComplexity();
+        });
     }
 
     /**
@@ -54,6 +57,14 @@ class ResultCollection extends Collection
      */
     public function toArray(): array
     {
-        return array_values(parent::toArray());
+        return array_values(array_map(
+            function (Result $result) {
+                return array_merge(
+                    $result->toArray(),
+                    [$result->getScore($this->maxCommits(), $this->maxComplexity())]
+                );
+            },
+            $this->items
+        ));
     }
 }
