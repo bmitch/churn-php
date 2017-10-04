@@ -89,7 +89,7 @@ class FileManager
      */
     private function patternToRegex(string $filePattern): string
     {
-        $regex = preg_replace("#/(.*)\*$#", "/$1.+$", $filePattern);
+        $regex = preg_replace("#/(.*)\*([\w.]*)$#", "/$1.+$2$", $filePattern);
         return $regex;
     }
 }
