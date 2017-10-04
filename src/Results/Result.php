@@ -3,6 +3,7 @@
 namespace Churn\Results;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Webmozart\Assert\Assert;
 
 class Result implements Arrayable
 {
@@ -68,6 +69,9 @@ class Result implements Arrayable
      */
     public function getScore(int $maxCommits, int $maxComplexity): float
     {
+        Assert::greaterThan($maxComplexity, 0);
+        Assert::greaterThan($maxCommits, 0);
+
         /*
          * Calculate the horizontal and vertical distance from the "top right"
          * corner.
