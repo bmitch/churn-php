@@ -87,6 +87,10 @@ fileExtensions:
 
 If a `churn.yml` file is omitted or an individual setting is omitted the default values above will be used.
 
+## Tests
+* To run the PHPUnit tests execute `vendor/bin/phpunit`.
+* Before making a pull request please see the [contributing](#contributing) section below.
+
 ## Similar Packages
 * https://github.com/danmayer/churn (Ruby)
 * https://github.com/chad/turbulence (Ruby)
