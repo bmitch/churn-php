@@ -1,0 +1,18 @@
+{
+  "directories": ["src"],
+  "files": [
+    "churn",
+    "bootstrap.php",
+    "CyclomaticComplexityAssessorRunner"
+  ],
+  "finder": [
+    {
+      "name": "*.php",
+      "exclude": ["Tests"],
+      "in": "vendor"
+    }
+  ],
+  "main": "churn",
+  "output": "churn.phar",
+  "stub": true
+}
