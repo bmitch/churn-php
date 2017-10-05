@@ -20,7 +20,7 @@ script:
  - vendor/bin/phpmd src text codesize,unusedcode,naming
  - vendor/bin/phploc src
  - vendor/bin/phpcpd src
- - php churn run src
+ - php churn run
 
 after_success:
  - bash <(curl -s https://codecov.io/bash)
