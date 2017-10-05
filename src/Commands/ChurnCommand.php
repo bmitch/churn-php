@@ -10,6 +10,7 @@ use Churn\Managers\FileManager;
 use Churn\Results\ResultsParser;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -101,7 +102,7 @@ class ChurnCommand extends Command
         $this->startTime = microtime(true);
         $this->setupProcessor($input->getOption('configuration'));
 
-        $this->filesCollection = $this->getPhpFiles($input->getArgument('paths'));
+        $this->filesCollection = $this->getPhpFiles($this->getDirectoriesToScan($input));
         $this->filesCount = $this->filesCollection->count();
         $this->runningProcesses = new Collection;
         $this->completedProcessesArray = [];
@@ -189,5 +190,23 @@ class ChurnCommand extends Command
         $fileManager = new FileManager($this->config->getFileExtensions(), $this->config->getFilesToIgnore());
 
         return $fileManager->getPhpFiles($directory);
+    }
+
+    private function getDirectoriesToScan(InputInterface $input)
+    {
+        $directoriesProvidedAsArguments = $input->getArgument('paths');
+        if (count($directoriesProvidedAsArguments) > 0) {
+            return $directoriesProvidedAsArguments;
+        }
+
+        $directoriesConfigured = $this->config->getDirectoriesToScan();
+        if (count($directoriesConfigured) > 0) {
+            return $directoriesConfigured;
+        }
+
+        throw new \InvalidArgumentException(
+            'Provide the directories you want to scan as arguments, ' .
+            'or configure them under "directoriesToScan" in your churn.yml file.'
+        );
     }
 }
