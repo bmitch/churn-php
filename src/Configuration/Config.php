@@ -6,7 +6,7 @@ use Webmozart\Assert\Assert;
 
 class Config
 {
-
+    const DIRECTORIES_TO_SCAN = [];
     const FILES_TO_SHOW = 10;
     const MINIMUM_SCORE_TO_SHOW = 0;
     const AMOUNT_OF_PARALLEL_JOBS = 10;
@@ -50,6 +50,16 @@ class Config
         }
 
         $this->configuration = $configuration;
+    }
+
+    /**
+     * Get the names of directories to scan
+     *
+     * @return string[]
+     */
+    public function getDirectoriesToScan(): array
+    {
+        return $this->configuration['directoriesToScan'] ?? self::DIRECTORIES_TO_SCAN;
     }
 
     /**
@@ -112,12 +122,24 @@ class Config
      */
     private function validateConfigurationValues(array $configuration)
     {
+        $this->validateDirectoriesToScan($configuration);
         $this->validateFilesToShow($configuration);
         $this->validateMinScoreToShow($configuration);
         $this->validateParallelJobs($configuration);
         $this->validateCommitsSince($configuration);
         $this->validateFilesToIgnore($configuration);
         $this->validateFileExtensions($configuration);
+    }
+
+    /**
+     * @param array $configuration The array containing the configuration values.
+     * @return void
+     */
+    private function validateDirectoriesToScan(array $configuration)
+    {
+        if (array_key_exists('directoriesToScan', $configuration)) {
+            Assert::allString($configuration['directoriesToScan'], 'Directories to scan should be an array of strings');
+        }
     }
 
     /**
