@@ -45,10 +45,10 @@ class ProcessFactory
      */
     public function createCyclomaticComplexityProcess(File $file): ChurnProcess
     {
-        $rootFolder = __DIR__ . '/../../';
+        $script = $_SERVER['argv'][0];
 
         $process = new Process(
-            "php {$rootFolder}CyclomaticComplexityAssessorRunner {$file->getFullPath()}"
+            "php {$script} assess-complexity {$file->getFullPath()}"
         );
 
         return new ChurnProcess($file, $process, 'CyclomaticComplexityProcess');

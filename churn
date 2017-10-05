@@ -3,9 +3,11 @@
 
 require_once(__DIR__ . '/bootstrap.php');
 
+use Churn\Commands\AssessCyclomaticComplexity;
 use Churn\Commands\ChurnCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
 $application->add(new ChurnCommand);
+$application->add(new AssessCyclomaticComplexity());
 $application->run();
