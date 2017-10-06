@@ -9,6 +9,8 @@ php:
 before_script:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source --dev
+  # Install box (https://box-project.github.io/box2/)
+  - composer global require 'kherge/box=~2.4' --prefer-source
 
 script:
  - vendor/bin/parallel-lint src tests
@@ -22,5 +24,18 @@ script:
  - vendor/bin/phpcpd src
  - php churn run
 
+ # Install no-dev dependencies for boxing
+ - composer install --no-dev --optimize-autoloader
+ # Build churn.phar (to be deployed when releasing)
+ - ~/.composer/vendor/bin/box build
+
 after_success:
  - bash <(curl -s https://codecov.io/bash)
+
+deploy:
+  provider: releases
+  api_key:
+    secure: mh5hlQp2PyUpwVn+QH6pBtWy1GxykdmYKZ5mQJ22TqxJQWuI2+2Z+36OHt1Hhs8sBQoFmJcD//+P3t7Xz8ql1LgSGYfy23inPf5bjQBc6I4WcTZCFQ7VhBJ8dtNKAg/G0c1+4+5CKhby0Yujy/zZeKN36Xk47nWAGLc5OOWN8dCDP3/PS44dHurtTcMFfQlkuGuv80ow7+PuBM5BEAn8igk+DP+IwtPGrC/hWZcvkXCozpslvr3xYgLRIfXcud8pdxrD/+JmM8bRZMN0yf0HRW27w/NnwKrRRLPLtSqykpP9VwLRaiT++JRMk3xw2NFaC5/eE/XtCJpQZ1lDrbsz12AuPXJOBjwvUWRC0qQ5dh1AXJmgCdshALIRdjOsjMAAOnO0jd+MNmxYxu3kQxhtdfaykHYIRGKtE5bCZeaZdX60gBEtL3Q3TKEeZ97XC2k4trW26HPDVr5Xummw3tbKu2idny3l9pq1dsSqApwqiaz8ljZ2q9CNTzGrnxrA2VUbaklfIfElYPA/fVgBBae5BGgV+Q4HjLLY4mT8IyblrM8rqxU+bHgXZruMBzPK4JFOZLeyJKID/CCLItx8mB7LhcYbyp7Cx4CD/fKjXF6GpCPtlpmBGStc/zSTeeSMd7drvHJcIegqGirO2/czfssC27q99ZtHyx+qaEJQmz8vweE=
+  file: churn.phar
+  on:
+    repo: matthiasnoback/churn-php
