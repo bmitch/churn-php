@@ -44,4 +44,5 @@ deploy:
   file: churn.phar
   on:
     repo: matthiasnoback/churn-php
-    branch: feature/generate-a-phar
+    tags: true
+    all_branches: true
