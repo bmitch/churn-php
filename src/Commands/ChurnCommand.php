@@ -3,7 +3,6 @@
 namespace Churn\Commands;
 
 use Churn\Collections\FileCollection;
-use Churn\Results\Result;
 use Churn\Results\ResultCollection;
 use Illuminate\Support\Collection;
 use Churn\Factories\ProcessFactory;
@@ -150,19 +149,25 @@ class ChurnCommand extends Command
 
     /**
      * Displays the results in a table.
+     * @param  string           $format  Desired format.
      * @param  OutputInterface  $output  Output.
      * @param  ResultCollection $results Results Collection.
+     * @throws InvalidArgumentException When provided invalid output format.
      * @return void
      */
     protected function displayResults(string $format, OutputInterface $output, ResultCollection $results)
     {
         if ($format === self::FORMAT_JSON) {
             $this->displayResultsJson($output, $results);
-        } elseif ($format === self::FORMAT_TEXT) {
-            $this->displayResultsText($output, $results);
-        } else {
-            throw new \InvalidArgumentException('Invalid output format provided');
+            return;
         }
+
+        if ($format === self::FORMAT_TEXT) {
+            $this->displayResultsText($output, $results);
+            return;
+        }
+
+        throw new InvalidArgumentException('Invalid output format provided');
     }
 
     /**
@@ -187,8 +192,10 @@ class ChurnCommand extends Command
     }
 
     /**
-     * @param OutputInterface $output
-     * @param ResultCollection $results
+     * Display the Results in text format.
+     * @param OutputInterface  $output  Output Interface.
+     * @param ResultCollection $results Result Collection.
+     * @return void
      */
     private function displayResultsText(OutputInterface $output, ResultCollection $results)
     {
@@ -212,14 +219,20 @@ class ChurnCommand extends Command
             . " parallel jobs.\n\n";
     }
 
+    /**
+     * Display the results in JSON format.
+     * @param OutputInterface  $output  Output Interface.
+     * @param ResultCollection $results Result Collection.
+     * @return void
+     */
     private function displayResultsJson(OutputInterface $output, ResultCollection $results)
     {
-        $data = array_map(function(array $result) {
+        $data = array_map(function (array $result) {
             return [
                 'file' => $result[0],
                 'commits' => $result[1],
                 'complexity' => $result[2],
-                'score' => $result[3]
+                'score' => $result[3],
             ];
         }, $results->toArray());
 

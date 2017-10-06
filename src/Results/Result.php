@@ -65,7 +65,10 @@ class Result implements Arrayable
 
     /**
      * Calculate the score.
+     * @param int $maxCommits    The highest number of commits out of any file scanned.
+     * @param int $maxComplexity The maximum complexity out of any file scanned.
      * @return float
+     * @codingStandardsIgnoreStart
      */
     public function getScore(int $maxCommits, int $maxComplexity): float
     {
@@ -101,6 +104,7 @@ class Result implements Arrayable
          * subtracting it from 1.
          */
         return 1 - $distanceFromTopRightCorner;
+        // @codingStandardsIgnoreEnd
     }
 
     /**
@@ -112,7 +116,7 @@ class Result implements Arrayable
         return [
             $this->getFile(),
             $this->getCommits(),
-            $this->getComplexity()
+            $this->getComplexity(),
         ];
     }
 }
