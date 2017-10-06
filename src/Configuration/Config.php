@@ -8,7 +8,7 @@ class Config
 {
     const DIRECTORIES_TO_SCAN = [];
     const FILES_TO_SHOW = 10;
-    const MINIMUM_SCORE_TO_SHOW = 0;
+    const MINIMUM_SCORE_TO_SHOW = 0.1;
     const AMOUNT_OF_PARALLEL_JOBS = 10;
     const SHOW_COMMITS_SINCE = '10 years ago';
     const FILES_TO_IGNORE = [];
@@ -73,9 +73,9 @@ class Config
 
     /**
      * Get the minimum score a file need to display.
-     * @return integer
+     * @return float
      */
-    public function getMinScoreToShow(): int
+    public function getMinScoreToShow(): float
     {
         return $this->configuration['minScoreToShow'] ?? self::MINIMUM_SCORE_TO_SHOW;
     }
@@ -160,7 +160,7 @@ class Config
     private function validateMinScoreToShow(array $configuration)
     {
         if (array_key_exists('minScoreToShow', $configuration)) {
-            Assert::integer($configuration['minScoreToShow'], 'Minimum score to show should be an integer');
+            Assert::numeric($configuration['minScoreToShow'], 'Minimum score to show should be a number');
         }
     }
 

@@ -47,8 +47,7 @@ class ResultsParserTest extends BaseTestCase
         $this->assertCount(1, $parsedResults);
         $this->assertSame('foo/bar/baz.php', $parsedResults[0]->getFile());
         $this->assertSame(3, $parsedResults[0]->getCommits());
-        $this->assertSame(7, $parsedResults[0]->getScore());
-        $this->assertSame(['foo/bar/baz.php', 3, 4, 7], $parsedResults[0]->toArray());
+        $this->assertSame(['foo/bar/baz.php', 3, 4], $parsedResults[0]->toArray());
     }
 
     /** @test **/
@@ -77,7 +76,6 @@ class ResultsParserTest extends BaseTestCase
         $this->assertCount(1, $parsedResults);
         $this->assertSame('foo/bar/baz.php', $parsedResults[0]->getFile());
         $this->assertSame(0, $parsedResults[0]->getCommits());
-        $this->assertSame(4, $parsedResults[0]->getScore());
-        $this->assertSame(['foo/bar/baz.php', 0, 4, 4], $parsedResults[0]->toArray());
+        $this->assertSame(['foo/bar/baz.php', 0, 4], $parsedResults[0]->toArray());
     }
 }
