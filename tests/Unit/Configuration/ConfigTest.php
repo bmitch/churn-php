@@ -31,6 +31,7 @@ class ConfigTest extends BaseTestCase
     public function it_can_return_its_default_values_when_instantiated_without_any_parameters()
     {
         $config = Config::createFromDefaultValues();
+        $this->assertSame(Config::DIRECTORIES_TO_SCAN, $config->getDirectoriesToScan());
         $this->assertSame(Config::FILES_TO_SHOW, $config->getFilesToShow());
         $this->assertSame(Config::MINIMUM_SCORE_TO_SHOW, $config->getMinScoreToShow());
         $this->assertSame(Config::AMOUNT_OF_PARALLEL_JOBS, $config->getParallelJobs());
@@ -44,6 +45,7 @@ class ConfigTest extends BaseTestCase
     {
         $filesToShow = 13;
 
+        $directoriesToScan = ['src', 'tests'];
         $minScoreToShow = 5;
         $parallelJobs = 7;
         $commitsSince = '4 years ago';
@@ -51,6 +53,7 @@ class ConfigTest extends BaseTestCase
         $fileExtensions = ['php', 'inc'];
 
         $config = Config::create([
+            'directoriesToScan' => $directoriesToScan,
             'filesToShow' => $filesToShow,
             'minScoreToShow' => $minScoreToShow,
             'parallelJobs' => $parallelJobs,
@@ -59,6 +62,7 @@ class ConfigTest extends BaseTestCase
             'fileExtensions' => $fileExtensions,
         ]);
 
+        $this->assertSame($directoriesToScan, $config->getDirectoriesToScan());
         $this->assertSame($filesToShow, $config->getFilesToShow());
         $this->assertEquals($minScoreToShow, $config->getMinScoreToShow());
         $this->assertSame($parallelJobs, $config->getParallelJobs());

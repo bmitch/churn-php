@@ -50,7 +50,14 @@ vendor/bin/churn run src tests
 ```
 
 ## How to Configure?
-You may add an optional `churn.yml` file to the root of your project which can be used to configure churn-php. A sample `churn.yml` file looks like:
+You may add an optional `churn.yml` file which can be used to configure churn-php. The location of the churn.yml file can be customized using these commands:
+
+```
+Default: "churn.yml" 
+vendor/bin/churn run -c <path>
+vendor/bin/churn run --configuration[=CONFIGURATION] <path>
+```
+A sample `churn.yml` file looks like:
 
 ```yml
 # The maximum number of files to display in the results table.
@@ -86,6 +93,10 @@ fileExtensions:
  ```
 
 If a `churn.yml` file is omitted or an individual setting is omitted the default values above will be used.
+
+## Tests
+* To run the PHPUnit tests execute `vendor/bin/phpunit`.
+* Before making a pull request please see the [contributing](#contributing) section below.
 
 ## Similar Packages
 * https://github.com/danmayer/churn (Ruby)

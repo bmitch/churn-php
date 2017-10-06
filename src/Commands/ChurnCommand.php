@@ -17,6 +17,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Churn\Configuration\Config;
 use Symfony\Component\Yaml\Yaml;
+use InvalidArgumentException;
 
 class ChurnCommand extends Command
 {
@@ -106,7 +107,7 @@ class ChurnCommand extends Command
         $this->startTime = microtime(true);
         $this->setupProcessor($input->getOption('configuration'));
 
-        $this->filesCollection = $this->getPhpFiles($input->getArgument('paths'));
+        $this->filesCollection = $this->getPhpFiles($this->getDirectoriesToScan($input));
         $this->filesCount = $this->filesCollection->count();
         $this->runningProcesses = new Collection;
         $this->completedProcessesArray = [];
@@ -223,5 +224,29 @@ class ChurnCommand extends Command
         }, $results->toArray());
 
         $output->write(json_encode($data));
+    }
+
+    /**
+     * Get the directories to scan.
+     * @param InputInterface $input Input Interface.
+     * @throws InvalidArgumentException When no directories to scan found.
+     * @return array
+     */
+    private function getDirectoriesToScan(InputInterface $input): array
+    {
+        $dirsProvidedAsArgs = $input->getArgument('paths');
+        if (count($dirsProvidedAsArgs) > 0) {
+            return $dirsProvidedAsArgs;
+        }
+
+        $dirsConfigured = $this->config->getDirectoriesToScan();
+        if (count($dirsConfigured) > 0) {
+            return $dirsConfigured;
+        }
+
+        throw new InvalidArgumentException(
+            'Provide the directories you want to scan as arguments, ' .
+            'or configure them under "directoriesToScan" in your churn.yml file.'
+        );
     }
 }

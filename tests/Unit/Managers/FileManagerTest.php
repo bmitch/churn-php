@@ -74,6 +74,9 @@ class FileManagerTest extends BaseTestCase
 
         $fileManager = new FileManager(['php', 'inc'], ['Assets2/DeepAssets/Di*', 'Assets2/DeepAssets/De*', 'Assets2/F*']);
         $this->assertCount(1, $fileManager->getPhpFiles([__DIR__ . '/../Assets2']));
+
+        $fileManager = new FileManager(['php', 'inc'], ['Assets2/*.php']);
+        $this->assertCount(1, $fileManager->getPhpFiles([__DIR__ . '/../Assets2']));
     }
 
     /** @test **/
