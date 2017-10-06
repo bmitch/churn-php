@@ -214,7 +214,7 @@ class ChurnCommand extends Command
 
     private function displayResultsJson(OutputInterface $output, ResultCollection $results)
     {
-        $data = array_map(function(array $result) {
+        $data = array_map(function (array $result) {
             return [
                 'file' => $result[0],
                 'commits' => $result[1],
