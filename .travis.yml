@@ -36,6 +36,7 @@ script:
 after_success:
  - bash <(curl -s https://codecov.io/bash)
 
+# TODO provide the right API key, repo and branch before merging
 deploy:
   provider: releases
   api_key:
@@ -43,3 +44,4 @@ deploy:
   file: churn.phar
   on:
     repo: matthiasnoback/churn-php
+    branch: feature/generate-a-phar
