@@ -4,3 +4,4 @@ docs
 vendor
 coverage.xml
 .idea
+churn.phar
