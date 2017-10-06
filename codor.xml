@@ -8,6 +8,11 @@
             <property name="indentationLimit" value="3"/>
         </properties>
     </rule>
+    <rule ref="Codor.Classes.ClassLength">
+        <properties>
+            <property name="maxLength" value="203"/>
+        </properties>
+    </rule>
 
     <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
         <exclude name="SlevomatCodingStandard.ControlStructures.AssignmentInCondition"/>
