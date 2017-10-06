@@ -53,7 +53,7 @@
             "vendor/bin/phpcs --standard=psr2 src -spn",
             "vendor/bin/phpcs --standard=phpcs.xml src -spn",
             "vendor/bin/phpcs --standard=codor.xml src -spn",
-            "vendor/bin/phpmd src text codesize,unusedcode,naming",
+            "vendor/bin/phpmd src text codesize,unusedcode",
             "vendor/bin/phploc src",
             "vendor/bin/phpcpd src",
             "vendor/bin/phpunit --debug --coverage-clover=coverage.xml",

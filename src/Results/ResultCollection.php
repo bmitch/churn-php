@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Churn\Results;
 
@@ -36,6 +36,10 @@ class ResultCollection extends Collection
             ->take($config->getFilesToShow());
     }
 
+    /**
+     * Get the highest number of commits.
+     * @return integer
+     */
     public function maxCommits(): int
     {
         return $this->max(function (Result $result) {
@@ -43,6 +47,10 @@ class ResultCollection extends Collection
         });
     }
 
+    /**
+     * Get the highest complexity.
+     * @return integer
+     */
     public function maxComplexity(): int
     {
         return $this->max(function (Result $result) {
