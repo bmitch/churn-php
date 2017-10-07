@@ -1,8 +1,8 @@
 <?php
 
-if (is_file($autoload = __DIR__.'/vendor/autoload.php')) {
+if (is_file($autoload = __DIR__ . '/../vendor/autoload.php')) {
     require_once($autoload);
-} elseif (is_file($autoload = __DIR__ . '/../../autoload.php')) {
+} elseif (is_file($autoload = __DIR__ . '/../../../autoload.php')) {
     require_once($autoload);
 } else {
     fwrite(STDERR,
