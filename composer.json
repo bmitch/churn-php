@@ -48,16 +48,22 @@
         }
     },
     "scripts": {
-        "test": [
+        "test-common": [
             "vendor/bin/parallel-lint src tests",
-            "vendor/bin/phpcs --standard=psr2 src -spn",
-            "vendor/bin/phpcs --standard=phpcs.xml src -spn",
-            "vendor/bin/phpcs --standard=codor.xml src -spn",
             "vendor/bin/phpmd src text codesize,unusedcode",
             "vendor/bin/phploc src",
             "vendor/bin/phpcpd src",
             "vendor/bin/phpunit --debug --coverage-clover=coverage.xml",
             "php bin/churn run src"
+        ],
+        "test-ci": [
+            "@test-common"
+        ],
+        "test": [
+            "@test-common",
+            "vendor/bin/phpcs --standard=psr2 src -spn",
+            "vendor/bin/phpcs --standard=phpcs.xml src -spn",
+            "vendor/bin/phpcs --standard=codor.xml src -spn"
         ],
         "fix": [
             "vendor/bin/phpcbf -n --standard=phpcs.xml src/",
