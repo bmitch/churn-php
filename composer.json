@@ -14,7 +14,7 @@
         }
     ],
     "bin": [
-        "churn"
+        "bin/churn"
     ],
     "require": {
         "php": "^7.0",
@@ -57,7 +57,7 @@
             "vendor/bin/phploc src",
             "vendor/bin/phpcpd src",
             "vendor/bin/phpunit --debug --coverage-clover=coverage.xml",
-            "php churn run src"
+            "php bin/churn run src"
         ],
         "fix": [
             "vendor/bin/phpcbf -n --standard=phpcs.xml src/",
