@@ -35,7 +35,9 @@ A file that changes a lot and has a high complexity might be a better candidate 
 ## Compatibility ##
 * PHP 7+
 * Currently does not work on Windows command line. See [#71](https://github.com/bmitch/churn-php/issues/71) for more details.
-* Your project is using git for version control.
+* Your project uses Git as version control system.
+
+If you want to use `churn-php` in Symfony project, your Symfony components version must be 3.3 or higher.
 
 ## How to Install? ##
 Install via Composer:
