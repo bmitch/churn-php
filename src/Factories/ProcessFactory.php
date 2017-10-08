@@ -2,7 +2,6 @@
 
 namespace Churn\Factories;
 
-use Churn\Configuration\Config;
 use Churn\Processes\ChurnProcess;
 use Churn\Values\File;
 use Symfony\Component\Process\Process;
@@ -10,18 +9,18 @@ use Symfony\Component\Process\Process;
 class ProcessFactory
 {
     /**
-     * The config values.
-     * @var Config
+     * String containing the date of when to look at commits since.
+     * @var string
      */
-    private $config;
+    private $commitsSince;
 
     /**
      * ProcessFactory constructor.
-     * @param Config $config Configuration Settings.
+     * @param string $commitsSince String containing the date of when to look at commits since.
      */
-    public function __construct(Config $config)
+    public function __construct(string $commitsSince)
     {
-        $this->config = $config;
+        $this->commitsSince = $commitsSince;
     }
 
     /**
@@ -32,7 +31,7 @@ class ProcessFactory
     public function createGitCommitProcess(File $file): ChurnProcess
     {
         $process = new Process(
-            'git -C ' . getcwd() . " log --since=\"" . $this->config->getCommitsSince() . "\"  --name-only --pretty=format: " . $file->getFullPath(). " | sort | uniq -c | sort -nr"
+            'git -C ' . getcwd() . " log --since=\"" . $this->commitsSince . "\"  --name-only --pretty=format: " . $file->getFullPath(). " | sort | uniq -c | sort -nr"
         );
 
         return new ChurnProcess($file, $process, 'GitCommitProcess');

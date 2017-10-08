@@ -2,14 +2,12 @@
 
 namespace Churn\Commands;
 
-use Churn\Collections\FileCollection;
-use Churn\Results\ResultCollection;
-use Illuminate\Support\Collection;
+use Churn\Factories\ResultsRendererFactory;
+use Churn\Logic\ResultsLogic;
+use Churn\Managers\ProcessManager;
 use Churn\Factories\ProcessFactory;
 use Churn\Managers\FileManager;
-use Churn\Results\ResultsParser;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -20,65 +18,36 @@ use InvalidArgumentException;
 
 class ChurnCommand extends Command
 {
-    const FORMAT_JSON = 'json';
-    const FORMAT_TEXT = 'text';
+    /**
+     * The results logic.
+     * @var ResultsLogic
+     */
+    private $resultsLogic;
 
     /**
-     * The config values.
-     * @var Config
+     * The process manager.
+     * @var ProcessManager
      */
-    private $config;
+    private $processManager;
 
     /**
-     * The process factory.
-     * @var ProcessFactory
+     * The renderer factory.
+     * @var ResultsRendererFactory
      */
-    private $processFactory;
-
-    /**
-     * Th results parser.
-     * @var ResultsParser
-     */
-    private $resultsParser;
-
-    /**
-     * Collection of files to run the processes on.
-     * @var FileCollection
-     */
-    private $filesCollection;
-
-    /**
-     * Collection of processes currently running.
-     * @var Collection
-     */
-    private $runningProcesses;
-
-    /**
-     * Array of completed processes.
-     * @var array
-     */
-    private $completedProcessesArray;
-
-    /**
-     * The start time.
-     * @var float
-     */
-    private $startTime;
-
-    /**
-     * Keeps track of how many files were processed.
-     * @var integer
-     */
-    private $filesCount;
+    private $renderer;
 
     /**
      * ChurnCommand constructor.
+     * @param ResultsLogic           $resultsLogic   The results logic.
+     * @param ProcessManager         $processManager The process manager.
+     * @param ResultsRendererFactory $renderer       The Results Renderer.
      */
-    public function __construct()
+    public function __construct(ResultsLogic $resultsLogic, ProcessManager $processManager, ResultsRendererFactory $renderer)
     {
         parent::__construct();
-
-        $this->resultsParser = new ResultsParser();
+        $this->resultsLogic = $resultsLogic;
+        $this->processManager = $processManager;
+        $this->renderer = $renderer;
     }
 
     /**
@@ -103,156 +72,34 @@ class ChurnCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->startTime = microtime(true);
-        $this->setupProcessor($input->getOption('configuration'));
+        $config = Config::create(Yaml::parse(@file_get_contents($input->getOption('configuration'))) ?? []);
 
-        $this->filesCollection = $this->getPhpFiles($this->getDirectoriesToScan($input));
-        $this->filesCount = $this->filesCollection->count();
-        $this->runningProcesses = new Collection;
-        $this->completedProcessesArray = [];
-        while ($this->filesCollection->hasFiles() || $this->runningProcesses->count()) {
-            $this->getProcessResults();
-        }
-        $completedProcesses = new Collection($this->completedProcessesArray);
+        $filesCollection = (new FileManager($config->getFileExtensions(), $config->getFilesToIgnore()))->getPhpFiles($this->getDirectoriesToScan($input, $config->getDirectoriesToScan()));
 
-        $results = $this->resultsParser
-            ->parse($completedProcesses)
-            ->normalizeAgainst($this->config);
-        $this->displayResults($input->getOption('format'), $output, $results);
-    }
+        $completedProcesses = $this->processManager->process(
+            $filesCollection,
+            new ProcessFactory($config->getCommitsSince()),
+            $config->getParallelJobs()
+        );
 
-    /**
-     * Gets the output from processes and stores them in the completedProcessArray member.
-     * @return void
-     */
-    private function getProcessResults()
-    {
-        for ($index = $this->runningProcesses->count(); $this->filesCollection->hasFiles() > 0 && $index < $this->config->getParallelJobs(); $index++) {
-            $file = $this->filesCollection->getNextFile();
-
-            $process = $this->processFactory->createGitCommitProcess($file);
-            $process->start();
-            $this->runningProcesses->put($process->getKey(), $process);
-
-            $process = $this->processFactory->createCyclomaticComplexityProcess($file);
-            $process->start();
-            $this->runningProcesses->put($process->getKey(), $process);
-        }
-
-        foreach ($this->runningProcesses as $file => $process) {
-            if ($process->isSuccessful()) {
-                $this->runningProcesses->forget($process->getKey());
-                $this->completedProcessesArray[$process->getFileName()][$process->getType()] = $process;
-            }
-        }
-    }
-
-    /**
-     * Displays the results in a table.
-     * @param  string           $format  Desired format.
-     * @param  OutputInterface  $output  Output.
-     * @param  ResultCollection $results Results Collection.
-     * @throws InvalidArgumentException When provided invalid output format.
-     * @return void
-     */
-    protected function displayResults(string $format, OutputInterface $output, ResultCollection $results)
-    {
-        if ($format === self::FORMAT_JSON) {
-            $this->displayResultsJson($output, $results);
-            return;
-        }
-
-        if ($format === self::FORMAT_TEXT) {
-            $this->displayResultsText($output, $results);
-            return;
-        }
-
-        throw new InvalidArgumentException('Invalid output format provided');
-    }
-
-    /**
-     * @param string $configFile Relative path churn.yml configuration file.
-     * @return void
-     */
-    private function setupProcessor(string $configFile)
-    {
-        $this->config = Config::create(Yaml::parse(@file_get_contents($configFile)) ?? []);
-        $this->processFactory = new ProcessFactory($this->config);
-    }
-
-    /**
-     * @param array $directory Directories.
-     * @return FileCollection
-     */
-    private function getPhpFiles(array $directory): FileCollection
-    {
-        $fileManager = new FileManager($this->config->getFileExtensions(), $this->config->getFilesToIgnore());
-
-        return $fileManager->getPhpFiles($directory);
-    }
-
-    /**
-     * Display the Results in text format.
-     * @param OutputInterface  $output  Output Interface.
-     * @param ResultCollection $results Result Collection.
-     * @return void
-     */
-    private function displayResultsText(OutputInterface $output, ResultCollection $results)
-    {
-        $totalTime = microtime(true) - $this->startTime;
-        echo "\n
-    ___  _   _  __  __  ____  _  _     ____  _   _  ____
-   / __)( )_( )(  )(  )(  _ \( \( )___(  _ \( )_( )(  _ \
-  ( (__  ) _ (  )(__)(  )   / )  ((___))___/ ) _ (  )___/
-   \___)(_) (_)(______)(_)\_)(_)\_)   (__)  (_) (_)(__)      https://github.com/bmitch/churn-php\n\n";
-
-        $table = new Table($output);
-        $table->setHeaders(['File', 'Times Changed', 'Complexity', 'Score']);
-        $table->addRows($results->toArray());
-
-        $table->render();
-
-        echo "  "
-            . $this->filesCount
-            . " files analysed in {$totalTime} seconds using "
-            . $this->config->getParallelJobs()
-            . " parallel jobs.\n\n";
-    }
-
-    /**
-     * Display the results in JSON format.
-     * @param OutputInterface  $output  Output Interface.
-     * @param ResultCollection $results Result Collection.
-     * @return void
-     */
-    private function displayResultsJson(OutputInterface $output, ResultCollection $results)
-    {
-        $data = array_map(function (array $result) {
-            return [
-                'file' => $result[0],
-                'commits' => $result[1],
-                'complexity' => $result[2],
-                'score' => $result[3],
-            ];
-        }, $results->toArray());
-
-        $output->write(json_encode($data));
+        $resultCollection = $this->resultsLogic->process($completedProcesses, $config->getMinScoreToShow(), $config->getFilesToShow());
+        $this->renderer->renderResults($input->getOption('format'), $output, $resultCollection);
     }
 
     /**
      * Get the directories to scan.
-     * @param InputInterface $input Input Interface.
-     * @throws InvalidArgumentException When no directories to scan found.
-     * @return array
+     * @param InputInterface $input          Input Interface.
+     * @param array          $dirsConfigured The directories configured to scan.
+     * @throws InvalidArgumentException If paths argument invalid.
+     * @return array When no directories to scan found.
      */
-    private function getDirectoriesToScan(InputInterface $input): array
+    private function getDirectoriesToScan(InputInterface $input, array $dirsConfigured): array
     {
         $dirsProvidedAsArgs = $input->getArgument('paths');
         if (count($dirsProvidedAsArgs) > 0) {
             return $dirsProvidedAsArgs;
         }
 
-        $dirsConfigured = $this->config->getDirectoriesToScan();
         if (count($dirsConfigured) > 0) {
             return $dirsConfigured;
         }
