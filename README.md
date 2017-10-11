@@ -52,6 +52,12 @@ vendor/bin/churn run src
 vendor/bin/churn run src tests
 ```
 
+You can also use churn-php via [Docker](https://www.docker.com/what-docker):
+
+```
+docker run --rm -ti -v $(PWD):/app dockerizedphp/churn run src
+```
+
 ## How to Configure?
 You may add an optional `churn.yml` file which can be used to configure churn-php. The location of the churn.yml file can be customized using these commands:
 
