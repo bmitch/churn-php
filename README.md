@@ -55,7 +55,7 @@ vendor/bin/churn run src tests
 You can also use churn-php via [Docker](https://www.docker.com/what-docker):
 
 ```
-docker run --rm -ti -v $(PWD):/app dockerizedphp/churn run src
+docker run --rm -ti -v $PWD:/app dockerizedphp/churn run src
 ```
 
 ## How to Configure?
