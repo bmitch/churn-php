@@ -20,7 +20,7 @@ class CyclomaticComplexityAssessor
         $this->score = 0;
 
         $contents = $this->getFileContents($filePath);
-        $this->countTheMethods($contents);
+        $this->hasAtLeastOneMethod($contents);
         $this->countTheIfStatements($contents);
         $this->countTheElseIfStatements($contents);
         $this->countTheWhileLoops($contents);
@@ -37,11 +37,11 @@ class CyclomaticComplexityAssessor
     }
 
     /**
-     * Count how many methods there are.
+     * Does the class have at least one method?
      * @param  string $contents File contents.
      * @return void
      */
-    protected function countTheMethods(string $contents)
+    protected function hasAtLeastOneMethod(string $contents)
     {
         preg_match("/[ ]function[ ]/", $contents, $matches);
         if (isset($matches[0])) {
