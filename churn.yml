@@ -1,0 +1,3 @@
+# The minimum score a file need to display in the results table.
+# Default: 0
+minScoreToShow: 0

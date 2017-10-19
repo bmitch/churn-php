@@ -3,9 +3,14 @@
 
 require_once(__DIR__ . '/bootstrap.php');
 
+use Churn\Commands\ChurnCommandOld;
 use Churn\Commands\ChurnCommand;
 use Symfony\Component\Console\Application;
+use DI\ContainerBuilder;
+
+$container = ContainerBuilder::buildDevContainer();
 
 $application = new Application();
-$application->add(new ChurnCommand);
+//$application->add($container->get(ChurnCommandOld::class));
+$application->add($container->get(ChurnCommand::class));
 $application->run();

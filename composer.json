@@ -22,7 +22,8 @@
         "tightenco/collect": "^5.4",
         "symfony/process": "^3.2",
         "symfony/yaml": "^3.3",
-        "webmozart/assert": "^1.2"
+        "webmozart/assert": "^1.2",
+        "php-di/php-di": "^5.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7",
