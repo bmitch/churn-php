@@ -1,5 +1,73 @@
 # Change Log
 
+## [Unreleased](https://github.com/bmitch/churn-php/tree/HEAD)
+
+[Full Changelog](https://github.com/bmitch/churn-php/compare/0.3.1...HEAD)
+
+**Implemented enhancements:**
+
+- \[Config\] Use regex in files to ignore [\#58](https://github.com/bmitch/churn-php/issues/58)
+
+**Closed issues:**
+
+- We get linear scores [\#149](https://github.com/bmitch/churn-php/issues/149)
+- Possible problem in cyclomatic complexity calculation [\#148](https://github.com/bmitch/churn-php/issues/148)
+- Unable to install for symfony 3.1.10 project [\#137](https://github.com/bmitch/churn-php/issues/137)
+- New screenshot featuring new scoring method [\#136](https://github.com/bmitch/churn-php/issues/136)
+- Fix broken build [\#130](https://github.com/bmitch/churn-php/issues/130)
+- Enable PDS compliance [\#128](https://github.com/bmitch/churn-php/issues/128)
+- Add a "downloads" badge with the other badges. [\#118](https://github.com/bmitch/churn-php/issues/118)
+- Update readme to reflect new configuration location option. [\#117](https://github.com/bmitch/churn-php/issues/117)
+- New screenshot [\#115](https://github.com/bmitch/churn-php/issues/115)
+- Bug in FileManager - regex to ignore files? [\#113](https://github.com/bmitch/churn-php/issues/113)
+- Update readme with new ability from \#110 [\#111](https://github.com/bmitch/churn-php/issues/111)
+- Option to define where the config file `churn.yml` lives [\#108](https://github.com/bmitch/churn-php/issues/108)
+- Enhance readme / documentation [\#104](https://github.com/bmitch/churn-php/issues/104)
+- Suggestion to change the scoring [\#97](https://github.com/bmitch/churn-php/issues/97)
+- Make multiple paths \(\#72\) something that be configured in churn.yml [\#76](https://github.com/bmitch/churn-php/issues/76)
+
+**Merged pull requests:**
+
+- Big refactor [\#151](https://github.com/bmitch/churn-php/pull/151) ([bmitch](https://github.com/bmitch))
+- Fixes \#148 - better method name [\#150](https://github.com/bmitch/churn-php/pull/150) ([bmitch](https://github.com/bmitch))
+- Add Docker section to README.md [\#147](https://github.com/bmitch/churn-php/pull/147) ([tommy-muehle](https://github.com/tommy-muehle))
+- Discovered compatability issue [\#145](https://github.com/bmitch/churn-php/pull/145) ([metamaker](https://github.com/metamaker))
+- Added donate badge [\#144](https://github.com/bmitch/churn-php/pull/144) ([bmitch](https://github.com/bmitch))
+- churn.yml file not needed [\#143](https://github.com/bmitch/churn-php/pull/143) ([bmitch](https://github.com/bmitch))
+- Keep releases lean [\#142](https://github.com/bmitch/churn-php/pull/142) ([raphaelstolt](https://github.com/raphaelstolt))
+- Update screenshot [\#141](https://github.com/bmitch/churn-php/pull/141) ([bmitch](https://github.com/bmitch))
+- Utilise Composer scripts also for builds [\#140](https://github.com/bmitch/churn-php/pull/140) ([raphaelstolt](https://github.com/raphaelstolt))
+- Enable PDS compliance [\#139](https://github.com/bmitch/churn-php/pull/139) ([raphaelstolt](https://github.com/raphaelstolt))
+- Update the screenshot on the README.md to show new scores [\#138](https://github.com/bmitch/churn-php/pull/138) ([dhdutoit](https://github.com/dhdutoit))
+- \[MRG\] New screenshot [\#135](https://github.com/bmitch/churn-php/pull/135) ([vrishank97](https://github.com/vrishank97))
+- Get build back to green [\#134](https://github.com/bmitch/churn-php/pull/134) ([bmitch](https://github.com/bmitch))
+- Fixes \#130 - Fix broken build [\#131](https://github.com/bmitch/churn-php/pull/131) ([bmitch](https://github.com/bmitch))
+- Feature/configure paths in churn yml [\#125](https://github.com/bmitch/churn-php/pull/125) ([matthiasnoback](https://github.com/matthiasnoback))
+- Add new configuration location option. [\#124](https://github.com/bmitch/churn-php/pull/124) ([tulikavijay](https://github.com/tulikavijay))
+- Update README.md [\#123](https://github.com/bmitch/churn-php/pull/123) ([bmitch](https://github.com/bmitch))
+- Improved scoring [\#122](https://github.com/bmitch/churn-php/pull/122) ([matthiasnoback](https://github.com/matthiasnoback))
+- Feature/113 file manager regex [\#121](https://github.com/bmitch/churn-php/pull/121) ([bearzk](https://github.com/bearzk))
+- Update README.md [\#119](https://github.com/bmitch/churn-php/pull/119) ([campionfellin](https://github.com/campionfellin))
+- Update README.md [\#116](https://github.com/bmitch/churn-php/pull/116) ([bmitch](https://github.com/bmitch))
+- Update README.md [\#114](https://github.com/bmitch/churn-php/pull/114) ([bmitch](https://github.com/bmitch))
+- Fixes \#111 - update readme to show how ignore regex works [\#112](https://github.com/bmitch/churn-php/pull/112) ([bmitch](https://github.com/bmitch))
+- Feature/58 regex ignore [\#110](https://github.com/bmitch/churn-php/pull/110) ([bearzk](https://github.com/bearzk))
+- Introduce -c option custom churn.yml file [\#109](https://github.com/bmitch/churn-php/pull/109) ([Douglasdc3](https://github.com/Douglasdc3))
+
+## [0.3.1](https://github.com/bmitch/churn-php/tree/0.3.1) (2017-09-29)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/0.3.0...0.3.1)
+
+**Implemented enhancements:**
+
+- Validate data being used to create config class [\#54](https://github.com/bmitch/churn-php/issues/54)
+
+**Merged pull requests:**
+
+- Added test section on readme [\#107](https://github.com/bmitch/churn-php/pull/107) ([bmitch](https://github.com/bmitch))
+- Make it possible to run from global install [\#106](https://github.com/bmitch/churn-php/pull/106) ([olyckne](https://github.com/olyckne))
+- Update README.md [\#105](https://github.com/bmitch/churn-php/pull/105) ([bmitch](https://github.com/bmitch))
+- updated changelog after 0.3.0 release [\#103](https://github.com/bmitch/churn-php/pull/103) ([bmitch](https://github.com/bmitch))
+
 ## [0.3.0](https://github.com/bmitch/churn-php/tree/0.3.0) (2017-09-26)
 [Full Changelog](https://github.com/bmitch/churn-php/compare/0.2.0...0.3.0)
 
