@@ -59,6 +59,38 @@ class ResultCollectionTest extends BaseTestCase
         $this->assertEquals(gettype($this->resultCollection->toArray()[0]), 'array');
     }
 
+    /** @test */
+    public function it_can_be_filtered_by_its_score()
+    {
+        $maxCommits = 10;
+        $maxComplexity = 10;
+
+        $maxScore = $this->resultCollection
+            ->reduce(function ($carry, $item) use ($maxCommits, $maxComplexity) {
+                $currentItemScore = $item->getScore($maxCommits, $maxComplexity);
+                return $carry > $currentItemScore ? $carry : $currentItemScore;
+            }, 0.0);
+
+        $minScore = $this->resultCollection
+            ->reduce(function ($carry, $item) use ($maxCommits, $maxComplexity) {
+                $currentItemScore = $item->getScore($maxCommits, $maxComplexity);
+                return $carry < $currentItemScore ? $carry : $currentItemScore;
+            }, 0.0);
+
+        $maxScoredItems = $this->resultCollection
+            ->filter(function ($item, $key) use ($maxCommits, $maxComplexity, $maxScore) {
+                return $item->getScore($maxCommits, $maxComplexity) === $maxScore;
+            });
+
+        $minScoredItems = $this->resultCollection
+            ->filter(function ($item, $key) use ($maxCommits, $maxComplexity, $minScore) {
+                return $item->getScore($maxCommits, $maxComplexity) === $minScore;
+            });
+
+        $this->assertEquals($maxScoredItems, $this->resultCollection->whereScoreAbove($maxScore));
+        $this->assertNotEquals($minScoredItems, $this->resultCollection->whereScoreAbove($maxScore));
+    }
+
     private function assertResultsAre(array $expectedFileNames, ResultCollection $collection)
     {
         $actualFileNames = array_map(function (array $data) {
