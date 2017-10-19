@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/bmitch/churn-php/tree/HEAD)
-
-[Full Changelog](https://github.com/bmitch/churn-php/compare/0.3.1...HEAD)
+## [0.4.0](https://github.com/bmitch/churn-php/tree/0.4.0) (2017-10-19)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/0.3.1...0.4.0)
 
 **Implemented enhancements:**
 
@@ -28,6 +27,7 @@
 
 **Merged pull requests:**
 
+- Changelog update [\#152](https://github.com/bmitch/churn-php/pull/152) ([bmitch](https://github.com/bmitch))
 - Big refactor [\#151](https://github.com/bmitch/churn-php/pull/151) ([bmitch](https://github.com/bmitch))
 - Fixes \#148 - better method name [\#150](https://github.com/bmitch/churn-php/pull/150) ([bmitch](https://github.com/bmitch))
 - Add Docker section to README.md [\#147](https://github.com/bmitch/churn-php/pull/147) ([tommy-muehle](https://github.com/tommy-muehle))
