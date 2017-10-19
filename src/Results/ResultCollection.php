@@ -2,7 +2,6 @@
 
 namespace Churn\Results;
 
-use Churn\Configuration\Config;
 use Illuminate\Support\Collection;
 
 class ResultCollection extends Collection
@@ -19,21 +18,15 @@ class ResultCollection extends Collection
     }
 
     /**
-     * Normalize results against config.
-     * @param  Config $config Config settings.
-     * @return self
+     * Filter the results where their score is >= the provided $score
+     * @param float $score Score to filter by.
+     * @return static
      */
-    public function normalizeAgainst(Config $config): self
+    public function whereScoreAbove(float $score)
     {
-        $minScore = $config->getMinScoreToShow();
-
-        return $this->orderByScoreDesc()
-            ->filter(
-                function (Result $result) use ($minScore) {
-                    return $result->getScore($this->maxCommits(), $this->maxComplexity()) >= $minScore;
-                }
-            )
-            ->take($config->getFilesToShow());
+        return $this->filter(function (Result $result) use ($score) {
+            return $result->getScore($this->maxCommits(), $this->maxComplexity()) >= $score;
+        });
     }
 
     /**

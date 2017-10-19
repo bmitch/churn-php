@@ -39,6 +39,7 @@ class ProcessFactoryTest extends BaseTestCase
 
     public function setup()
     {
-        $this->processFactory = new ProcessFactory(Config::createFromDefaultValues());
+        $config = Config::createFromDefaultValues();
+        $this->processFactory = new ProcessFactory($config->getCommitsSince());
     }
 }
