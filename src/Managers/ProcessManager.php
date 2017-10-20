@@ -33,8 +33,11 @@ class ProcessManager
      * @param integer        $numberOfParallelJobs Number of parallel jobs to run.
      * @return Collection
      */
-    public function process(FileCollection $filesCollection, ProcessFactory $processFactory, int $numberOfParallelJobs): Collection
-    {
+    public function process(
+        FileCollection $filesCollection,
+        ProcessFactory $processFactory,
+        int $numberOfParallelJobs
+    ): Collection {
         $this->filesCollection = $filesCollection;
         $this->processFactory = $processFactory;
         $this->runningProcesses = new Collection;
@@ -52,7 +55,9 @@ class ProcessManager
      */
     private function getProcessResults(int $numberOfParallelJobs)
     {
-        for ($index = $this->runningProcesses->count(); $this->filesCollection->hasFiles() > 0 && $index < $numberOfParallelJobs; $index++) {
+        for ($index = $this->runningProcesses->count();
+             $this->filesCollection->hasFiles() > 0 && $index < $numberOfParallelJobs;
+             $index++) {
             $file = $this->filesCollection->getNextFile();
 
             $process = $this->processFactory->createGitCommitProcess($file);
