@@ -16,23 +16,23 @@ class ResultsRendererFactory
     /**
      * @var JsonResultsRenderer
      */
-    protected $jsonResultsRenderer;
+    protected $jsonRenderer;
 
     /**
      * @var ConsoleResultsRenderer
      */
-    protected $consoleResultsRenderer;
+    protected $consoleRenderer;
 
     /**
-     * @param JsonResultsRenderer    $jsonResultsRenderer
-     * @param ConsoleResultsRenderer $consoleResultsRenderer
+     * @param JsonResultsRenderer    $jsonRenderer
+     * @param ConsoleResultsRenderer $consoleRenderer
      */
     public function __construct(
-        JsonResultsRenderer $jsonResultsRenderer,
-        ConsoleResultsRenderer $consoleResultsRenderer
+        JsonResultsRenderer $jsonRenderer,
+        ConsoleResultsRenderer $consoleRenderer
     ) {
-        $this->jsonResultsRenderer = $jsonResultsRenderer;
-        $this->consoleResultsRenderer = $consoleResultsRenderer;
+        $this->jsonRenderer = $jsonRenderer;
+        $this->consoleRenderer = $consoleRenderer;
     }
 
     /**
@@ -46,12 +46,12 @@ class ResultsRendererFactory
     public function renderResults(string $format, OutputInterface $output, ResultCollection $results)
     {
         if ($format === self::FORMAT_JSON) {
-            $this->jsonResultsRenderer->render($output, $results);
+            $this->jsonRenderer->render($output, $results);
             return;
         }
 
         if ($format === self::FORMAT_TEXT) {
-            $this->consoleResultsRenderer->render($output, $results);
+            $this->consoleRenderer->render($output, $results);
             return;
         }
 
