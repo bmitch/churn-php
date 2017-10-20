@@ -14,28 +14,6 @@ class ResultsRendererFactory
     const FORMAT_TEXT = 'text';
 
     /**
-     * @var JsonResultsRenderer
-     */
-    protected $jsonRenderer;
-
-    /**
-     * @var ConsoleResultsRenderer
-     */
-    protected $consoleRenderer;
-
-    /**
-     * @param JsonResultsRenderer    $jsonRenderer
-     * @param ConsoleResultsRenderer $consoleRenderer
-     */
-    public function __construct(
-        JsonResultsRenderer $jsonRenderer,
-        ConsoleResultsRenderer $consoleRenderer
-    ) {
-        $this->jsonRenderer = $jsonRenderer;
-        $this->consoleRenderer = $consoleRenderer;
-    }
-
-    /**
      * Render the results
      * @param string           $format  Format to render.
      * @param OutputInterface  $output  Output Interface.
@@ -46,12 +24,12 @@ class ResultsRendererFactory
     public function renderResults(string $format, OutputInterface $output, ResultCollection $results)
     {
         if ($format === self::FORMAT_JSON) {
-            $this->jsonRenderer->render($output, $results);
+            (new JsonResultsRenderer())->render($output, $results);
             return;
         }
 
         if ($format === self::FORMAT_TEXT) {
-            $this->consoleRenderer->render($output, $results);
+            (new ConsoleResultsRenderer())->render($output, $results);
             return;
         }
 
