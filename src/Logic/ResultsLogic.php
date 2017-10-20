@@ -2,6 +2,7 @@
 
 namespace Churn\Logic;
 
+use Churn\Results\ResultCollection;
 use Churn\Results\ResultsParser;
 use Illuminate\Support\Collection;
 
@@ -21,9 +22,9 @@ class ResultsLogic
      * @param Collection $completedProcesses Collection of completed processes.
      * @param float      $minScore           Minimum score to show.
      * @param integer    $filesToShow        Max number of files to show.
-     * @return mixed
+     * @return ResultCollection
      */
-    public function process(Collection $completedProcesses, float $minScore, int $filesToShow)
+    public function process(Collection $completedProcesses, float $minScore, int $filesToShow): ResultCollection
     {
         $resultCollection = $this->parser->parse($completedProcesses);
         $resultCollection = $resultCollection->whereScoreAbove($minScore);

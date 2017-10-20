@@ -63,7 +63,6 @@ class ProcessManager
             $process = $this->processFactory->createGitCommitProcess($file);
             $process->start();
             $this->runningProcesses->put($process->getKey(), $process);
-
             $process = $this->processFactory->createCyclomaticComplexityProcess($file);
             $process->start();
             $this->runningProcesses->put($process->getKey(), $process);
