@@ -42,8 +42,11 @@ class ChurnCommand extends Command
      * @param ProcessManager         $processManager The process manager.
      * @param ResultsRendererFactory $renderer       The Results Renderer.
      */
-    public function __construct(ResultsLogic $resultsLogic, ProcessManager $processManager, ResultsRendererFactory $renderer)
-    {
+    public function __construct(
+        ResultsLogic $resultsLogic,
+        ProcessManager $processManager,
+        ResultsRendererFactory $renderer
+    ) {
         parent::__construct();
         $this->resultsLogic = $resultsLogic;
         $this->processManager = $processManager;
@@ -74,7 +77,8 @@ class ChurnCommand extends Command
     {
         $config = Config::create(Yaml::parse(@file_get_contents($input->getOption('configuration'))) ?? []);
 
-        $filesCollection = (new FileManager($config->getFileExtensions(), $config->getFilesToIgnore()))->getPhpFiles($this->getDirectoriesToScan($input, $config->getDirectoriesToScan()));
+        $filesCollection = (new FileManager($config->getFileExtensions(), $config->getFilesToIgnore()))
+            ->getPhpFiles($this->getDirectoriesToScan($input, $config->getDirectoriesToScan()));
 
         $completedProcesses = $this->processManager->process(
             $filesCollection,
@@ -82,7 +86,11 @@ class ChurnCommand extends Command
             $config->getParallelJobs()
         );
 
-        $resultCollection = $this->resultsLogic->process($completedProcesses, $config->getMinScoreToShow(), $config->getFilesToShow());
+        $resultCollection = $this->resultsLogic->process(
+            $completedProcesses,
+            $config->getMinScoreToShow(),
+            $config->getFilesToShow()
+        );
         $this->renderer->renderResults($input->getOption('format'), $output, $resultCollection);
     }
 

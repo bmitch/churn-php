@@ -31,7 +31,8 @@ class ProcessFactory
     public function createGitCommitProcess(File $file): ChurnProcess
     {
         $process = new Process(
-            'git -C ' . getcwd() . " log --since=\"" . $this->commitsSince . "\"  --name-only --pretty=format: " . $file->getFullPath(). " | sort | uniq -c | sort -nr"
+            'git -C ' . getcwd() . " log --since=\"" . $this->commitsSince .
+            "\"  --name-only --pretty=format: " . $file->getFullPath(). " | sort | uniq -c | sort -nr"
         );
 
         return new ChurnProcess($file, $process, 'GitCommitProcess');
