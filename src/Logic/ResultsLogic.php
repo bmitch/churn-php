@@ -9,6 +9,12 @@ use Illuminate\Support\Collection;
 class ResultsLogic
 {
     /**
+     * The results parser.
+     * @var ResultsParser
+     */
+    private $parser;
+
+    /**
      * ResultsLogic constructor.
      * @param ResultsParser $parser Results Parser.
      */

@@ -27,6 +27,12 @@ class ProcessManager
     private $completedProcessesArray;
 
     /**
+     * Process Factory.
+     * @var ProcessFactory
+     */
+    private $processFactory;
+
+    /**
      * Run the processes to gather information.
      * @param FileCollection $filesCollection      Collection of files.
      * @param ProcessFactory $processFactory       Process Factory.

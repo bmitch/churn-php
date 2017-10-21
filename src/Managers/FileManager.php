@@ -17,6 +17,18 @@ class FileManager
     private $files;
 
     /**
+     * List of file extensions to look for.
+     * @var array
+     */
+    private $fileExtensions;
+
+    /**
+     * List of files to ignore.
+     * @var array
+     */
+    private $filesToIgnore;
+
+    /**
      * FileManager constructor.
      * @param array $fileExtensions List of file extensions to look for.
      * @param array $filesToIgnore  List of files to ignore.
