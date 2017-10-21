@@ -34,23 +34,23 @@ class ChurnCommand extends Command
      * The renderer factory.
      * @var ResultsRendererFactory
      */
-    private $renderer;
+    private $renderFactory;
 
     /**
      * ChurnCommand constructor.
      * @param ResultsLogic           $resultsLogic   The results logic.
      * @param ProcessManager         $processManager The process manager.
-     * @param ResultsRendererFactory $renderer       The Results Renderer.
+     * @param ResultsRendererFactory $renderFactory  The Results Renderer Factory.
      */
     public function __construct(
         ResultsLogic $resultsLogic,
         ProcessManager $processManager,
-        ResultsRendererFactory $renderer
+        ResultsRendererFactory $renderFactory
     ) {
         parent::__construct();
         $this->resultsLogic = $resultsLogic;
         $this->processManager = $processManager;
-        $this->renderer = $renderer;
+        $this->renderFactory = $renderFactory;
     }
 
     /**
@@ -91,7 +91,9 @@ class ChurnCommand extends Command
             $config->getMinScoreToShow(),
             $config->getFilesToShow()
         );
-        $this->renderer->renderResults($input->getOption('format'), $output, $resultCollection);
+
+        $renderer = $this->renderFactory->getRenderer($input->getOption('format'));
+        $renderer->render($output, $resultCollection);
     }
 
     /**

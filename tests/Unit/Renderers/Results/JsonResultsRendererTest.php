@@ -1,5 +1,6 @@
 <?php
 
+use Churn\Results\Result;
 use Mockery as m;
 use Churn\Tests\BaseTestCase;
 use Churn\Renderers\Results\JsonResultsRenderer;
@@ -9,53 +10,27 @@ use Symfony\Component\Console\Output\OutputInterface;
 class JsonResultsRendererTest extends BaseTestCase
 {
     /** @test **/
-    public function testRender()
+    public function it_can_be_instantiated()
     {
-        $inputData = [
-            [
-                0 => '0_0_key_test',
-                1 => '0_1_key_test',
-                2 => '0_2_key_test',
-                3 => '0_3_key_test',
-            ],
-            [
-                0 => '1_0_key_test',
-                1 => '1_1_key_test',
-                2 => '1_2_key_test',
-                3 => '1_3_key_test',
-            ],
-        ];
+        $this->assertInstanceOf(JsonResultsRenderer::class, new JsonResultsRenderer);
+    }
 
-        $outputData = json_encode([
-            [
-                'file' => '0_0_key_test',
-                'commits' => '0_1_key_test',
-                'complexity' => '0_2_key_test',
-                'score' => '0_3_key_test',
-            ],
-            [
-                'file' => '1_0_key_test',
-                'commits' => '1_1_key_test',
-                'complexity' => '1_2_key_test',
-                'score' => '1_3_key_test',
-            ],
+    /** @test **/
+    public function it_can_render_the_results_as_json()
+    {
+        $resultCollection = new ResultCollection([
+            new Result(['file' => 'filename1.php', 'commits' => 5, 'complexity' => 7]),
+            new Result(['file' => 'filename2.php', 'commits' => 3, 'complexity' => 4]),
+            new Result(['file' => 'filename3.php', 'commits' => 1, 'complexity' => 5]),
+            new Result(['file' => 'filename4.php', 'commits' => 1, 'complexity' => 1]),
+            new Result(['file' => 'filename5.php', 'commits' => 8, 'complexity' => 1]),
         ]);
 
         $output = m::mock(OutputInterface::class);
-        $output->shouldReceive('write')->atLeast()->once()->with($outputData);
+        $output->shouldReceive('write')->atLeast()->once()->with(
+            '[{"file":"filename1.php","commits":5,"complexity":7,"score":0.625},{"file":"filename2.php","commits":3,"complexity":4,"score":0.242},{"file":"filename3.php","commits":1,"complexity":5,"score":0.08},{"file":"filename4.php","commits":1,"complexity":1,"score":-0.225},{"file":"filename5.php","commits":8,"complexity":1,"score":0.143}]'
+        );
 
-        $result = m::mock(ResultCollection::class);
-        $result->shouldReceive('toArray')->andReturn($inputData);
-
-        $renderer = new JsonResultsRenderer;
-        $renderer->render($output, $result);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function tearDown()
-    {
-        m::close();
+        (new JsonResultsRenderer)->render($output, $resultCollection);
     }
 }
