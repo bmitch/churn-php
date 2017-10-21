@@ -1,5 +1,33 @@
 # Change Log
 
+## [0.4.1](https://github.com/bmitch/churn-php/tree/0.4.1) (2017-10-21)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/0.4.0...0.4.1)
+
+**Implemented enhancements:**
+
+- ChurnCommand is 243 lines - should be smaller. [\#133](https://github.com/bmitch/churn-php/issues/133)
+
+**Closed issues:**
+
+- ResultsFactory [\#166](https://github.com/bmitch/churn-php/issues/166)
+- Add PHPCS forbidden functions sniff. [\#162](https://github.com/bmitch/churn-php/issues/162)
+- Test\(s\) for JsonResultsRenderer [\#160](https://github.com/bmitch/churn-php/issues/160)
+- Tests for ResultsLogic [\#157](https://github.com/bmitch/churn-php/issues/157)
+- Tests for ResultsRendererFactory [\#156](https://github.com/bmitch/churn-php/issues/156)
+- Tests for ResultCollection-\>whereScoreAbove\(\) method [\#154](https://github.com/bmitch/churn-php/issues/154)
+- Create a custom PHPMD ruleset. [\#129](https://github.com/bmitch/churn-php/issues/129)
+
+**Merged pull requests:**
+
+- Fixes \#166 - Results Factory to just return the Renderer [\#169](https://github.com/bmitch/churn-php/pull/169) ([bmitch](https://github.com/bmitch))
+- Fixes \#129 - Custom PHPMD ruleset [\#168](https://github.com/bmitch/churn-php/pull/168) ([bmitch](https://github.com/bmitch))
+- Make green [\#167](https://github.com/bmitch/churn-php/pull/167) ([bmitch](https://github.com/bmitch))
+- Tests for ResultsRendererFactory [\#165](https://github.com/bmitch/churn-php/pull/165) ([rokasmi](https://github.com/rokasmi))
+- add unit tests for ResultsLogic class [\#164](https://github.com/bmitch/churn-php/pull/164) ([KNiepok](https://github.com/KNiepok))
+- Add tests for JsonResultsRenderer [\#163](https://github.com/bmitch/churn-php/pull/163) ([marvin255](https://github.com/marvin255))
+- Add test for whereScoreAbove. [\#159](https://github.com/bmitch/churn-php/pull/159) ([holic-cl](https://github.com/holic-cl))
+- Changelog update [\#153](https://github.com/bmitch/churn-php/pull/153) ([bmitch](https://github.com/bmitch))
+
 ## [0.4.0](https://github.com/bmitch/churn-php/tree/0.4.0) (2017-10-19)
 [Full Changelog](https://github.com/bmitch/churn-php/compare/0.3.1...0.4.0)
 
