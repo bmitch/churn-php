@@ -51,7 +51,7 @@
     "scripts": {
         "test-common": [
             "vendor/bin/parallel-lint src tests",
-            "vendor/bin/phpmd src text codesize,unusedcode",
+            "vendor/bin/phpmd src text phpmd.xml",
             "vendor/bin/phploc src",
             "vendor/bin/phpcpd src",
             "vendor/bin/phpunit --debug --coverage-clover=coverage.xml",
