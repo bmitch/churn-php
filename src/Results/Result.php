@@ -103,7 +103,7 @@ class Result implements Arrayable
          * so in order to end up with a high score, we invert the value by
          * subtracting it from 1.
          */
-        return 1 - $distanceFromTopRightCorner;
+        return round(1 - $distanceFromTopRightCorner, 3);
         // @codingStandardsIgnoreEnd
     }
 
