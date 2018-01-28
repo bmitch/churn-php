@@ -1,7 +1,22 @@
 # Change Log
 
-## [0.4.1](https://github.com/bmitch/churn-php/tree/0.4.1) (2017-10-21)
-[Full Changelog](https://github.com/bmitch/churn-php/compare/0.4.0...0.4.1)
+## [0.5.0](https://github.com/bmitch/Churn-php/tree/0.5.0) (2018-01-28)
+[Full Changelog](https://github.com/bmitch/Churn-php/compare/0.4.1...0.5.0)
+
+**Closed issues:**
+
+- Fix failing build [\#175](https://github.com/bmitch/churn-php/issues/175)
+- No results - script hangs forever [\#172](https://github.com/bmitch/churn-php/issues/172)
+
+**Merged pull requests:**
+
+- Fixes \#175 - Fix failing build [\#176](https://github.com/bmitch/churn-php/pull/176) ([bmitch](https://github.com/bmitch))
+- Escape shell arguments [\#174](https://github.com/bmitch/churn-php/pull/174) ([iquito](https://github.com/iquito))
+- Add missing property declarations [\#171](https://github.com/bmitch/churn-php/pull/171) ([bmitch](https://github.com/bmitch))
+- update changelog [\#170](https://github.com/bmitch/churn-php/pull/170) ([bmitch](https://github.com/bmitch))
+
+## [0.4.1](https://github.com/bmitch/Churn-php/tree/0.4.1) (2017-10-21)
+[Full Changelog](https://github.com/bmitch/Churn-php/compare/0.4.0...0.4.1)
 
 **Implemented enhancements:**
 
@@ -22,14 +37,14 @@
 - Fixes \#166 - Results Factory to just return the Renderer [\#169](https://github.com/bmitch/churn-php/pull/169) ([bmitch](https://github.com/bmitch))
 - Fixes \#129 - Custom PHPMD ruleset [\#168](https://github.com/bmitch/churn-php/pull/168) ([bmitch](https://github.com/bmitch))
 - Make green [\#167](https://github.com/bmitch/churn-php/pull/167) ([bmitch](https://github.com/bmitch))
-- Tests for ResultsRendererFactory [\#165](https://github.com/bmitch/churn-php/pull/165) ([rokasmi](https://github.com/rokasmi))
+- Tests for ResultsRendererFactory [\#165](https://github.com/bmitch/churn-php/pull/165) ([FirstSailor](https://github.com/FirstSailor))
 - add unit tests for ResultsLogic class [\#164](https://github.com/bmitch/churn-php/pull/164) ([KNiepok](https://github.com/KNiepok))
 - Add tests for JsonResultsRenderer [\#163](https://github.com/bmitch/churn-php/pull/163) ([marvin255](https://github.com/marvin255))
 - Add test for whereScoreAbove. [\#159](https://github.com/bmitch/churn-php/pull/159) ([holic-cl](https://github.com/holic-cl))
 - Changelog update [\#153](https://github.com/bmitch/churn-php/pull/153) ([bmitch](https://github.com/bmitch))
 
-## [0.4.0](https://github.com/bmitch/churn-php/tree/0.4.0) (2017-10-19)
-[Full Changelog](https://github.com/bmitch/churn-php/compare/0.3.1...0.4.0)
+## [0.4.0](https://github.com/bmitch/Churn-php/tree/0.4.0) (2017-10-19)
+[Full Changelog](https://github.com/bmitch/Churn-php/compare/0.3.1...0.4.0)
 
 **Implemented enhancements:**
 
@@ -82,8 +97,8 @@
 - Feature/58 regex ignore [\#110](https://github.com/bmitch/churn-php/pull/110) ([bearzk](https://github.com/bearzk))
 - Introduce -c option custom churn.yml file [\#109](https://github.com/bmitch/churn-php/pull/109) ([Douglasdc3](https://github.com/Douglasdc3))
 
-## [0.3.1](https://github.com/bmitch/churn-php/tree/0.3.1) (2017-09-29)
-[Full Changelog](https://github.com/bmitch/churn-php/compare/0.3.0...0.3.1)
+## [0.3.1](https://github.com/bmitch/Churn-php/tree/0.3.1) (2017-09-29)
+[Full Changelog](https://github.com/bmitch/Churn-php/compare/0.3.0...0.3.1)
 
 **Implemented enhancements:**
 
@@ -96,8 +111,8 @@
 - Update README.md [\#105](https://github.com/bmitch/churn-php/pull/105) ([bmitch](https://github.com/bmitch))
 - updated changelog after 0.3.0 release [\#103](https://github.com/bmitch/churn-php/pull/103) ([bmitch](https://github.com/bmitch))
 
-## [0.3.0](https://github.com/bmitch/churn-php/tree/0.3.0) (2017-09-26)
-[Full Changelog](https://github.com/bmitch/churn-php/compare/0.2.0...0.3.0)
+## [0.3.0](https://github.com/bmitch/Churn-php/tree/0.3.0) (2017-09-26)
+[Full Changelog](https://github.com/bmitch/Churn-php/compare/0.2.0...0.3.0)
 
 **Closed issues:**
 
@@ -113,8 +128,8 @@
 - Added another similar package [\#94](https://github.com/bmitch/churn-php/pull/94) ([bmitch](https://github.com/bmitch))
 - changelog [\#92](https://github.com/bmitch/churn-php/pull/92) ([bmitch](https://github.com/bmitch))
 
-## [0.2.0](https://github.com/bmitch/churn-php/tree/0.2.0) (2017-09-02)
-[Full Changelog](https://github.com/bmitch/churn-php/compare/0.1.0...0.2.0)
+## [0.2.0](https://github.com/bmitch/Churn-php/tree/0.2.0) (2017-09-02)
+[Full Changelog](https://github.com/bmitch/Churn-php/compare/0.1.0...0.2.0)
 
 **Implemented enhancements:**
 
@@ -136,8 +151,8 @@
 - update readme [\#86](https://github.com/bmitch/churn-php/pull/86) ([bmitch](https://github.com/bmitch))
 - Update changelog [\#85](https://github.com/bmitch/churn-php/pull/85) ([bmitch](https://github.com/bmitch))
 
-## [0.1.0](https://github.com/bmitch/churn-php/tree/0.1.0) (2017-08-29)
-[Full Changelog](https://github.com/bmitch/churn-php/compare/0.0.6...0.1.0)
+## [0.1.0](https://github.com/bmitch/Churn-php/tree/0.1.0) (2017-08-29)
+[Full Changelog](https://github.com/bmitch/Churn-php/compare/0.0.6...0.1.0)
 
 **Implemented enhancements:**
 
@@ -170,8 +185,8 @@
 - Fixes \#64 - Added missing member declarations [\#65](https://github.com/bmitch/churn-php/pull/65) ([bmitch](https://github.com/bmitch))
 - Fixes \#62 - Test for file manager to ignore files [\#63](https://github.com/bmitch/churn-php/pull/63) ([bmitch](https://github.com/bmitch))
 
-## [0.0.6](https://github.com/bmitch/churn-php/tree/0.0.6) (2017-08-24)
-[Full Changelog](https://github.com/bmitch/churn-php/compare/0.0.5...0.0.6)
+## [0.0.6](https://github.com/bmitch/Churn-php/tree/0.0.6) (2017-08-24)
+[Full Changelog](https://github.com/bmitch/Churn-php/compare/0.0.5...0.0.6)
 
 **Closed issues:**
 
@@ -184,8 +199,8 @@
 
 - Downgrade to symfony/process 3.2 allowing this package to work with Laravel 5.4 installs. [\#60](https://github.com/bmitch/churn-php/pull/60) ([gms8994](https://github.com/gms8994))
 
-## [0.0.5](https://github.com/bmitch/churn-php/tree/0.0.5) (2017-08-23)
-[Full Changelog](https://github.com/bmitch/churn-php/compare/0.0.4...0.0.5)
+## [0.0.5](https://github.com/bmitch/Churn-php/tree/0.0.5) (2017-08-23)
+[Full Changelog](https://github.com/bmitch/Churn-php/compare/0.0.4...0.0.5)
 
 **Closed issues:**
 
@@ -196,8 +211,8 @@
 - Fixes \#42 [\#59](https://github.com/bmitch/churn-php/pull/59) ([bmitch](https://github.com/bmitch))
 - Fixes \#42 [\#52](https://github.com/bmitch/churn-php/pull/52) ([bmitch](https://github.com/bmitch))
 
-## [0.0.4](https://github.com/bmitch/churn-php/tree/0.0.4) (2017-08-19)
-[Full Changelog](https://github.com/bmitch/churn-php/compare/0.0.3...0.0.4)
+## [0.0.4](https://github.com/bmitch/Churn-php/tree/0.0.4) (2017-08-19)
+[Full Changelog](https://github.com/bmitch/Churn-php/compare/0.0.3...0.0.4)
 
 **Closed issues:**
 
@@ -207,8 +222,8 @@
 
 - Lower console version requirement [\#50](https://github.com/bmitch/churn-php/pull/50) ([bmitch](https://github.com/bmitch))
 
-## [0.0.3](https://github.com/bmitch/churn-php/tree/0.0.3) (2017-08-19)
-[Full Changelog](https://github.com/bmitch/churn-php/compare/0.0.2...0.0.3)
+## [0.0.3](https://github.com/bmitch/Churn-php/tree/0.0.3) (2017-08-19)
+[Full Changelog](https://github.com/bmitch/Churn-php/compare/0.0.2...0.0.3)
 
 **Closed issues:**
 
@@ -224,8 +239,8 @@
 - Refactor [\#46](https://github.com/bmitch/churn-php/pull/46) ([bmitch](https://github.com/bmitch))
 - Fixes \#38 - Run in parallel [\#44](https://github.com/bmitch/churn-php/pull/44) ([bmitch](https://github.com/bmitch))
 
-## [0.0.2](https://github.com/bmitch/churn-php/tree/0.0.2) (2017-06-23)
-[Full Changelog](https://github.com/bmitch/churn-php/compare/0.0.1...0.0.2)
+## [0.0.2](https://github.com/bmitch/Churn-php/tree/0.0.2) (2017-06-23)
+[Full Changelog](https://github.com/bmitch/Churn-php/compare/0.0.1...0.0.2)
 
 **Closed issues:**
 
@@ -245,7 +260,7 @@
 - Fixes \#29 [\#30](https://github.com/bmitch/churn-php/pull/30) ([bmitch](https://github.com/bmitch))
 - Fixes \#27 [\#28](https://github.com/bmitch/churn-php/pull/28) ([bmitch](https://github.com/bmitch))
 
-## [0.0.1](https://github.com/bmitch/churn-php/tree/0.0.1) (2017-06-19)
+## [0.0.1](https://github.com/bmitch/Churn-php/tree/0.0.1) (2017-06-19)
 **Closed issues:**
 
 - Make results show files relative to provided path. [\#19](https://github.com/bmitch/churn-php/issues/19)
