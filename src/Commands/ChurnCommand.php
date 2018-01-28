@@ -16,6 +16,9 @@ use Churn\Configuration\Config;
 use Symfony\Component\Yaml\Yaml;
 use InvalidArgumentException;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ChurnCommand extends Command
 {
     /**
