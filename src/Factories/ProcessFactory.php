@@ -31,8 +31,9 @@ class ProcessFactory
     public function createGitCommitProcess(File $file): ChurnProcess
     {
         $process = new Process(
-            'git -C ' . getcwd() . " log --since=\"" . $this->commitsSince .
-            "\"  --name-only --pretty=format: " . $file->getFullPath(). " | sort | uniq -c | sort -nr"
+            'git -C ' . escapeshellarg(getcwd()) . ' log --since=' . 
+            escapeshellarg($this->commitsSince) . ' --name-only --pretty=format: ' . 
+            escapeshellarg($file->getFullPath()) . ' | sort | uniq -c | sort -nr'
         );
 
         return new ChurnProcess($file, $process, 'GitCommitProcess');
@@ -48,7 +49,8 @@ class ProcessFactory
         $rootFolder = __DIR__ . '/../../bin/';
 
         $process = new Process(
-            "php {$rootFolder}CyclomaticComplexityAssessorRunner {$file->getFullPath()}"
+            'php ' . escapeshellarg($rootFolder . 'CyclomaticComplexityAssessorRunner') .
+            ' ' . escapeshellarg($file->getFullPath())
         );
 
         return new ChurnProcess($file, $process, 'CyclomaticComplexityProcess');
