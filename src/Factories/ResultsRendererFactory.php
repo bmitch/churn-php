@@ -3,6 +3,7 @@
 namespace Churn\Factories;
 
 use Churn\Renderers\Results\ConsoleResultsRenderer;
+use Churn\Renderers\Results\CsvResultsRenderer;
 use Churn\Renderers\Results\JsonResultsRenderer;
 use Churn\Renderers\Results\ResultsRendererInterface;
 use InvalidArgumentException;
@@ -10,6 +11,7 @@ use InvalidArgumentException;
 class ResultsRendererFactory
 {
     const FORMAT_JSON = 'json';
+    const FORMAT_CSV = 'csv';
     const FORMAT_TEXT = 'text';
 
     /**
@@ -20,6 +22,10 @@ class ResultsRendererFactory
      */
     public function getRenderer(string $format): ResultsRendererInterface
     {
+        if ($format === self::FORMAT_CSV) {
+            return new CsvResultsRenderer;
+        }
+
         if ($format === self::FORMAT_JSON) {
             return new JsonResultsRenderer;
         }
