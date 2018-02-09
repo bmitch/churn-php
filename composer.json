@@ -18,10 +18,10 @@
     ],
     "require": {
         "php": "^7.0",
-        "symfony/console": "^3.2",
+        "symfony/console": "^4.0",
         "tightenco/collect": "^5.4",
-        "symfony/process": "^3.2",
-        "symfony/yaml": "^3.3",
+        "symfony/process": "^4.0",
+        "symfony/yaml": "^4.0",
         "webmozart/assert": "^1.2",
         "php-di/php-di": "^5.4"
     },
