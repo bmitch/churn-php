@@ -130,10 +130,11 @@ class ChurnCommand extends Command
 
     /**
      * Check if a path is a valid git folder.
-     * @param string $path  The path to check.
+     * @param string $path The path to check.
      * @throws InvalidArgumentException If path is not a valid git folder.
+     * @return void
      */
-    private function isValidGitFolder($path)
+    private function isValidGitFolder(string $path)
     {
         $commands = ['git status', 'git log'];
         foreach ($commands as $command) {
