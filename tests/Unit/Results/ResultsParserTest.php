@@ -8,8 +8,8 @@ use Mockery as m;
 use Churn\Results\ResultsParser;
 use Churn\Tests\BaseTestCase;
 use Churn\Values\File;
-use Illuminate\Support\Collection;
 use Symfony\Component\Process\Process;
+use Tightenco\Collect\Support\Collection;
 
 class ResultsParserTest extends BaseTestCase
 {

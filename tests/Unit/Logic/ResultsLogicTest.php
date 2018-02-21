@@ -5,8 +5,8 @@ namespace Churn\Tests\Unit\Logic;
 use Churn\Results\Result;
 use Churn\Results\ResultCollection;
 use Churn\Results\ResultsParser;
-use Illuminate\Support\Collection;
 use Churn\Logic\ResultsLogic;
+use Tightenco\Collect\Support\Collection;
 
 class ResultsLogicTest extends \Churn\Tests\BaseTestCase
 {

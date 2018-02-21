@@ -6,7 +6,7 @@ use Churn\Configuration\Config;
 use Churn\Managers\FileManager;
 use Churn\Tests\BaseTestCase;
 use Churn\Values\File;
-use Illuminate\Support\Collection;
+use Tightenco\Collect\Support\Collection;
 
 class FileManagerTest extends BaseTestCase
 {
