@@ -2,7 +2,6 @@
 
 namespace Churn\Results;
 
-
 use Tightenco\Collect\Support\Collection;
 
 class ResultCollection extends Collection
