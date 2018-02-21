@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Churn\Configuration\Config;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Yaml\Yaml;
 use InvalidArgumentException;
 
@@ -109,6 +110,10 @@ class ChurnCommand extends Command
     private function getDirectoriesToScan(InputInterface $input, array $dirsConfigured): array
     {
         $dirsProvidedAsArgs = $input->getArgument('paths');
+        foreach ($dirsProvidedAsArgs as $dir) {
+            $this->isValidGitFolder($dir);
+        }
+
         if (count($dirsProvidedAsArgs) > 0) {
             return $dirsProvidedAsArgs;
         }
@@ -121,5 +126,26 @@ class ChurnCommand extends Command
             'Provide the directories you want to scan as arguments, ' .
             'or configure them under "directoriesToScan" in your churn.yml file.'
         );
+    }
+
+    /**
+     * Check if a path is a valid git folder.
+     * @param string $path  The path to check.
+     * @throws InvalidArgumentException If path is not a valid git folder.
+     */
+    private function isValidGitFolder($path)
+    {
+        $commands = ['git status', 'git log'];
+        foreach ($commands as $command) {
+            $process = new Process($command, $path);
+            $process->run();
+            $process->wait();
+            if ($process->getExitCode() === 128) {
+                throw new InvalidArgumentException(
+                    $path . ' is not a valid git folder, ' .
+                    'or it has no commits yet.'
+                );
+            }
+        }
     }
 }
