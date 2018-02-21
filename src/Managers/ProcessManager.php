@@ -4,7 +4,7 @@ namespace Churn\Managers;
 
 use Churn\Collections\FileCollection;
 use Churn\Factories\ProcessFactory;
-use Illuminate\Support\Collection;
+use Tightenco\Collect\Support\Collection;
 
 class ProcessManager
 {

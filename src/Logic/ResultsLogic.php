@@ -4,7 +4,7 @@ namespace Churn\Logic;
 
 use Churn\Results\ResultCollection;
 use Churn\Results\ResultsParser;
-use Illuminate\Support\Collection;
+use Tightenco\Collect\Support\Collection;
 
 class ResultsLogic
 {
