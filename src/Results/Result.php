@@ -2,7 +2,7 @@
 
 namespace Churn\Results;
 
-use Illuminate\Contracts\Support\Arrayable;
+use Tightenco\Collect\Contracts\Support\Arrayable;
 use Webmozart\Assert\Assert;
 
 class Result implements Arrayable
