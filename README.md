@@ -74,7 +74,7 @@ A sample `churn.yml` file looks like:
 filesToShow: 10
 
 # The minimum score a file need to display in the results table.
-# Default: 0
+# Default: 0.1
 minScoreToShow: 0
 
 # The number of parallel jobs to use when processing files.
