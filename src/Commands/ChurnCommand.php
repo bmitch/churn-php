@@ -78,7 +78,8 @@ class ChurnCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $config = Config::create(Yaml::parse(@file_get_contents($input->getOption('configuration'))) ?? []);
+        $content = (string) @file_get_contents($input->getOption('configuration'));
+        $config = Config::create(Yaml::parse($content) ?? []);
 
         $filesCollection = (new FileManager($config->getFileExtensions(), $config->getFilesToIgnore()))
             ->getPhpFiles($this->getDirectoriesToScan($input, $config->getDirectoriesToScan()));
