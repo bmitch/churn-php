@@ -35,6 +35,9 @@
         "sensiolabs/security-checker": "^4.0",
         "slevomat/coding-standard": "^2.0"
     },
+    "config": {
+        "sort-packages": true
+    },
     "autoload": {
         "psr-4": {
             "Churn\\": "src"
