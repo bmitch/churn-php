@@ -103,6 +103,20 @@ fileExtensions:
 
 If a `churn.yml` file is omitted or an individual setting is omitted the default values above will be used.
 
+### Output formats
+
+You can configure `churn` to output the result in different formats. The available formats are:
+
+* `csv`
+* `json`
+* `text` (default)
+
+To use a different format use `--format` option. Example command for `json`: 
+
+```bash
+vendor/bin/churn run --format json
+```
+
 ## Tests
 * To run the PHPUnit tests execute `vendor/bin/phpunit`.
 * Before making a pull request please see the [contributing](#contributing) section below.
