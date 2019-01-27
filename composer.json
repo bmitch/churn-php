@@ -27,7 +27,7 @@
         "jakub-onderka/php-console-highlighter": "^0.3.2",
         "jakub-onderka/php-parallel-lint": "^0.9.2",
         "larapack/dd": "^1.1",
-        "mockery/mockery": "dev-master",
+        "mockery/mockery": "^1.2.0",
         "phploc/phploc": "^4.0",
         "phpmd/phpmd": "^2.5",
         "phpunit/phpunit": "^6.5.13",
