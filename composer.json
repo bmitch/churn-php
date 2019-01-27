@@ -30,7 +30,7 @@
         "mockery/mockery": "dev-master",
         "phploc/phploc": "^4.0",
         "phpmd/phpmd": "^2.5",
-        "phpunit/phpunit": "^5.7",
+        "phpunit/phpunit": "^6.5.13",
         "sebastian/phpcpd": "^2.0",
         "sensiolabs/security-checker": "^4.0",
         "slevomat/coding-standard": "^2.0"
