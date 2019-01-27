@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Tests\Assessors\CyclomaticComplexity;
+namespace Churn\Tests\Unit\Assessors\CyclomaticComplexity;
 
 use Churn\Tests\BaseTestCase;
 use Churn\Assessors\CyclomaticComplexity\CyclomaticComplexityAssessor;
