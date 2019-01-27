@@ -17,9 +17,7 @@ before_script:
 script:
  - composer test-ci
  - vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
- - vendor/bin/phpcs --standard=psr2 src -spn
- - vendor/bin/phpcs --standard=phpcs.xml src -spn
- - vendor/bin/phpcs --standard=codor.xml src -spn
+ - vendor/bin/phpcs --standard=phpcs.xml -spn src/
 
 after_success:
  - bash <(curl -s https://codecov.io/bash)

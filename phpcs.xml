@@ -2,6 +2,9 @@
 <ruleset name="MyStandard">
   <description>My custom coding standard.</description>
 
+  <rule ref="codor.xml"/>
+  <rule ref="vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/PSR2/ruleset.xml"/>
+
   <!-- Dock Blocks -->
   <rule ref="Squiz.Commenting.FunctionComment" />
   <rule ref="Squiz.Commenting.FunctionCommentThrowTag" />

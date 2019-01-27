@@ -50,15 +50,11 @@
     ],
     "scripts": {
         "fix": [
-            "vendor/bin/phpcbf -n --standard=phpcs.xml src/",
-            "vendor/bin/phpcbf --standard=codor.xml src -spn",
-            "vendor/bin/phpcbf --standard=psr2 src -sp"
+            "vendor/bin/phpcbf --standard=phpcs.xml -spn src/"
         ],
         "test": [
             "@test-common",
-            "vendor/bin/phpcs --standard=psr2 src -spn",
-            "vendor/bin/phpcs --standard=phpcs.xml src -spn",
-            "vendor/bin/phpcs --standard=codor.xml src -spn"
+            "vendor/bin/phpcs --standard=phpcs.xml -spn src/"
         ],
         "test-ci": [
             "@test-common"
