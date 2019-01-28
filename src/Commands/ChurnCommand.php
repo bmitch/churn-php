@@ -2,6 +2,7 @@
 
 namespace Churn\Commands;
 
+use Churn\Collections\FileCollection;
 use Churn\Factories\ResultsRendererFactory;
 use Churn\Logic\ResultsLogic;
 use Churn\Managers\ProcessManager;
@@ -81,11 +82,10 @@ class ChurnCommand extends Command
         $content = (string) @file_get_contents($input->getOption('configuration'));
         $config = Config::create(Yaml::parse($content) ?? []);
 
-        $filesCollection = (new FileManager($config->getFileExtensions(), $config->getFilesToIgnore()))
-            ->getPhpFiles($this->getDirectoriesToScan($input, $config->getDirectoriesToScan()));
+        $paths = $this->getDirectoriesToScan($input, $config->getDirectoriesToScan());
 
         $completedProcesses = $this->processManager->process(
-            $filesCollection,
+            $this->createFileCollection($config, $paths),
             new ProcessFactory($config->getCommitsSince()),
             $config->getParallelJobs()
         );
@@ -122,5 +122,21 @@ class ChurnCommand extends Command
             'Provide the directories you want to scan as arguments, ' .
             'or configure them under "directoriesToScan" in your churn.yml file.'
         );
+    }
+
+    /**
+     * Creates a file collection.
+     * @param Config   $config The configuration.
+     * @param string[] $paths  An array of paths.
+     * @return FileCollection
+     */
+    private function createFileCollection(Config $config, array $paths): FileCollection
+    {
+        $fileManager = new FileManager(
+            $config->getFileExtensions(),
+            $config->getFilesToIgnore()
+        );
+
+        return $fileManager->getPhpFiles($paths);
     }
 }
