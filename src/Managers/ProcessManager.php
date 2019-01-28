@@ -59,7 +59,7 @@ class ProcessManager
      * @param integer $numberOfParallelJobs Number of parallel jobs to run.
      * @return void
      */
-    private function getProcessResults(int $numberOfParallelJobs)
+    private function getProcessResults(int $numberOfParallelJobs): void
     {
         for ($index = $this->runningProcesses->count();
              $this->filesCollection->hasFiles() > 0 && $index < $numberOfParallelJobs;
