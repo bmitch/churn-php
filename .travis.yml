@@ -3,10 +3,14 @@ language: php
 php:
  - 7.1
  - 7.2
+ - 7.3
  - nightly
 
-before_script:
-  - travis_retry composer self-update
+cache:
+ directories:
+  - $HOME/.composer/cache
+
+install:
   - travis_retry composer install --no-interaction --prefer-source --dev
 
 script:
