@@ -1,4 +1,6 @@
-<?php
+<?php declare(strict_types = 1);
+
+namespace Churn\Tests\Unit\Renderers\Results;
 
 use Churn\Renderers\Results\CsvResultsRenderer;
 use Churn\Results\Result;

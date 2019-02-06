@@ -1,8 +1,6 @@
-<?php
-
+<?php declare(strict_types = 1);
 
 namespace Churn\Tests\Unit\Values;
-
 
 use Churn\Tests\BaseTestCase;
 use Churn\Values\File;
