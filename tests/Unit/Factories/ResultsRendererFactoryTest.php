@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types = 1);
 
-namespace Churn\Tests\Results;
+namespace Churn\Tests\Unit\Factories;
 
 use Churn\Factories\ResultsRendererFactory;
 use Churn\Renderers\Results\ConsoleResultsRenderer;

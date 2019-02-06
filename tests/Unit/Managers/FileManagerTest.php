@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Tests\Results;
+namespace Churn\Tests\Unit\Managers;
 
 use Churn\Configuration\Config;
 use Churn\Managers\FileManager;

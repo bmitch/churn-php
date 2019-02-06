@@ -1,4 +1,6 @@
-<?php
+<?php declare(strict_types = 1);
+
+namespace Churn\Tests\Unit\Renderers\Results;
 
 use Churn\Results\Result;
 use Mockery as m;
