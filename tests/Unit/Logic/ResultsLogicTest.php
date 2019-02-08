@@ -137,7 +137,7 @@ class ResultsLogicTest extends \Churn\Tests\BaseTestCase
      * @param $score
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function mockResult(float $score): \PHPUnit_Framework_MockObject_MockObject
+    protected function mockResult(float $score): \PHPUnit\Framework\MockObject\MockObject
     {
         $passingResult = $this->createMock(Result::class);
         $passingResult->method('getScore')->willReturn($score);

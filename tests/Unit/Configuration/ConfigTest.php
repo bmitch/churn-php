@@ -11,10 +11,11 @@ class ConfigTest extends BaseTestCase
 {
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      **/
     public function it_throws_exception_if_badly_instantiated()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->assertInstanceOf(
             Config::class,
             Config::create(['fileExtensions' => 5])
