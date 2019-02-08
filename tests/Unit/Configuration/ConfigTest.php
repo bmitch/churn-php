@@ -15,10 +15,7 @@ class ConfigTest extends BaseTestCase
      **/
     public function it_throws_exception_if_badly_instantiated()
     {
-        $this->assertInstanceOf(
-            Config::class,
-            Config::create(['fileExtensions' => 5])
-        );
+        Config::create(['fileExtensions' => 5]);
     }
 
     /** @test **/

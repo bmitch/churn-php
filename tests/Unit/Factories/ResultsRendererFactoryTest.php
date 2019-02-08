@@ -45,7 +45,8 @@ class ResultsRendererFactoryTest extends BaseTestCase
     public function it_throws_exception_if_format_is_invalid()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->assertInstanceOf(ConsoleResultsRenderer::class, $this->factory->getRenderer('foobar'));
+
+        $this->factory->getRenderer('foobar');
     }
 
     public function setUp()
