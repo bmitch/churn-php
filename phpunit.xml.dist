@@ -6,8 +6,11 @@
     colors="true"
 >
     <testsuites>
-        <testsuite>
-            <directory>tests</directory>
+        <testsuite name="integration">
+            <directory>tests/Integration</directory>
+        </testsuite>
+        <testsuite name="unit">
+            <directory>tests/Unit</directory>
         </testsuite>
     </testsuites>
     <filter>
