@@ -11,7 +11,7 @@ cache:
   - $HOME/.composer/cache
 
 install:
-  - travis_retry composer install --no-interaction --prefer-source --dev
+  - travis_retry composer install --no-interaction --prefer-source
 
 script:
  - composer test-ci
