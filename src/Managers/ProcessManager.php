@@ -135,11 +135,7 @@ class ProcessManager
             $this->runningProcesses->forget($process->getKey());
             $this->completedProcessesArray[$process->getFileName()][$process->getType()] = $process;
 
-            if ($this->showProgressBar) {
-                $currentStep = intval(floor(($this->getCompletedProcessesCount() / $this->totalFilesToProcessCount) * 100));
-                $this->setProgressBarMessage();
-                $this->progressBar->setProgress($currentStep);
-            }
+            $this->updateProgressBar();
         }
     }
 
@@ -171,5 +167,21 @@ class ProcessManager
     public function setOutputStream(OutputInterface $output): void
     {
         $this->output = $output;
+    }
+
+    /**
+     * Updated and prints progress bar if needed.
+     *
+     * @return void
+     */
+    private function updateProgressBar(): void
+    {
+        if (!$this->showProgressBar) {
+            return;
+        }
+
+        $currentStep = intval(floor(($this->getCompletedProcessesCount() / $this->totalFilesToProcessCount) * 100));
+        $this->setProgressBarMessage();
+        $this->progressBar->setProgress($currentStep);
     }
 }
