@@ -85,12 +85,13 @@ class ChurnCommand extends Command
         $filesCollection = (new FileManager($config->getFileExtensions(), $config->getFilesToIgnore()))
             ->getPhpFiles($this->getDirectoriesToScan($input, $config->getDirectoriesToScan()));
 
+        $this->processManager->setProgressBarEnabled((bool)$input->getOption('progress'));
+        $this->processManager->setOutputStream($output);
+
         $completedProcesses = $this->processManager->process(
             $filesCollection,
             new ProcessFactory($config->getCommitsSince()),
-            $config->getParallelJobs(),
-            $output,
-            (bool) $input->getOption('progress')
+            $config->getParallelJobs()
         );
 
         $resultCollection = $this->resultsLogic->process(

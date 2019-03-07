@@ -36,13 +36,13 @@ class ProcessManager
 
     /**
      * Total count of files needed to be processed.
-     * @var int
+     * @var integer
      */
     private $totalFilesToProcessCount = 0;
 
     /**
      * To show or not progress bar while processing files.
-     * @var bool
+     * @var boolean
      */
     private $showProgressBar = false;
 
@@ -53,33 +53,35 @@ class ProcessManager
     private $progressBar;
 
     /**
+     * Symfony output.
+     *
+     * @var OutputInterface
+     */
+    private $output;
+
+    /**
      * Run the processes to gather information.
-     * @param FileCollection  $filesCollection      Collection of files.
-     * @param ProcessFactory  $processFactory       Process Factory.
-     * @param integer         $numberOfParallelJobs Number of parallel jobs to run.
-     * @param OutputInterface $output               Symfony output
-     * @param bool            $showProgressBar      To show or not progress bar while processing files.
+     * @param FileCollection $filesCollection      Collection of files.
+     * @param ProcessFactory $processFactory       Process Factory.
+     * @param integer        $numberOfParallelJobs Number of parallel jobs to run.
      * @return Collection
      */
     public function process(
         FileCollection $filesCollection,
         ProcessFactory $processFactory,
-        int $numberOfParallelJobs,
-        OutputInterface $output,
-        bool $showProgressBar = false
+        int $numberOfParallelJobs
     ): Collection {
         $this->filesCollection = $filesCollection;
         $this->processFactory = $processFactory;
         $this->runningProcesses = new Collection;
         $this->completedProcessesArray = [];
         $this->totalFilesToProcessCount = $this->filesCollection->count();
-        $this->showProgressBar = $showProgressBar;
-        $this->progressBar = new ProgressBar($output, 100);
 
-        if ($this->showProgressBar) {
+        if ($this->showProgressBar && $this->output) {
+            $this->progressBar = new ProgressBar($this->output, 100);
             ProgressBar::setFormatDefinition('custom', '[%bar%] %percent:3s%% -- %message%');
             $this->progressBar->setFormat('custom');
-            $output->write("Progress:".PHP_EOL);
+            $this->output->write("Progress:".PHP_EOL);
             $this->setProgressBarMessage();
             $this->progressBar->start();
         }
@@ -98,7 +100,7 @@ class ProcessManager
     /**
      * Returns count of currently processed files.
      *
-     * @return int
+     * @return integer
      */
     private function getCompletedProcessesCount(): int
     {
@@ -126,24 +128,48 @@ class ProcessManager
         }
 
         foreach ($this->runningProcesses as $file => $process) {
-            if ($process->isSuccessful()) {
-                $this->runningProcesses->forget($process->getKey());
-                $this->completedProcessesArray[$process->getFileName()][$process->getType()] = $process;
+            if (!$process->isSuccessful()) {
+                continue;
+            }
 
-                if ($this->showProgressBar) {
-                    $currentStep = intval(floor(($this->getCompletedProcessesCount() / $this->totalFilesToProcessCount) * 100));
-                    $this->setProgressBarMessage();
-                    $this->progressBar->setProgress($currentStep);
-                }
+            $this->runningProcesses->forget($process->getKey());
+            $this->completedProcessesArray[$process->getFileName()][$process->getType()] = $process;
+
+            if ($this->showProgressBar) {
+                $currentStep = intval(floor(($this->getCompletedProcessesCount() / $this->totalFilesToProcessCount) * 100));
+                $this->setProgressBarMessage();
+                $this->progressBar->setProgress($currentStep);
             }
         }
     }
 
     /**
      * Sets progress message for progress bar
+     *
+     * @return void
      */
     private function setProgressBarMessage(): void
     {
         $this->progressBar->setMessage(sprintf("Files: %d of %d", $this->getCompletedProcessesCount(), $this->totalFilesToProcessCount));
+    }
+
+    /**
+     * @param bool $flag Enable or disable progress bar output.
+     *
+     * @return void
+     */
+    public function setProgressBarEnabled(bool $flag): void
+    {
+        $this->showProgressBar = $flag;
+    }
+
+    /**
+     * @param OutputInterface $output Symfony output.
+     *
+     * @return void
+     */
+    public function setOutputStream(OutputInterface $output): void
+    {
+        $this->output = $output;
     }
 }
