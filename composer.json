@@ -33,8 +33,7 @@
         "phpunit/phpunit": "^6.5.13",
         "sebastian/phpcpd": "^2.0",
         "sensiolabs/security-checker": "^4.0",
-        "slevomat/coding-standard": "^2.0",
-        "symfony/var-dumper": "^4.2"
+        "slevomat/coding-standard": "^2.0"
     },
     "config": {
         "sort-packages": true
