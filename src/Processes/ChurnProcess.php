@@ -43,7 +43,7 @@ class ChurnProcess
      * Start the process.
      * @return void
      */
-    public function start()
+    public function start(): void
     {
         $this->process->start();
     }

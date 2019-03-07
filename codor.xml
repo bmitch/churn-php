@@ -8,6 +8,11 @@
             <property name="indentationLimit" value="3"/>
         </properties>
     </rule>
+    <rule ref="Codor.Files.FunctionLength">
+        <properties>
+            <property name="maxLength" value="30"/>
+        </properties>
+    </rule>
     <rule ref="Codor.Classes.ClassLength">
         <properties>
             <property name="maxLength" value="243"/>
