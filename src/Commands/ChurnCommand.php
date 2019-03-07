@@ -66,6 +66,7 @@ class ChurnCommand extends Command
             ->addArgument('paths', InputArgument::IS_ARRAY, 'Path to source to check.')
             ->addOption('configuration', 'c', InputOption::VALUE_OPTIONAL, 'Path to the configuration file', 'churn.yml')  // @codingStandardsIgnoreLine
             ->addOption('format', null, InputOption::VALUE_REQUIRED, 'The output format to use', 'text')
+            ->addOption('progress', 'p', InputOption::VALUE_NONE, 'Show progress bar')
             ->setDescription('Check files')
             ->setHelp('Checks the churn on the provided path argument(s).');
     }
@@ -87,7 +88,9 @@ class ChurnCommand extends Command
         $completedProcesses = $this->processManager->process(
             $filesCollection,
             new ProcessFactory($config->getCommitsSince()),
-            $config->getParallelJobs()
+            $config->getParallelJobs(),
+            $output,
+            (bool) $input->getOption('progress')
         );
 
         $resultCollection = $this->resultsLogic->process(
