@@ -2,7 +2,7 @@
 
 namespace Churn\Results;
 
-use Illuminate\Support\Collection;
+use Tightenco\Collect\Support\Collection;
 
 class ResultCollection extends Collection
 {

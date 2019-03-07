@@ -4,7 +4,7 @@
 namespace Churn\Results;
 
 use Churn\Processes\ChurnProcess;
-use Illuminate\Support\Collection;
+use Tightenco\Collect\Support\Collection;
 
 class ResultsParser
 {

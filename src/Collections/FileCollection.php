@@ -2,7 +2,7 @@
 
 namespace Churn\Collections;
 
-use Illuminate\Support\Collection;
+use Tightenco\Collect\Support\Collection;
 use Churn\Values\File;
 
 class FileCollection extends Collection
