@@ -11,13 +11,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class JsonResultsRendererTest extends BaseTestCase
 {
-    /** @test **/
+    /** @test */
     public function it_can_be_instantiated()
     {
         $this->assertInstanceOf(JsonResultsRenderer::class, new JsonResultsRenderer);
     }
 
-    /** @test **/
+    /** @test */
     public function it_can_render_the_results_as_json()
     {
         $resultCollection = new ResultCollection([

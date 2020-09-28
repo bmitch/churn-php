@@ -33,7 +33,7 @@ class FileManagerTest extends BaseTestCase
         $this->assertCount(7, $this->fileManager->getPhpFiles([__DIR__ . '/../Assets', __DIR__ . '/../Assets2']));
     }
 
-    /** @test **/
+    /** @test */
     public function it_ignores_files_specified_to_ignore_in_the_config()
     {
         $fileManager = new FileManager(['php'], ['Assets/Baz.php']);
@@ -79,7 +79,7 @@ class FileManagerTest extends BaseTestCase
         $this->assertCount(1, $fileManager->getPhpFiles([__DIR__ . '/../Assets2']));
     }
 
-    /** @test **/
+    /** @test */
     public function it_uses_extensions_specified_in_the_config()
     {
         $fileManager = new FileManager(['php', 'inc'], []);

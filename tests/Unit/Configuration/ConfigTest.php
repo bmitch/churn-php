@@ -21,13 +21,13 @@ class ConfigTest extends BaseTestCase
         );
     }
 
-    /** @test **/
+    /** @test */
     public function it_can_be_instantiated_without_any_parameters()
     {
         $this->assertInstanceOf(Config::class, Config::createFromDefaultValues());
     }
 
-    /** @test **/
+    /** @test */
     public function it_can_return_its_default_values_when_instantiated_without_any_parameters()
     {
         $config = Config::createFromDefaultValues();
@@ -40,7 +40,7 @@ class ConfigTest extends BaseTestCase
         $this->assertSame(Config::FILE_EXTENSIONS_TO_PARSE, $config->getFileExtensions());
     }
 
-    /** @test **/
+    /** @test */
     public function it_can_return_its_values_when_instantiated_parameters()
     {
         $filesToShow = 13;

@@ -11,13 +11,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CsvResultsRendererTest extends BaseTestCase
 {
-    /** @test **/
+    /** @test */
     public function it_can_be_instantiated()
     {
         $this->assertInstanceOf(CsvResultsRenderer::class, new CsvResultsRenderer);
     }
 
-    /** @test **/
+    /** @test */
     public function it_can_render_the_results_as_json()
     {
         $resultCollection = new ResultCollection([
