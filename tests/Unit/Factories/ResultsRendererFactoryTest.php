@@ -22,19 +22,19 @@ class ResultsRendererFactoryTest extends BaseTestCase
         $this->assertInstanceOf(ResultsRendererFactory::class, $this->factory);
     }
 
-    /** @test **/
+    /** @test */
     public function it_returns_the_json_renderer_when_provided_json_format()
     {
         $this->assertInstanceOf(JsonResultsRenderer::class, $this->factory->getRenderer('json'));
     }
 
-    /** @test **/
+    /** @test */
     public function it_returns_the_csv_renderer_when_provided_csv_format()
     {
         $this->assertInstanceOf(CsvResultsRenderer::class, $this->factory->getRenderer('csv'));
     }
 
-    /** @test **/
+    /** @test */
     public function it_returns_the_console_renderer_when_provided_text_format()
     {
         $factory = new ResultsRendererFactory();

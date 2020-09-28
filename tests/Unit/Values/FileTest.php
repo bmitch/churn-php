@@ -7,13 +7,13 @@ use Churn\Values\File;
 
 class FileTest extends BaseTestCase
 {
-    /** @test **/
+    /** @test */
     public function it_can_be_instantiated()
     {
         $this->assertInstanceOf(File::class, $this->file);
     }
 
-    /** @test **/
+    /** @test */
     public function it_can_return_its_values()
     {
         $this->assertSame('foo/bar/baz.php', $this->file->getFullPath());

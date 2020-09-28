@@ -7,13 +7,13 @@ use Churn\Values\File;
 
 class FileCollectionTest extends \Churn\Tests\BaseTestCase
 {
-    /** @test **/
+    /** @test */
     public function it_can_be_instantiated()
     {
         $this->assertInstanceOf(FileCollection::class, new FileCollection());
     }
 
-    /** @test **/
+    /** @test */
     public function it_can_pop_off_the_next_file()
     {
         $fileCollection = new FileCollection;
@@ -25,7 +25,7 @@ class FileCollectionTest extends \Churn\Tests\BaseTestCase
         $this->assertCount(2, $fileCollection);
     }
 
-    /** @test **/
+    /** @test */
     public function it_can_determine_if_it_has_files_or_not()
     {
         $fileCollection = new FileCollection;

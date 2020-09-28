@@ -12,13 +12,13 @@ use Symfony\Component\Process\Process;
 
 class ResultsParserTest extends BaseTestCase
 {
-    /** @test **/
+    /** @test */
     public function it_can_be_instantiated()
     {
        $this->assertInstanceOf(ResultsParser::class, new ResultsParser());
     }
 
-    /** @test **/
+    /** @test */
     public function it_can_parse_a_collection_of_completed_processses()
     {
         $completedProcesses = [];
@@ -49,7 +49,7 @@ class ResultsParserTest extends BaseTestCase
         $this->assertSame(['foo/bar/baz.php', 3, 4], $parsedResults[0]->toArray());
     }
 
-    /** @test **/
+    /** @test */
     public function it_can_parse_a_completed_process_of_a_file_with_no_git_log()
     {
         $completedProcesses = [];
