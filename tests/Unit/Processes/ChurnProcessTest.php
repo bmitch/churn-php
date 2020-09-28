@@ -8,7 +8,7 @@ use Symfony\Component\Process\Process;
 
 class ChurnProcessTest extends BaseTestCase
 {
-    /** @test **/
+    /** @test */
     public function it_can_be_instantiated()
     {
         $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
@@ -17,7 +17,7 @@ class ChurnProcessTest extends BaseTestCase
         $this->assertInstanceOf(ChurnProcess::class, $churnProcess);
     }
 
-    /** @test **/
+    /** @test */
     public function it_can_be_started()
     {
         $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
@@ -27,7 +27,7 @@ class ChurnProcessTest extends BaseTestCase
         $churnProcess->start();
     }
 
-    /** @test **/
+    /** @test */
     public function it_can_determine_if_it_was_successful()
     {
         $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
@@ -43,7 +43,7 @@ class ChurnProcessTest extends BaseTestCase
         $this->assertFalse($churnProcess->isSuccessful());
     }
 
-   /** @test **/
+   /** @test */
    public function it_can_get_the_name_of_the_file_it_is_processing()
    {
         $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
@@ -52,7 +52,7 @@ class ChurnProcessTest extends BaseTestCase
         $this->assertSame('bar/baz.php', $churnProcess->getFilename());
    }
 
-    /** @test **/
+    /** @test */
     public function it_can_get_its_key()
     {
         $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
@@ -61,7 +61,7 @@ class ChurnProcessTest extends BaseTestCase
         $this->assertSame('footypefoo/bar/baz.php', $churnProcess->getKey());
     }
 
-   /** @test **/
+   /** @test */
    public function it_can_get_its_type()
    {
        $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
@@ -70,7 +70,7 @@ class ChurnProcessTest extends BaseTestCase
        $this->assertSame('footype', $churnProcess->getType());
    }
 
-   /** @test **/
+   /** @test */
    public function it_can_get_its_output()
    {
        $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);

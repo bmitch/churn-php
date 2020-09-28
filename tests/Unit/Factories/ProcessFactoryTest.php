@@ -19,7 +19,7 @@ class ProcessFactoryTest extends BaseTestCase
         $this->assertInstanceOf(ProcessFactory::class, $this->processFactory);
     }
 
-    /** @test **/
+    /** @test */
     public function it_can_create_a_git_commit_count_process()
     {
         $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
@@ -28,7 +28,7 @@ class ProcessFactoryTest extends BaseTestCase
         $this->assertSame('GitCommitProcess', $result->getType());
     }
 
-    /** @test **/
+    /** @test */
     public function it_can_create_a_cyclomatic_complexity_process()
     {
         $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);

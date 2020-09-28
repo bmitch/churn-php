@@ -9,7 +9,7 @@ class ChurnPHPApplicationTest extends BaseTestCase
 {
     const SEMANTIC_VERSIONING_PATTERN = '\d+\.\d+.\d+';
 
-    /** @test **/
+    /** @test */
     public function it_can_provide_version()
     {
         $application = ChurnPHPApplication::create();
@@ -17,7 +17,7 @@ class ChurnPHPApplicationTest extends BaseTestCase
         $this->assertRegExp('/^' . self::SEMANTIC_VERSIONING_PATTERN . '$/', $application->getVersion());
     }
 
-    /** @test **/
+    /** @test */
     public function it_can_provide_long_version()
     {
         $application = ChurnPHPApplication::create();

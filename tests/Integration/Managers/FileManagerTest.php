@@ -16,13 +16,13 @@ class FileManagerTest extends BaseTestCase
      */
     private $fileManager;
 
-    /** @test **/
+    /** @test */
     public function it_can_be_instantiated()
     {
         $this->assertInstanceOf(FileManager::class, $this->fileManager);
     }
 
-    /** @test **/
+    /** @test */
     public function it_can_recursively_get_the_php_files_in_a_path()
     {
         $paths = [__DIR__ . ''];
