@@ -12,7 +12,7 @@ class ChurnProcessTest extends BaseTestCase
     public function it_can_be_instantiated()
     {
         $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
-        $process = new Process('foo');
+        $process = new Process(['foo']);
         $churnProcess = new ChurnProcess($file, $process, 'footype');
         $this->assertInstanceOf(ChurnProcess::class, $churnProcess);
     }
@@ -78,6 +78,5 @@ class ChurnProcessTest extends BaseTestCase
        $process->shouldReceive('getOutput')->andReturn('mock output');
        $churnProcess = new ChurnProcess($file, $process, 'footype');
        $this->assertSame('mock output', $churnProcess->getOutput());
-
    }
 }
