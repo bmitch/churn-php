@@ -10,18 +10,16 @@ php:
 # phploc/phploc , sebastian/version , phpunit/phpunit
 
 cache:
- directories:
-  - $HOME/.composer/cache
+  directories:
+    - $HOME/.composer/cache
 
 install:
-  - travis_retry composer install --no-interaction --prefer-source --dev
+  - travis_retry composer install --no-interaction --prefer-source
 
 script:
- - composer test-ci
- - vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
- - vendor/bin/phpcs --standard=psr2 src
- - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" ]]; then vendor/bin/phpcs --standard=phpcs.xml src --ignore=tests/Sniffs; fi
- - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" ]]; then vendor/bin/phpcs --standard=codor.xml src -spn; fi
+  - composer test-ci
+  - vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
+  - vendor/bin/phpcs --standard=psr2 src/
 
 after_success:
- - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash)
