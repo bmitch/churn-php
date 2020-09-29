@@ -4,7 +4,10 @@ php:
  - 7.1
  - 7.2
  - 7.3
- - nightly
+ - 7.4
+# - nightly
+# php8 requires dependencies updates which do not support version 7.3
+# phploc/phploc , sebastian/version , phpunit/phpunit
 
 cache:
  directories:
