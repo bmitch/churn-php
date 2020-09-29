@@ -36,7 +36,8 @@
         "slevomat/coding-standard": "^2.0"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "process-timeout": 0
     },
     "autoload": {
         "psr-4": {
