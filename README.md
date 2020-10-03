@@ -1,3 +1,6 @@
+# I'm looking for a new maintainer
+Please see https://github.com/bmitch/churn-php/issues/222
+
 # churn-php
 Helps discover good candidates for refactoring.
 
