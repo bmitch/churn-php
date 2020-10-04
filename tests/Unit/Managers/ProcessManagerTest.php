@@ -14,6 +14,14 @@ class ProcessManagerTest extends BaseTestCase
     {
         $this->assertInstanceOf(ProcessManager::class, new ProcessManager);
     }
+
+    /** @test */
+    public function it_returns_collection_with_same_count_as_number_of_parallel_jobs() 
+    {
+        $numParallelJobs = 3;
+        $collection = new ProcessManager->process(new FileCollection, new ProcessFactory, $numParallelJobs);
+        $this->assertEquals($collection->count(), $numParallelJobs);        
+    }
 }
 
 ?>
