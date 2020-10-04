@@ -7,6 +7,8 @@ use Churn\Managers\ProcessManager;
 use Churn\Tests\BaseTestCase;
 use Churn\Values\File;
 
+use Illuminate\Support\Collection;
+
 class ProcessManagerTest extends BaseTestCase
 {
     /** @test */
@@ -19,8 +21,9 @@ class ProcessManagerTest extends BaseTestCase
     public function it_returns_collection_with_same_count_as_number_of_parallel_jobs() 
     {
         $numParallelJobs = 3;
-        $collection = new ProcessManager->process(new FileCollection, new ProcessFactory, $numParallelJobs);
-        $this->assertEquals($collection->count(), $numParallelJobs);        
+        $collection = new ProcessManager();
+        $collection = $collection->process(new FileCollection, new ProcessFactory, $numParallelJobs);
+        $this->assertEquals($collection::count(), $numParallelJobs);        
     }
 }
 
