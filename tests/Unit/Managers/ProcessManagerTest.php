@@ -21,8 +21,8 @@ class ProcessManagerTest extends BaseTestCase
     public function it_returns_collection_with_same_count_as_number_of_parallel_jobs() 
     {
         $numParallelJobs = 3;
-        $collection = new ProcessManager();
-        $collection = $collection->process(new FileCollection, new ProcessFactory, $numParallelJobs);
+        $processManager = new ProcessManager();
+        $collection = $processManager->process(new FileCollection, new ProcessFactory, $numParallelJobs);
         $this->assertEquals($collection->count(), $numParallelJobs);        
     }
 }
