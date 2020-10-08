@@ -6,7 +6,6 @@ use Churn\Configuration\Config;
 use Churn\Managers\ProcessManager;
 use Churn\Tests\BaseTestCase;
 use Churn\Values\File;
-
 use Illuminate\Support\Collection;
 
 class ProcessManagerTest extends BaseTestCase
@@ -26,5 +25,3 @@ class ProcessManagerTest extends BaseTestCase
         $this->assertEquals($collection->count(), $numParallelJobs);        
     }
 }
-
-?>
