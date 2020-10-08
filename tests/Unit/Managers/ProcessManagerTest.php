@@ -2,6 +2,7 @@
 
 namespace Churn\Tests\Unit\Managers;
 
+use Churn\Collections\FileCollection;
 use Churn\Configuration\Config;
 use Churn\Managers\ProcessManager;
 use Churn\Tests\BaseTestCase;
