@@ -1,7 +1,13 @@
 # churn-php
 Helps discover good candidates for refactoring.
 
-[![Build Status](https://travis-ci.org/bmitch/churn-php.svg?branch=master)](https://travis-ci.org/bmitch/churn-php) [![codecov](https://codecov.io/gh/bmitch/churn-php/branch/master/graph/badge.svg)](https://codecov.io/gh/bmitch/churn-php) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bmitch/churn-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bmitch/churn-php/?branch=master) [![Code Climate](https://codeclimate.com/github/bmitch/churn-php/badges/gpa.svg)](https://codeclimate.com/github/bmitch/churn-php) [![Packagist](https://img.shields.io/packagist/v/bmitch/churn-php.svg)]() [![Packagist](https://img.shields.io/packagist/dt/bmitch/churn-php.svg)]() [![Packagist](https://img.shields.io/packagist/l/bmitch/churn-php.svg)]()
+[![Build Status](https://travis-ci.org/bmitch/churn-php.svg?branch=master)](https://travis-ci.org/bmitch/churn-php)
+[![codecov](https://codecov.io/gh/bmitch/churn-php/branch/master/graph/badge.svg)](https://codecov.io/gh/bmitch/churn-php)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bmitch/churn-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bmitch/churn-php/?branch=master)
+[![Code Climate](https://codeclimate.com/github/bmitch/churn-php/badges/gpa.svg)](https://codeclimate.com/github/bmitch/churn-php)
+[![Packagist](https://img.shields.io/packagist/v/bmitch/churn-php.svg)](https://packagist.org/packages/bmitch/churn-php)
+[![Packagist](https://img.shields.io/packagist/dt/bmitch/churn-php.svg)](https://packagist.org/packages/bmitch/churn-php/stats)
+[![Packagist](https://img.shields.io/packagist/l/bmitch/churn-php.svg)](LICENSE.md)
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/bmitch)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/bmitch2112)
 ----------
@@ -33,7 +39,7 @@ A file that changes a lot and has a high complexity might be a better candidate 
 `churn-php` only assists the developer to identify files for refactoring. It's best to use the results in addition to your own judgment to decide which files you may want to refactor.
 
 ## Compatibility ##
-* PHP 7+
+* PHP 7.1+
 * Currently does not work on Windows command line. See [#71](https://github.com/bmitch/churn-php/issues/71) for more details.
 * Your project uses Git as version control system.
 
@@ -129,8 +135,8 @@ vendor/bin/churn run --format json
 Questions, comments, feedback? [@bmitch2112](https://twitter.com/bmitch2112)
 
 ## Contributing ##
-* Please run `composer test` on PHP 7.0 and ensure it passes.
-* If you do have access to PHP 7.0 please make sure that CI build passes when you make pull request. If you are unable to get it to pass in the pull request please ping me and I can help.
+* Please run `composer test` on PHP 7.1 and ensure it passes.
+* If you do have access to PHP 7.1 please make sure that CI build passes when you make pull request. If you are unable to get it to pass in the pull request please ping me and I can help.
 * Please see [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## License ##

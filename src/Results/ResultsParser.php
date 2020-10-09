@@ -37,7 +37,7 @@ class ResultsParser
      * @param array  $processes The processes that were executed on the file.
      * @return void
      */
-    private function parseCompletedProcessesForFile(string $file, array $processes)
+    private function parseCompletedProcessesForFile(string $file, array $processes): void
     {
         $commits = (integer) $this->parseCommits($processes['GitCommitProcess']);
         $complexity = (integer) $processes['CyclomaticComplexityProcess']->getOutput();
