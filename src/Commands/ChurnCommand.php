@@ -60,7 +60,7 @@ class ChurnCommand extends Command
      * Configure the command
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('run')
             ->addArgument('paths', InputArgument::IS_ARRAY, 'Path to source to check.')
@@ -76,11 +76,10 @@ class ChurnCommand extends Command
      * @param  OutputInterface $output Output.
      * @return void
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $content = (string) @file_get_contents($input->getOption('configuration'));
         $config = Config::create(Yaml::parse($content) ?? []);
-
         $filesCollection = (new FileManager($config->getFileExtensions(), $config->getFilesToIgnore()))
             ->getPhpFiles($this->getDirectoriesToScan($input, $config->getDirectoriesToScan()));
 

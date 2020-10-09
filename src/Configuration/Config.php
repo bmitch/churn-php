@@ -120,7 +120,7 @@ class Config
      * @param array $configuration The array containing the configuration values.
      * @return void
      */
-    private function validateConfigurationValues(array $configuration)
+    private function validateConfigurationValues(array $configuration): void
     {
         $this->validateDirectoriesToScan($configuration);
         $this->validateFilesToShow($configuration);
@@ -135,7 +135,7 @@ class Config
      * @param array $configuration The array containing the configuration values.
      * @return void
      */
-    private function validateDirectoriesToScan(array $configuration)
+    private function validateDirectoriesToScan(array $configuration): void
     {
         if (array_key_exists('directoriesToScan', $configuration)) {
             Assert::allString($configuration['directoriesToScan'], 'Directories to scan should be an array of strings');
@@ -146,7 +146,7 @@ class Config
      * @param array $configuration The array containing the configuration values.
      * @return void
      */
-    private function validateFilesToShow(array $configuration)
+    private function validateFilesToShow(array $configuration): void
     {
         if (array_key_exists('filesToShow', $configuration)) {
             Assert::integer($configuration['filesToShow'], 'Files to show should be an integer');
@@ -157,7 +157,7 @@ class Config
      * @param array $configuration The array containing the configuration values.
      * @return void
      */
-    private function validateMinScoreToShow(array $configuration)
+    private function validateMinScoreToShow(array $configuration): void
     {
         if (array_key_exists('minScoreToShow', $configuration)) {
             Assert::numeric($configuration['minScoreToShow'], 'Minimum score to show should be a number');
@@ -168,7 +168,7 @@ class Config
      * @param array $configuration The array containing the configuration values.
      * @return void
      */
-    private function validateParallelJobs(array $configuration)
+    private function validateParallelJobs(array $configuration): void
     {
         if (array_key_exists('parallelJobs', $configuration)) {
             Assert::integer($configuration['parallelJobs'], 'Amount of parallel jobs should be an integer');
@@ -180,7 +180,7 @@ class Config
      * @return void
      * @throws InvalidArgumentException If date is in a bad format.
      */
-    private function validateCommitsSince(array $configuration)
+    private function validateCommitsSince(array $configuration): void
     {
         if (array_key_exists('commitsSince', $configuration)) {
             Assert::string($configuration['commitsSince'], 'Commits since should be a string');
@@ -191,7 +191,7 @@ class Config
      * @param array $configuration The array containing the configuration values.
      * @return void
      */
-    private function validateFilesToIgnore(array $configuration)
+    private function validateFilesToIgnore(array $configuration): void
     {
         if (array_key_exists('filesToIgnore', $configuration)) {
             Assert::isArray($configuration['filesToIgnore'], 'Files to ignore should be an array of strings');
@@ -202,7 +202,7 @@ class Config
      * @param array $configuration The array containing the configuration values.
      * @return void
      */
-    private function validateFileExtensions(array $configuration)
+    private function validateFileExtensions(array $configuration): void
     {
         if (array_key_exists('fileExtensions', $configuration)) {
             Assert::isArray($configuration['fileExtensions'], 'File extensions should be an array of strings');
