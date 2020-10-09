@@ -32,13 +32,13 @@ class ChurnProcessTest extends BaseTestCase
     {
         $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
         $process = m::mock(Process::class);
-        $process->shouldReceive('isSuccessful')->andReturn(true);
+        $process->shouldReceive('getExitCode')->andReturn(0);
         $churnProcess = new ChurnProcess($file, $process, 'footype');
         $this->assertTrue($churnProcess->isSuccessful());
 
         $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
         $process = m::mock(Process::class);
-        $process->shouldReceive('isSuccessful')->andReturn(false);
+        $process->shouldReceive('getExitCode')->andReturn(null);
         $churnProcess = new ChurnProcess($file, $process, 'footype');
         $this->assertFalse($churnProcess->isSuccessful());
     }

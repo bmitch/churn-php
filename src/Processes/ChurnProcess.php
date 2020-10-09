@@ -4,6 +4,7 @@
 namespace Churn\Processes;
 
 use Churn\Values\File;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 class ChurnProcess
@@ -55,7 +56,12 @@ class ChurnProcess
      */
     public function isSuccessful(): bool
     {
-        return $this->process->isSuccessful();
+        $exitCode = $this->process->getExitCode();
+        if ($exitCode > 0) {
+            throw new ProcessFailedException($this->process);
+        }
+
+        return $exitCode === 0;
     }
 
     /**
