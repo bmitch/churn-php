@@ -3,10 +3,11 @@
 namespace Churn\Tests\Unit\Managers;
 
 use Churn\Collections\FileCollection;
-use Churn\Managers\ProcessManager;
-use Churn\Factories\ProcessFactory;
-use Churn\Tests\BaseTestCase;
 use Churn\Configuration\Config;
+use Churn\Factories\ProcessFactory;
+use Churn\Managers\ProcessManager;
+use Churn\Tests\BaseTestCase;
+use Churn\Values\File;
 
 class ProcessManagerTest extends BaseTestCase
 {
@@ -17,13 +18,30 @@ class ProcessManagerTest extends BaseTestCase
     }
 
     /** @test */
-    public function it_returns_collection_with_same_count_as_number_of_parallel_jobs() 
+    public function it_returns_empty_collection_when_no_files() 
     {
         $numParallelJobs = 3;
         $processManager = new ProcessManager();
         $config = Config::createFromDefaultValues();
         $processFactory = new ProcessFactory($config->getCommitsSince());
-        $collection = $processManager->process(new FileCollection, $processFactory, $numParallelJobs);
-        $this->assertEquals($collection->count(), $numParallelJobs);        
+        $fileCollection = new FileCollection();
+        
+        $collection = $processManager->process($fileCollection, $processFactory, $numParallelJobs);
+        $this->assertEquals($collection->count(), 0);        
+    }
+
+    /** @test */
+    public function it_returns_correct_collection_count_when_files_given()
+    {
+        $numParallelJobs = 3;
+        $processManager = new ProcessManager();
+        $config = Config::createFromDefaultValues();
+        $processFactory = new ProcessFactory($config->getCommitsSince());
+        $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
+        $file2 = new File(['fullPath' => 'bar/foo/baz.php', 'displayPath' => 'foo/baz.php']);
+        $fileCollection = new FileCollection(collect([$file]));
+        
+        $collection = $processManager->process($fileCollection, $processFactory, $numParallelJobs);
+        $this->assertEquals($collection->count(), 0);        
     }
 }
