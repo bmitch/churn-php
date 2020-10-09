@@ -43,7 +43,7 @@ class ChurnProcess
      * Start the process.
      * @return void
      */
-    public function start()
+    public function start(): void
     {
         $this->process->start();
     }
@@ -51,6 +51,7 @@ class ChurnProcess
     /**
      * Determines if the process was successful.
      * @return boolean
+     * @throws ProcessFailedException If the process failed.
      */
     public function isSuccessful(): bool
     {

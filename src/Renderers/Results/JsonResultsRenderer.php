@@ -14,7 +14,7 @@ class JsonResultsRenderer implements ResultsRendererInterface
      * @param ResultCollection $results Result Collection.
      * @return void
      */
-    public function render(OutputInterface $output, ResultCollection $results)
+    public function render(OutputInterface $output, ResultCollection $results): void
     {
         $data = array_map(function (array $result) {
             return [
