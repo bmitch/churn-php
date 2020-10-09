@@ -3,11 +3,10 @@
 namespace Churn\Tests\Unit\Managers;
 
 use Churn\Collections\FileCollection;
-use Churn\Configuration\Config;
 use Churn\Managers\ProcessManager;
+use Churn\Factories\ProcessFactory;
 use Churn\Tests\BaseTestCase;
-use Churn\Values\File;
-use Illuminate\Support\Collection;
+use Churn\Configuration\Config;
 
 class ProcessManagerTest extends BaseTestCase
 {
@@ -22,7 +21,9 @@ class ProcessManagerTest extends BaseTestCase
     {
         $numParallelJobs = 3;
         $processManager = new ProcessManager();
-        $collection = $processManager->process(new FileCollection, new ProcessFactory, $numParallelJobs);
+        $config = Config::createFromDefaultValues();
+        $processFactory = new ProcessFactory($config->getCommitsSince());
+        $collection = $processManager->process(new FileCollection, $processFactory, $numParallelJobs);
         $this->assertEquals($collection->count(), $numParallelJobs);        
     }
 }
