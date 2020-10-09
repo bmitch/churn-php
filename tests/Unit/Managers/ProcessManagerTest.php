@@ -29,20 +29,4 @@ class ProcessManagerTest extends BaseTestCase
         $collection = $processManager->process($fileCollection, $processFactory, $numParallelJobs);
         $this->assertEquals($collection->count(), 0);        
     }
-
-    /** */
-    public function it_returns_correct_collection_count_when_files_given()
-    {
-        $numParallelJobs = 3;
-        $processManager = new ProcessManager();
-        $config = Config::createFromDefaultValues();
-        $processFactory = new ProcessFactory($config->getCommitsSince());
-
-        $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
-        $file2 = new File(['fullPath' => 'bar/foo/baz.php', 'displayPath' => 'foo/baz.php']);
-        $fileCollection = new FileCollection(collect([ $file, $file2]));
-        
-        $collection = $processManager->process($fileCollection, $processFactory, $numParallelJobs);
-        $this->assertEquals($collection->count(), 0);        
-    }
 }
