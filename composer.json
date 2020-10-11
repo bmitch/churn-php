@@ -73,7 +73,7 @@
             "phploc src",
             "phpcpd src",
             "phpunit --debug --coverage-clover=coverage.xml",
-            "php bin/churn run src"
+            "@php bin/churn run src"
         ]
     }
 }
