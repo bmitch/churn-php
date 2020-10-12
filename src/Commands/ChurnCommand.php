@@ -74,9 +74,9 @@ class ChurnCommand extends Command
      * Execute the command
      * @param  InputInterface  $input  Input.
      * @param  OutputInterface $output Output.
-     * @return void
+     * @return integer
      */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $content = (string) @file_get_contents($input->getOption('configuration'));
         $config = Config::create(Yaml::parse($content) ?? []);
@@ -88,7 +88,6 @@ class ChurnCommand extends Command
             new ProcessFactory($config->getCommitsSince()),
             $config->getParallelJobs()
         );
-
         $resultCollection = $this->resultsLogic->process(
             $completedProcesses,
             $config->getMinScoreToShow(),
@@ -97,6 +96,7 @@ class ChurnCommand extends Command
 
         $renderer = $this->renderFactory->getRenderer($input->getOption('format'));
         $renderer->render($output, $resultCollection);
+        return 0;
     }
 
     /**
