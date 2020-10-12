@@ -4,6 +4,7 @@ namespace Churn\Factories;
 
 use Churn\Processes\ChurnProcess;
 use Churn\Values\File;
+use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
 class ProcessFactory
@@ -46,9 +47,9 @@ class ProcessFactory
      */
     public function createCyclomaticComplexityProcess(File $file): ChurnProcess
     {
+        $php = (new PhpExecutableFinder())->find();
         $script = __DIR__ . '/../../bin/CyclomaticComplexityAssessorRunner';
-
-        $process = new Process(['php', $script, $file->getFullPath()]);
+        $process = new Process([$php, $script, $file->getFullPath()]);
 
         return new ChurnProcess($file, $process, 'CyclomaticComplexityProcess');
     }
