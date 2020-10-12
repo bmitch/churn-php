@@ -30,11 +30,11 @@ class ProcessFactory
      */
     public function createGitCommitProcess(File $file): ChurnProcess
     {
-        $process = new Process(
-            'git -C ' . escapeshellarg(getcwd()) . ' rev-list --since=' .
-            escapeshellarg($this->commitsSince) . ' --no-merges --count HEAD ' .
-            escapeshellarg($file->getFullPath())
-        );
+        $process = new Process([
+            'git', '-C', getcwd(), 'rev-list', '--since',
+            $this->commitsSince, '--no-merges', '--count', 'HEAD',
+            $file->getFullPath(),
+            ]);
 
         return new ChurnProcess($file, $process, 'GitCommitProcess');
     }
@@ -46,12 +46,9 @@ class ProcessFactory
      */
     public function createCyclomaticComplexityProcess(File $file): ChurnProcess
     {
-        $rootFolder = __DIR__ . '/../../bin/';
+        $script = __DIR__ . '/../../bin/CyclomaticComplexityAssessorRunner';
 
-        $process = new Process(
-            'php ' . escapeshellarg($rootFolder . 'CyclomaticComplexityAssessorRunner') .
-            ' ' . escapeshellarg($file->getFullPath())
-        );
+        $process = new Process(['php', $script, $file->getFullPath()]);
 
         return new ChurnProcess($file, $process, 'CyclomaticComplexityProcess');
     }
