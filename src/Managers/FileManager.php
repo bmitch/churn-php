@@ -86,7 +86,7 @@ class FileManager
     {
         foreach ($this->filesToIgnore as $fileToIgnore) {
             $regex = $this->patternToRegex($fileToIgnore);
-            if (preg_match("#{$regex}#", $file->getPathName())) {
+            if (preg_match("#{$regex}#", $file->getRealPath())) {
                 return true;
             }
         }
@@ -101,7 +101,11 @@ class FileManager
      */
     private function patternToRegex(string $filePattern): string
     {
-        $regex = preg_replace("#/(.*)\*([\w.]*)$#", "/$1.+$2$", $filePattern);
+        $regex = preg_replace("#(.*)\*([\w.]*)$#", "$1.+$2$", $filePattern);
+        if (DIRECTORY_SEPARATOR === '\\') {
+            $regex = str_replace('/', '\\\\', $regex);
+        }
+
         return $regex;
     }
 }
