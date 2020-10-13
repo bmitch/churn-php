@@ -2,22 +2,35 @@
 
 ## [Unreleased](https://github.com/bmitch/churn-php/tree/HEAD)
 
-[Full Changelog](https://github.com/bmitch/churn-php/compare/1.0.3...HEAD)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.1.0...HEAD)
+
+## [1.1.0](https://github.com/bmitch/churn-php/tree/1.1.0) (2020-10-13)
+
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.0.3...1.1.0)
+
+**Implemented enhancements:**
+
+- Allow Symfony 5 [\#215](https://github.com/bmitch/churn-php/issues/215)
 
 **Closed issues:**
 
 - Looking for a new maintainer [\#222](https://github.com/bmitch/churn-php/issues/222)
 - Cannot run the tool locally [\#219](https://github.com/bmitch/churn-php/issues/219)
+- Churn `--version` flag does not work [\#211](https://github.com/bmitch/churn-php/issues/211)
 - Tests for ProcessManager? [\#155](https://github.com/bmitch/churn-php/issues/155)
 
 **Merged pull requests:**
 
+- Add compatibilty with Symfony 5 [\#226](https://github.com/bmitch/churn-php/pull/226) ([villfa](https://github.com/villfa))
+- Add application version [\#225](https://github.com/bmitch/churn-php/pull/225) ([villfa](https://github.com/villfa))
+- Update CHANGELOG.md [\#224](https://github.com/bmitch/churn-php/pull/224) ([villfa](https://github.com/villfa))
 - Update README.md [\#223](https://github.com/bmitch/churn-php/pull/223) ([villfa](https://github.com/villfa))
 - Write Tests for Process Manager [\#221](https://github.com/bmitch/churn-php/pull/221) ([Borumer](https://github.com/Borumer))
 - Fix unit test [\#220](https://github.com/bmitch/churn-php/pull/220) ([villfa](https://github.com/villfa))
 - Drop ChurnCommandOld [\#218](https://github.com/bmitch/churn-php/pull/218) ([simPod](https://github.com/simPod))
 - Allow Symfony 5 [\#217](https://github.com/bmitch/churn-php/pull/217) ([simPod](https://github.com/simPod))
 - Fix up Travis config [\#216](https://github.com/bmitch/churn-php/pull/216) ([szepeviktor](https://github.com/szepeviktor))
+- Fix FileManager for Windows [\#201](https://github.com/bmitch/churn-php/pull/201) ([villfa](https://github.com/villfa))
 - Update php-di/php-di dependency [\#200](https://github.com/bmitch/churn-php/pull/200) ([Tlapi](https://github.com/Tlapi))
 - Enhancement: Update phpunit/phpunit [\#198](https://github.com/bmitch/churn-php/pull/198) ([localheinz](https://github.com/localheinz))
 - Enhancement: Reference phpunit.xsd as installed with composer [\#197](https://github.com/bmitch/churn-php/pull/197) ([localheinz](https://github.com/localheinz))
