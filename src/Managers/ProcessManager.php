@@ -61,11 +61,9 @@ class ProcessManager
      */
     private function getProcessResults(int $numberOfParallelJobs): void
     {
-        for ($index = $this->runningProcesses->count();
-             $this->filesCollection->hasFiles() > 0 && $index < $numberOfParallelJobs;
-             $index++) {
+        $index = $this->runningProcesses->count();
+        for (; $this->filesCollection->hasFiles() > 0 && $index < $numberOfParallelJobs; $index++) {
             $file = $this->filesCollection->getNextFile();
-
             $process = $this->processFactory->createGitCommitProcess($file);
             $process->start();
             $this->runningProcesses->put($process->getKey(), $process);

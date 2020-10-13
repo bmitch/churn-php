@@ -6,7 +6,7 @@
     colors="true"
 >
     <testsuites>
-        <testsuite>
+        <testsuite name="churn-tests">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
