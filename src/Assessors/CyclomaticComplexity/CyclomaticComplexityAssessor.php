@@ -2,6 +2,10 @@
 
 namespace Churn\Assessors\CyclomaticComplexity;
 
+use function preg_match;
+use function preg_match_all;
+use function file_get_contents;
+
 class CyclomaticComplexityAssessor
 {
     /**

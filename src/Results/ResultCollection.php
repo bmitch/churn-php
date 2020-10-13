@@ -2,6 +2,9 @@
 
 namespace Churn\Results;
 
+use function array_map;
+use function array_merge;
+use function array_values;
 use Illuminate\Support\Collection;
 
 class ResultCollection extends Collection

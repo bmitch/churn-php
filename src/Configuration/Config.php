@@ -2,6 +2,7 @@
 
 namespace Churn\Configuration;
 
+use function array_key_exists;
 use Webmozart\Assert\Assert;
 
 class Config

@@ -3,6 +3,7 @@
 namespace Churn\Renderers\Results;
 
 use Churn\Results\ResultCollection;
+use function implode;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CsvResultsRenderer implements ResultsRendererInterface

@@ -7,6 +7,8 @@ use Churn\Logic\ResultsLogic;
 use Churn\Managers\ProcessManager;
 use Churn\Factories\ProcessFactory;
 use Churn\Managers\FileManager;
+use function count;
+use function file_get_contents;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

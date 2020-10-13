@@ -3,7 +3,9 @@
 
 namespace Churn\Renderers\Results;
 
+use function array_map;
 use Churn\Results\ResultCollection;
+use function json_encode;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class JsonResultsRenderer implements ResultsRendererInterface

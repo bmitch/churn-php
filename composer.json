@@ -24,17 +24,16 @@
         "webmozart/assert": "^1.2"
     },
     "require-dev": {
-        "bmitch/codor": "^1.0",
-        "larapack/dd": "^1.1",
+        "bmitch/codor": "dev-master",
         "mockery/mockery": "^1.2.0",
         "php-parallel-lint/php-console-highlighter": "^0.5.0",
         "php-parallel-lint/php-parallel-lint": "^1.2",
-        "phploc/phploc": "^4.0",
+        "phploc/phploc": ">=4.0",
         "phpmd/phpmd": "^2.5",
         "phpunit/phpunit": "^7.5.20",
         "sebastian/phpcpd": "^4.0",
         "sensiolabs/security-checker": "^4.0",
-        "slevomat/coding-standard": "^2.0"
+        "slevomat/coding-standard": "^3.0"
     },
     "config": {
         "sort-packages": true

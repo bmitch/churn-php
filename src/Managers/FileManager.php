@@ -4,9 +4,14 @@ namespace Churn\Managers;
 
 use Churn\Collections\FileCollection;
 use Churn\Values\File;
+use const DIRECTORY_SEPARATOR;
+use function in_array;
+use function preg_match;
+use function preg_replace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
+use function str_replace;
 
 class FileManager
 {
