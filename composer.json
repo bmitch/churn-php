@@ -71,7 +71,7 @@
             "phpmd src text phpmd.xml",
             "phploc src",
             "phpcpd src",
-            "phpunit --debug --coverage-clover=coverage.xml",
+            "phpunit --colors=always --testdox --coverage-clover=coverage.xml",
             "@php bin/churn run src"
         ]
     }
