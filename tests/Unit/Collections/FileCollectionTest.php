@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Churn\Tests\Unit\Collections;
 
@@ -33,5 +33,4 @@ class FileCollectionTest extends \Churn\Tests\BaseTestCase
         $fileCollection->push(new File(['fullPath' => 'foo.php', 'displayPath' => 'foo.php']));
         $this->assertTrue($fileCollection->hasFiles());
     }
-    
 }

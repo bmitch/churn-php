@@ -97,8 +97,9 @@ class ResultsLogicTest extends \Churn\Tests\BaseTestCase
         $completedProcesses = $this->configureProcesses();
 
         $resultCollection = new ResultCollection();
-        for ($i = 0; $i < 5; $i++)
+        for ($i = 0; $i < 5; $i++) {
             $resultCollection->push($this->mockResult($i));
+        }
 
         $this->assertCount(5, $resultCollection);
 

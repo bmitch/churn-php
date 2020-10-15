@@ -49,7 +49,8 @@ class ResultTest extends BaseTestCase
     /** @test */
     public function it_can_be_returned_as_an_array()
     {
-        $this->assertSame([
+        $this->assertSame(
+            [
                 'filename.php',
                 5,
                 7

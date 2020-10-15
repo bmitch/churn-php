@@ -1,8 +1,6 @@
-<?php
-
+<?php declare(strict_types = 1);
 
 namespace Churn\Tests\Unit\Configuration;
-
 
 use Churn\Configuration\Config;
 use Churn\Tests\BaseTestCase;
@@ -70,5 +68,4 @@ class ConfigTest extends BaseTestCase
         $this->assertSame($filesToIgnore, $config->getFilesToIgnore());
         $this->assertSame($fileExtensions, $config->getFileExtensions());
     }
-
 }
