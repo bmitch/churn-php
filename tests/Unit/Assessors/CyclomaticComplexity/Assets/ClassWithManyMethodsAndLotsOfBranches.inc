@@ -13,7 +13,7 @@ class ClassWithWhileLoop
     {
         if ($true) {
             return true;
-        } elseif($false) {
+        } elseif ($false) {
             return false;
         }
 

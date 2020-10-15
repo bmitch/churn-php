@@ -18,6 +18,5 @@ class ClassWithWhileLoop
                 foobar();
                 break;
         }
-
     }
 }

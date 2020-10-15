@@ -6,7 +6,7 @@ class ClassWithIfElseIf
     {
         if ($true) {
             return true;
-        } elseif($false) {
+        } elseif ($false) {
             return false;
         }
     }

@@ -77,13 +77,13 @@ class CyclomaticComplexityAssessorTest extends BaseTestCase
     /** @test */
     public function a_class_with_a_logical_and_should_return_two()
     {
-        $this->assertEquals(2, $this->assess('tests/Unit/Assessors/CyclomaticComplexity/Assets/ClassWithLogicalAnd.inc'));        
+        $this->assertEquals(2, $this->assess('tests/Unit/Assessors/CyclomaticComplexity/Assets/ClassWithLogicalAnd.inc'));
     }
 
     /** @test */
     public function a_class_with_a_logical_or_should_return_two()
     {
-        $this->assertEquals(2, $this->assess('tests/Unit/Assessors/CyclomaticComplexity/Assets/ClassWithLogicalOr.inc'));        
+        $this->assertEquals(2, $this->assess('tests/Unit/Assessors/CyclomaticComplexity/Assets/ClassWithLogicalOr.inc'));
     }
 
     protected function assess($filename)

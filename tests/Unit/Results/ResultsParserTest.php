@@ -15,7 +15,7 @@ class ResultsParserTest extends BaseTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-       $this->assertInstanceOf(ResultsParser::class, new ResultsParser());
+        $this->assertInstanceOf(ResultsParser::class, new ResultsParser());
     }
 
     /** @test */

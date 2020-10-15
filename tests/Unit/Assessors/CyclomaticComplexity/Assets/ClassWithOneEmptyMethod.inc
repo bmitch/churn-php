@@ -4,6 +4,5 @@ class ClassWithOneEmptyMethod
 {
     public function foobar()
     {
-        
     }
 }
