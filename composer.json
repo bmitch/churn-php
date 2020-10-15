@@ -32,7 +32,6 @@
         "phpmd/phpmd": "^2.5",
         "phpunit/phpunit": "^7.5.20",
         "sebastian/phpcpd": "^4.0",
-        "sensiolabs/security-checker": "^4.0",
         "slevomat/coding-standard": "^3.0"
     },
     "config": {
