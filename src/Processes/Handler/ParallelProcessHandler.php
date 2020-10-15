@@ -1,12 +1,12 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Managers;
+namespace Churn\Processes\Handler;
 
 use Churn\Collections\FileCollection;
 use Churn\Factories\ProcessFactory;
 use Illuminate\Support\Collection;
 
-class ProcessManager
+class ParallelProcessHandler implements ProcessHandler
 {
     /**
      * Collection of running processes.
@@ -33,23 +33,36 @@ class ProcessManager
     private $processFactory;
 
     /**
+     * Number of parallel jobs to run.
+     * @var integer
+     */
+    private $numberOfParallelJobs;
+
+    /**
+     * ProcessManager constructor.
+     * @param int $numberOfParallelJobs Number of parallel jobs to run.
+     */
+    public function __construct(int $numberOfParallelJobs)
+    {
+        $this->numberOfParallelJobs = $numberOfParallelJobs;
+    }
+
+    /**
      * Run the processes to gather information.
-     * @param FileCollection $filesCollection      Collection of files.
-     * @param ProcessFactory $processFactory       Process Factory.
-     * @param integer        $numberOfParallelJobs Number of parallel jobs to run.
+     * @param FileCollection $filesCollection Collection of files.
+     * @param ProcessFactory $processFactory  Process Factory.
      * @return Collection
      */
     public function process(
         FileCollection $filesCollection,
-        ProcessFactory $processFactory,
-        int $numberOfParallelJobs
+        ProcessFactory $processFactory
     ): Collection {
         $this->filesCollection = $filesCollection;
         $this->processFactory = $processFactory;
         $this->runningProcesses = new Collection;
         $this->completedProcessesArray = [];
         while ($filesCollection->hasFiles() || $this->runningProcesses->count()) {
-            $this->getProcessResults($numberOfParallelJobs);
+            $this->getProcessResults($this->numberOfParallelJobs);
         }
         return new Collection($this->completedProcessesArray);
     }
@@ -62,7 +75,7 @@ class ProcessManager
     private function getProcessResults(int $numberOfParallelJobs): void
     {
         $index = $this->runningProcesses->count();
-        for (; $this->filesCollection->hasFiles() > 0 && $index < $numberOfParallelJobs; $index++) {
+        for (; $index < $numberOfParallelJobs && $this->filesCollection->hasFiles() > 0; $index++) {
             $file = $this->filesCollection->getNextFile();
             $process = $this->processFactory->createGitCommitProcess($file);
             $process->start();

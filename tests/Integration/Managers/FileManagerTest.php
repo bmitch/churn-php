@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Churn\Tests\Integration\Managers;
 
@@ -25,7 +25,7 @@ class FileManagerTest extends BaseTestCase
     /** @test */
     public function it_can_recursively_get_the_php_files_in_a_path()
     {
-        $paths = [__DIR__ . ''];
+        $paths = [__DIR__];
         $results = $this->fileManager->getPhpFiles($paths);
         $this->assertInstanceOf(Collection::class, $results);
         $this->assertCount(1, $results);
