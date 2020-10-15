@@ -4,9 +4,9 @@ namespace Churn\Commands;
 
 use Churn\Factories\ResultsRendererFactory;
 use Churn\Logic\ResultsLogic;
-use Churn\Managers\ProcessManager;
 use Churn\Factories\ProcessFactory;
 use Churn\Managers\FileManager;
+use Churn\Processes\ProcessHandlerFactory;
 use function count;
 use function file_get_contents;
 use Symfony\Component\Console\Command\Command;
@@ -30,10 +30,10 @@ class ChurnCommand extends Command
     private $resultsLogic;
 
     /**
-     * The process manager.
-     * @var ProcessManager
+     * The process handler factory.
+     * @var ProcessHandlerFactory
      */
-    private $processManager;
+    private $processHandlerFactory;
 
     /**
      * The renderer factory.
@@ -43,18 +43,18 @@ class ChurnCommand extends Command
 
     /**
      * ChurnCommand constructor.
-     * @param ResultsLogic           $resultsLogic   The results logic.
-     * @param ProcessManager         $processManager The process manager.
-     * @param ResultsRendererFactory $renderFactory  The Results Renderer Factory.
+     * @param ResultsLogic           $resultsLogic          The results logic.
+     * @param ProcessHandlerFactory  $processHandlerFactory The process handler factory.
+     * @param ResultsRendererFactory $renderFactory         The Results Renderer Factory.
      */
     public function __construct(
         ResultsLogic $resultsLogic,
-        ProcessManager $processManager,
+        ProcessHandlerFactory $processHandlerFactory,
         ResultsRendererFactory $renderFactory
     ) {
         parent::__construct();
         $this->resultsLogic = $resultsLogic;
-        $this->processManager = $processManager;
+        $this->processHandlerFactory = $processHandlerFactory;
         $this->renderFactory = $renderFactory;
     }
 
@@ -85,7 +85,7 @@ class ChurnCommand extends Command
         $filesCollection = (new FileManager($config->getFileExtensions(), $config->getFilesToIgnore()))
             ->getPhpFiles($this->getDirectoriesToScan($input, $config->getDirectoriesToScan()));
 
-        $completedProcesses = $this->processManager->process(
+        $completedProcesses = $this->processHandlerFactory->getProcessHandler($config)->process(
             $filesCollection,
             new ProcessFactory($config->getCommitsSince()),
             $config->getParallelJobs()

@@ -1,4 +1,6 @@
-<?php
+<?php declare(strict_types = 1);
+
+namespace Churn\Tests\Unit\Processes;
 
 use Mockery as m;
 use Churn\Tests\BaseTestCase;
