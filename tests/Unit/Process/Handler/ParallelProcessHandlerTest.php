@@ -1,11 +1,11 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Tests\Unit\Processes\Handler;
+namespace Churn\Tests\Unit\Process\Handler;
 
 use Churn\Collections\FileCollection;
 use Churn\Configuration\Config;
-use Churn\Processes\Handler\ParallelProcessHandler;
-use Churn\Processes\ProcessFactory;
+use Churn\Process\Handler\ParallelProcessHandler;
+use Churn\Process\ProcessFactory;
 use Churn\Tests\BaseTestCase;
 use Churn\Values\File;
 

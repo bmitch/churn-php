@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Processes;
+namespace Churn\Process;
 
 use Churn\Values\File;
 use function getcwd;

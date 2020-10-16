@@ -2,12 +2,12 @@
 
 namespace Churn\Tests\Results;
 
-use Churn\Processes\ChurnProcess;
-use Mockery as m;
+use Churn\Process\ChurnProcess;
 use Churn\Results\ResultsParser;
 use Churn\Tests\BaseTestCase;
 use Churn\Values\File;
 use Illuminate\Support\Collection;
+use Mockery as m;
 use Symfony\Component\Process\Process;
 
 class ResultsParserTest extends BaseTestCase

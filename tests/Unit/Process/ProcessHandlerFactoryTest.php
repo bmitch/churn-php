@@ -1,11 +1,11 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Tests\Unit\Processes;
+namespace Churn\Tests\Unit\Process;
 
 use Churn\Configuration\Config;
-use Churn\Processes\Handler\ParallelProcessHandler;
-use Churn\Processes\Handler\SequentialProcessHandler;
-use Churn\Processes\ProcessHandlerFactory;
+use Churn\Process\Handler\ParallelProcessHandler;
+use Churn\Process\Handler\SequentialProcessHandler;
+use Churn\Process\ProcessHandlerFactory;
 use Churn\Tests\BaseTestCase;
 use Mockery as m;
 

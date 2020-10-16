@@ -1,11 +1,11 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Processes;
+namespace Churn\Process;
 
 use Churn\Configuration\Config;
-use Churn\Processes\Handler\ParallelProcessHandler;
-use Churn\Processes\Handler\ProcessHandler;
-use Churn\Processes\Handler\SequentialProcessHandler;
+use Churn\Process\Handler\ParallelProcessHandler;
+use Churn\Process\Handler\ProcessHandler;
+use Churn\Process\Handler\SequentialProcessHandler;
 
 class ProcessHandlerFactory
 {

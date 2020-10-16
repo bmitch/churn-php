@@ -1,9 +1,9 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Processes\Handler;
+namespace Churn\Process\Handler;
 
 use Churn\Collections\FileCollection;
-use Churn\Processes\ProcessFactory;
+use Churn\Process\ProcessFactory;
 use Illuminate\Support\Collection;
 
 interface ProcessHandler
