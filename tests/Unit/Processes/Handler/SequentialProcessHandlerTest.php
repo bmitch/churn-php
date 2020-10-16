@@ -3,9 +3,9 @@
 namespace Churn\Tests\Unit\Processes\Handler;
 
 use Churn\Collections\FileCollection;
-use Churn\Factories\ProcessFactory;
 use Churn\Processes\ChurnProcess;
 use Churn\Processes\Handler\SequentialProcessHandler;
+use Churn\Processes\ProcessFactory;
 use Churn\Tests\BaseTestCase;
 use Churn\Values\File;
 use Illuminate\Support\Collection;

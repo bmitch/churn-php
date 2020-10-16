@@ -4,8 +4,8 @@ namespace Churn\Tests\Unit\Processes\Handler;
 
 use Churn\Collections\FileCollection;
 use Churn\Configuration\Config;
-use Churn\Factories\ProcessFactory;
 use Churn\Processes\Handler\ParallelProcessHandler;
+use Churn\Processes\ProcessFactory;
 use Churn\Tests\BaseTestCase;
 use Churn\Values\File;
 
