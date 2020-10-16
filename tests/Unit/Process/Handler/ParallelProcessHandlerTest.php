@@ -5,6 +5,7 @@ namespace Churn\Tests\Unit\Process\Handler;
 use Churn\Collections\FileCollection;
 use Churn\Configuration\Config;
 use Churn\Process\Handler\ParallelProcessHandler;
+use Churn\Process\Observer\OnSuccessNull;
 use Churn\Process\ProcessFactory;
 use Churn\Tests\BaseTestCase;
 use Churn\Values\File;
@@ -25,7 +26,7 @@ class ParallelProcessHandlerTest extends BaseTestCase
         $processFactory = new ProcessFactory($config->getCommitsSince());
         $fileCollection = new FileCollection();
         
-        $collection = $processHandler->process($fileCollection, $processFactory);
+        $collection = $processHandler->process($fileCollection, $processFactory, new OnSuccessNull());
         $this->assertEquals($collection->count(), 0);
     }
 }
