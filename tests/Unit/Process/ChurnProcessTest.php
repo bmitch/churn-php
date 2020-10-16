@@ -1,10 +1,10 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Tests\Unit\Processes;
+namespace Churn\Tests\Unit\Process;
 
 use Mockery as m;
 use Churn\Tests\BaseTestCase;
-use Churn\Processes\ChurnProcess;
+use Churn\Process\ChurnProcess;
 use Churn\Values\File;
 use Symfony\Component\Process\Process;
 
