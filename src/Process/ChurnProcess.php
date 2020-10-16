@@ -83,6 +83,15 @@ class ChurnProcess
     }
 
     /**
+     * Gets the file the process is being executed on.
+     * @return File
+     */
+    public function getFile(): File
+    {
+        return $this->file;
+    }
+
+    /**
      * Gets a unique key used for storing the process in data structures.
      * @return string
      */

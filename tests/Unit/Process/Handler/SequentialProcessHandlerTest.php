@@ -5,6 +5,7 @@ namespace Churn\Tests\Unit\Process\Handler;
 use Churn\Collections\FileCollection;
 use Churn\Process\ChurnProcess;
 use Churn\Process\Handler\SequentialProcessHandler;
+use Churn\Process\Observer\OnSuccessNull;
 use Churn\Process\ProcessFactory;
 use Churn\Tests\BaseTestCase;
 use Churn\Values\File;
@@ -40,7 +41,7 @@ class SequentialProcessHandlerTest extends BaseTestCase
         $processFactory->shouldReceive('createCyclomaticComplexityProcess')->andReturn($process2);
 
         $processHandler = new SequentialProcessHandler();
-        $results = $processHandler->process($fileCollection, $processFactory);
+        $results = $processHandler->process($fileCollection, $processFactory, new OnSuccessNull());
 
         $this->assertInstanceOf(Collection::class, $results);
     }

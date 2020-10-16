@@ -3,6 +3,7 @@
 namespace Churn\Process\Handler;
 
 use Churn\Collections\FileCollection;
+use Churn\Process\Observer\OnSuccess;
 use Churn\Process\ProcessFactory;
 use Illuminate\Support\Collection;
 
@@ -12,11 +13,13 @@ class SequentialProcessHandler implements ProcessHandler
      * Run the processes sequentially to gather information.
      * @param FileCollection $filesCollection Collection of files.
      * @param ProcessFactory $processFactory  Process Factory.
+     * @param OnSuccess      $onSuccess       The OnSuccess event observer.
      * @return Collection
      */
     public function process(
         FileCollection $filesCollection,
-        ProcessFactory $processFactory
+        ProcessFactory $processFactory,
+        OnSuccess $onSuccess
     ): Collection {
         $completedProcessesArray = [];
         while ($filesCollection->hasFiles()) {
@@ -29,6 +32,7 @@ class SequentialProcessHandler implements ProcessHandler
             $process->start();
             while (!$process->isSuccessful());
             $completedProcessesArray[$process->getFileName()][$process->getType()] = $process;
+            $onSuccess($file);
         }
         return new Collection($completedProcessesArray);
     }
