@@ -1,10 +1,10 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Tests\Unit\Factories;
+namespace Churn\Tests\Unit\Processes;
 
 use Churn\Configuration\Config;
-use Churn\Factories\ProcessFactory;
 use Churn\Processes\ChurnProcess;
+use Churn\Processes\ProcessFactory;
 use Churn\Tests\BaseTestCase;
 use Churn\Values\File;
 

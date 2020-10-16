@@ -4,8 +4,8 @@ namespace Churn\Commands;
 
 use Churn\Factories\ResultsRendererFactory;
 use Churn\Logic\ResultsLogic;
-use Churn\Factories\ProcessFactory;
 use Churn\Managers\FileManager;
+use Churn\Processes\ProcessFactory;
 use Churn\Processes\ProcessHandlerFactory;
 use function count;
 use function file_get_contents;

@@ -1,8 +1,7 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Factories;
+namespace Churn\Processes;
 
-use Churn\Processes\ChurnProcess;
 use Churn\Values\File;
 use function getcwd;
 use Symfony\Component\Process\PhpExecutableFinder;

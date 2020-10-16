@@ -3,7 +3,7 @@
 namespace Churn\Processes\Handler;
 
 use Churn\Collections\FileCollection;
-use Churn\Factories\ProcessFactory;
+use Churn\Processes\ProcessFactory;
 use Illuminate\Support\Collection;
 
 interface ProcessHandler
