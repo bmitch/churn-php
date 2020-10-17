@@ -66,12 +66,13 @@
             "@test-common"
         ],
         "test-common": [
+            "@composer validate --strict",
             "parallel-lint src tests",
             "phpmd src text phpmd.xml",
             "phploc src",
             "phpcpd src",
             "phpunit --colors=always --testdox --coverage-clover=coverage.xml",
-            "@php bin/churn run src -p"
+            "@php bin/churn run src -p -vvv"
         ]
     }
 }

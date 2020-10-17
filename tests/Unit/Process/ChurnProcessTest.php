@@ -55,6 +55,15 @@ class ChurnProcessTest extends BaseTestCase
     }
 
     /** @test */
+    public function it_can_get_the_file_it_is_processing()
+    {
+        $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
+        $process = m::mock(Process::class);
+        $churnProcess = new ChurnProcess($file, $process, 'footype');
+        $this->assertSame($file, $churnProcess->getFile());
+    }
+
+    /** @test */
     public function it_can_get_its_key()
     {
         $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);

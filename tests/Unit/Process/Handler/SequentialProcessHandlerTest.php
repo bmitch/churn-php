@@ -5,7 +5,7 @@ namespace Churn\Tests\Unit\Process\Handler;
 use Churn\Collections\FileCollection;
 use Churn\Process\ChurnProcess;
 use Churn\Process\Handler\SequentialProcessHandler;
-use Churn\Process\Observer\OnSuccessNull;
+use Churn\Process\Observer\OnSuccess;
 use Churn\Process\ProcessFactory;
 use Churn\Tests\BaseTestCase;
 use Churn\Values\File;
@@ -40,9 +40,13 @@ class SequentialProcessHandlerTest extends BaseTestCase
         $processFactory->shouldReceive('createGitCommitProcess')->andReturn($process1);
         $processFactory->shouldReceive('createCyclomaticComplexityProcess')->andReturn($process2);
 
+        $observer = m::mock(OnSuccess::class);
+        $observer->shouldReceive('__invoke')->once();
+
         $processHandler = new SequentialProcessHandler();
-        $results = $processHandler->process($fileCollection, $processFactory, new OnSuccessNull());
+        $results = $processHandler->process($fileCollection, $processFactory, $observer);
 
         $this->assertInstanceOf(Collection::class, $results);
+        $this->assertCount(1, $results);
     }
 }
