@@ -39,4 +39,7 @@ jobs:
         run: "composer install --no-interaction --no-progress --prefer-dist"
 
       - name: "Run tests"
-        run: "composer test-ci"
+        run: "vendor/bin/phpunit --colors=always --testdox"
+
+      - name: "Run Churn"
+        run: "bin/churn run src -p -vvv"
