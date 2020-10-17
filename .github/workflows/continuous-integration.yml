@@ -1,0 +1,42 @@
+name: "Continuous Integration"
+
+on: 
+  - push
+  - pull_request
+
+jobs:
+  tests:
+    name: "CI"
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        php-version:
+          - "7.1"
+          - "7.2"
+          - "7.3"
+          - "7.4"
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+        composer:
+          - "v1"
+          - "v2"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          php-version: "${{ matrix.php-version }}"
+          tools: composer:${{ matrix.composer }}
+
+      - name: "Install dependencies"
+        run: "composer install --no-interaction --no-progress --prefer-dist"
+
+      - name: "Run tests"
+        run: "composer test-ci"
