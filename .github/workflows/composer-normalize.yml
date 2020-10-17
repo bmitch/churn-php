@@ -1,0 +1,24 @@
+name: "Integrate"
+
+on:
+  push:
+    paths-ignore:
+      - '!composer.json'
+  pull_request:
+    paths-ignore:
+      - '!composer.json'
+
+jobs:
+  composer-normalize:
+    name: "composer-normalize"
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2.0.0"
+
+      - name: "Run composer normalize"
+        uses: "docker://ergebnis/composer-normalize-action:latest"
+        with:
+          args: "--diff --dry-run --indent-size=4 --indent-style=space"
