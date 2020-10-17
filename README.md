@@ -24,7 +24,7 @@ Helps discover good candidates for refactoring.
 * [Contributing](#contributing)
 * [License](#license)
 
-## What is it? ##
+## What is it?
 `churn-php` is a package that helps you identify php files in your project that could be good candidates for refactoring. It examines each PHP file in the path it is provided and:
 * Checks how many commits it has.
 * Calculates the cyclomatic complexity.
@@ -38,20 +38,19 @@ A file that changes a lot and has a high complexity might be a better candidate 
 
 `churn-php` only assists the developer to identify files for refactoring. It's best to use the results in addition to your own judgment to decide which files you may want to refactor.
 
-## Compatibility ##
+## Compatibility
 * PHP 7.1+
-* Currently does not work on Windows command line. See [#71](https://github.com/bmitch/churn-php/issues/71) for more details.
 * Your project uses Git as version control system.
 
 If you want to install `churn-php` in Symfony project, your Symfony components version must be 3.3 or higher.
 
-## How to Install? ##
+## How to Install?
 Install via Composer:
 ```
 composer require bmitch/churn-php --dev
 ```
 
-## How to Use? ##
+## How to Use?
 ```
 vendor/bin/churn run <one or more paths to source code> ...
 vendor/bin/churn run src
@@ -131,13 +130,13 @@ vendor/bin/churn run --format json
 * https://github.com/danmayer/churn (Ruby)
 * https://github.com/chad/turbulence (Ruby)
 
-## Contact ##
+## Contact
 Questions, comments, feedback? [@bmitch2112](https://twitter.com/bmitch2112)
 
-## Contributing ##
+## Contributing
 * Please run `composer test` on PHP 7.1 and ensure it passes.
 * If you do have access to PHP 7.1 please make sure that CI build passes when you make pull request. If you are unable to get it to pass in the pull request please ping me and I can help.
 * Please see [CONTRIBUTING.md](CONTRIBUTING.md)
 
-## License ##
+## License
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
