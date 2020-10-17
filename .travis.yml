@@ -1,17 +1,21 @@
 language: php
-
-php:
-  - 7.4
-  - 7.3
-  - 7.2
-  - 7.1
+os: linux
+dist: bionic
 
 cache:
   directories:
     - $HOME/.composer/cache
 
+jobs:
+  include:
+    - php: 7.1
+    - php: 7.4
+  fast_finish: true
+
+
 install:
-  - travis_retry composer install --no-interaction --prefer-source
+  - COMPOSER_FLAGS="--no-interaction --prefer-source"
+  - travis_retry composer install $COMPOSER_FLAGS
 
 script:
   - composer test-ci
