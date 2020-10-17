@@ -48,4 +48,4 @@ jobs:
         run: "vendor/bin/phpunit --colors=always --testdox"
 
       - name: "Run Churn"
-        run: "bin/churn run src -p -vvv"
+        run: "php bin/churn run src -p -vvv"
