@@ -16,13 +16,9 @@ class ConsoleResultsRenderer implements ResultsRendererInterface
      */
     public function render(OutputInterface $output, ResultCollection $results): void
     {
-        $output->writeln("\n");
-
         $table = new Table($output);
         $table->setHeaders(['File', 'Times Changed', 'Complexity', 'Score']);
         $table->addRows($results->toArray());
         $table->render();
-
-        $output->write("\n");
     }
 }

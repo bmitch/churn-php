@@ -3,7 +3,7 @@
 
 require_once(__DIR__ . '/bootstrap.php');
 
-use Churn\Commands\ChurnCommand;
+use Churn\Command\RunCommand;
 use DI\ContainerBuilder;
 use PackageVersions\Versions;
 use Symfony\Component\Console\Application;
@@ -12,5 +12,5 @@ $container = ContainerBuilder::buildDevContainer();
 
 $version = substr(Versions::getVersion('bmitch/churn-php'), 0, -33);
 $application = new Application('churn-php', $version);
-$application->add($container->get(ChurnCommand::class));
+$application->add($container->get(RunCommand::class));
 $application->run();
