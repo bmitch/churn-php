@@ -10,7 +10,6 @@ churn.yml export-ignore
 codor.xml export-ignore
 CONTRIBUTING.md export-ignore
 img/ export-ignore
-LICENSE.md export-ignore
 phpcs.xml export-ignore
 phpunit.xml.dist export-ignore
 README.md export-ignore
