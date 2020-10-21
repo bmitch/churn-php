@@ -1,11 +1,11 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Results;
+namespace Churn\Result;
 
-use Illuminate\Contracts\Support\Arrayable;
+use function is_null;
 use Webmozart\Assert\Assert;
 
-class Result implements Arrayable
+class Result
 {
     /**
      * The file property.
@@ -15,29 +15,27 @@ class Result implements Arrayable
 
     /**
      * The commits property.
-     * @var integer
+     * @var null|integer
      */
     private $commits;
 
     /**
      * The complexity property.
-     * @var integer
+     * @var null|integer
      */
     private $complexity;
 
     /**
      * Class constructor.
-     * @param array $data Data to store in the object.
+     * @param string $file The path of the processed file.
      */
-    public function __construct(array $data)
+    public function __construct(string $file)
     {
-        $this->file       = $data['file'];
-        $this->commits    = $data['commits'];
-        $this->complexity = $data['complexity'];
+        $this->file = $file;
     }
 
     /**
-     * Get the file property.
+     * Get the file path.
      * @return string
      */
     public function getFile(): string
@@ -46,7 +44,27 @@ class Result implements Arrayable
     }
 
     /**
-     * Get the file property.
+     * Indicates the metrics are all set.
+     * @return boolean
+     */
+    public function isComplete(): bool
+    {
+        return !is_null($this->commits) && !is_null($this->complexity);
+    }
+
+    /**
+     * @param int $commits Number of changes.
+     * @return self
+     */
+    public function setCommits(int $commits): self
+    {
+        $this->commits = $commits;
+
+        return $this;
+    }
+
+    /**
+     * Get the number of changes.
      * @return integer
      */
     public function getCommits(): int
@@ -55,12 +73,32 @@ class Result implements Arrayable
     }
 
     /**
-     * Get the file property.
+     * @param int $complexity The file complexity.
+     * @return self
+     */
+    public function setComplexity(int $complexity): self
+    {
+        $this->complexity = $complexity;
+
+        return $this;
+    }
+
+    /**
+     * Get the file complexity.
      * @return integer
      */
     public function getComplexity(): int
     {
         return $this->complexity;
+    }
+
+    /**
+     * Get the file priority.
+     * @return integer
+     */
+    public function getPriority(): int
+    {
+        return $this->commits * $this->complexity;
     }
 
     /**
@@ -105,18 +143,5 @@ class Result implements Arrayable
          */
         return round(1 - $distanceFromTopRightCorner, 3);
         // @codingStandardsIgnoreEnd
-    }
-
-    /**
-     * Output results to an array.
-     * @return array
-     */
-    public function toArray(): array
-    {
-        return [
-            $this->getFile(),
-            $this->getCommits(),
-            $this->getComplexity(),
-        ];
     }
 }

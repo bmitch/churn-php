@@ -2,10 +2,10 @@
 
 namespace Churn\Factories;
 
-use Churn\Renderers\Results\ConsoleResultsRenderer;
-use Churn\Renderers\Results\CsvResultsRenderer;
-use Churn\Renderers\Results\JsonResultsRenderer;
-use Churn\Renderers\Results\ResultsRendererInterface;
+use Churn\Result\Render\ConsoleResultsRenderer;
+use Churn\Result\Render\CsvResultsRenderer;
+use Churn\Result\Render\JsonResultsRenderer;
+use Churn\Result\Render\ResultsRendererInterface;
 use InvalidArgumentException;
 
 class ResultsRendererFactory

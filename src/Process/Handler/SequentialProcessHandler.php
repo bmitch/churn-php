@@ -5,7 +5,7 @@ namespace Churn\Process\Handler;
 use Churn\Collections\FileCollection;
 use Churn\Process\Observer\OnSuccess;
 use Churn\Process\ProcessFactory;
-use Illuminate\Support\Collection;
+use Churn\Result\Result;
 
 class SequentialProcessHandler implements ProcessHandler
 {
@@ -14,26 +14,25 @@ class SequentialProcessHandler implements ProcessHandler
      * @param FileCollection $filesCollection Collection of files.
      * @param ProcessFactory $processFactory  Process Factory.
      * @param OnSuccess      $onSuccess       The OnSuccess event observer.
-     * @return Collection
+     * @return void
      */
     public function process(
         FileCollection $filesCollection,
         ProcessFactory $processFactory,
         OnSuccess $onSuccess
-    ): Collection {
-        $completedProcessesArray = [];
+    ): void {
         while ($filesCollection->hasFiles()) {
             $file = $filesCollection->getNextFile();
+            $result = new Result($file->getDisplayPath());
             $process = $processFactory->createGitCommitProcess($file);
             $process->start();
             while (!$process->isSuccessful());
-            $completedProcessesArray[$process->getFileName()][$process->getType()] = $process;
+            $result->setCommits((int) $process->getOutput());
             $process = $processFactory->createCyclomaticComplexityProcess($file);
             $process->start();
             while (!$process->isSuccessful());
-            $completedProcessesArray[$process->getFileName()][$process->getType()] = $process;
-            $onSuccess($file);
+            $result->setComplexity((int) $process->getOutput());
+            $onSuccess($result);
         }
-        return new Collection($completedProcessesArray);
     }
 }

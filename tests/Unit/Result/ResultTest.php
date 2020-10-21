@@ -1,9 +1,9 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Tests\Results;
+namespace Churn\Tests\Result;
 
+use Churn\Result\Result;
 use Churn\Tests\BaseTestCase;
-use Churn\Results\Result;
 
 class ResultTest extends BaseTestCase
 {
@@ -46,25 +46,10 @@ class ResultTest extends BaseTestCase
         $this->assertEquals(0.417, $this->result->getScore($maxCommits, $maxComplexity));
     }
 
-    /** @test */
-    public function it_can_be_returned_as_an_array()
-    {
-        $this->assertSame(
-            [
-                'filename.php',
-                5,
-                7
-            ],
-            $this->result->toArray()
-        );
-    }
-
     public function setup()
     {
-        $this->result = new Result([
-            'file'       => 'filename.php',
-            'commits'    => 5,
-            'complexity' => 7,
-        ]);
+        $this->result = new Result('filename.php');
+        $this->result->setCommits(5);
+        $this->result->setComplexity(7);
     }
 }

@@ -9,7 +9,6 @@ use Churn\Process\Observer\OnSuccess;
 use Churn\Process\ProcessFactory;
 use Churn\Tests\BaseTestCase;
 use Churn\Values\File;
-use Illuminate\Support\Collection;
 use Mockery as m;
 
 class SequentialProcessHandlerTest extends BaseTestCase
@@ -21,19 +20,17 @@ class SequentialProcessHandlerTest extends BaseTestCase
     }
 
     /** @test */
-    public function it_returns_a_collection_of_results()
+    public function it_calls_the_observer_for_one_file()
     {
         $process1 = m::mock(ChurnProcess::class);
         $process1->shouldReceive('start');
         $process1->shouldReceive('isSuccessful')->andReturn(true);
-        $process1->shouldReceive('getFileName')->andReturn(__FILE__);
-        $process1->shouldReceive('getType')->andReturn('GitCommitProcess');
+        $process1->shouldReceive('getOutput')->andReturn('1');
         
         $process2 = m::mock(ChurnProcess::class);
         $process2->shouldReceive('start');
         $process2->shouldReceive('isSuccessful')->andReturn(true);
-        $process2->shouldReceive('getFileName')->andReturn(__FILE__);
-        $process2->shouldReceive('getType')->andReturn('CyclomaticComplexityProcess');
+        $process2->shouldReceive('getOutput')->andReturn('2');
         
         $fileCollection = new FileCollection([new File(['fullPath' => __FILE__, 'displayPath' => __FILE__])]);
         $processFactory = m::mock(ProcessFactory::class);
@@ -44,9 +41,6 @@ class SequentialProcessHandlerTest extends BaseTestCase
         $observer->shouldReceive('__invoke')->once();
 
         $processHandler = new SequentialProcessHandler();
-        $results = $processHandler->process($fileCollection, $processFactory, $observer);
-
-        $this->assertInstanceOf(Collection::class, $results);
-        $this->assertCount(1, $results);
+        $processHandler->process($fileCollection, $processFactory, $observer);
     }
 }

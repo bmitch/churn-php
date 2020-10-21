@@ -5,7 +5,6 @@ namespace Churn\Process\Handler;
 use Churn\Collections\FileCollection;
 use Churn\Process\Observer\OnSuccess;
 use Churn\Process\ProcessFactory;
-use Illuminate\Support\Collection;
 
 interface ProcessHandler
 {
@@ -14,11 +13,11 @@ interface ProcessHandler
      * @param FileCollection $filesCollection Collection of files.
      * @param ProcessFactory $processFactory  Process Factory.
      * @param OnSuccess      $onSuccess       The OnSuccess event observer.
-     * @return Collection
+     * @return void
      */
     public function process(
         FileCollection $filesCollection,
         ProcessFactory $processFactory,
         OnSuccess $onSuccess
-    ): Collection;
+    ): void;
 }

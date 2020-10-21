@@ -4,7 +4,7 @@ namespace Churn\Tests\Unit\Process\Observer;
 
 use Churn\Process\Observer\OnSuccessProgress;
 use Churn\Tests\BaseTestCase;
-use Churn\Values\File;
+use Churn\Result\Result;
 use Mockery as m;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\NullOutput;
@@ -16,7 +16,7 @@ class OnSuccessProgressTest extends BaseTestCase
     {
         $progressBar = new ProgressBar(new NullOutput());
         $observer = new OnSuccessProgress($progressBar);
-        $observer(m::mock(File::class));
+        $observer(m::mock(Result::class));
         $this->assertEquals(1, $progressBar->getProgress());
     }
 }
