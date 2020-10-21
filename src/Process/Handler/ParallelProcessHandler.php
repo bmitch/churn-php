@@ -3,10 +3,10 @@
 namespace Churn\Process\Handler;
 
 use Churn\Collections\FileCollection;
+use Churn\Process\ChurnProcess;
 use Churn\Process\Observer\OnSuccess;
 use Churn\Process\ProcessFactory;
-use Churn\Values\File;
-use function count;
+use Churn\Result\Result;
 use Illuminate\Support\Collection;
 
 class ParallelProcessHandler implements ProcessHandler
@@ -55,30 +55,29 @@ class ParallelProcessHandler implements ProcessHandler
      * @param FileCollection $filesCollection Collection of files.
      * @param ProcessFactory $processFactory  Process Factory.
      * @param OnSuccess      $onSuccess       The OnSuccess event observer.
-     * @return Collection
+     * @return void
      */
     public function process(
         FileCollection $filesCollection,
         ProcessFactory $processFactory,
         OnSuccess $onSuccess
-    ): Collection {
+    ): void {
         $this->filesCollection = $filesCollection;
         $this->processFactory = $processFactory;
         $this->runningProcesses = new Collection;
         $this->completedProcessesArray = [];
         while ($filesCollection->hasFiles() || $this->runningProcesses->count()) {
-            $this->getProcessResults($this->numberOfParallelJobs, $onSuccess);
+            $this->doProcess($this->numberOfParallelJobs, $onSuccess);
         }
-        return new Collection($this->completedProcessesArray);
     }
 
     /**
-     * Get the results of the processes.
+     * Process files in parallel.
      * @param integer   $numberOfParallelJobs Number of parallel jobs to run.
      * @param OnSuccess $onSuccess            The OnSuccess event observer.
      * @return void
      */
-    private function getProcessResults(int $numberOfParallelJobs, OnSuccess $onSuccess): void
+    private function doProcess(int $numberOfParallelJobs, OnSuccess $onSuccess): void
     {
         $index = $this->runningProcesses->count();
         for (; $index < $numberOfParallelJobs && $this->filesCollection->hasFiles() > 0; $index++) {
@@ -94,21 +93,46 @@ class ParallelProcessHandler implements ProcessHandler
         foreach ($this->runningProcesses as $file => $process) {
             if ($process->isSuccessful()) {
                 $this->runningProcesses->forget($process->getKey());
-                $this->completedProcessesArray[$process->getFileName()][$process->getType()] = $process;
-                $this->sendEventIfComplete($process->getFile(), $onSuccess);
+                $this->sendEventIfComplete($this->getResult($process), $onSuccess);
             }
         }
     }
 
     /**
-     * @param File      $file      The file processed.
+     * Returns the result of processes for a file.
+     * @param ChurnProcess $process A successful process.
+     * @return Result
+     */
+    private function getResult(ChurnProcess $process): Result
+    {
+        if (!isset($this->completedProcessesArray[$process->getFileName()])) {
+            $this->completedProcessesArray[$process->getFileName()] = new Result($process->getFileName());
+        }
+        $result = $this->completedProcessesArray[$process->getFileName()];
+        switch ($process->getType()) {
+            case 'GitCommitProcess':
+                $result->setCommits((int) $process->getOutput());
+                break;
+            case 'CyclomaticComplexityProcess':
+                $result->setComplexity((int) $process->getOutput());
+                break;
+            default:
+                // nothing to do
+                break;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param Result    $result    The result of the processes for a file.
      * @param OnSuccess $onSuccess The OnSuccess event observer.
      * @return void
      */
-    private function sendEventIfComplete(File $file, OnSuccess $onSuccess): void
+    private function sendEventIfComplete(Result $result, OnSuccess $onSuccess): void
     {
-        if (count($this->completedProcessesArray[$file->getDisplayPath()]) === 2) {
-            $onSuccess($file);
+        if ($result->isComplete()) {
+            $onSuccess($result);
         }
     }
 }

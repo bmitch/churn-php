@@ -4,8 +4,9 @@ namespace Churn\Tests\Unit\Collections;
 
 use Churn\Collections\FileCollection;
 use Churn\Values\File;
+use Churn\Tests\BaseTestCase;
 
-class FileCollectionTest extends \Churn\Tests\BaseTestCase
+class FileCollectionTest extends BaseTestCase
 {
     /** @test */
     public function it_can_be_instantiated()

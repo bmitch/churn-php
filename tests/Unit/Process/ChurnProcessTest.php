@@ -2,10 +2,10 @@
 
 namespace Churn\Tests\Unit\Process;
 
-use Mockery as m;
 use Churn\Tests\BaseTestCase;
 use Churn\Process\ChurnProcess;
 use Churn\Values\File;
+use Mockery as m;
 use Symfony\Component\Process\Process;
 
 class ChurnProcessTest extends BaseTestCase

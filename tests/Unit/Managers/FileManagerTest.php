@@ -2,10 +2,8 @@
 
 namespace Churn\Tests\Unit\Managers;
 
-use Churn\Configuration\Config;
 use Churn\Managers\FileManager;
 use Churn\Tests\BaseTestCase;
-use Churn\Values\File;
 
 class FileManagerTest extends BaseTestCase
 {

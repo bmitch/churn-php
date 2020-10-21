@@ -4,14 +4,14 @@ namespace Churn\Command;
 
 use Churn\Configuration\Config;
 use Churn\Factories\ResultsRendererFactory;
-use Churn\Logic\ResultsLogic;
 use Churn\Managers\FileManager;
 use Churn\Process\Observer\OnSuccess;
-use Churn\Process\Observer\OnSuccessNull;
+use Churn\Process\Observer\OnSuccessAccumulate;
+use Churn\Process\Observer\OnSuccessCollection;
 use Churn\Process\Observer\OnSuccessProgress;
 use Churn\Process\ProcessFactory;
 use Churn\Process\ProcessHandlerFactory;
-use Churn\Results\ResultCollection;
+use Churn\Result\ResultAccumulator;
 use function count;
 use function file_get_contents;
 use function fopen;
@@ -38,12 +38,6 @@ class RunCommand extends Command
 ";
 
     /**
-     * The results logic.
-     * @var ResultsLogic
-     */
-    private $resultsLogic;
-
-    /**
      * The process handler factory.
      * @var ProcessHandlerFactory
      */
@@ -57,17 +51,14 @@ class RunCommand extends Command
 
     /**
      * ChurnCommand constructor.
-     * @param ResultsLogic           $resultsLogic          The results logic.
      * @param ProcessHandlerFactory  $processHandlerFactory The process handler factory.
      * @param ResultsRendererFactory $renderFactory         The Results Renderer Factory.
      */
     public function __construct(
-        ResultsLogic $resultsLogic,
         ProcessHandlerFactory $processHandlerFactory,
         ResultsRendererFactory $renderFactory
     ) {
         parent::__construct();
-        $this->resultsLogic = $resultsLogic;
         $this->processHandlerFactory = $processHandlerFactory;
         $this->renderFactory = $renderFactory;
     }
@@ -101,17 +92,13 @@ class RunCommand extends Command
         $config = Config::create(Yaml::parse($content) ?? []);
         $filesCollection = (new FileManager($config->getFileExtensions(), $config->getFilesToIgnore()))
             ->getPhpFiles($this->getDirectoriesToScan($input, $config->getDirectoriesToScan()));
-        $completedProcesses = $this->processHandlerFactory->getProcessHandler($config)->process(
+        $accumulator = new ResultAccumulator($config->getFilesToShow(), $config->getMinScoreToShow());
+        $this->processHandlerFactory->getProcessHandler($config)->process(
             $filesCollection,
             new ProcessFactory($config->getCommitsSince()),
-            $this->getOnSuccessObserver($input, $output, $filesCollection->count())
+            $this->getOnSuccessObserver($input, $output, $accumulator)
         );
-        $resultCollection = $this->resultsLogic->process(
-            $completedProcesses,
-            $config->getMinScoreToShow(),
-            $config->getFilesToShow()
-        );
-        $this->writeResult($input, $output, $resultCollection);
+        $this->writeResult($input, $output, $accumulator);
         return 0;
     }
 
@@ -140,20 +127,22 @@ class RunCommand extends Command
     }
 
     /**
-     * @param InputInterface  $input      Input.
-     * @param OutputInterface $output     Output.
-     * @param integer         $totalFiles Total number of files to process.
+     * @param InputInterface    $input       Input.
+     * @param OutputInterface   $output      Output.
+     * @param ResultAccumulator $accumulator The object accumulating the results.
      * @return OnSuccess
      */
-    private function getOnSuccessObserver(InputInterface $input, OutputInterface $output, int $totalFiles): OnSuccess
+    private function getOnSuccessObserver(InputInterface $input, OutputInterface $output, ResultAccumulator $accumulator): OnSuccess
     {
+        $observer = new OnSuccessAccumulate($accumulator);
+
         if ((bool)$input->getOption('progress')) {
-            $progressBar = new ProgressBar($output, $totalFiles);
+            $progressBar = new ProgressBar($output);
             $progressBar->start();
-            return new OnSuccessProgress($progressBar);
+            $observer = new OnSuccessCollection($observer, new OnSuccessProgress($progressBar));
         }
 
-        return new OnSuccessNull();
+        return $observer;
     }
 
     /**
@@ -171,12 +160,12 @@ class RunCommand extends Command
     }
 
     /**
-     * @param InputInterface   $input            Input.
-     * @param OutputInterface  $output           Output.
-     * @param ResultCollection $resultCollection The result to write.
+     * @param InputInterface    $input       Input.
+     * @param OutputInterface   $output      Output.
+     * @param ResultAccumulator $accumulator The results to write.
      * @return void
      */
-    private function writeResult(InputInterface $input, OutputInterface $output, ResultCollection $resultCollection): void
+    private function writeResult(InputInterface $input, OutputInterface $output, ResultAccumulator $accumulator): void
     {
         if ((bool)$input->getOption('progress')) {
             $output->writeln("\n");
@@ -186,6 +175,6 @@ class RunCommand extends Command
         }
 
         $renderer = $this->renderFactory->getRenderer($input->getOption('format'));
-        $renderer->render($output, $resultCollection);
+        $renderer->render($output, $accumulator->toArray());
     }
 }

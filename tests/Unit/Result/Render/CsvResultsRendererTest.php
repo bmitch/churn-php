@@ -1,12 +1,10 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Tests\Unit\Renderers\Results;
+namespace Churn\Tests\Unit\Result\Render;
 
-use Churn\Renderers\Results\CsvResultsRenderer;
-use Churn\Results\Result;
-use Mockery as m;
+use Churn\Result\Render\CsvResultsRenderer;
 use Churn\Tests\BaseTestCase;
-use Churn\Results\ResultCollection;
+use Mockery as m;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CsvResultsRendererTest extends BaseTestCase
@@ -20,13 +18,13 @@ class CsvResultsRendererTest extends BaseTestCase
     /** @test */
     public function it_can_render_the_results_as_json()
     {
-        $resultCollection = new ResultCollection([
-            new Result(['file' => 'filename1.php', 'commits' => 5, 'complexity' => 7]),
-            new Result(['file' => 'filename2.php', 'commits' => 3, 'complexity' => 4]),
-            new Result(['file' => 'filename3.php', 'commits' => 1, 'complexity' => 5]),
-            new Result(['file' => 'filename4.php', 'commits' => 1, 'complexity' => 1]),
-            new Result(['file' => 'filename5.php', 'commits' => 8, 'complexity' => 1]),
-        ]);
+        $results = [
+            ['filename1.php', 5, 7, 0.625],
+            ['filename2.php', 3, 4, 0.242],
+            ['filename3.php', 1, 5, 0.08],
+            ['filename4.php', 1, 1, -0.225],
+            ['filename5.php', 8, 1, 0.143],
+        ];
 
         $output = m::mock(OutputInterface::class);
         $output->shouldReceive('writeln')->once()->with('"File";"Times Changed";"Complexity";"Score"');
@@ -36,6 +34,6 @@ class CsvResultsRendererTest extends BaseTestCase
         $output->shouldReceive('writeln')->once()->with('"filename4.php";1;1;-0.225');
         $output->shouldReceive('writeln')->once()->with('"filename5.php";8;1;0.143');
 
-        (new CsvResultsRenderer)->render($output, $resultCollection);
+        (new CsvResultsRenderer)->render($output, $results);
     }
 }

@@ -2,14 +2,14 @@
 
 namespace Churn\Process\Observer;
 
-use Churn\Values\File;
+use Churn\Result\Result;
 
 interface OnSuccess
 {
     /**
      * Triggers an event when a file is successfully processed.
-     * @param File $file The file successfully processed.
+     * @param Result $result The result for a file.
      * @return void
      */
-    public function __invoke(File $file): void;
+    public function __invoke(Result $result): void;
 }

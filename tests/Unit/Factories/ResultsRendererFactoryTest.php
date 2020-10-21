@@ -3,9 +3,9 @@
 namespace Churn\Tests\Unit\Factories;
 
 use Churn\Factories\ResultsRendererFactory;
-use Churn\Renderers\Results\ConsoleResultsRenderer;
-use Churn\Renderers\Results\CsvResultsRenderer;
-use Churn\Renderers\Results\JsonResultsRenderer;
+use Churn\Result\Render\ConsoleResultsRenderer;
+use Churn\Result\Render\CsvResultsRenderer;
+use Churn\Result\Render\JsonResultsRenderer;
 use Churn\Tests\BaseTestCase;
 use InvalidArgumentException;
 

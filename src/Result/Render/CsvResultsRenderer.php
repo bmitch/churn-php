@@ -1,8 +1,7 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Renderers\Results;
+namespace Churn\Result\Render;
 
-use Churn\Results\ResultCollection;
 use function implode;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -10,15 +9,15 @@ class CsvResultsRenderer implements ResultsRendererInterface
 {
     /**
      * Renders the results.
-     * @param OutputInterface  $output  Output Interface.
-     * @param ResultCollection $results Result Collection.
+     * @param OutputInterface $output  Output Interface.
+     * @param array           $results The results.
      * @return void
      */
-    public function render(OutputInterface $output, ResultCollection $results): void
+    public function render(OutputInterface $output, array $results): void
     {
         $output->writeln($this->getHeader());
 
-        foreach ($results->toArray() as $result) {
+        foreach ($results as $result) {
             $output->writeln(implode(';', [ '"'.$result[0].'"', $result[1], $result[2], $result[3] ]));
         };
     }
