@@ -2,7 +2,7 @@
 
 namespace Churn\Process;
 
-use Churn\Values\File;
+use Churn\File\File;
 use function getcwd;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;

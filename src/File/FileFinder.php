@@ -1,10 +1,9 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Managers;
+namespace Churn\File;
 
-use Churn\Collections\FileCollection;
-use Churn\Values\File;
 use const DIRECTORY_SEPARATOR;
+use Generator;
 use function in_array;
 use function preg_match;
 use function preg_replace;
@@ -13,14 +12,8 @@ use RecursiveIteratorIterator;
 use SplFileInfo;
 use function str_replace;
 
-class FileManager
+class FileFinder
 {
-    /**
-     * Collection of File objects.
-     * @var FileCollection;
-     */
-    private $files;
-
     /**
      * List of file extensions to look for.
      * @var array
@@ -34,7 +27,7 @@ class FileManager
     private $filesToIgnore;
 
     /**
-     * FileManager constructor.
+     * Class constructor.
      * @param array $fileExtensions List of file extensions to look for.
      * @param array $filesToIgnore  List of files to ignore.
      */
@@ -47,39 +40,43 @@ class FileManager
     /**
      * Recursively finds all files with the .php extension in the provided
      * $paths and returns list as array.
-     * @param  array $paths Paths in which to look for .php files.
-     * @return FileCollection
+     * @param array $paths Paths in which to look for .php files.
+     * @return Generator
      */
-    public function getPhpFiles(array $paths): FileCollection
+    public function getPhpFiles(array $paths): Generator
     {
-        $this->files = new FileCollection;
         foreach ($paths as $path) {
-            $this->getPhpFilesFromPath($path);
+            yield from $this->getPhpFilesFromPath($path);
         }
-
-        return $this->files;
     }
 
     /**
      * Recursively finds all files with the .php extension in the provided
      * $path adds them to $this->files.
-     * @param  string $path Path in which to look for .php files.
-     * @return void
+     * @param string $path Path in which to look for .php files.
+     * @return Generator
      */
-    private function getPhpFilesFromPath(string $path): void
+    private function getPhpFilesFromPath(string $path): Generator
+    {
+        foreach ($this->getPathIterator($path) as $file) {
+            if (!in_array($file->getExtension(), $this->fileExtensions)
+            || $this->fileShouldBeIgnored($file)) {
+                continue;
+            }
+
+            yield new File($file->getRealPath(), $file->getPathName());
+        }
+    }
+
+    /**
+     * Returns a recursive iterator for a given directory.
+     * @param string $path Path in which to look for .php files.
+     * @return RecursiveIteratorIterator
+     */
+    private function getPathIterator(string $path): RecursiveIteratorIterator
     {
         $directoryIterator = new RecursiveDirectoryIterator($path);
-        foreach (new RecursiveIteratorIterator($directoryIterator) as $file) {
-            if (! in_array($file->getExtension(), $this->fileExtensions)) {
-                continue;
-            }
-
-            if ($this->fileShouldBeIgnored($file)) {
-                continue;
-            }
-
-            $this->files->push(new File(['displayPath' => $file->getPathName(), 'fullPath' => $file->getRealPath()]));
-        }
+        return new RecursiveIteratorIterator($directoryIterator);
     }
 
     /**

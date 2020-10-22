@@ -2,7 +2,6 @@
 
 namespace Churn\Result;
 
-use function is_null;
 use Webmozart\Assert\Assert;
 
 class Result
@@ -15,13 +14,13 @@ class Result
 
     /**
      * The commits property.
-     * @var null|integer
+     * @var integer
      */
     private $commits;
 
     /**
      * The complexity property.
-     * @var null|integer
+     * @var integer
      */
     private $complexity;
 
@@ -32,6 +31,8 @@ class Result
     public function __construct(string $file)
     {
         $this->file = $file;
+        $this->commits = -1;
+        $this->complexity = -1;
     }
 
     /**
@@ -44,12 +45,12 @@ class Result
     }
 
     /**
-     * Indicates the metrics are all set.
+     * Indicates whether the metrics are all set.
      * @return boolean
      */
     public function isComplete(): bool
     {
-        return !is_null($this->commits) && !is_null($this->complexity);
+        return $this->commits > -1 && $this->complexity > -1;
     }
 
     /**

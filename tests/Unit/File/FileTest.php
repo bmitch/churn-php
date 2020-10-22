@@ -1,9 +1,9 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Tests\Unit\Values;
+namespace Churn\Tests\Unit\File;
 
+use Churn\File\File;
 use Churn\Tests\BaseTestCase;
-use Churn\Values\File;
 
 class FileTest extends BaseTestCase
 {
@@ -24,6 +24,6 @@ class FileTest extends BaseTestCase
     {
         parent::setUp();
 
-        $this->file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
+        $this->file = new File('foo/bar/baz.php', 'bar/baz.php');
     }
 }

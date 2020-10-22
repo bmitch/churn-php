@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Factories;
+namespace Churn\Result;
 
 use Churn\Result\Render\ConsoleResultsRenderer;
 use Churn\Result\Render\CsvResultsRenderer;

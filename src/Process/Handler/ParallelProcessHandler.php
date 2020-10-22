@@ -2,38 +2,21 @@
 
 namespace Churn\Process\Handler;
 
-use Churn\Collections\FileCollection;
+use Churn\File\File;
 use Churn\Process\ChurnProcess;
 use Churn\Process\Observer\OnSuccess;
 use Churn\Process\ProcessFactory;
 use Churn\Result\Result;
-use Illuminate\Support\Collection;
+use function count;
+use Generator;
 
 class ParallelProcessHandler implements ProcessHandler
 {
     /**
-     * Collection of running processes.
-     * @var Collection
-     */
-    private $runningProcesses;
-
-    /**
-     * Collection of files.
-     * @var FileCollection
-     */
-    private $filesCollection;
-
-    /**
      * Array of completed processes.
      * @var array
      */
-    private $completedProcessesArray;
-
-    /**
-     * Process Factory.
-     * @var ProcessFactory
-     */
-    private $processFactory;
+    private $completedProcesses;
 
     /**
      * Number of parallel jobs to run.
@@ -52,50 +35,58 @@ class ParallelProcessHandler implements ProcessHandler
 
     /**
      * Run the processes to gather information.
-     * @param FileCollection $filesCollection Collection of files.
-     * @param ProcessFactory $processFactory  Process Factory.
-     * @param OnSuccess      $onSuccess       The OnSuccess event observer.
+     * @param Generator      $filesFinder    Collection of files.
+     * @param ProcessFactory $processFactory Process Factory.
+     * @param OnSuccess      $onSuccess      The OnSuccess event observer.
      * @return void
      */
     public function process(
-        FileCollection $filesCollection,
+        Generator $filesFinder,
         ProcessFactory $processFactory,
         OnSuccess $onSuccess
     ): void {
-        $this->filesCollection = $filesCollection;
-        $this->processFactory = $processFactory;
-        $this->runningProcesses = new Collection;
-        $this->completedProcessesArray = [];
-        while ($filesCollection->hasFiles() || $this->runningProcesses->count()) {
-            $this->doProcess($this->numberOfParallelJobs, $onSuccess);
+        $pool = [];
+        $this->completedProcesses = [];
+        foreach ($filesFinder as $file) {
+            while (count($pool) >= $this->numberOfParallelJobs) {
+                $this->checkRunningProcesses($pool, $onSuccess);
+            }
+            $this->addToPool($pool, $file, $processFactory);
+        }
+        while (count($pool) > 0) {
+            $this->checkRunningProcesses($pool, $onSuccess);
         }
     }
 
     /**
-     * Process files in parallel.
-     * @param integer   $numberOfParallelJobs Number of parallel jobs to run.
-     * @param OnSuccess $onSuccess            The OnSuccess event observer.
+     * @param ChurnProcess[] $pool      Pool of processes.
+     * @param OnSuccess      $onSuccess The OnSuccess event observer.
      * @return void
      */
-    private function doProcess(int $numberOfParallelJobs, OnSuccess $onSuccess): void
+    private function checkRunningProcesses(array &$pool, OnSuccess $onSuccess): void
     {
-        $index = $this->runningProcesses->count();
-        for (; $index < $numberOfParallelJobs && $this->filesCollection->hasFiles() > 0; $index++) {
-            $file = $this->filesCollection->getNextFile();
-            $process = $this->processFactory->createGitCommitProcess($file);
-            $process->start();
-            $this->runningProcesses->put($process->getKey(), $process);
-            $process = $this->processFactory->createCyclomaticComplexityProcess($file);
-            $process->start();
-            $this->runningProcesses->put($process->getKey(), $process);
-        }
-
-        foreach ($this->runningProcesses as $file => $process) {
+        foreach ($pool as $key => $process) {
             if ($process->isSuccessful()) {
-                $this->runningProcesses->forget($process->getKey());
+                unset($pool[$key]);
                 $this->sendEventIfComplete($this->getResult($process), $onSuccess);
             }
         }
+    }
+
+    /**
+     * @param ChurnProcess[] $pool           Pool of processes.
+     * @param File           $file           The file to process.
+     * @param ProcessFactory $processFactory Process Factory.
+     * @return void
+     */
+    private function addToPool(array &$pool, File $file, ProcessFactory $processFactory): void
+    {
+        $process = $processFactory->createGitCommitProcess($file);
+        $process->start();
+        $pool[$process->getKey()] = $process;
+        $process = $processFactory->createCyclomaticComplexityProcess($file);
+        $process->start();
+        $pool[$process->getKey()] = $process;
     }
 
     /**
@@ -105,10 +96,10 @@ class ParallelProcessHandler implements ProcessHandler
      */
     private function getResult(ChurnProcess $process): Result
     {
-        if (!isset($this->completedProcessesArray[$process->getFileName()])) {
-            $this->completedProcessesArray[$process->getFileName()] = new Result($process->getFileName());
+        if (!isset($this->completedProcesses[$process->getFileName()])) {
+            $this->completedProcesses[$process->getFileName()] = new Result($process->getFileName());
         }
-        $result = $this->completedProcessesArray[$process->getFileName()];
+        $result = $this->completedProcesses[$process->getFileName()];
         switch ($process->getType()) {
             case 'GitCommitProcess':
                 $result->setCommits((int) $process->getOutput());
@@ -132,6 +123,7 @@ class ParallelProcessHandler implements ProcessHandler
     private function sendEventIfComplete(Result $result, OnSuccess $onSuccess): void
     {
         if ($result->isComplete()) {
+            unset($this->completedProcesses[$result->getFile()]);
             $onSuccess($result);
         }
     }

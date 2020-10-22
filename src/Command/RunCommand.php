@@ -3,8 +3,7 @@
 namespace Churn\Command;
 
 use Churn\Configuration\Config;
-use Churn\Factories\ResultsRendererFactory;
-use Churn\Managers\FileManager;
+use Churn\File\FileFinder;
 use Churn\Process\Observer\OnSuccess;
 use Churn\Process\Observer\OnSuccessAccumulate;
 use Churn\Process\Observer\OnSuccessCollection;
@@ -12,6 +11,7 @@ use Churn\Process\Observer\OnSuccessProgress;
 use Churn\Process\ProcessFactory;
 use Churn\Process\ProcessHandlerFactory;
 use Churn\Result\ResultAccumulator;
+use Churn\Result\ResultsRendererFactory;
 use function count;
 use function file_get_contents;
 use function fopen;
@@ -90,11 +90,11 @@ class RunCommand extends Command
         $this->displayLogo($input, $output);
         $content = (string) @file_get_contents($input->getOption('configuration'));
         $config = Config::create(Yaml::parse($content) ?? []);
-        $filesCollection = (new FileManager($config->getFileExtensions(), $config->getFilesToIgnore()))
+        $filesFinder = (new FileFinder($config->getFileExtensions(), $config->getFilesToIgnore()))
             ->getPhpFiles($this->getDirectoriesToScan($input, $config->getDirectoriesToScan()));
         $accumulator = new ResultAccumulator($config->getFilesToShow(), $config->getMinScoreToShow());
         $this->processHandlerFactory->getProcessHandler($config)->process(
-            $filesCollection,
+            $filesFinder,
             new ProcessFactory($config->getCommitsSince()),
             $this->getOnSuccessObserver($input, $output, $accumulator)
         );
