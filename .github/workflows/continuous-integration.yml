@@ -27,7 +27,6 @@ jobs:
           - windows-latest
           - macos-latest
         composer:
-          - "v1"
           - "v2"
 
     steps:
