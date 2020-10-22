@@ -2,14 +2,14 @@
 
 namespace Churn\Tests\Unit\Process\Handler;
 
-use Churn\Collections\FileCollection;
 use Churn\Configuration\Config;
+use Churn\File\File;
 use Churn\Process\ChurnProcess;
 use Churn\Process\Handler\ParallelProcessHandler;
 use Churn\Process\Observer\OnSuccess;
 use Churn\Process\ProcessFactory;
 use Churn\Tests\BaseTestCase;
-use Churn\Values\File;
+use Generator;
 use Mockery as m;
 
 class ParallelProcessHandlerTest extends BaseTestCase
@@ -26,18 +26,17 @@ class ParallelProcessHandlerTest extends BaseTestCase
         $processHandler = new ParallelProcessHandler(3);
         $config = Config::createFromDefaultValues();
         $processFactory = new ProcessFactory($config->getCommitsSince());
-        $fileCollection = new FileCollection();
 
         $observer = m::mock(OnSuccess::class);
         $observer->shouldReceive('__invoke')->never();
         
-        $processHandler->process($fileCollection, $processFactory, $observer);
+        $processHandler->process($this->getFileGenerator(), $processFactory, $observer);
     }
 
     /** @test */
     public function it_calls_the_observer_for_one_file()
     {
-        $file = new File(['fullPath' => __FILE__, 'displayPath' => __FILE__]);
+        $file = new File(__FILE__, __FILE__);
 
         $process1 = m::mock(ChurnProcess::class);
         $process1->shouldReceive('start');
@@ -57,7 +56,6 @@ class ParallelProcessHandlerTest extends BaseTestCase
         $process2->shouldReceive('getFile')->andReturn($file);
         $process2->shouldReceive('getOutput')->andReturn('2');
 
-        $fileCollection = new FileCollection([$file]);
         $processFactory = m::mock(ProcessFactory::class);
         $processFactory->shouldReceive('createGitCommitProcess')->andReturn($process1);
         $processFactory->shouldReceive('createCyclomaticComplexityProcess')->andReturn($process2);
@@ -66,6 +64,13 @@ class ParallelProcessHandlerTest extends BaseTestCase
         $observer->shouldReceive('__invoke')->once();
 
         $processHandler = new ParallelProcessHandler(3);
-        $processHandler->process($fileCollection, $processFactory, $observer);
+        $processHandler->process($this->getFileGenerator($file), $processFactory, $observer);
+    }
+
+    private function getFileGenerator(File ...$files): Generator
+    {
+        foreach ($files as $file) {
+            yield $file;
+        }
     }
 }

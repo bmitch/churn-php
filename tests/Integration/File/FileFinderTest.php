@@ -1,32 +1,30 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Tests\Integration\Managers;
+namespace Churn\Tests\Integration\File;
 
-use Churn\Managers\FileManager;
+use Churn\File\File;
+use Churn\File\FileFinder;
 use Churn\Tests\BaseTestCase;
-use Churn\Values\File;
-use Illuminate\Support\Collection;
 
-class FileManagerTest extends BaseTestCase
+class FileFinderTest extends BaseTestCase
 {
     /**
      * The class being tested.
-     * @var FileManager
+     * @var FileFinder
      */
-    private $fileManager;
+    private $fileFinder;
 
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(FileManager::class, $this->fileManager);
+        $this->assertInstanceOf(FileFinder::class, $this->fileFinder);
     }
 
     /** @test */
     public function it_can_recursively_get_the_php_files_in_a_path()
     {
         $paths = [__DIR__];
-        $results = $this->fileManager->getPhpFiles($paths);
-        $this->assertInstanceOf(Collection::class, $results);
+        $results = iterator_to_array($this->fileFinder->getPhpFiles($paths), false);
         $this->assertCount(1, $results);
         $this->assertInstanceOf(File::class, $results[0]);
     }
@@ -35,6 +33,6 @@ class FileManagerTest extends BaseTestCase
     {
         parent::setup();
 
-        $this->fileManager = new FileManager(['php'], []);
+        $this->fileFinder = new FileFinder(['php'], []);
     }
 }

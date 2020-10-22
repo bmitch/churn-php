@@ -2,13 +2,13 @@
 
 namespace Churn\Tests\Unit\Process\Handler;
 
-use Churn\Collections\FileCollection;
+use Churn\File\File;
 use Churn\Process\ChurnProcess;
 use Churn\Process\Handler\SequentialProcessHandler;
 use Churn\Process\Observer\OnSuccess;
 use Churn\Process\ProcessFactory;
 use Churn\Tests\BaseTestCase;
-use Churn\Values\File;
+use Generator;
 use Mockery as m;
 
 class SequentialProcessHandlerTest extends BaseTestCase
@@ -32,7 +32,6 @@ class SequentialProcessHandlerTest extends BaseTestCase
         $process2->shouldReceive('isSuccessful')->andReturn(true);
         $process2->shouldReceive('getOutput')->andReturn('2');
         
-        $fileCollection = new FileCollection([new File(['fullPath' => __FILE__, 'displayPath' => __FILE__])]);
         $processFactory = m::mock(ProcessFactory::class);
         $processFactory->shouldReceive('createGitCommitProcess')->andReturn($process1);
         $processFactory->shouldReceive('createCyclomaticComplexityProcess')->andReturn($process2);
@@ -41,6 +40,11 @@ class SequentialProcessHandlerTest extends BaseTestCase
         $observer->shouldReceive('__invoke')->once();
 
         $processHandler = new SequentialProcessHandler();
-        $processHandler->process($fileCollection, $processFactory, $observer);
+        $processHandler->process($this->getFileGenerator(), $processFactory, $observer);
+    }
+
+    private function getFileGenerator(): Generator
+    {
+        yield new File(__FILE__, __FILE__);
     }
 }

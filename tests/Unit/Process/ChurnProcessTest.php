@@ -2,9 +2,9 @@
 
 namespace Churn\Tests\Unit\Process;
 
+use Churn\File\File;
 use Churn\Tests\BaseTestCase;
 use Churn\Process\ChurnProcess;
-use Churn\Values\File;
 use Mockery as m;
 use Symfony\Component\Process\Process;
 
@@ -13,7 +13,7 @@ class ChurnProcessTest extends BaseTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
+        $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = new Process(['foo']);
         $churnProcess = new ChurnProcess($file, $process, 'footype');
         $this->assertInstanceOf(ChurnProcess::class, $churnProcess);
@@ -22,7 +22,7 @@ class ChurnProcessTest extends BaseTestCase
     /** @test */
     public function it_can_be_started()
     {
-        $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
+        $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
         $process->shouldReceive('start');
         $churnProcess = new ChurnProcess($file, $process, 'footype');
@@ -32,13 +32,13 @@ class ChurnProcessTest extends BaseTestCase
     /** @test */
     public function it_can_determine_if_it_was_successful()
     {
-        $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
+        $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
         $process->shouldReceive('getExitCode')->andReturn(0);
         $churnProcess = new ChurnProcess($file, $process, 'footype');
         $this->assertTrue($churnProcess->isSuccessful());
 
-        $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
+        $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
         $process->shouldReceive('getExitCode')->andReturn(null);
         $churnProcess = new ChurnProcess($file, $process, 'footype');
@@ -48,7 +48,7 @@ class ChurnProcessTest extends BaseTestCase
     /** @test */
     public function it_can_get_the_name_of_the_file_it_is_processing()
     {
-        $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
+        $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
         $churnProcess = new ChurnProcess($file, $process, 'footype');
         $this->assertSame('bar/baz.php', $churnProcess->getFilename());
@@ -57,7 +57,7 @@ class ChurnProcessTest extends BaseTestCase
     /** @test */
     public function it_can_get_the_file_it_is_processing()
     {
-        $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
+        $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
         $churnProcess = new ChurnProcess($file, $process, 'footype');
         $this->assertSame($file, $churnProcess->getFile());
@@ -66,7 +66,7 @@ class ChurnProcessTest extends BaseTestCase
     /** @test */
     public function it_can_get_its_key()
     {
-        $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
+        $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
         $churnProcess = new ChurnProcess($file, $process, 'footype');
         $this->assertSame('footypefoo/bar/baz.php', $churnProcess->getKey());
@@ -75,7 +75,7 @@ class ChurnProcessTest extends BaseTestCase
     /** @test */
     public function it_can_get_its_type()
     {
-        $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
+        $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
         $churnProcess = new ChurnProcess($file, $process, 'footype');
         $this->assertSame('footype', $churnProcess->getType());
@@ -84,7 +84,7 @@ class ChurnProcessTest extends BaseTestCase
     /** @test */
     public function it_can_get_its_output()
     {
-        $file = new File(['fullPath' => 'foo/bar/baz.php', 'displayPath' => 'bar/baz.php']);
+        $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
         $process->shouldReceive('getOutput')->andReturn('mock output');
         $churnProcess = new ChurnProcess($file, $process, 'footype');

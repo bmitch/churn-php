@@ -1,11 +1,11 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Tests\Unit\Factories;
+namespace Churn\Tests\Unit\Result;
 
-use Churn\Factories\ResultsRendererFactory;
 use Churn\Result\Render\ConsoleResultsRenderer;
 use Churn\Result\Render\CsvResultsRenderer;
 use Churn\Result\Render\JsonResultsRenderer;
+use Churn\Result\ResultsRendererFactory;
 use Churn\Tests\BaseTestCase;
 use InvalidArgumentException;
 

@@ -38,6 +38,12 @@ class ResultTest extends BaseTestCase
     }
 
     /** @test */
+    public function it_can_return_the_priority()
+    {
+        $this->assertSame(5 * 7, $this->result->getPriority());
+    }
+
+    /** @test */
     public function it_can_calculate_the_score()
     {
         $maxCommits = 10;

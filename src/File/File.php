@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Values;
+namespace Churn\File;
 
 class File
 {
@@ -18,12 +18,13 @@ class File
 
     /**
      * File constructor.
-     * @param array $fileData Raw file data.
+     * @param string $fullPath    The full path of the file.
+     * @param string $displayPath The display path of the file.
      */
-    public function __construct(array $fileData)
+    public function __construct(string $fullPath, string $displayPath)
     {
-        $this->fullPath = $fileData['fullPath'];
-        $this->displayPath = $fileData['displayPath'];
+        $this->fullPath = $fullPath;
+        $this->displayPath = $displayPath;
     }
 
     /**

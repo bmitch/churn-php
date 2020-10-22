@@ -2,7 +2,7 @@
 
 namespace Churn\Process;
 
-use Churn\Values\File;
+use Churn\File\File;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 

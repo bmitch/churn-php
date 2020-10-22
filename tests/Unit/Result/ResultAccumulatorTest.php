@@ -9,13 +9,14 @@ use Mockery as m;
 
 class ResultAccumulatorTest extends BaseTestCase
 {
-    private function mockResult(int $commits, int $complexity, string $file): Result
+    private function mockResult(int $commits, int $complexity, string $file, float $score = 0.0): Result
     {
         $result = m::mock(Result::class);
         $result->shouldReceive('getCommits')->andReturn($commits);
         $result->shouldReceive('getComplexity')->andReturn($complexity);
         $result->shouldReceive('getPriority')->andReturn($commits * $complexity);
         $result->shouldReceive('getFile')->andReturn($file);
+        $result->shouldReceive('getScore')->andReturn($score);
 
         return $result;
     }
@@ -23,41 +24,68 @@ class ResultAccumulatorTest extends BaseTestCase
     /** @test */
     public function it_returns_max_commits()
     {
-        $result1 = $this->mockResult(2, 1, 'file');
-        $result2 = $this->mockResult(1, 1, 'file');
-        $result3 = $this->mockResult(4, 1, 'file');
-        $result4 = $this->mockResult(3, 1, 'file');
         $accumulator = new ResultAccumulator(10, 0.1);
-        $accumulator->add($result1);
-        $accumulator->add($result2);
-        $accumulator->add($result3);
-        $accumulator->add($result4);
+        $accumulator->add($this->mockResult(2, 1, 'file'));
+        $accumulator->add($this->mockResult(1, 1, 'file'));
+        $accumulator->add($this->mockResult(4, 1, 'file'));
+        $accumulator->add($this->mockResult(3, 1, 'file'));
         $this->assertEquals(4, $accumulator->getMaxCommits());
     }
 
+    /** @test */
     public function it_returns_max_complexity(): void
     {
-        $result1 = $this->mockResult(1, 2, 'file');
-        $result2 = $this->mockResult(1, 1, 'file');
-        $result3 = $this->mockResult(1, 4, 'file');
-        $result4 = $this->mockResult(1, 3, 'file');
         $accumulator = new ResultAccumulator(10, 0.1);
-        $accumulator->add($result1);
-        $accumulator->add($result2);
-        $accumulator->add($result3);
-        $accumulator->add($result4);
+        $accumulator->add($this->mockResult(1, 2, 'file'));
+        $accumulator->add($this->mockResult(1, 1, 'file'));
+        $accumulator->add($this->mockResult(1, 4, 'file'));
+        $accumulator->add($this->mockResult(1, 3, 'file'));
         $this->assertEquals(4, $accumulator->getMaxComplexity());
     }
 
+    /** @test */
     public function it_returns_the_number_of_files(): void
     {
-        $result1 = $this->mockResult(1, 2, 'file');
-        $result2 = $this->mockResult(1, 1, 'file');
-        $result3 = $this->mockResult(1, 4, 'file');
         $accumulator = new ResultAccumulator(2, 0.1);
-        $accumulator->add($result1);
-        $accumulator->add($result2);
-        $accumulator->add($result3);
+        $accumulator->add($this->mockResult(1, 2, 'file'));
+        $accumulator->add($this->mockResult(1, 1, 'file'));
+        $accumulator->add($this->mockResult(1, 4, 'file'));
         $this->assertEquals(3, $accumulator->getNumberOfFiles());
+    }
+
+    /** @test */
+    public function it_returns_metrics_as_an_array(): void
+    {
+        $accumulator = new ResultAccumulator(10, 0.1);
+        $accumulator->add($this->mockResult(10, 2, 'file1', 0.3));
+        $accumulator->add($this->mockResult(5, 1, 'file2', 0.2));
+        $accumulator->add($this->mockResult(1, 4, 'file3', 0.1));
+
+        $expectedResult = [
+            ['file1', 10, 2, 0.3],
+            ['file2', 5, 1, 0.2],
+            ['file3', 1, 4, 0.1],
+        ];
+
+        $this->assertEquals($expectedResult, $accumulator->toArray());
+    }
+
+    /** @test */
+    public function it_takes_min_score_into_account(): void
+    {
+        $accumulator = new ResultAccumulator(10, 0.1);
+        $accumulator->add($this->mockResult(10, 2, 'file1', 0.3));
+        $accumulator->add($this->mockResult(5, 1, 'file2', 0.2));
+        $accumulator->add($this->mockResult(1, 4, 'file3', 0.1));
+        $accumulator->add($this->mockResult(2, 1, 'file4', 0.0));
+        $accumulator->add($this->mockResult(1, 1, 'file5', -0.1));
+
+        $expectedResult = [
+            ['file1', 10, 2, 0.3],
+            ['file2', 5, 1, 0.2],
+            ['file3', 1, 4, 0.1],
+        ];
+
+        $this->assertEquals($expectedResult, $accumulator->toArray());
     }
 }
