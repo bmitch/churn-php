@@ -2,7 +2,48 @@
 
 ## [Unreleased](https://github.com/bmitch/churn-php/tree/HEAD)
 
-[Full Changelog](https://github.com/bmitch/churn-php/compare/1.1.0...HEAD)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.2.0...HEAD)
+
+## [1.2.0](https://github.com/bmitch/churn-php/tree/1.2.0) (2020-10-23)
+
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.1.0...1.2.0)
+
+
+**Implemented enhancements:**
+
+- Option to write the results in a file [\#235](https://github.com/bmitch/churn-php/issues/235)
+- Option to disable parallelization [\#230](https://github.com/bmitch/churn-php/issues/230)
+- More verbosity [\#199](https://github.com/bmitch/churn-php/issues/199)
+- Build a "binary" for this project [\#126](https://github.com/bmitch/churn-php/issues/126)
+- Doesn't work in windows. [\#71](https://github.com/bmitch/churn-php/issues/71)
+
+**Fixed bugs:**
+
+- Memory usage growing [\#237](https://github.com/bmitch/churn-php/issues/237)
+
+**Closed issues:**
+
+- Add composer-normalize to the CI pipeline [\#238](https://github.com/bmitch/churn-php/issues/238)
+- Run the tests with GitHub actions [\#228](https://github.com/bmitch/churn-php/issues/228)
+
+**Merged pull requests:**
+
+- Add a job to generate churn.phar [\#250](https://github.com/bmitch/churn-php/pull/250) ([villfa](https://github.com/villfa))
+- Remove Composer v1 from GH actions [\#249](https://github.com/bmitch/churn-php/pull/249) ([villfa](https://github.com/villfa))
+- Reduce the amount of data stored in memory [\#248](https://github.com/bmitch/churn-php/pull/248) ([villfa](https://github.com/villfa))
+- Remove wrong file [\#247](https://github.com/bmitch/churn-php/pull/247) ([villfa](https://github.com/villfa))
+- The LICENSE file must always be part of the code [\#246](https://github.com/bmitch/churn-php/pull/246) ([villfa](https://github.com/villfa))
+- Add .github/ to the list [\#245](https://github.com/bmitch/churn-php/pull/245) ([villfa](https://github.com/villfa))
+- Add an option to write in a file [\#244](https://github.com/bmitch/churn-php/pull/244) ([villfa](https://github.com/villfa))
+- Fix execution on Windows [\#243](https://github.com/bmitch/churn-php/pull/243) ([villfa](https://github.com/villfa))
+- Add composer-normalize to the CI pipeline [\#242](https://github.com/bmitch/churn-php/pull/242) ([villfa](https://github.com/villfa))
+- Churn is now compatible with Windows [\#241](https://github.com/bmitch/churn-php/pull/241) ([villfa](https://github.com/villfa))
+- Speed up CI builds [\#240](https://github.com/bmitch/churn-php/pull/240) ([villfa](https://github.com/villfa))
+- Enable github actions [\#239](https://github.com/bmitch/churn-php/pull/239) ([villfa](https://github.com/villfa))
+- Add a progress bar [\#236](https://github.com/bmitch/churn-php/pull/236) ([villfa](https://github.com/villfa))
+- Enable more phpmd rules [\#234](https://github.com/bmitch/churn-php/pull/234) ([villfa](https://github.com/villfa))
+- Add the ability to disable parallelization [\#233](https://github.com/bmitch/churn-php/pull/233) ([villfa](https://github.com/villfa))
+- Update tools to fix PHP warnings [\#231](https://github.com/bmitch/churn-php/pull/231) ([villfa](https://github.com/villfa))
 
 ## [1.1.0](https://github.com/bmitch/churn-php/tree/1.1.0) (2020-10-13)
 
@@ -21,6 +62,7 @@
 
 **Merged pull requests:**
 
+- Prepare changelog for 1.1.0 [\#227](https://github.com/bmitch/churn-php/pull/227) ([villfa](https://github.com/villfa))
 - Add compatibilty with Symfony 5 [\#226](https://github.com/bmitch/churn-php/pull/226) ([villfa](https://github.com/villfa))
 - Add application version [\#225](https://github.com/bmitch/churn-php/pull/225) ([villfa](https://github.com/villfa))
 - Update CHANGELOG.md [\#224](https://github.com/bmitch/churn-php/pull/224) ([villfa](https://github.com/villfa))
