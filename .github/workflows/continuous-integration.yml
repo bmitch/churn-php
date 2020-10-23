@@ -1,6 +1,6 @@
 name: "Continuous Integration"
 
-on: 
+on:
   push:
     paths-ignore:
       - '**.md'

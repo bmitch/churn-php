@@ -132,8 +132,11 @@ class RunCommand extends Command
      * @param ResultAccumulator $accumulator The object accumulating the results.
      * @return OnSuccess
      */
-    private function getOnSuccessObserver(InputInterface $input, OutputInterface $output, ResultAccumulator $accumulator): OnSuccess
-    {
+    private function getOnSuccessObserver(
+        InputInterface $input,
+        OutputInterface $output,
+        ResultAccumulator $accumulator
+    ): OnSuccess {
         $observer = new OnSuccessAccumulate($accumulator);
 
         if ((bool)$input->getOption('progress')) {
@@ -171,7 +174,11 @@ class RunCommand extends Command
             $output->writeln("\n");
         }
         if (!empty($input->getOption('output'))) {
-            $output = new StreamOutput(fopen($input->getOption('output'), 'w+'), OutputInterface::VERBOSITY_NORMAL, false);
+            $output = new StreamOutput(
+                fopen($input->getOption('output'), 'w+'),
+                OutputInterface::VERBOSITY_NORMAL,
+                false
+            );
         }
 
         $renderer = $this->renderFactory->getRenderer($input->getOption('format'));

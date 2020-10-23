@@ -1,0 +1,54 @@
+name: "Phar construction"
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+      - 'img/**'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'img/**'
+
+jobs:
+  build:
+    name: "Build Phar"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          php-version: "7.2"
+          tools: composer:v2
+
+      - name: "Install dependencies"
+        run: |
+          composer config platform.php 7.1.3
+          composer update --no-dev --no-interaction --no-progress --prefer-dist
+          composer config --unset platform.php
+
+      - name: "Download Box"
+        run: |
+          curl -sL https://github.com/box-project/box/releases/download/3.8.5/box.phar -o box.phar
+          chmod +x box.phar
+
+      - name: "Compile"
+        run: ./box.phar compile
+
+      - name: "Test Version"
+        run: diff <(bin/churn -V) <(./churn.phar -V)
+
+      - name: "Test Phar"
+        run: diff <(bin/churn run src) <(./churn.phar run src)
+
+      - name: "Save Phar"
+        uses: actions/upload-artifact@v2
+        with:
+          name: churn.phar
+          path: ./churn.phar
+          if-no-files-found: error
