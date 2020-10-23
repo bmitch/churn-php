@@ -1,0 +1,16 @@
+{
+    "dump-autoload": false,
+    "finder": [
+        {
+            "in": "bin"
+        },
+        {
+            "in": "src"
+        },
+        {
+            "name": "*.php",
+            "in": "vendor"
+        }
+    ],
+   "output": "churn.phar"
+}

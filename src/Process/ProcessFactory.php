@@ -2,8 +2,12 @@
 
 namespace Churn\Process;
 
+use function array_merge;
 use Churn\File\File;
 use function getcwd;
+use function is_callable;
+use Phar;
+use function strlen;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -47,10 +51,25 @@ class ProcessFactory
      */
     public function createCyclomaticComplexityProcess(File $file): ChurnProcess
     {
-        $php = (new PhpExecutableFinder())->find();
-        $script = __DIR__ . '/../../bin/CyclomaticComplexityAssessorRunner';
-        $process = new Process([$php, $script, $file->getFullPath()]);
+        $command = array_merge(
+            [(new PhpExecutableFinder())->find()],
+            $this->getAssessorArguments(),
+            [$file->getFullPath()]
+        );
+        $process = new Process($command);
 
         return new ChurnProcess($file, $process, 'CyclomaticComplexityProcess');
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getAssessorArguments(): array
+    {
+        if (is_callable([Phar::class, 'running']) && strlen(Phar::running(false)) > 0) {
+            return [Phar::running(false), 'assess-complexity'];
+        }
+
+        return [__DIR__ . '/../../bin/CyclomaticComplexityAssessorRunner'];
     }
 }

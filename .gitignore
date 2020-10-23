@@ -3,4 +3,5 @@ composer.lock
 docs
 vendor
 coverage.xml
+*.phar
 .idea
