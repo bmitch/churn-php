@@ -42,7 +42,7 @@ class Config
     /**
      * Config constructor.
      * @param array $configuration Raw config data.
-     * @throws InvalidArgumentException If parameters is badly defined.
+     * @throws \InvalidArgumentException If parameters is badly defined.
      */
     private function __construct(array $configuration = [])
     {
@@ -179,7 +179,7 @@ class Config
     /**
      * @param array $configuration The array containing the configuration values.
      * @return void
-     * @throws InvalidArgumentException If date is in a bad format.
+     * @throws \InvalidArgumentException If date is in a bad format.
      */
     private function validateCommitsSince(array $configuration): void
     {
