@@ -4,6 +4,7 @@
     xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
     bootstrap="vendor/autoload.php"
     colors="true"
+    verbose="true"
 >
     <testsuites>
         <testsuite name="churn-tests">
@@ -15,4 +16,7 @@
             <directory suffix=".php">src</directory>
         </whitelist>
     </filter>
+    <php>
+        <env name="SYMFONY_PHPUNIT_REMOVE_RETURN_TYPEHINT" value="1" />
+    </php>
 </phpunit>

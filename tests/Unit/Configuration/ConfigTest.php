@@ -4,15 +4,14 @@ namespace Churn\Tests\Unit\Configuration;
 
 use Churn\Configuration\Config;
 use Churn\Tests\BaseTestCase;
+use InvalidArgumentException;
 
 class ConfigTest extends BaseTestCase
 {
-    /**
-     * @test
-     * @expectedException \InvalidArgumentException
-     **/
+    /** @test */
     public function it_throws_exception_if_badly_instantiated()
     {
+        $this->expectException(InvalidArgumentException::class);
         $this->assertInstanceOf(
             Config::class,
             Config::create(['fileExtensions' => 5])
