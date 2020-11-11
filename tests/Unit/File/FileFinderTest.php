@@ -32,6 +32,12 @@ class FileFinderTest extends BaseTestCase
     }
 
     /** @test */
+    public function it_can_get_the_php_files_by_name()
+    {
+        $this->assertCount(2, iterator_to_array($this->fileFinder->getPhpFiles([__DIR__ . '/../Assets/Bar.php', __DIR__ . '/../Assets/Foo.php']), false));
+    }
+
+    /** @test */
     public function it_ignores_files_specified_to_ignore_in_the_config()
     {
         $fileFinder = new FileFinder(['php'], ['Assets/Baz.php']);
