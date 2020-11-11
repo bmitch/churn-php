@@ -3,8 +3,8 @@
 namespace Churn\Process;
 
 use function array_merge;
+use function dirname;
 use Churn\File\File;
-use function getcwd;
 use function is_callable;
 use Phar;
 use function strlen;
@@ -36,7 +36,7 @@ class ProcessFactory
     public function createGitCommitProcess(File $file): ChurnProcess
     {
         $process = new Process([
-            'git', '-C', getcwd(), 'rev-list', '--since',
+            'git', '-C', dirname($file->getFullPath()), 'rev-list', '--since',
             $this->commitsSince, '--no-merges', '--count', 'HEAD',
             $file->getFullPath(),
             ]);
