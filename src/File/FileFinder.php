@@ -5,6 +5,7 @@ namespace Churn\File;
 use const DIRECTORY_SEPARATOR;
 use Generator;
 use function in_array;
+use function is_dir;
 use function preg_match;
 use function preg_replace;
 use RecursiveDirectoryIterator;
@@ -58,30 +59,54 @@ class FileFinder
      */
     private function getPhpFilesFromPath(string $path): Generator
     {
-        foreach ($this->getPathIterator($path) as $file) {
-            if (!in_array($file->getExtension(), $this->fileExtensions)
-            || $this->fileShouldBeIgnored($file)) {
-                continue;
-            }
+        if (!is_dir($path)) {
+            $file = new SplFileInfo($path);
+            yield new File($file->getRealPath(), $file->getPathName());
+            return;
+        }
 
+        foreach ($this->findPhpFiles($path) as $file) {
             yield new File($file->getRealPath(), $file->getPathName());
         }
     }
 
     /**
-     * Returns a recursive iterator for a given directory.
+     * Recursively finds all PHP files in a given directory.
      * @param string $path Path in which to look for .php files.
-     * @return RecursiveIteratorIterator
+     * @return Generator|SplFileInfo[]
      */
-    private function getPathIterator(string $path): RecursiveIteratorIterator
+    private function findPhpFiles(string $path): Generator
+    {
+        foreach ($this->findFiles($path) as $file) {
+            if (!in_array($file->getExtension(), $this->fileExtensions)
+            || $this->fileShouldBeIgnored($file)) {
+                continue;
+            }
+
+            yield $file;
+        }
+    }
+
+    /**
+     * Recursively finds all files in a given directory.
+     * @param string $path Path in which to look for .php files.
+     * @return Generator|SplFileInfo[]
+     */
+    private function findFiles(string $path): Generator
     {
         $directoryIterator = new RecursiveDirectoryIterator($path);
-        return new RecursiveIteratorIterator($directoryIterator);
+        foreach (new RecursiveIteratorIterator($directoryIterator) as $item) {
+            if ($item->isDir()) {
+                continue;
+            }
+
+            yield $item;
+        }
     }
 
     /**
      * Determines if a file should be ignored.
-     * @param \SplFileInfo $file File.
+     * @param SplFileInfo $file File.
      * @return boolean
      */
     private function fileShouldBeIgnored(SplFileInfo $file): bool
