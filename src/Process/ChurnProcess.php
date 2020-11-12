@@ -32,12 +32,6 @@ abstract class ChurnProcess
     }
 
     /**
-     * Get the type of this process.
-     * @return string
-     */
-    abstract public function getType(): string;
-
-    /**
      * Start the process.
      * @return void
      */
@@ -62,15 +56,6 @@ abstract class ChurnProcess
     }
 
     /**
-     * Gets the output of the process.
-     * @return string
-     */
-    public function getOutput(): string
-    {
-        return $this->process->getOutput();
-    }
-
-    /**
      * Gets the file name of the file the process
      * is being executed on.
      * @return string
@@ -90,11 +75,11 @@ abstract class ChurnProcess
     }
 
     /**
-     * Gets a unique key used for storing the process in data structures.
+     * Gets the output of the process.
      * @return string
      */
-    public function getKey(): string
+    protected function getOutput(): string
     {
-        return $this->getType() . $this->file->getFullPath();
+        return $this->process->getOutput();
     }
 }

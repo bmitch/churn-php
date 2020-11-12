@@ -95,7 +95,7 @@ class RunCommand extends Command
         $accumulator = new ResultAccumulator($config->getFilesToShow(), $config->getMinScoreToShow());
         $this->processHandlerFactory->getProcessHandler($config)->process(
             $filesFinder,
-            new ProcessFactory($config->getCommitsSince()),
+            new ProcessFactory($config->getVCS(), $config->getCommitsSince()),
             $this->getOnSuccessObserver($input, $output, $accumulator)
         );
         $this->writeResult($input, $output, $accumulator);

@@ -3,7 +3,9 @@
 namespace Churn\Process\Handler;
 
 use Churn\File\File;
-use Churn\Process\ChurnProcess;
+use Churn\Process\ChangesCountInterface;
+use Churn\Process\CyclomaticComplexityInterface;
+use Churn\Process\ProcessInterface;
 use Churn\Process\Observer\OnSuccess;
 use Churn\Process\ProcessFactory;
 use Churn\Result\Result;
@@ -59,8 +61,8 @@ class ParallelProcessHandler implements ProcessHandler
     }
 
     /**
-     * @param ChurnProcess[] $pool      Pool of processes.
-     * @param OnSuccess      $onSuccess The OnSuccess event observer.
+     * @param ProcessInterface[] $pool      Pool of processes.
+     * @param OnSuccess          $onSuccess The OnSuccess event observer.
      * @return void
      */
     private function checkRunningProcesses(array &$pool, OnSuccess $onSuccess): void
@@ -74,37 +76,37 @@ class ParallelProcessHandler implements ProcessHandler
     }
 
     /**
-     * @param ChurnProcess[] $pool           Pool of processes.
-     * @param File           $file           The file to process.
-     * @param ProcessFactory $processFactory Process Factory.
+     * @param ProcessInterface[] $pool           Pool of processes.
+     * @param File               $file           The file to process.
+     * @param ProcessFactory     $processFactory Process Factory.
      * @return void
      */
     private function addToPool(array &$pool, File $file, ProcessFactory $processFactory): void
     {
-        $process = $processFactory->createCountChangesProcess($file);
+        $process = $processFactory->createChangesCountProcess($file);
         $process->start();
-        $pool[$process->getKey()] = $process;
+        $pool['CountChanges:' . $process->getFilename()] = $process;
         $process = $processFactory->createCyclomaticComplexityProcess($file);
         $process->start();
-        $pool[$process->getKey()] = $process;
+        $pool['Complexity:' . $process->getFilename()] = $process;
     }
 
     /**
      * Returns the result of processes for a file.
-     * @param ChurnProcess $process A successful process.
+     * @param ProcessInterface $process A successful process.
      * @return Result
      */
-    private function getResult(ChurnProcess $process): Result
+    private function getResult(ProcessInterface $process): Result
     {
         if (!isset($this->completedProcesses[$process->getFileName()])) {
             $this->completedProcesses[$process->getFileName()] = new Result($process->getFileName());
         }
         $result = $this->completedProcesses[$process->getFileName()];
-        switch ($process->getType()) {
-            case 'CountChanges':
+        switch (true) {
+            case $process instanceof ChangesCountInterface:
                 $result->setCommits($process->countChanges());
                 break;
-            case 'CyclomaticComplexity':
+            case $process instanceof CyclomaticComplexityInterface:
                 $result->setComplexity($process->getCyclomaticComplexity());
                 break;
             default:
