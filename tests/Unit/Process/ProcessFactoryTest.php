@@ -49,6 +49,16 @@ class ProcessFactoryTest extends BaseTestCase
         $this->processFactory = new ProcessFactory('not a valid VCS', $config->getCommitsSince());
     }
 
+    /** @test */
+    public function it_always_counts_one_when_there_is_no_VCS()
+    {
+        $file = new File('foo/bar/baz.php', 'bar/baz.php');
+        $this->processFactory = new ProcessFactory('none', '');
+        $result = $this->processFactory->createChangesCountProcess($file);
+        $this->assertSame($file, $result->getFile());
+        $this->assertEquals(1, $result->countChanges());
+    }
+
     public function setup()
     {
         $config = Config::createFromDefaultValues();
