@@ -26,7 +26,7 @@ class ParallelProcessHandlerTest extends BaseTestCase
     {
         $processHandler = new ParallelProcessHandler(3);
         $config = Config::createFromDefaultValues();
-        $processFactory = new ProcessFactory('git', $config->getCommitsSince());
+        $processFactory = new ProcessFactory($config->getVCS(), $config->getCommitsSince());
 
         $observer = m::mock(OnSuccess::class);
         $observer->shouldReceive('__invoke')->never();

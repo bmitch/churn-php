@@ -50,7 +50,7 @@ class CyclomaticComplexityProcessTest extends BaseTestCase
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
-        $churnProcess = new CyclomaticComplexityProcess($file, $process, );
+        $churnProcess = new CyclomaticComplexityProcess($file, $process);
         $this->assertSame('bar/baz.php', $churnProcess->getFilename());
     }
 
