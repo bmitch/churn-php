@@ -37,6 +37,9 @@ jobs:
           curl -sL https://github.com/box-project/box/releases/download/3.8.5/box.phar -o box.phar
           chmod +x box.phar
 
+      - name: "Validate box configuration"
+        run: ./box.phar validate
+
       - name: "Compile"
         run: ./box.phar compile
 
