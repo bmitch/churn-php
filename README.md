@@ -105,7 +105,7 @@ fileExtensions:
  - php
  - inc
 
-# The version control system used for your projet.
+# The version control system used for your project.
 # Accepted values: git, none
 # Default: git
  vcs: git

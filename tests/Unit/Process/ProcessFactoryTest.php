@@ -8,6 +8,7 @@ use Churn\Process\ChangesCountInterface;
 use Churn\Process\CyclomaticComplexityInterface;
 use Churn\Process\ProcessFactory;
 use Churn\Tests\BaseTestCase;
+use InvalidArgumentException;
 
 class ProcessFactoryTest extends BaseTestCase
 {
@@ -40,9 +41,17 @@ class ProcessFactoryTest extends BaseTestCase
         $this->assertSame($file, $result->getFile());
     }
 
+    /** @test */
+    public function it_throws_exception_if_VCS_is_not_supported()
+    {
+        $config = Config::createFromDefaultValues();
+        $this->expectException(InvalidArgumentException::class);
+        $this->processFactory = new ProcessFactory('not a valid VCS', $config->getCommitsSince());
+    }
+
     public function setup()
     {
         $config = Config::createFromDefaultValues();
-        $this->processFactory = new ProcessFactory('git', $config->getCommitsSince());
+        $this->processFactory = new ProcessFactory($config->getVCS(), $config->getCommitsSince());
     }
 }
