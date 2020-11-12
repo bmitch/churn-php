@@ -20,12 +20,19 @@ class ProcessFactory
     private $commitsSince;
 
     /**
+     * Executable to run PHP processes.
+     * @var string
+     */
+    private $phpExecutable;
+
+    /**
      * ProcessFactory constructor.
      * @param string $commitsSince String containing the date of when to look at commits since.
      */
     public function __construct(string $commitsSince)
     {
         $this->commitsSince = $commitsSince;
+        $this->phpExecutable = (string)(new PhpExecutableFinder())->find();
     }
 
     /**
@@ -52,7 +59,7 @@ class ProcessFactory
     public function createCyclomaticComplexityProcess(File $file): ChurnProcess
     {
         $command = array_merge(
-            [(new PhpExecutableFinder())->find()],
+            [$this->phpExecutable],
             $this->getAssessorArguments(),
             [$file->getFullPath()]
         );
