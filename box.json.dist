@@ -1,4 +1,7 @@
 {
+    "compactors": [
+        "KevinGH\\Box\\Compactor\\Php"
+    ],
     "dump-autoload": false,
     "finder": [
         {
