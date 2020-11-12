@@ -4,7 +4,8 @@ namespace Churn\Tests\Unit\Process\Handler;
 
 use Churn\Configuration\Config;
 use Churn\File\File;
-use Churn\Process\ChurnProcess;
+use Churn\Process\CountChangesProcess;
+use Churn\Process\CyclomaticComplexityProcess;
 use Churn\Process\Handler\ParallelProcessHandler;
 use Churn\Process\Observer\OnSuccess;
 use Churn\Process\ProcessFactory;
@@ -38,26 +39,26 @@ class ParallelProcessHandlerTest extends BaseTestCase
     {
         $file = new File(__FILE__, __FILE__);
 
-        $process1 = m::mock(ChurnProcess::class);
+        $process1 = m::mock(CountChangesProcess::class);
         $process1->shouldReceive('start');
         $process1->shouldReceive('isSuccessful')->andReturn(true);
         $process1->shouldReceive('getFileName')->andReturn(__FILE__);
-        $process1->shouldReceive('getType')->andReturn('GitCommitProcess');
-        $process1->shouldReceive('getKey')->andReturn('GitCommitProcess' . __FILE__);
+        $process1->shouldReceive('getType')->andReturn('CountChanges');
+        $process1->shouldReceive('getKey')->andReturn('CountChanges' . __FILE__);
         $process1->shouldReceive('getFile')->andReturn($file);
-        $process1->shouldReceive('getOutput')->andReturn('1');
+        $process1->shouldReceive('countChanges')->andReturn(1);
 
-        $process2 = m::mock(ChurnProcess::class);
+        $process2 = m::mock(CyclomaticComplexityProcess::class);
         $process2->shouldReceive('start');
         $process2->shouldReceive('isSuccessful')->andReturn(true);
         $process2->shouldReceive('getFileName')->andReturn(__FILE__);
-        $process2->shouldReceive('getType')->andReturn('CyclomaticComplexityProcess');
-        $process2->shouldReceive('getKey')->andReturn('CyclomaticComplexityProcess' . __FILE__);
+        $process2->shouldReceive('getType')->andReturn('CyclomaticComplexity');
+        $process2->shouldReceive('getKey')->andReturn('CyclomaticComplexity' . __FILE__);
         $process2->shouldReceive('getFile')->andReturn($file);
-        $process2->shouldReceive('getOutput')->andReturn('2');
+        $process2->shouldReceive('getCyclomaticComplexity')->andReturn(2);
 
         $processFactory = m::mock(ProcessFactory::class);
-        $processFactory->shouldReceive('createGitCommitProcess')->andReturn($process1);
+        $processFactory->shouldReceive('createCountChangesProcess')->andReturn($process1);
         $processFactory->shouldReceive('createCyclomaticComplexityProcess')->andReturn($process2);
 
         $observer = m::mock(OnSuccess::class);

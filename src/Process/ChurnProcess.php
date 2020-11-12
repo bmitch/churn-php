@@ -6,38 +6,36 @@ use Churn\File\File;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-class ChurnProcess
+abstract class ChurnProcess
 {
     /**
      * The file the process will be executed on.
      * @var File
      */
-    private $file;
-
-    /**
-     * The type of process.
-     * @var string
-     */
-    private $type;
+    protected $file;
 
     /**
      * The Symfony Process Component.
      * @var Process
      */
-    private $process;
+    protected $process;
 
     /**
-     * GitCommitCountProcess constructor.
+     * Class constructor.
      * @param File    $file    The file the process is being executed on.
      * @param Process $process The process being executed on the file.
-     * @param string  $type    The type of process.
      */
-    public function __construct(File $file, Process $process, string $type)
+    public function __construct(File $file, Process $process)
     {
         $this->file = $file;
         $this->process = $process;
-        $this->type = $type;
     }
+
+    /**
+     * Get the type of this process.
+     * @return string
+     */
+    abstract public function getType(): string;
 
     /**
      * Start the process.
@@ -98,14 +96,5 @@ class ChurnProcess
     public function getKey(): string
     {
         return $this->getType() . $this->file->getFullPath();
-    }
-
-    /**
-     * Get the type of this process.
-     * @return string
-     */
-    public function getType(): string
-    {
-        return $this->type;
     }
 }

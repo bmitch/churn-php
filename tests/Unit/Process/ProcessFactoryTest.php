@@ -4,13 +4,16 @@ namespace Churn\Tests\Unit\Process;
 
 use Churn\Configuration\Config;
 use Churn\File\File;
-use Churn\Process\ChurnProcess;
+use Churn\Process\CountChangesProcess;
+use Churn\Process\CyclomaticComplexityProcess;
 use Churn\Process\ProcessFactory;
 use Churn\Tests\BaseTestCase;
 
 class ProcessFactoryTest extends BaseTestCase
 {
-
+    /**
+     * @var ProcessFactory
+     */
     private $processFactory;
 
     /** @test */
@@ -23,9 +26,9 @@ class ProcessFactoryTest extends BaseTestCase
     public function it_can_create_a_git_commit_count_process()
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
-        $result = $this->processFactory->createGitCommitProcess($file);
-        $this->assertInstanceOf(ChurnProcess::class, $result);
-        $this->assertSame('GitCommitProcess', $result->getType());
+        $result = $this->processFactory->createCountChangesProcess($file);
+        $this->assertInstanceOf(CountChangesProcess::class, $result);
+        $this->assertSame('CountChanges', $result->getType());
     }
 
     /** @test */
@@ -33,8 +36,8 @@ class ProcessFactoryTest extends BaseTestCase
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $result = $this->processFactory->createCyclomaticComplexityProcess($file);
-        $this->assertInstanceOf(ChurnProcess::class, $result);
-        $this->assertSame('CyclomaticComplexityProcess', $result->getType());
+        $this->assertInstanceOf(CyclomaticComplexityProcess::class, $result);
+        $this->assertSame('CyclomaticComplexity', $result->getType());
     }
 
     public function setup()

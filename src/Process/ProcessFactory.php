@@ -36,11 +36,11 @@ class ProcessFactory
     }
 
     /**
-     * Creates a Git Commit Process that will run on $file.
+     * Creates a process that will count the number of changes for $file.
      * @param File $file File that the process will execute on.
-     * @return ChurnProcess
+     * @return CountChangesProcess
      */
-    public function createGitCommitProcess(File $file): ChurnProcess
+    public function createCountChangesProcess(File $file): CountChangesProcess
     {
         $process = new Process([
             'git', '-C', dirname($file->getFullPath()), 'rev-list', '--since',
@@ -48,15 +48,15 @@ class ProcessFactory
             $file->getFullPath(),
             ]);
 
-        return new ChurnProcess($file, $process, 'GitCommitProcess');
+        return new CountChangesProcess($file, $process);
     }
 
     /**
      * Creates a Cyclomatic Complexity Process that will run on $file.
      * @param File $file File that the process will execute on.
-     * @return ChurnProcess
+     * @return CyclomaticComplexityProcess
      */
-    public function createCyclomaticComplexityProcess(File $file): ChurnProcess
+    public function createCyclomaticComplexityProcess(File $file): CyclomaticComplexityProcess
     {
         $command = array_merge(
             [$this->phpExecutable],
@@ -65,7 +65,7 @@ class ProcessFactory
         );
         $process = new Process($command);
 
-        return new ChurnProcess($file, $process, 'CyclomaticComplexityProcess');
+        return new CyclomaticComplexityProcess($file, $process);
     }
 
     /**
