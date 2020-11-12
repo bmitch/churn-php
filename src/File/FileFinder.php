@@ -2,6 +2,7 @@
 
 namespace Churn\File;
 
+use function array_map;
 use const DIRECTORY_SEPARATOR;
 use Generator;
 use function in_array;
@@ -17,25 +18,27 @@ class FileFinder
 {
     /**
      * List of file extensions to look for.
-     * @var array
+     * @var string[]
      */
     private $fileExtensions;
 
     /**
-     * List of files to ignore.
-     * @var array
+     * List of regular expressions used to filter files to ignore.
+     * @var string[]
      */
-    private $filesToIgnore;
+    private $filters;
 
     /**
      * Class constructor.
-     * @param array $fileExtensions List of file extensions to look for.
-     * @param array $filesToIgnore  List of files to ignore.
+     * @param string[] $fileExtensions List of file extensions to look for.
+     * @param string[] $filesToIgnore  List of files to ignore.
      */
     public function __construct(array $fileExtensions, array $filesToIgnore)
     {
         $this->fileExtensions = $fileExtensions;
-        $this->filesToIgnore = $filesToIgnore;
+        $this->filters = array_map(function (string $fileToIgnore): string {
+            return $this->patternToRegex($fileToIgnore);
+        }, $filesToIgnore);
     }
 
     /**
@@ -111,8 +114,7 @@ class FileFinder
      */
     private function fileShouldBeIgnored(SplFileInfo $file): bool
     {
-        foreach ($this->filesToIgnore as $fileToIgnore) {
-            $regex = $this->patternToRegex($fileToIgnore);
+        foreach ($this->filters as $regex) {
             if (preg_match("#{$regex}#", $file->getRealPath())) {
                 return true;
             }
