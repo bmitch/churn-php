@@ -2,7 +2,7 @@
 <?php
 require_once(__DIR__ . '/bootstrap.php');
 
-use Churn\Assessors\CyclomaticComplexity\CyclomaticComplexityAssessor;
+use Churn\Assessor\CyclomaticComplexityAssessor;
 
 $file = $argv[1];
 $assessor = new CyclomaticComplexityAssessor();
