@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Churn\Assessors\CyclomaticComplexity;
+namespace Churn\Assessor;
 
 use function preg_match;
 use function preg_match_all;

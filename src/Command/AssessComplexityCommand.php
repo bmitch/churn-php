@@ -2,7 +2,7 @@
 
 namespace Churn\Command;
 
-use Churn\Assessors\CyclomaticComplexity\CyclomaticComplexityAssessor;
+use Churn\Assessor\CyclomaticComplexityAssessor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
