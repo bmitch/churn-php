@@ -3,8 +3,10 @@
 namespace Churn\Process;
 
 use function array_merge;
-use function dirname;
 use Churn\File\File;
+use Churn\Process\ChangesCount\GitChangesCountProcess;
+use Churn\Process\ChangesCount\NoVcsChangesCountProcess;
+use InvalidArgumentException;
 use function is_callable;
 use Phar;
 use function strlen;
@@ -13,6 +15,12 @@ use Symfony\Component\Process\Process;
 
 class ProcessFactory
 {
+    /**
+     * Name of the version control system.
+     * @var string
+     */
+    private $vcs;
+
     /**
      * String containing the date of when to look at commits since.
      * @var string
@@ -26,11 +34,13 @@ class ProcessFactory
     private $phpExecutable;
 
     /**
-     * ProcessFactory constructor.
+     * Class constructor.
+     * @param string $vcs          Name of the version control system.
      * @param string $commitsSince String containing the date of when to look at commits since.
      */
-    public function __construct(string $commitsSince)
+    public function __construct(string $vcs, string $commitsSince)
     {
+        $this->vcs = $vcs;
         $this->commitsSince = $commitsSince;
         $this->phpExecutable = (string)(new PhpExecutableFinder())->find();
     }
@@ -38,25 +48,27 @@ class ProcessFactory
     /**
      * Creates a process that will count the number of changes for $file.
      * @param File $file File that the process will execute on.
-     * @return CountChangesProcess
+     * @return ChangesCountInterface
+     * @throws InvalidArgumentException If VCS is not supported.
      */
-    public function createCountChangesProcess(File $file): CountChangesProcess
+    public function createChangesCountProcess(File $file): ChangesCountInterface
     {
-        $process = new Process([
-            'git', '-C', dirname($file->getFullPath()), 'rev-list', '--since',
-            $this->commitsSince, '--no-merges', '--count', 'HEAD',
-            $file->getFullPath(),
-            ]);
-
-        return new CountChangesProcess($file, $process);
+        switch ($this->vcs) {
+            case 'git':
+                return new GitChangesCountProcess($file, $this->commitsSince);
+            case 'none':
+                return new NoVcsChangesCountProcess($file);
+            default:
+                throw new InvalidArgumentException('Unsupported VCS: ' . $this->vcs);
+        }
     }
 
     /**
      * Creates a Cyclomatic Complexity Process that will run on $file.
      * @param File $file File that the process will execute on.
-     * @return CyclomaticComplexityProcess
+     * @return CyclomaticComplexityInterface
      */
-    public function createCyclomaticComplexityProcess(File $file): CyclomaticComplexityProcess
+    public function createCyclomaticComplexityProcess(File $file): CyclomaticComplexityInterface
     {
         $command = array_merge(
             [$this->phpExecutable],

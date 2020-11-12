@@ -86,7 +86,7 @@ minScoreToShow: 0
 # Default: 10
 parallelJobs: 10
 
-# How far back in the git history to count the number of commits to a file
+# How far back in the VCS history to count the number of commits to a file
 # Can be a human readable date like 'One week ago' or a date like '2017-07-12'
 # Default: '10 Years ago'
 commitsSince: One year ago
@@ -104,6 +104,11 @@ filesToIgnore:
 fileExtensions:
  - php
  - inc
+
+# The version control system used for your projet.
+# Accepted values: git, none
+# Default: git
+ vcs: git
  ```
 
 If a `churn.yml` file is omitted or an individual setting is omitted the default values above will be used.

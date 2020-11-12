@@ -23,7 +23,7 @@ class SequentialProcessHandler implements ProcessHandler
     ): void {
         foreach ($filesFinder as $file) {
             $result = new Result($file->getDisplayPath());
-            $process = $processFactory->createCountChangesProcess($file);
+            $process = $processFactory->createChangesCountProcess($file);
             $process->start();
             while (!$process->isSuccessful());
             $result->setCommits($process->countChanges());

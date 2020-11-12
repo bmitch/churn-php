@@ -35,6 +35,7 @@ class ConfigTest extends BaseTestCase
         $this->assertSame(Config::SHOW_COMMITS_SINCE, $config->getCommitsSince());
         $this->assertSame(Config::FILES_TO_IGNORE, $config->getFilesToIgnore());
         $this->assertSame(Config::FILE_EXTENSIONS_TO_PARSE, $config->getFileExtensions());
+        $this->assertSame(Config::VCS, $config->getVCS());
     }
 
     /** @test */
@@ -48,6 +49,7 @@ class ConfigTest extends BaseTestCase
         $commitsSince = '4 years ago';
         $filesToIgnore = ['foo.php', 'bar.php', 'baz.php'];
         $fileExtensions = ['php', 'inc'];
+        $vcs = 'none';
 
         $config = Config::create([
             'directoriesToScan' => $directoriesToScan,
@@ -57,6 +59,7 @@ class ConfigTest extends BaseTestCase
             'commitsSince' => $commitsSince,
             'filesToIgnore' => $filesToIgnore,
             'fileExtensions' => $fileExtensions,
+            'vcs' => $vcs,
         ]);
 
         $this->assertSame($directoriesToScan, $config->getDirectoriesToScan());
@@ -66,5 +69,6 @@ class ConfigTest extends BaseTestCase
         $this->assertSame($commitsSince, $config->getCommitsSince());
         $this->assertSame($filesToIgnore, $config->getFilesToIgnore());
         $this->assertSame($fileExtensions, $config->getFileExtensions());
+        $this->assertSame($vcs, $config->getVCS());
     }
 }

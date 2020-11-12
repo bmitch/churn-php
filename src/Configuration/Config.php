@@ -14,6 +14,7 @@ class Config
     const SHOW_COMMITS_SINCE = '10 years ago';
     const FILES_TO_IGNORE = [];
     const FILE_EXTENSIONS_TO_PARSE = ['php'];
+    const VCS = 'git';
 
     /**
      * @var array
@@ -118,6 +119,15 @@ class Config
     }
 
     /**
+     * Get the version control system.
+     * @return string
+     */
+    public function getVCS(): string
+    {
+        return $this->configuration['vcs'] ?? self::VCS;
+    }
+
+    /**
      * @param array $configuration The array containing the configuration values.
      * @return void
      */
@@ -130,6 +140,7 @@ class Config
         $this->validateCommitsSince($configuration);
         $this->validateFilesToIgnore($configuration);
         $this->validateFileExtensions($configuration);
+        $this->validateVCS($configuration);
     }
 
     /**
@@ -207,6 +218,17 @@ class Config
     {
         if (array_key_exists('fileExtensions', $configuration)) {
             Assert::isArray($configuration['fileExtensions'], 'File extensions should be an array of strings');
+        }
+    }
+
+    /**
+     * @param array $configuration The array containing the configuration values.
+     * @return void
+     */
+    private function validateVCS(array $configuration): void
+    {
+        if (array_key_exists('vcs', $configuration)) {
+            Assert::string($configuration['vcs'], 'VCS should be a string');
         }
     }
 }

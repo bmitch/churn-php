@@ -4,8 +4,8 @@ namespace Churn\Tests\Unit\Process;
 
 use Churn\Configuration\Config;
 use Churn\File\File;
-use Churn\Process\CountChangesProcess;
-use Churn\Process\CyclomaticComplexityProcess;
+use Churn\Process\ChangesCountInterface;
+use Churn\Process\CyclomaticComplexityInterface;
 use Churn\Process\ProcessFactory;
 use Churn\Tests\BaseTestCase;
 
@@ -26,9 +26,9 @@ class ProcessFactoryTest extends BaseTestCase
     public function it_can_create_a_git_commit_count_process()
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
-        $result = $this->processFactory->createCountChangesProcess($file);
-        $this->assertInstanceOf(CountChangesProcess::class, $result);
-        $this->assertSame('CountChanges', $result->getType());
+        $result = $this->processFactory->createChangesCountProcess($file);
+        $this->assertInstanceOf(ChangesCountInterface::class, $result);
+        $this->assertSame($file, $result->getFile());
     }
 
     /** @test */
@@ -36,13 +36,13 @@ class ProcessFactoryTest extends BaseTestCase
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $result = $this->processFactory->createCyclomaticComplexityProcess($file);
-        $this->assertInstanceOf(CyclomaticComplexityProcess::class, $result);
-        $this->assertSame('CyclomaticComplexity', $result->getType());
+        $this->assertInstanceOf(CyclomaticComplexityInterface::class, $result);
+        $this->assertSame($file, $result->getFile());
     }
 
     public function setup()
     {
         $config = Config::createFromDefaultValues();
-        $this->processFactory = new ProcessFactory($config->getCommitsSince());
+        $this->processFactory = new ProcessFactory('git', $config->getCommitsSince());
     }
 }

@@ -2,17 +2,8 @@
 
 namespace Churn\Process;
 
-class CyclomaticComplexityProcess extends ChurnProcess
+class CyclomaticComplexityProcess extends ChurnProcess implements CyclomaticComplexityInterface
 {
-    /**
-     * Gets the type of the process.
-     * @return string
-     */
-    public function getType(): string
-    {
-        return 'CyclomaticComplexity';
-    }
-
     /**
      * Returns the cyclomatic complexity of a file.
      * @return integer
