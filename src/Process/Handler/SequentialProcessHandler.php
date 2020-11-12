@@ -23,14 +23,14 @@ class SequentialProcessHandler implements ProcessHandler
     ): void {
         foreach ($filesFinder as $file) {
             $result = new Result($file->getDisplayPath());
-            $process = $processFactory->createGitCommitProcess($file);
+            $process = $processFactory->createCountChangesProcess($file);
             $process->start();
             while (!$process->isSuccessful());
-            $result->setCommits((int) $process->getOutput());
+            $result->setCommits($process->countChanges());
             $process = $processFactory->createCyclomaticComplexityProcess($file);
             $process->start();
             while (!$process->isSuccessful());
-            $result->setComplexity((int) $process->getOutput());
+            $result->setComplexity($process->getCyclomaticComplexity());
             $onSuccess($result);
         }
     }

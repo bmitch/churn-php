@@ -4,19 +4,19 @@ namespace Churn\Tests\Unit\Process;
 
 use Churn\File\File;
 use Churn\Tests\BaseTestCase;
-use Churn\Process\ChurnProcess;
+use Churn\Process\CountChangesProcess;
 use Mockery as m;
 use Symfony\Component\Process\Process;
 
-class ChurnProcessTest extends BaseTestCase
+class CountChangesProcessTest extends BaseTestCase
 {
     /** @test */
     public function it_can_be_instantiated()
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = new Process(['foo']);
-        $churnProcess = new ChurnProcess($file, $process, 'footype');
-        $this->assertInstanceOf(ChurnProcess::class, $churnProcess);
+        $churnProcess = new CountChangesProcess($file, $process);
+        $this->assertInstanceOf(CountChangesProcess::class, $churnProcess);
     }
 
     /** @test */
@@ -25,7 +25,7 @@ class ChurnProcessTest extends BaseTestCase
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
         $process->shouldReceive('start');
-        $churnProcess = new ChurnProcess($file, $process, 'footype');
+        $churnProcess = new CountChangesProcess($file, $process);
         $churnProcess->start();
     }
 
@@ -35,13 +35,13 @@ class ChurnProcessTest extends BaseTestCase
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
         $process->shouldReceive('getExitCode')->andReturn(0);
-        $churnProcess = new ChurnProcess($file, $process, 'footype');
+        $churnProcess = new CountChangesProcess($file, $process);
         $this->assertTrue($churnProcess->isSuccessful());
 
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
         $process->shouldReceive('getExitCode')->andReturn(null);
-        $churnProcess = new ChurnProcess($file, $process, 'footype');
+        $churnProcess = new CountChangesProcess($file, $process);
         $this->assertFalse($churnProcess->isSuccessful());
     }
 
@@ -50,7 +50,7 @@ class ChurnProcessTest extends BaseTestCase
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
-        $churnProcess = new ChurnProcess($file, $process, 'footype');
+        $churnProcess = new CountChangesProcess($file, $process);
         $this->assertSame('bar/baz.php', $churnProcess->getFilename());
     }
 
@@ -59,7 +59,7 @@ class ChurnProcessTest extends BaseTestCase
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
-        $churnProcess = new ChurnProcess($file, $process, 'footype');
+        $churnProcess = new CountChangesProcess($file, $process);
         $this->assertSame($file, $churnProcess->getFile());
     }
 
@@ -68,8 +68,8 @@ class ChurnProcessTest extends BaseTestCase
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
-        $churnProcess = new ChurnProcess($file, $process, 'footype');
-        $this->assertSame('footypefoo/bar/baz.php', $churnProcess->getKey());
+        $churnProcess = new CountChangesProcess($file, $process);
+        $this->assertSame('CountChangesfoo/bar/baz.php', $churnProcess->getKey());
     }
 
     /** @test */
@@ -77,17 +77,17 @@ class ChurnProcessTest extends BaseTestCase
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
-        $churnProcess = new ChurnProcess($file, $process, 'footype');
-        $this->assertSame('footype', $churnProcess->getType());
+        $churnProcess = new CountChangesProcess($file, $process);
+        $this->assertSame('CountChanges', $churnProcess->getType());
     }
 
     /** @test */
-    public function it_can_get_its_output()
+    public function it_can_get_the_number_of_changes()
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
-        $process->shouldReceive('getOutput')->andReturn('mock output');
-        $churnProcess = new ChurnProcess($file, $process, 'footype');
-        $this->assertSame('mock output', $churnProcess->getOutput());
+        $process->shouldReceive('getOutput')->andReturn('42');
+        $churnProcess = new CountChangesProcess($file, $process);
+        $this->assertSame(42, $churnProcess->countChanges());
     }
 }

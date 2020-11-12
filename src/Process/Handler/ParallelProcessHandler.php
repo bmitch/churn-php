@@ -31,6 +31,7 @@ class ParallelProcessHandler implements ProcessHandler
     public function __construct(int $numberOfParallelJobs)
     {
         $this->numberOfParallelJobs = $numberOfParallelJobs;
+        $this->completedProcesses = [];
     }
 
     /**
@@ -46,7 +47,6 @@ class ParallelProcessHandler implements ProcessHandler
         OnSuccess $onSuccess
     ): void {
         $pool = [];
-        $this->completedProcesses = [];
         foreach ($filesFinder as $file) {
             while (count($pool) >= $this->numberOfParallelJobs) {
                 $this->checkRunningProcesses($pool, $onSuccess);
@@ -81,7 +81,7 @@ class ParallelProcessHandler implements ProcessHandler
      */
     private function addToPool(array &$pool, File $file, ProcessFactory $processFactory): void
     {
-        $process = $processFactory->createGitCommitProcess($file);
+        $process = $processFactory->createCountChangesProcess($file);
         $process->start();
         $pool[$process->getKey()] = $process;
         $process = $processFactory->createCyclomaticComplexityProcess($file);
@@ -101,11 +101,11 @@ class ParallelProcessHandler implements ProcessHandler
         }
         $result = $this->completedProcesses[$process->getFileName()];
         switch ($process->getType()) {
-            case 'GitCommitProcess':
-                $result->setCommits((int) $process->getOutput());
+            case 'CountChanges':
+                $result->setCommits($process->countChanges());
                 break;
-            case 'CyclomaticComplexityProcess':
-                $result->setComplexity((int) $process->getOutput());
+            case 'CyclomaticComplexity':
+                $result->setComplexity($process->getCyclomaticComplexity());
                 break;
             default:
                 // nothing to do
