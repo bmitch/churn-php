@@ -88,4 +88,15 @@ class ResultAccumulatorTest extends BaseTestCase
 
         $this->assertEquals($expectedResult, $accumulator->toArray());
     }
+
+    /** @test */
+    public function it_ignores_files_with_a_score_of_zero(): void
+    {
+        $accumulator = new ResultAccumulator(10, 0.1);
+        $accumulator->add($this->mockResult(0, 1, 'file1', 0.3));
+        $accumulator->add($this->mockResult(1, 0, 'file2', 0.2));
+        $accumulator->add($this->mockResult(0, 0, 'file3', 0.1));
+
+        $this->assertEquals(0, $accumulator->getNumberOfFiles());
+    }
 }

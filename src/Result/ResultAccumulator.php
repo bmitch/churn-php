@@ -48,6 +48,9 @@ class ResultAccumulator
      */
     public function add(Result $result): void
     {
+        if ($result->getPriority() === 0) {
+            return;
+        }
         $this->numberOfFiles++;
         if ($result->getCommits() > $this->maxCommits) {
             $this->maxCommits = $result->getCommits();
