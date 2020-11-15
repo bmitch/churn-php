@@ -47,7 +47,7 @@ jobs:
         run: diff -w <(bin/churn -V) <(./churn.phar -V)
 
       - name: "Test Phar"
-        run: diff -w <(bin/churn run src) <(./churn.phar run src)
+        run: diff -w <(bin/churn run src --format=csv | sort) <(./churn.phar run src --format=csv | sort)
 
       - name: "Save Phar"
         uses: actions/upload-artifact@v2
