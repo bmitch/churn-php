@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 'stderr');
+
 if (is_file($autoload = __DIR__ . '/../vendor/autoload.php')) {
     require_once($autoload);
 } elseif (is_file($autoload = __DIR__ . '/../../../autoload.php')) {
