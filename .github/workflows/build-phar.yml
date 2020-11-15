@@ -44,10 +44,10 @@ jobs:
         run: ./box.phar compile
 
       - name: "Test Version"
-        run: diff <(bin/churn -V) <(./churn.phar -V)
+        run: diff -w <(bin/churn -V) <(./churn.phar -V)
 
       - name: "Test Phar"
-        run: diff <(bin/churn run src) <(./churn.phar run src)
+        run: diff -w <(bin/churn run src) <(./churn.phar run src)
 
       - name: "Save Phar"
         uses: actions/upload-artifact@v2
