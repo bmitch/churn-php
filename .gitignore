@@ -3,6 +3,8 @@ composer.lock
 docs
 vendor
 coverage.xml
+box.json
+phpunit.xml
 *.phar
 .phpunit.result.cache
 .idea
