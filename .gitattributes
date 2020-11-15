@@ -12,6 +12,7 @@ codor.xml export-ignore
 CONTRIBUTING.md export-ignore
 img/ export-ignore
 phpcs.xml export-ignore
+phpmd.xml export-ignore
 phpunit.xml.dist export-ignore
 README.md export-ignore
 tests/ export-ignore
