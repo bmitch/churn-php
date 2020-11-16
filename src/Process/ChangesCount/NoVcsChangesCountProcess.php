@@ -42,7 +42,6 @@ class NoVcsChangesCountProcess implements ChangesCountInterface
     /**
      * Determines if the process was successful.
      * @return boolean
-     * @throws ProcessFailedException If the process failed.
      */
     public function isSuccessful(): bool
     {

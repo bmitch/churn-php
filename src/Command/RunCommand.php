@@ -107,11 +107,11 @@ class RunCommand extends Command
      * @param InputInterface $input          Input Interface.
      * @param array          $dirsConfigured The directories configured to scan.
      * @throws InvalidArgumentException If paths argument invalid.
-     * @return array When no directories to scan found.
+     * @return string[] When no directories to scan found.
      */
     private function getDirectoriesToScan(InputInterface $input, array $dirsConfigured): array
     {
-        $dirsProvidedAsArgs = $input->getArgument('paths');
+        $dirsProvidedAsArgs = (array) $input->getArgument('paths');
         if (count($dirsProvidedAsArgs) > 0) {
             return $dirsProvidedAsArgs;
         }

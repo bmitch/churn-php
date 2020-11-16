@@ -10,7 +10,7 @@ class CyclomaticComplexityAssessor
 {
     /**
      * The total cyclomatic complexity score.
-     * @var integer.
+     * @var integer
      */
     protected $score;
 
