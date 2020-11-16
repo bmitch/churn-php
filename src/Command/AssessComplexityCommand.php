@@ -31,7 +31,7 @@ class AssessComplexityCommand extends Command
     {
         $file = $input->getArgument('file');
         $assessor = new CyclomaticComplexityAssessor();
-        $output->writeln($assessor->assess($file));
+        $output->writeln((string) $assessor->assess($file));
         return 0;
     }
 }

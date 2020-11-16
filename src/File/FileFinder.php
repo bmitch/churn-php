@@ -45,7 +45,7 @@ class FileFinder
      * Recursively finds all files with the .php extension in the provided
      * $paths and returns list as array.
      * @param array $paths Paths in which to look for .php files.
-     * @return Generator
+     * @return Generator<int, File>
      */
     public function getPhpFiles(array $paths): Generator
     {
@@ -58,7 +58,7 @@ class FileFinder
      * Recursively finds all files with the .php extension in the provided
      * $path adds them to $this->files.
      * @param string $path Path in which to look for .php files.
-     * @return Generator
+     * @return Generator<int, File>
      */
     private function getPhpFilesFromPath(string $path): Generator
     {
@@ -76,7 +76,7 @@ class FileFinder
     /**
      * Recursively finds all PHP files in a given directory.
      * @param string $path Path in which to look for .php files.
-     * @return Generator|SplFileInfo[]
+     * @return Generator<int, SplFileInfo>
      */
     private function findPhpFiles(string $path): Generator
     {
@@ -93,7 +93,7 @@ class FileFinder
     /**
      * Recursively finds all files in a given directory.
      * @param string $path Path in which to look for .php files.
-     * @return Generator|SplFileInfo[]
+     * @return Generator<int, SplFileInfo>
      */
     private function findFiles(string $path): Generator
     {
