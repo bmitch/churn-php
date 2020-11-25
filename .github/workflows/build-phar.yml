@@ -34,7 +34,7 @@ jobs:
 
       - name: "Download Box"
         run: |
-          curl -sL https://github.com/box-project/box/releases/download/3.8.5/box.phar -o box.phar
+          curl -sL https://github.com/box-project/box/releases/download/3.9.1/box.phar -o box.phar
           chmod +x box.phar
 
       - name: "Validate box configuration"
@@ -44,10 +44,10 @@ jobs:
         run: ./box.phar compile
 
       - name: "Test Version"
-        run: diff -w <(bin/churn -V) <(./churn.phar -V)
+        run: diff -u <(bin/churn -V) <(./churn.phar -V)
 
       - name: "Test Phar"
-        run: diff -w <(bin/churn run src --format=csv | sort) <(./churn.phar run src --format=csv | sort)
+        run: diff -u <(bin/churn run src --format=csv | sort) <(./churn.phar run src --format=csv | sort)
 
       - name: "Save Phar"
         uses: actions/upload-artifact@v2
