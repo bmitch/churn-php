@@ -25,8 +25,6 @@ jobs:
         os:
           - ubuntu-latest
           - windows-latest
-        composer:
-          - "v2"
 
     steps:
       - name: "Checkout"
@@ -37,7 +35,7 @@ jobs:
         with:
           coverage: "none"
           php-version: "${{ matrix.php-version }}"
-          tools: composer:${{ matrix.composer }}
+          tools: composer:v2
 
       - name: "Install dependencies"
         run: "composer install --no-interaction --no-progress --prefer-dist"
@@ -47,3 +45,33 @@ jobs:
 
       - name: "Run Churn"
         run: "php bin/churn run src -p -vvv"
+
+  analysis:
+    name: "Static Analysis"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "pcov"
+          php-version: "7.4"
+          tools: composer:v2, composer-normalize
+
+      - name: "Install dependencies"
+        run: "composer update --no-interaction --no-progress --prefer-dist"
+
+      - name: "Run tests"
+        run: "composer test-ci"
+
+      - name: "Normalize composer.json"
+        run: "composer-normalize --dry-run --no-check-lock --no-update-lock"
+
+      - uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: true
+          verbose: true

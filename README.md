@@ -1,7 +1,7 @@
 # churn-php
 Helps discover good candidates for refactoring.
 
-[![Build Status](https://travis-ci.org/bmitch/churn-php.svg?branch=master)](https://travis-ci.org/bmitch/churn-php)
+[![Build Status](https://github.com/bmitch/churn-php/workflows/Continuous%20Integration/badge.svg)](https://github.com/bmitch/churn-php/actions)
 [![codecov](https://codecov.io/gh/bmitch/churn-php/branch/master/graph/badge.svg)](https://codecov.io/gh/bmitch/churn-php)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bmitch/churn-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bmitch/churn-php/?branch=master)
 [![Code Climate](https://codeclimate.com/github/bmitch/churn-php/badges/gpa.svg)](https://codeclimate.com/github/bmitch/churn-php)
