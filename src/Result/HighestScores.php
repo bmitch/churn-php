@@ -53,7 +53,6 @@ class HighestScores
     {
         $pos = 0;
 
-        $this->scores->rewind();
         foreach ($this->scores as $score) {
             if ($score === null || $result->getPriority() > $score->getPriority()) {
                 break;
