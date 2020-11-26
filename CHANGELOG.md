@@ -2,12 +2,48 @@
 
 ## [Unreleased](https://github.com/bmitch/churn-php/tree/HEAD)
 
-[Full Changelog](https://github.com/bmitch/churn-php/compare/1.2.0...HEAD)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.3.0...HEAD)
+
+## [1.3.0](https://github.com/bmitch/churn-php/tree/1.3.0) (2020-11-26)
+
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.2.0...1.3.0)
+
+**Implemented enhancements:**
+
+- Sign Phar with GPG Signature [\#253](https://github.com/bmitch/churn-php/issues/253)
+- Support PHP-8 [\#229](https://github.com/bmitch/churn-php/issues/229)
+- \[Improvement\] Work with GIT submodules [\#214](https://github.com/bmitch/churn-php/issues/214)
+- Expected a value greater than 0. Got: 0 [\#179](https://github.com/bmitch/churn-php/issues/179)
+- Check for ".git" file before running [\#173](https://github.com/bmitch/churn-php/issues/173)
+
+**Fixed bugs:**
+
+- Arbitrary amount of results shown [\#213](https://github.com/bmitch/churn-php/issues/213)
+
+**Closed issues:**
+
+- Publish churn.phar automatically at the release creation [\#252](https://github.com/bmitch/churn-php/issues/252)
+
+**Merged pull requests:**
+
+- Automate release process [\#267](https://github.com/bmitch/churn-php/pull/267) ([villfa](https://github.com/villfa))
+- Move from Travis to GH-Actions [\#266](https://github.com/bmitch/churn-php/pull/266) ([villfa](https://github.com/villfa))
+- Fix some PHP docs [\#265](https://github.com/bmitch/churn-php/pull/265) ([villfa](https://github.com/villfa))
+- Report all errors [\#264](https://github.com/bmitch/churn-php/pull/264) ([villfa](https://github.com/villfa))
+- Improve GH actions [\#263](https://github.com/bmitch/churn-php/pull/263) ([villfa](https://github.com/villfa))
+- Improve git configuration [\#262](https://github.com/bmitch/churn-php/pull/262) ([villfa](https://github.com/villfa))
+- Ignore files with a score of zero [\#261](https://github.com/bmitch/churn-php/pull/261) ([villfa](https://github.com/villfa))
+- Add support for non-versioned projects [\#260](https://github.com/bmitch/churn-php/pull/260) ([villfa](https://github.com/villfa))
+- Use Box compactors [\#259](https://github.com/bmitch/churn-php/pull/259) ([villfa](https://github.com/villfa))
+- Allow files as argument [\#258](https://github.com/bmitch/churn-php/pull/258) ([villfa](https://github.com/villfa))
+- Improve the usability of Churn [\#257](https://github.com/bmitch/churn-php/pull/257) ([villfa](https://github.com/villfa))
+- Add support for PHP 8 [\#256](https://github.com/bmitch/churn-php/pull/256) ([villfa](https://github.com/villfa))
+- Use PHPUnit bridge [\#255](https://github.com/bmitch/churn-php/pull/255) ([villfa](https://github.com/villfa))
+- Fix FQCN in Config [\#254](https://github.com/bmitch/churn-php/pull/254) ([szepeviktor](https://github.com/szepeviktor))
 
 ## [1.2.0](https://github.com/bmitch/churn-php/tree/1.2.0) (2020-10-23)
 
 [Full Changelog](https://github.com/bmitch/churn-php/compare/1.1.0...1.2.0)
-
 
 **Implemented enhancements:**
 
@@ -28,6 +64,7 @@
 
 **Merged pull requests:**
 
+- Prepare changelog for 1.2.0 [\#251](https://github.com/bmitch/churn-php/pull/251) ([villfa](https://github.com/villfa))
 - Add a job to generate churn.phar [\#250](https://github.com/bmitch/churn-php/pull/250) ([villfa](https://github.com/villfa))
 - Remove Composer v1 from GH actions [\#249](https://github.com/bmitch/churn-php/pull/249) ([villfa](https://github.com/villfa))
 - Reduce the amount of data stored in memory [\#248](https://github.com/bmitch/churn-php/pull/248) ([villfa](https://github.com/villfa))
