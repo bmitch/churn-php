@@ -1,0 +1,87 @@
+name : "Release"
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  release:
+    name: "Upload Release Assets"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure GPG key
+        run: |
+          mkdir -p ~/.gnupg/
+          chmod 0700 ~/.gnupg/
+          echo "$GPG_PRIVATE_KEY" > ~/.gnupg/private.key
+          echo "$GPG_PASSPHRASE" | gpg --pinentry-mode=loopback --passphrase-fd 0 --import ~/.gnupg/private.key
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          php-version: "7.4"
+          tools: composer:v2
+
+      - name: "Print tag message"
+        id: tag
+        run: |
+          git fetch --tags -f
+          content="$(git tag -l --format='%(contents)' $(git describe --abbrev=0))"
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          echo "::set-output name=message::$content"
+
+      - name: "Download Box"
+        run: |
+          curl -sL https://github.com/box-project/box/releases/download/3.9.1/box.phar -o box.phar
+          chmod +x box.phar
+
+      - name: "Compile PHAR"
+        run: ./box.phar compile
+
+      - name: "Sign PHAR"
+        run: echo "$GPG_PASSPHRASE" | gpg --pinentry-mode=loopback --passphrase-fd 0 -u wkmitch@gmail.com --output churn.phar.asc --detach-sign churn.phar
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: "Create release"
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+          body: ${{ steps.tag.outputs.message }}
+
+      - name: Upload PHAR
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./churn.phar
+          asset_name: churn.phar
+          asset_content_type: application/octet-stream
+
+      - name: Upload PHAR signature
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./churn.phar.asc
+          asset_name: churn.phar.asc
+          asset_content_type: application/octet-stream
