@@ -8,7 +8,6 @@ Helps discover good candidates for refactoring.
 [![Packagist](https://img.shields.io/packagist/v/bmitch/churn-php.svg)](https://packagist.org/packages/bmitch/churn-php)
 [![Packagist](https://img.shields.io/packagist/dt/bmitch/churn-php.svg)](https://packagist.org/packages/bmitch/churn-php/stats)
 [![Packagist](https://img.shields.io/packagist/l/bmitch/churn-php.svg)](LICENSE.md)
-[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/bmitch)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/bmitch2112)
 ----------
 
