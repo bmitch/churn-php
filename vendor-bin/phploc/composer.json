@@ -1,0 +1,5 @@
+{
+    "require": {
+        "phploc/phploc": ">=4.0"
+    }
+}

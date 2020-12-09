@@ -39,12 +39,7 @@ jobs:
           tools: composer:v2
 
       - name: "Install dependencies"
-        if: "matrix.php-version != '8.0'"
         run: "composer update --no-interaction --no-progress --prefer-dist"
-
-      - name: "Install dependencies ignoring PHP requirement"
-        if: "matrix.php-version == '8.0'"
-        run: "composer update --no-interaction --no-progress --prefer-dist --ignore-platform-req=php"
 
       - name: "Run tests"
         run: "vendor/bin/simple-phpunit --colors=always --testdox"

@@ -23,14 +23,10 @@
         "webmozart/assert": "^1.2"
     },
     "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.4",
         "bmitch/codor": "^1.2",
         "mockery/mockery": "^1.2.0",
-        "php-parallel-lint/php-console-highlighter": "^0.5.0",
-        "php-parallel-lint/php-parallel-lint": "^1.2",
-        "phploc/phploc": ">=4.0",
-        "phpmd/phpmd": "^2.5",
-        "sebastian/phpcpd": "^4.0",
-        "slevomat/coding-standard": "^3.0",
+        "slevomat/coding-standard": ">=3.0",
         "symfony/phpunit-bridge": "^5.1"
     },
     "config": {
@@ -50,6 +46,13 @@
         "bin/churn"
     ],
     "scripts": {
+        "post-install-cmd": [
+            "@composer bin all install --ansi"
+        ],
+        "post-update-cmd": [
+            "@composer bin all update --ansi"
+        ],
+        "bin": "echo 'bin not installed'",
         "fix": [
             "phpcbf -n --standard=phpcs.xml src/",
             "phpcbf --standard=codor.xml src -spn",
