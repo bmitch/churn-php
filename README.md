@@ -49,6 +49,11 @@ Install via Composer:
 composer require bmitch/churn-php --dev
 ```
 
+You can also install `churn-php` with [Phive](https://phar.io/):
+```
+phive install churn
+```
+
 ## How to Use?
 ```
 vendor/bin/churn run <one or more paths to source code> ...
@@ -56,7 +61,7 @@ vendor/bin/churn run src
 vendor/bin/churn run src tests
 ```
 
-You can also use churn-php via [Docker](https://www.docker.com/what-docker):
+You can also use `churn-php` via [Docker](https://hub.docker.com/r/dockerizedphp/churn):
 
 ```
 docker run --rm -ti -v $PWD:/app dockerizedphp/churn run src
