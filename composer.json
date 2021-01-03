@@ -59,22 +59,16 @@
             "phpcbf --standard=codor.xml src -spn || true"
         ],
         "test": [
-            "@test-common",
-            "phpcs --standard=psr2 src -spn",
-            "phpcs --standard=phpcs.xml src -spn",
-            "phpcs --standard=codor.xml src -spn"
-        ],
-        "test-ci": [
-            "@test-common"
-        ],
-        "test-common": [
             "@composer validate --strict",
             "parallel-lint src tests",
             "phpmd src text phpmd.xml",
             "phploc src",
             "phpcpd src",
             "simple-phpunit --colors=always --testdox --coverage-clover=coverage.xml",
-            "@php bin/churn run src -p -vvv"
+            "@php bin/churn run src -p -vvv",
+            "phpcs --standard=psr2 src -spn",
+            "phpcs --standard=phpcs.xml src -spn",
+            "phpcs --standard=codor.xml src -spn"
         ]
     }
 }

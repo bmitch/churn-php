@@ -66,7 +66,7 @@ jobs:
         run: "composer update --no-interaction --no-progress --prefer-dist"
 
       - name: "Run tests"
-        run: "composer test-ci"
+        run: "composer test"
 
       - name: "Normalize composer.json"
         run: "composer-normalize --dry-run --no-check-lock --no-update-lock"
