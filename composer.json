@@ -54,7 +54,7 @@
         ],
         "bin": "echo 'bin not installed'",
         "fix": [
-            "phpcbf --standard=psr2 src -spn || true",
+            "phpcbf --standard=psr12 src -spn || true",
             "phpcbf --standard=phpcs.xml src -spn || true",
             "phpcbf --standard=codor.xml src -spn || true"
         ],
@@ -66,7 +66,7 @@
             "phpcpd src",
             "simple-phpunit --colors=always --testdox --coverage-clover=coverage.xml",
             "@php bin/churn run src -p -vvv",
-            "phpcs --standard=psr2 src -spn",
+            "phpcs --standard=psr12 src -spn",
             "phpcs --standard=phpcs.xml src -spn",
             "phpcs --standard=codor.xml src -spn"
         ]

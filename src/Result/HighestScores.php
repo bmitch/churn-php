@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Churn\Result;
 
@@ -29,7 +31,7 @@ class HighestScores
     {
         return \array_filter($this->scores->toArray());
     }
-    
+
     /**
      * Add the result if its priority is high enough.
      *
@@ -37,8 +39,10 @@ class HighestScores
      */
     public function add(Result $result): void
     {
-        if (null !== $this->scores[$this->scores->getSize() - 1]
-        && $result->getPriority() <= $this->scores[$this->scores->getSize() - 1]->getPriority()) {
+        if (
+            null !== $this->scores[$this->scores->getSize() - 1]
+            && $result->getPriority() <= $this->scores[$this->scores->getSize() - 1]->getPriority()
+        ) {
             return;
         }
 

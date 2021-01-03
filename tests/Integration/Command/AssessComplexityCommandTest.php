@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Churn\Tests\Integration\Command;
 
 use Churn\Command\AssessComplexityCommand;
 use Churn\Tests\BaseTestCase;
-use function ctype_digit;
 use DI\ContainerBuilder;
-use function rtrim;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -23,7 +23,7 @@ class AssessComplexityCommandTest extends BaseTestCase
         $command = $application->find('assess-complexity');
         $this->commandTester = new CommandTester($command);
     }
- 
+
     protected function tearDown()
     {
         $this->commandTester = null;
@@ -33,10 +33,10 @@ class AssessComplexityCommandTest extends BaseTestCase
     public function it_returns_the_cyclomatic_complexity()
     {
         $exitCode = $this->commandTester->execute(['file' => __FILE__]);
-        $result = rtrim($this->commandTester->getDisplay());
+        $result = \rtrim($this->commandTester->getDisplay());
 
         $this->assertEquals(0, $exitCode);
-        $this->assertTrue(ctype_digit($result), 'The result of the command must be an integer');
+        $this->assertTrue(\ctype_digit($result), 'The result of the command must be an integer');
         $this->assertGreaterThan(0, (int) $result);
     }
 }

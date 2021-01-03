@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Churn\Tests\Unit\Result\Render;
 
@@ -12,7 +14,7 @@ class CsvResultsRendererTest extends BaseTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(CsvResultsRenderer::class, new CsvResultsRenderer);
+        $this->assertInstanceOf(CsvResultsRenderer::class, new CsvResultsRenderer());
     }
 
     /** @test */
@@ -34,6 +36,6 @@ class CsvResultsRendererTest extends BaseTestCase
         $output->shouldReceive('writeln')->once()->with('"filename4.php";1;1;-0.225');
         $output->shouldReceive('writeln')->once()->with('"filename5.php";8;1;0.143');
 
-        (new CsvResultsRenderer)->render($output, $results);
+        (new CsvResultsRenderer())->render($output, $results);
     }
 }

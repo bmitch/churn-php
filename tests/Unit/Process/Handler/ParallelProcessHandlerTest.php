@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Churn\Tests\Unit\Process\Handler;
 
@@ -30,7 +32,7 @@ class ParallelProcessHandlerTest extends BaseTestCase
 
         $observer = m::mock(OnSuccess::class);
         $observer->shouldReceive('__invoke')->never();
-        
+
         $processHandler->process($this->getFileGenerator(), $processFactory, $observer);
     }
 

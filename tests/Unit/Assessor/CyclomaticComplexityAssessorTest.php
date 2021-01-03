@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Churn\Tests\Unit\Assessors\CyclomaticComplexity;
 
@@ -88,6 +90,6 @@ class CyclomaticComplexityAssessorTest extends BaseTestCase
 
     protected function assess($filename)
     {
-        return (new CyclomaticComplexityAssessor)->assess($filename);
+        return (new CyclomaticComplexityAssessor())->assess($filename);
     }
 }
