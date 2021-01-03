@@ -2,22 +2,20 @@
 
 namespace Churn\Assessor;
 
-use function preg_match;
-use function preg_match_all;
-use function file_get_contents;
-
 class CyclomaticComplexityAssessor
 {
+
     /**
      * The total cyclomatic complexity score.
+     *
      * @var integer
      */
     protected $score;
 
     /**
      * Asses the files cyclomatic complexity.
-     * @param  string $filePath Path and file name.
-     * @return integer
+     *
+     * @param string $filePath Path and file name.
      */
     public function assess(string $filePath): int
     {
@@ -34,29 +32,33 @@ class CyclomaticComplexityAssessor
         $this->countTheLogicalAnds($contents);
         $this->countTheLogicalOrs($contents);
 
-        if ($this->score === 0) {
+        if (0 === $this->score) {
             $this->score = 1;
         }
+
         return $this->score;
     }
 
     /**
      * Does the class have at least one method?
-     * @param  string $contents File contents.
-     * @return void
+     *
+     * @param string $contents File contents.
      */
     protected function hasAtLeastOneMethod(string $contents): void
     {
-        preg_match("/[ ]function[ ]/", $contents, $matches);
-        if (isset($matches[0])) {
-            $this->score++;
+        \preg_match("/[ ]function[ ]/", $contents, $matches);
+
+        if (!isset($matches[0])) {
+            return;
         }
+
+        $this->score++;
     }
 
     /**
      * Count how many if statements there are.
-     * @param  string $contents File contents.
-     * @return void
+     *
+     * @param string $contents File contents.
      */
     protected function countTheIfStatements(string $contents): void
     {
@@ -65,8 +67,8 @@ class CyclomaticComplexityAssessor
 
     /**
      * Count how many else if statements there are.
-     * @param  string $contents File contents.
-     * @return void
+     *
+     * @param string $contents File contents.
      */
     protected function countTheElseIfStatements(string $contents): void
     {
@@ -75,8 +77,8 @@ class CyclomaticComplexityAssessor
 
     /**
      * Count how many while loops there are.
-     * @param  string $contents File contents.
-     * @return void
+     *
+     * @param string $contents File contents.
      */
     protected function countTheWhileLoops(string $contents): void
     {
@@ -85,8 +87,8 @@ class CyclomaticComplexityAssessor
 
     /**
      * Count how many for loops there are.
-     * @param  string $contents File contents.
-     * @return void
+     *
+     * @param string $contents File contents.
      */
     protected function countTheForLoops(string $contents): void
     {
@@ -95,8 +97,8 @@ class CyclomaticComplexityAssessor
 
     /**
      * Count how many case statements there are.
-     * @param  string $contents File contents.
-     * @return void
+     *
+     * @param string $contents File contents.
      */
     protected function countTheCaseStatements(string $contents): void
     {
@@ -105,8 +107,8 @@ class CyclomaticComplexityAssessor
 
     /**
      * Count how many ternary operators there are.
-     * @param  string $contents File contents.
-     * @return void
+     *
+     * @param string $contents File contents.
      */
     protected function countTheTernaryOperators(string $contents): void
     {
@@ -115,8 +117,8 @@ class CyclomaticComplexityAssessor
 
     /**
      * Count how many '&&' there are.
-     * @param  string $contents File contents.
-     * @return void
+     *
+     * @param string $contents File contents.
      */
     protected function countTheLogicalAnds(string $contents): void
     {
@@ -125,8 +127,8 @@ class CyclomaticComplexityAssessor
 
     /**
      * Count how many '||' there are.
-     * @param  string $contents File contents.
-     * @return void
+     *
+     * @param string $contents File contents.
      */
     protected function countTheLogicalOrs(string $contents): void
     {
@@ -135,22 +137,22 @@ class CyclomaticComplexityAssessor
 
     /**
      * For the given $pattern on $string, how many matches are returned?
-     * @param  string $pattern Regex pattern.
-     * @param  string $string  Any string.
-     * @return integer
+     *
+     * @param string $pattern Regex pattern.
+     * @param string $string Any string.
      */
     protected function howManyPatternMatches(string $pattern, string $string): int
     {
-        return preg_match_all($pattern, $string);
+        return \preg_match_all($pattern, $string);
     }
 
     /**
      * Return the contents of the provided file at $filePath.
-     * @param  string $filePath Path and filename.
-     * @return string
+     *
+     * @param string $filePath Path and filename.
      */
     protected function getFileContents(string $filePath): string
     {
-        return file_get_contents($filePath);
+        return \file_get_contents($filePath);
     }
 }

@@ -7,14 +7,17 @@ use Churn\Process\ChangesCountInterface;
 
 class NoVcsChangesCountProcess implements ChangesCountInterface
 {
+
     /**
      * The file the process will be executed on.
+     *
      * @var File
      */
     private $file;
 
     /**
      * Class constructor.
+     *
      * @param File $file The file the process is being executed on.
      */
     public function __construct(File $file)
@@ -24,7 +27,6 @@ class NoVcsChangesCountProcess implements ChangesCountInterface
 
     /**
      * Returns the number of changes for a file.
-     * @return integer
      */
     public function countChanges(): int
     {
@@ -33,15 +35,14 @@ class NoVcsChangesCountProcess implements ChangesCountInterface
 
     /**
      * Start the process.
-     * @return void
      */
     public function start(): void
     {
+        // nothing to do
     }
 
     /**
      * Determines if the process was successful.
-     * @return boolean
      */
     public function isSuccessful(): bool
     {
@@ -51,7 +52,6 @@ class NoVcsChangesCountProcess implements ChangesCountInterface
     /**
      * Gets the file name of the file the process
      * is being executed on.
-     * @return string
      */
     public function getFilename(): string
     {
@@ -60,7 +60,6 @@ class NoVcsChangesCountProcess implements ChangesCountInterface
 
     /**
      * Gets the file the process is being executed on.
-     * @return File
      */
     public function getFile(): File
     {

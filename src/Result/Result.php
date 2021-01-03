@@ -6,26 +6,31 @@ use Webmozart\Assert\Assert;
 
 class Result
 {
+
     /**
      * The file property.
+     *
      * @var string
      */
     private $file;
 
     /**
      * The commits property.
+     *
      * @var integer
      */
     private $commits;
 
     /**
      * The complexity property.
+     *
      * @var integer
      */
     private $complexity;
 
     /**
      * Class constructor.
+     *
      * @param string $file The path of the processed file.
      */
     public function __construct(string $file)
@@ -37,7 +42,6 @@ class Result
 
     /**
      * Get the file path.
-     * @return string
      */
     public function getFile(): string
     {
@@ -46,7 +50,6 @@ class Result
 
     /**
      * Indicates whether the metrics are all set.
-     * @return boolean
      */
     public function isComplete(): bool
     {
@@ -54,8 +57,7 @@ class Result
     }
 
     /**
-     * @param int $commits Number of changes.
-     * @return self
+     * @param integer $commits Number of changes.
      */
     public function setCommits(int $commits): self
     {
@@ -66,7 +68,6 @@ class Result
 
     /**
      * Get the number of changes.
-     * @return integer
      */
     public function getCommits(): int
     {
@@ -74,8 +75,7 @@ class Result
     }
 
     /**
-     * @param int $complexity The file complexity.
-     * @return self
+     * @param integer $complexity The file complexity.
      */
     public function setComplexity(int $complexity): self
     {
@@ -86,7 +86,6 @@ class Result
 
     /**
      * Get the file complexity.
-     * @return integer
      */
     public function getComplexity(): int
     {
@@ -95,7 +94,6 @@ class Result
 
     /**
      * Get the file priority.
-     * @return integer
      */
     public function getPriority(): int
     {
@@ -104,9 +102,9 @@ class Result
 
     /**
      * Calculate the score.
-     * @param int $maxCommits    The highest number of commits out of any file scanned.
-     * @param int $maxComplexity The maximum complexity out of any file scanned.
-     * @return float
+     *
+     * @param integer $maxCommits The highest number of commits out of any file scanned.
+     * @param integer $maxComplexity The maximum complexity out of any file scanned.
      * @codingStandardsIgnoreStart
      */
     public function getScore(int $maxCommits, int $maxComplexity): float

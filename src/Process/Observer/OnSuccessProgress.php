@@ -7,6 +7,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 
 class OnSuccessProgress implements OnSuccess
 {
+
     /**
      * @var ProgressBar The progress bar to advance.
      */
@@ -14,6 +15,7 @@ class OnSuccessProgress implements OnSuccess
 
     /**
      * OnSuccessProgress constructor.
+     *
      * @param ProgressBar $progressBar The progress bar to advance.
      */
     public function __construct(ProgressBar $progressBar)
@@ -23,8 +25,8 @@ class OnSuccessProgress implements OnSuccess
 
     /**
      * Triggers an event when a file is successfully processed.
+     *
      * @param Result $result The result for a file.
-     * @return void
      */
     public function __invoke(Result $result): void
     {

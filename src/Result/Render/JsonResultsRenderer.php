@@ -2,21 +2,20 @@
 
 namespace Churn\Result\Render;
 
-use function array_map;
-use function json_encode;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class JsonResultsRenderer implements ResultsRendererInterface
 {
+
     /**
      * Renders the results.
-     * @param OutputInterface $output  Output Interface.
-     * @param array           $results The results.
-     * @return void
+     *
+     * @param OutputInterface $output Output Interface.
+     * @param array<array<float|integer|string>> $results The results.
      */
     public function render(OutputInterface $output, array $results): void
     {
-        $data = array_map(static function (array $result): array {
+        $data = \array_map(static function (array $result): array {
             return [
                 'file' => $result[0],
                 'commits' => $result[1],
@@ -25,6 +24,6 @@ class JsonResultsRenderer implements ResultsRendererInterface
             ];
         }, $results);
 
-        $output->write(json_encode($data));
+        $output->write(\json_encode($data));
     }
 }

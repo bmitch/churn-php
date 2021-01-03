@@ -9,10 +9,11 @@ use Churn\Process\Handler\SequentialProcessHandler;
 
 class ProcessHandlerFactory
 {
+
     /**
      * Returns a process handler depending on the configuration.
+     *
      * @param Config $config The application configuration.
-     * @return ProcessHandler
      */
     public function getProcessHandler(Config $config): ProcessHandler
     {

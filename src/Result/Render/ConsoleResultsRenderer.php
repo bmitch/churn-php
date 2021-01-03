@@ -7,11 +7,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ConsoleResultsRenderer implements ResultsRendererInterface
 {
+
     /**
      * Renders the results.
-     * @param OutputInterface $output  Output Interface.
-     * @param array           $results The results.
-     * @return void
+     *
+     * @param OutputInterface $output Output Interface.
+     * @param array<array<float|integer|string>> $results The results.
      */
     public function render(OutputInterface $output, array $results): void
     {

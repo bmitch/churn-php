@@ -4,9 +4,9 @@ namespace Churn\Process;
 
 class CyclomaticComplexityProcess extends ChurnProcess implements CyclomaticComplexityInterface
 {
+
     /**
      * Returns the cyclomatic complexity of a file.
-     * @return integer
      */
     public function getCyclomaticComplexity(): int
     {

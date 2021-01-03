@@ -8,16 +8,13 @@ use Generator;
 
 interface ProcessHandler
 {
+
     /**
      * Run the processes to gather information.
-     * @param Generator      $filesFinder    Collection of files.
+     *
+     * @param Generator $filesFinder Collection of files.
      * @param ProcessFactory $processFactory Process Factory.
-     * @param OnSuccess      $onSuccess      The OnSuccess event observer.
-     * @return void
+     * @param OnSuccess $onSuccess The OnSuccess event observer.
      */
-    public function process(
-        Generator $filesFinder,
-        ProcessFactory $processFactory,
-        OnSuccess $onSuccess
-    ): void;
+    public function process(Generator $filesFinder, ProcessFactory $processFactory, OnSuccess $onSuccess): void;
 }

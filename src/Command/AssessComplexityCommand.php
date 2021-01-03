@@ -10,9 +10,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AssessComplexityCommand extends Command
 {
+
     /**
      * Configure the command
-     * @return void
      */
     protected function configure(): void
     {
@@ -23,15 +23,16 @@ class AssessComplexityCommand extends Command
 
     /**
      * Execute the command
-     * @param InputInterface  $input  Input.
+     *
+     * @param InputInterface $input Input.
      * @param OutputInterface $output Output.
-     * @return integer
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $file = $input->getArgument('file');
         $assessor = new CyclomaticComplexityAssessor();
         $output->writeln((string) $assessor->assess($file));
+
         return 0;
     }
 }

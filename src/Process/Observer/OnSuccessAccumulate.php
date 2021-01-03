@@ -7,6 +7,7 @@ use Churn\Result\ResultAccumulator;
 
 class OnSuccessAccumulate implements OnSuccess
 {
+
     /**
      * @var ResultAccumulator
      */
@@ -14,6 +15,7 @@ class OnSuccessAccumulate implements OnSuccess
 
     /**
      * Class constructor.
+     *
      * @param ResultAccumulator $accumulator The object accumulating the results.
      */
     public function __construct(ResultAccumulator $accumulator)
@@ -23,8 +25,8 @@ class OnSuccessAccumulate implements OnSuccess
 
     /**
      * Triggers an event when a file is successfully processed.
+     *
      * @param Result $result The result for a file.
-     * @return void
      */
     public function __invoke(Result $result): void
     {

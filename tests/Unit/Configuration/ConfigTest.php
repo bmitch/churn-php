@@ -28,14 +28,14 @@ class ConfigTest extends BaseTestCase
     public function it_can_return_its_default_values_when_instantiated_without_any_parameters()
     {
         $config = Config::createFromDefaultValues();
-        $this->assertSame(Config::DIRECTORIES_TO_SCAN, $config->getDirectoriesToScan());
-        $this->assertSame(Config::FILES_TO_SHOW, $config->getFilesToShow());
-        $this->assertSame(Config::MINIMUM_SCORE_TO_SHOW, $config->getMinScoreToShow());
-        $this->assertSame(Config::AMOUNT_OF_PARALLEL_JOBS, $config->getParallelJobs());
-        $this->assertSame(Config::SHOW_COMMITS_SINCE, $config->getCommitsSince());
-        $this->assertSame(Config::FILES_TO_IGNORE, $config->getFilesToIgnore());
-        $this->assertSame(Config::FILE_EXTENSIONS_TO_PARSE, $config->getFileExtensions());
-        $this->assertSame(Config::VCS, $config->getVCS());
+        $this->assertSame([], $config->getDirectoriesToScan());
+        $this->assertSame(10, $config->getFilesToShow());
+        $this->assertSame(0.1, $config->getMinScoreToShow());
+        $this->assertSame(10, $config->getParallelJobs());
+        $this->assertSame('10 years ago', $config->getCommitsSince());
+        $this->assertSame([], $config->getFilesToIgnore());
+        $this->assertSame(['php'], $config->getFileExtensions());
+        $this->assertSame('git', $config->getVCS());
     }
 
     /** @test */
