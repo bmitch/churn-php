@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Churn\Result;
 
@@ -10,28 +12,29 @@ use InvalidArgumentException;
 
 class ResultsRendererFactory
 {
-    const FORMAT_JSON = 'json';
-    const FORMAT_CSV = 'csv';
-    const FORMAT_TEXT = 'text';
+
+    private const FORMAT_JSON = 'json';
+    private const FORMAT_CSV = 'csv';
+    private const FORMAT_TEXT = 'text';
 
     /**
      * Render the results
+     *
      * @param string $format Format to render.
      * @throws InvalidArgumentException If output format invalid.
-     * @return ResultsRendererInterface
      */
     public function getRenderer(string $format): ResultsRendererInterface
     {
-        if ($format === self::FORMAT_CSV) {
-            return new CsvResultsRenderer;
+        if (self::FORMAT_CSV === $format) {
+            return new CsvResultsRenderer();
         }
 
-        if ($format === self::FORMAT_JSON) {
-            return new JsonResultsRenderer;
+        if (self::FORMAT_JSON === $format) {
+            return new JsonResultsRenderer();
         }
 
-        if ($format === self::FORMAT_TEXT) {
-            return new ConsoleResultsRenderer;
+        if (self::FORMAT_TEXT === $format) {
+            return new ConsoleResultsRenderer();
         }
 
         throw new InvalidArgumentException('Invalid output format provided');

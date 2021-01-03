@@ -26,7 +26,7 @@
         "bamarni/composer-bin-plugin": "^1.4",
         "bmitch/codor": "^1.2",
         "mockery/mockery": "^1.2.0",
-        "slevomat/coding-standard": ">=3.0",
+        "slevomat/coding-standard": "^6.4",
         "symfony/phpunit-bridge": "^5.1"
     },
     "config": {
@@ -54,27 +54,21 @@
         ],
         "bin": "echo 'bin not installed'",
         "fix": [
-            "phpcbf -n --standard=phpcs.xml src/",
-            "phpcbf --standard=codor.xml src -spn",
-            "phpcbf --standard=psr2 src -sp"
+            "phpcbf --standard=psr12 src -spn || true",
+            "phpcbf --standard=phpcs.xml src -spn || true",
+            "phpcbf --standard=codor.xml src -spn || true"
         ],
         "test": [
-            "@test-common",
-            "phpcs --standard=psr2 src -spn",
-            "phpcs --standard=phpcs.xml src -spn",
-            "phpcs --standard=codor.xml src -spn"
-        ],
-        "test-ci": [
-            "@test-common"
-        ],
-        "test-common": [
             "@composer validate --strict",
             "parallel-lint src tests",
             "phpmd src text phpmd.xml",
             "phploc src",
             "phpcpd src",
             "simple-phpunit --colors=always --testdox --coverage-clover=coverage.xml",
-            "@php bin/churn run src -p -vvv"
+            "@php bin/churn run src -p -vvv",
+            "phpcs --standard=psr12 src -spn",
+            "phpcs --standard=phpcs.xml src -spn",
+            "phpcs --standard=codor.xml src -spn"
         ]
     }
 }

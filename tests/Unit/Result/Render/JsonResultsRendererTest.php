@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Churn\Tests\Unit\Result\Render;
 
@@ -12,7 +14,7 @@ class JsonResultsRendererTest extends BaseTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(JsonResultsRenderer::class, new JsonResultsRenderer);
+        $this->assertInstanceOf(JsonResultsRenderer::class, new JsonResultsRenderer());
     }
 
     /** @test */
@@ -31,6 +33,6 @@ class JsonResultsRendererTest extends BaseTestCase
             '[{"file":"filename1.php","commits":5,"complexity":7,"score":0.625},{"file":"filename2.php","commits":3,"complexity":4,"score":0.242},{"file":"filename3.php","commits":1,"complexity":5,"score":0.08},{"file":"filename4.php","commits":1,"complexity":1,"score":-0.225},{"file":"filename5.php","commits":8,"complexity":1,"score":0.143}]'
         );
 
-        (new JsonResultsRenderer)->render($output, $results);
+        (new JsonResultsRenderer())->render($output, $results);
     }
 }

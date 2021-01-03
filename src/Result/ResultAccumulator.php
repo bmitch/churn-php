@@ -1,9 +1,12 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Churn\Result;
 
 class ResultAccumulator
 {
+
     /**
      * @var integer
      */
@@ -30,7 +33,7 @@ class ResultAccumulator
     private $minScore;
 
     /**
-     * @param int        $maxSize  The maximum number of files to display in the results table.
+     * @param integer $maxSize The maximum number of files to display in the results table.
      * @param float|null $minScore The minimum score a file need to display in the results table.
      */
     public function __construct(int $maxSize, ?float $minScore)
@@ -44,26 +47,28 @@ class ResultAccumulator
 
     /**
      * @param Result $result The result for a file.
-     * @return void
      */
     public function add(Result $result): void
     {
-        if ($result->getPriority() === 0) {
+        if (0 === $result->getPriority()) {
             return;
         }
+
         $this->numberOfFiles++;
+
         if ($result->getCommits() > $this->maxCommits) {
             $this->maxCommits = $result->getCommits();
         }
+
         if ($result->getComplexity() > $this->maxComplexity) {
             $this->maxComplexity = $result->getComplexity();
         }
+
         $this->highestScores->add($result);
     }
 
     /**
      * Returns the maximum number of changes for a file.
-     * @return integer
      */
     public function getMaxCommits(): int
     {
@@ -72,7 +77,6 @@ class ResultAccumulator
 
     /**
      * Returns the maximum complexity for a file.
-     * @return integer
      */
     public function getMaxComplexity(): int
     {
@@ -81,7 +85,6 @@ class ResultAccumulator
 
     /**
      * Returns the number of files processed.
-     * @return integer
      */
     public function getNumberOfFiles(): int
     {
@@ -89,16 +92,19 @@ class ResultAccumulator
     }
 
     /**
-     * @return array
+     * @return array<array<float|int|string>>
      */
     public function toArray(): array
     {
         $rows = [];
+
         foreach ($this->highestScores->toArray() as $result) {
             $score = $result->getScore($this->maxCommits, $this->maxComplexity);
-            if ($this->minScore !== null && $score < $this->minScore) {
+
+            if (null !== $this->minScore && $score < $this->minScore) {
                 break;
             }
+
             $rows[] = [
                 $result->getFile(),
                 $result->getCommits(),
@@ -106,6 +112,7 @@ class ResultAccumulator
                 $score,
             ];
         }
+
         return $rows;
     }
 }

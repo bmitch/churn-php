@@ -51,7 +51,7 @@ class ClassWithWhileLoop
                 foobar();
                 break;
         }
-        
+
         while ($c == $d) {
             foobar();
         }

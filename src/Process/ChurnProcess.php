@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Churn\Process;
 
@@ -8,21 +10,25 @@ use Symfony\Component\Process\Process;
 
 abstract class ChurnProcess
 {
+
     /**
      * The file the process will be executed on.
+     *
      * @var File
      */
     protected $file;
 
     /**
      * The Symfony Process Component.
+     *
      * @var Process
      */
     protected $process;
 
     /**
      * Class constructor.
-     * @param File    $file    The file the process is being executed on.
+     *
+     * @param File $file The file the process is being executed on.
      * @param Process $process The process being executed on the file.
      */
     public function __construct(File $file, Process $process)
@@ -33,7 +39,6 @@ abstract class ChurnProcess
 
     /**
      * Start the process.
-     * @return void
      */
     public function start(): void
     {
@@ -42,23 +47,23 @@ abstract class ChurnProcess
 
     /**
      * Determines if the process was successful.
-     * @return boolean
+     *
      * @throws ProcessFailedException If the process failed.
      */
     public function isSuccessful(): bool
     {
         $exitCode = $this->process->getExitCode();
+
         if ($exitCode > 0) {
             throw new ProcessFailedException($this->process);
         }
 
-        return $exitCode === 0;
+        return 0 === $exitCode;
     }
 
     /**
      * Gets the file name of the file the process
      * is being executed on.
-     * @return string
      */
     public function getFilename(): string
     {
@@ -67,7 +72,6 @@ abstract class ChurnProcess
 
     /**
      * Gets the file the process is being executed on.
-     * @return File
      */
     public function getFile(): File
     {
@@ -76,7 +80,6 @@ abstract class ChurnProcess
 
     /**
      * Gets the output of the process.
-     * @return string
      */
     protected function getOutput(): string
     {

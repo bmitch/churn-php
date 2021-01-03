@@ -1,24 +1,30 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Churn\File;
 
 class File
 {
+
     /**
      * The full path of the file.
+     *
      * @var string
      */
     private $fullPath;
 
     /**
      * The display path of the file.
+     *
      * @var string
      */
     private $displayPath;
 
     /**
      * File constructor.
-     * @param string $fullPath    The full path of the file.
+     *
+     * @param string $fullPath The full path of the file.
      * @param string $displayPath The display path of the file.
      */
     public function __construct(string $fullPath, string $displayPath)
@@ -29,7 +35,6 @@ class File
 
     /**
      * Get the full path of the file.
-     * @return string
      */
     public function getFullPath(): string
     {
@@ -38,7 +43,6 @@ class File
 
     /**
      * Get the display path of the file.
-     * @return string
      */
     public function getDisplayPath(): string
     {

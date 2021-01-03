@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Churn\Tests\Unit\Process\Handler;
 
@@ -27,12 +29,12 @@ class SequentialProcessHandlerTest extends BaseTestCase
         $process1->shouldReceive('start');
         $process1->shouldReceive('isSuccessful')->andReturn(true);
         $process1->shouldReceive('countChanges')->andReturn(1);
-        
+
         $process2 = m::mock(CyclomaticComplexityInterface::class);
         $process2->shouldReceive('start');
         $process2->shouldReceive('isSuccessful')->andReturn(true);
         $process2->shouldReceive('getCyclomaticComplexity')->andReturn(2);
-        
+
         $processFactory = m::mock(ProcessFactory::class);
         $processFactory->shouldReceive('createChangesCountProcess')->andReturn($process1);
         $processFactory->shouldReceive('createCyclomaticComplexityProcess')->andReturn($process2);

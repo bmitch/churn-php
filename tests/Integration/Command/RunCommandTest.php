@@ -1,18 +1,14 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Churn\Tests\Integration\Command;
 
 use Churn\Command\RunCommand;
 use Churn\Tests\BaseTestCase;
 use DI\ContainerBuilder;
-use function file_get_contents;
-use function is_file;
-use function json_decode;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use function sys_get_temp_dir;
-use function tempnam;
-use function unlink;
 
 class RunCommandTest extends BaseTestCase
 {
@@ -30,13 +26,14 @@ class RunCommandTest extends BaseTestCase
         $command = $application->find('run');
         $this->commandTester = new CommandTester($command);
     }
- 
+
     protected function tearDown()
     {
         $this->commandTester = null;
 
-        if ($this->tmpFile !== null && is_file($this->tmpFile)) {
-            unlink($this->tmpFile);
+        if ($this->tmpFile !== null && \is_file($this->tmpFile)) {
+            \unlink($this->tmpFile);
+            $this->tmpFile = null;
         }
     }
 
@@ -54,7 +51,7 @@ class RunCommandTest extends BaseTestCase
     public function it_can_return_a_json_report()
     {
         $exitCode = $this->commandTester->execute(['paths' => [realpath(__DIR__ . '/../..')], '--format' => 'json']);
-        $data = json_decode($this->commandTester->getDisplay(), true);
+        $data = \json_decode($this->commandTester->getDisplay(), true);
 
         $this->assertEquals(0, $exitCode);
         $this->assertReport($data);
@@ -63,7 +60,7 @@ class RunCommandTest extends BaseTestCase
     /** @test */
     public function it_can_write_a_json_report()
     {
-        $this->tmpFile = tempnam(sys_get_temp_dir(), 'churn-test-');
+        $this->tmpFile = \tempnam(\sys_get_temp_dir(), 'churn-test-');
         $exitCode = $this->commandTester->execute([
             'paths' => [realpath(__DIR__ . '/../..')],
             '--format' => 'json',
@@ -75,7 +72,7 @@ class RunCommandTest extends BaseTestCase
         $this->assertEquals(RunCommand::LOGO, substr($display, 0, strlen(RunCommand::LOGO)));
 
         $this->assertFileExists($this->tmpFile);
-        $data = json_decode(file_get_contents($this->tmpFile), true);
+        $data = \json_decode(\file_get_contents($this->tmpFile), true);
         $this->assertReport($data);
     }
 

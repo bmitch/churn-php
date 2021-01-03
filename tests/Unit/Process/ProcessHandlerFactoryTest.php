@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Churn\Tests\Unit\Process;
 
@@ -33,11 +35,11 @@ class ProcessHandlerFactoryTest extends BaseTestCase
         $config = m::mock(Config::class);
         $config->shouldReceive('getParallelJobs')->andReturn(0);
         yield [$config, SequentialProcessHandler::class];
-        
+
         $config = m::mock(Config::class);
         $config->shouldReceive('getParallelJobs')->andReturn(1);
         yield [$config, SequentialProcessHandler::class];
-        
+
         $config = m::mock(Config::class);
         $config->shouldReceive('getParallelJobs')->andReturn(2);
         yield [$config, ParallelProcessHandler::class];
