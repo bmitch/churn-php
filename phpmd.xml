@@ -21,5 +21,6 @@
     <rule ref="rulesets/controversial.xml/CamelCaseVariableName"/>
     <rule ref="rulesets/design.xml"/>
     <rule ref="rulesets/naming.xml/ConstantNamingConventions"/>
+    <rule ref="rulesets/naming.xml/ConstructorWithNameAsEnclosingClass"/>
     <rule ref="rulesets/unusedcode.xml"/>
 </ruleset>
