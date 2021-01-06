@@ -114,11 +114,11 @@ class RunCommand extends Command
     {
         $dirsProvidedAsArgs = (array) $input->getArgument('paths');
 
-        if (\count($dirsProvidedAsArgs) > 0) {
+        if ([] !== $dirsProvidedAsArgs) {
             return $dirsProvidedAsArgs;
         }
 
-        if (\count($dirsConfigured) > 0) {
+        if ([] !== $dirsConfigured) {
             return $dirsConfigured;
         }
 
