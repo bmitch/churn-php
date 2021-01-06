@@ -24,11 +24,11 @@ class ProcessFactory
     private $changesCountProcessBuilder;
 
     /**
-     * Executable to run PHP processes.
+     * Builder of objects implementing CyclomaticComplexityInterface.
      *
-     * @var string
+     * @var Closure
      */
-    private $phpExecutable;
+    private $cyclomaticComplexityBuilder;
 
     /**
      * Class constructor.
@@ -39,7 +39,7 @@ class ProcessFactory
     public function __construct(string $vcs, string $commitsSince)
     {
         $this->changesCountProcessBuilder = $this->getChangesCountProcessBuilder($vcs, $commitsSince);
-        $this->phpExecutable = (string)(new PhpExecutableFinder())->find();
+        $this->cyclomaticComplexityBuilder = $this->getCyclomaticComplexityProcessBuilder();
     }
 
     /**
@@ -59,14 +59,7 @@ class ProcessFactory
      */
     public function createCyclomaticComplexityProcess(File $file): CyclomaticComplexityInterface
     {
-        $command = \array_merge(
-            [$this->phpExecutable],
-            $this->getAssessorArguments(),
-            [$file->getFullPath()]
-        );
-        $process = new Process($command);
-
-        return new CyclomaticComplexityProcess($file, $process);
+        return ($this->cyclomaticComplexityBuilder)($file);
     }
 
     /**
@@ -91,10 +84,26 @@ class ProcessFactory
         throw new InvalidArgumentException('Unsupported VCS: ' . $vcs);
     }
 
+    /**
+     * Returns a cyclomatic complexity builder.
+     */
+    private function getCyclomaticComplexityProcessBuilder(): Closure
+    {
+        $phpExecutable = (string)(new PhpExecutableFinder())->find();
+        $command = \array_merge([$phpExecutable], $this->getAssessorArguments());
+
+        return static function (File $file) use ($command): CyclomaticComplexityInterface {
+            $command[] = $file->getFullPath();
+            $process = new Process($command);
+
+            return new CyclomaticComplexityProcess($file, $process);
+        };
+    }
+
     /** @return array<string> */
     private function getAssessorArguments(): array
     {
-        if (\is_callable([Phar::class, 'running']) && \strlen(Phar::running(false)) > 0) {
+        if (\is_callable([Phar::class, 'running']) && '' !== Phar::running(false)) {
             return [Phar::running(false), 'assess-complexity'];
         }
 
