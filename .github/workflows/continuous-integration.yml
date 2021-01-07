@@ -46,9 +46,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.composercache.outputs.dir }}
-          key: composer-${{ runner.os }}-${{ matrix.php }}-${{ hashFiles('composer.*') }}
+          key: composer-${{ runner.os }}-${{ matrix.php-version }}-${{ hashFiles('composer.*') }}
           restore-keys: |
-            composer-${{ runner.os }}-${{ matrix.php }}-
+            composer-${{ runner.os }}-${{ matrix.php-version }}-
             composer-${{ runner.os }}-
             composer-
 
