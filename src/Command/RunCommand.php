@@ -87,8 +87,7 @@ class RunCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->displayLogo($input, $output);
-        $content = (string) @\file_get_contents($input->getOption('configuration'));
-        $config = Config::create(Yaml::parse($content) ?? []);
+        $config = $this->getConfiguration($input);
         $filesFinder = (new FileFinder($config->getFileExtensions(), $config->getFilesToIgnore()))
             ->getPhpFiles($this->getDirectoriesToScan($input, $config->getDirectoriesToScan()));
         $accumulator = new ResultAccumulator($config->getFilesToShow(), $config->getMinScoreToShow());
@@ -100,6 +99,23 @@ class RunCommand extends Command
         $this->writeResult($input, $output, $accumulator);
 
         return 0;
+    }
+
+    /**
+     * @param InputInterface $input Input.
+     * @throws InvalidArgumentException If the configuration file cannot be read.
+     */
+    private function getConfiguration(InputInterface $input): Config
+    {
+        $confPath = (string) $input->getOption('configuration');
+
+        if (!\is_readable($confPath)) {
+            throw new InvalidArgumentException('The configuration file can not be read at ' . $confPath);
+        }
+
+        $content = (string) \file_get_contents($confPath);
+
+        return Config::create(Yaml::parse($content) ?? []);
     }
 
     /**
@@ -140,7 +156,7 @@ class RunCommand extends Command
     ): OnSuccess {
         $observer = new OnSuccessAccumulate($accumulator);
 
-        if ((bool)$input->getOption('progress')) {
+        if ((bool) $input->getOption('progress')) {
             $progressBar = new ProgressBar($output);
             $progressBar->start();
             $observer = new OnSuccessCollection($observer, new OnSuccessProgress($progressBar));
@@ -169,13 +185,13 @@ class RunCommand extends Command
      */
     private function writeResult(InputInterface $input, OutputInterface $output, ResultAccumulator $accumulator): void
     {
-        if ((bool)$input->getOption('progress')) {
+        if ((bool) $input->getOption('progress')) {
             $output->writeln("\n");
         }
 
         if (!empty($input->getOption('output'))) {
             $output = new StreamOutput(
-                \fopen($input->getOption('output'), 'w+'),
+                \fopen((string) $input->getOption('output'), 'w+'),
                 OutputInterface::VERBOSITY_NORMAL,
                 false
             );
