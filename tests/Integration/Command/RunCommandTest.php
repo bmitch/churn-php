@@ -7,6 +7,7 @@ namespace Churn\Tests\Integration\Command;
 use Churn\Command\RunCommand;
 use Churn\Tests\BaseTestCase;
 use DI\ContainerBuilder;
+use InvalidArgumentException;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -86,5 +87,15 @@ class RunCommandTest extends BaseTestCase
             $this->assertArrayHasKey('complexity', $value);
             $this->assertArrayHasKey('score', $value);
         }
+    }
+
+    /** @test */
+    public function it_throws_for_invalid_configuration(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->commandTester->execute([
+            'paths' => [realpath(__DIR__ . '/../..')],
+            '--configuration' => 'not a valid configuration file',
+        ]);
     }
 }

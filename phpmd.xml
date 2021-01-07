@@ -7,6 +7,7 @@
     <description>Created with the PHP Coding Standard Generator. http://edorian.github.com/php-coding-standard-generator/
     </description>
     <rule ref="rulesets/cleancode.xml/DuplicatedArrayKey"/>
+    <rule ref="rulesets/cleancode.xml/ErrorControlOperator"/>
     <rule ref="rulesets/cleancode.xml/MissingImport"/>
     <rule ref="rulesets/cleancode.xml/UndefinedVariable"/>
     <rule ref="rulesets/codesize.xml/CyclomaticComplexity"/>
