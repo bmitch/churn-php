@@ -1,5 +1,5 @@
 {
-    "require": {
+    "require-dev": {
         "phploc/phploc": ">=4.0"
     }
 }
