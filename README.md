@@ -39,7 +39,6 @@ A file that changes a lot and has a high complexity might be a better candidate 
 
 ## Compatibility
 * PHP 7.1+
-* Your project uses Git as version control system.
 
 If you want to install `churn-php` in Symfony project, your Symfony components version must be 3.3 or higher.
 
@@ -110,7 +109,7 @@ fileExtensions:
  - inc
 
 # The version control system used for your project.
-# Accepted values: git, none
+# Accepted values: git, mercurial, none
 # Default: git
  vcs: git
  ```
