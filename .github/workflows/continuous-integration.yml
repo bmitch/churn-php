@@ -61,9 +61,55 @@ jobs:
       - name: "Run Churn"
         run: "php bin/churn run src -p -vvv"
 
+  test-hg:
+    name: "Test Mercurial"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          php-version: "8.0"
+          tools: composer:v2
+
+      - name: Get composer cache directory
+        id: composercache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composercache.outputs.dir }}
+          key: composer-${{ runner.os }}-8.0-${{ hashFiles('composer.*') }}
+          restore-keys: |
+            composer-${{ runner.os }}-8.0-
+            composer-${{ runner.os }}-
+            composer-
+
+      - name: "Install dependencies"
+        run: "composer update --no-interaction --no-progress --prefer-dist"
+
+      - name: "Build Docker image"
+        run: "docker build -t mercurial -f .docker/mercurial/Dockerfile .docker/mercurial"
+
+      - name: "Run tests"
+        run: |
+          docker run -i --rm -v $PWD:/churn mercurial /churn/vendor/bin/simple-phpunit -c /churn/phpunit.xml.dist /churn/tests/EndToEnd/MercurialTest.php --coverage-clover=/churn/coverage-mercurial.xml
+          sed -i 's/\/churn\/src/\/home\/runner\/work\/${{ github.event.repository.name }}\/${{ github.event.repository.name }}\/src/g' coverage-mercurial.xml
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: coverage-mercurial
+          path: ./coverage-mercurial.xml
+
   analysis:
     name: "Static Analysis"
     runs-on: ubuntu-latest
+    needs: [test-hg]
 
     steps:
       - name: "Checkout"
@@ -99,9 +145,14 @@ jobs:
       - name: "Normalize composer.json"
         run: "composer-normalize --dry-run --no-check-lock --no-update-lock"
 
+      - uses: actions/download-artifact@v2
+        with:
+          name: coverage-mercurial
+          path: ./coverage-mercurial
+
       - uses: codecov/codecov-action@v1
         with:
-          file: ./coverage.xml
+          files: ./coverage.xml,./coverage-mercurial/coverage-mercurial.xml
           fail_ci_if_error: true
           verbose: true
 

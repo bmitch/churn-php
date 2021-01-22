@@ -64,7 +64,7 @@
             "phpmd src text phpmd.xml",
             "phploc src",
             "phpcpd src",
-            "simple-phpunit --colors=always --testdox --coverage-clover=coverage.xml",
+            "simple-phpunit --colors=always --testdox --testsuite churn-tests --coverage-clover=coverage.xml",
             "@php bin/churn run src -p -vvv",
             "phpcs --standard=psr12 src -spn",
             "phpcs --standard=phpcs.xml src -spn",
