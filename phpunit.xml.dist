@@ -8,7 +8,8 @@
 >
     <testsuites>
         <testsuite name="churn-tests">
-            <directory>tests</directory>
+            <directory>tests/Integration</directory>
+            <directory>tests/Unit</directory>
         </testsuite>
     </testsuites>
     <filter>
