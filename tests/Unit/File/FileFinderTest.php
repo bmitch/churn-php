@@ -15,6 +15,11 @@ class FileFinderTest extends BaseTestCase
      */
     protected $fileFinder;
 
+    public function setup()
+    {
+        $this->fileFinder = new FileFinder(['php'], []);
+    }
+
     /** @test */
     public function it_can_be_created()
     {
@@ -37,6 +42,12 @@ class FileFinderTest extends BaseTestCase
     public function it_can_get_the_php_files_by_name()
     {
         $this->assertCount(2, iterator_to_array($this->fileFinder->getPhpFiles([__DIR__ . '/../Assets/Bar.php', __DIR__ . '/../Assets/Foo.php']), false));
+    }
+
+    /** @test */
+    public function it_does_not_throw_with_non_existing_path()
+    {
+        $this->assertCount(0, iterator_to_array($this->fileFinder->getPhpFiles([__DIR__ . '/NotExisting.php']), false));
     }
 
     /** @test */
@@ -90,10 +101,5 @@ class FileFinderTest extends BaseTestCase
     {
         $fileFinder = new FileFinder(['php', 'inc'], []);
         $this->assertCount(4, iterator_to_array($fileFinder->getPhpFiles([__DIR__ . '/../Assets']), false));
-    }
-
-    public function setup()
-    {
-        $this->fileFinder = new FileFinder(['php'], []);
     }
 }
