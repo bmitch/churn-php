@@ -61,9 +61,15 @@ jobs:
       - name: "Run Churn"
         run: "php bin/churn run src -p -vvv"
 
-  test-hg:
-    name: "Test Mercurial"
+  test-vcs:
+    name: "Test VCS"
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        vcs:
+          - mercurial
+          - fossil
 
     steps:
       - name: "Checkout"
@@ -94,22 +100,23 @@ jobs:
         run: "composer update --no-interaction --no-progress --prefer-dist"
 
       - name: "Build Docker image"
-        run: "docker build -t mercurial -f .docker/mercurial/Dockerfile .docker/mercurial"
+        run: "docker build -t ${{ matrix.vcs }} -f .docker/${{ matrix.vcs }}/Dockerfile .docker/${{ matrix.vcs }}"
 
       - name: "Run tests"
         run: |
-          docker run -i --rm -v $PWD:/churn mercurial /churn/vendor/bin/simple-phpunit -c /churn/phpunit.xml.dist /churn/tests/EndToEnd/MercurialTest.php --coverage-clover=/churn/coverage-mercurial.xml
-          sed -i 's/\/churn\/src/\/home\/runner\/work\/${{ github.event.repository.name }}\/${{ github.event.repository.name }}\/src/g' coverage-mercurial.xml
+          vcs=${{ matrix.vcs }}
+          docker run -i --rm -v $PWD:/churn ${{ matrix.vcs }} /churn/vendor/bin/simple-phpunit -c /churn/phpunit.xml.dist /churn/tests/EndToEnd/${vcs^}Test.php --coverage-clover=/churn/coverage-${{ matrix.vcs }}.xml
+          sed -i 's/\/churn\/src/\/home\/runner\/work\/${{ github.event.repository.name }}\/${{ github.event.repository.name }}\/src/g' coverage-${{ matrix.vcs }}.xml
 
       - uses: actions/upload-artifact@v2
         with:
-          name: coverage-mercurial
-          path: ./coverage-mercurial.xml
+          name: coverage
+          path: ./coverage-${{ matrix.vcs }}.xml
 
   analysis:
     name: "Static Analysis"
     runs-on: ubuntu-latest
-    needs: [test-hg]
+    needs: [test-vcs]
 
     steps:
       - name: "Checkout"
@@ -147,12 +154,15 @@ jobs:
 
       - uses: actions/download-artifact@v2
         with:
-          name: coverage-mercurial
-          path: ./coverage-mercurial
+          name: coverage
+          path: ./coverage
+
+      - name: "List coverage reports"
+        run: echo coverage_reports=./coverage/$(ls -m coverage/ | sed "s/, */,.\/coverage\//g") >> $GITHUB_ENV
 
       - uses: codecov/codecov-action@v1
         with:
-          files: ./coverage.xml,./coverage-mercurial/coverage-mercurial.xml
+          files: ./coverage.xml,${{ env.coverage_reports }}
           fail_ci_if_error: true
           verbose: true
 

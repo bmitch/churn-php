@@ -109,7 +109,7 @@ fileExtensions:
  - inc
 
 # The version control system used for your project.
-# Accepted values: git, mercurial, none
+# Accepted values: fossil, git, mercurial, none
 # Default: git
  vcs: git
  ```
