@@ -1,15 +1,13 @@
 FROM php:8.0-cli
 
-RUN apt-get update \
- && apt-get install -y \
-      fossil \
-      git \
-      zip
-
+# Requirements for running phpunit
+RUN apt-get update && apt-get install -y git zip
 RUN pecl install xdebug-3.0.2 && docker-php-ext-enable xdebug
 ENV XDEBUG_MODE=coverage
-
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
+# Build a fossil project
+RUN apt-get install -y fossil
 
 ENV FOSSIL_USER=john_doe
 
