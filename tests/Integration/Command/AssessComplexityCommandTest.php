@@ -6,7 +6,6 @@ namespace Churn\Tests\Integration\Command;
 
 use Churn\Command\AssessComplexityCommand;
 use Churn\Tests\BaseTestCase;
-use DI\ContainerBuilder;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -17,9 +16,8 @@ class AssessComplexityCommandTest extends BaseTestCase
 
     protected function setUp()
     {
-        $container = ContainerBuilder::buildDevContainer();
         $application = new Application('churn-php', 'test');
-        $application->add($container->get(AssessComplexityCommand::class));
+        $application->add(new AssessComplexityCommand());
         $command = $application->find('assess-complexity');
         $this->commandTester = new CommandTester($command);
     }
