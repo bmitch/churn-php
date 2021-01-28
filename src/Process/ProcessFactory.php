@@ -5,11 +5,7 @@ declare(strict_types=1);
 namespace Churn\Process;
 
 use Churn\File\File;
-use Churn\Process\ChangesCount\GitChangesCountProcess;
-use Churn\Process\ChangesCount\MercurialChangesCountProcess;
-use Churn\Process\ChangesCount\NoVcsChangesCountProcess;
 use Closure;
-use InvalidArgumentException;
 use Phar;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
@@ -70,43 +66,7 @@ class ProcessFactory
      */
     private function getChangesCountProcessBuilder(string $vcs, string $commitsSince): Closure
     {
-        if ('git' === $vcs) {
-            return $this->getGitChangesCountProcessBuilder($commitsSince);
-        }
-
-        if ('mercurial' === $vcs) {
-            return $this->getMercurialChangesCountProcessBuilder($commitsSince);
-        }
-
-        if ('none' === $vcs) {
-            return static function (File $file): ChangesCountInterface {
-                return new NoVcsChangesCountProcess($file);
-            };
-        }
-
-        throw new InvalidArgumentException('Unsupported VCS: ' . $vcs);
-    }
-
-    /**
-     * @param string $commitsSince String containing the date of when to look at commits since.
-     */
-    private function getGitChangesCountProcessBuilder(string $commitsSince): Closure
-    {
-        return static function (File $file) use ($commitsSince): ChangesCountInterface {
-            return new GitChangesCountProcess($file, $commitsSince);
-        };
-    }
-
-    /**
-     * @param string $commitsSince String containing the date of when to look at commits since.
-     */
-    private function getMercurialChangesCountProcessBuilder(string $commitsSince): Closure
-    {
-        $date = \date('Y-m-d', \strtotime($commitsSince));
-
-        return static function (File $file) use ($date): ChangesCountInterface {
-            return new MercurialChangesCountProcess($file, $date);
-        };
+        return (new ChangesCountProcessBuilder())->getBuilder($vcs, $commitsSince);
     }
 
     /**
