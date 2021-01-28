@@ -107,10 +107,14 @@ class RunCommand extends Command
      */
     private function getConfiguration(InputInterface $input): Config
     {
-        $confPath = (string) $input->getOption('configuration');
+        $confPath = $originalConfPath = (string) $input->getOption('configuration');
+
+        if (\is_dir($confPath)) {
+            $confPath = \rtrim($confPath, '/\\') . '/churn.yml';
+        }
 
         if (!\is_readable($confPath)) {
-            throw new InvalidArgumentException('The configuration file can not be read at ' . $confPath);
+            throw new InvalidArgumentException('The configuration file can not be read at ' . $originalConfPath);
         }
 
         $content = (string) \file_get_contents($confPath);

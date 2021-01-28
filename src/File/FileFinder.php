@@ -63,11 +63,16 @@ class FileFinder
      */
     private function getPhpFilesFromPath(string $path): Generator
     {
-        if (!\is_dir($path)) {
+        if (\is_file($path)) {
             $file = new SplFileInfo($path);
 
             yield new File($file->getRealPath(), $file->getPathName());
 
+            return;
+        }
+
+        if (!\is_dir($path)) {
+            // invalid path
             return;
         }
 
