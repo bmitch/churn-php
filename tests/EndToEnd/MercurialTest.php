@@ -35,7 +35,7 @@ class MercurialTest extends BaseTestCase
     {
         $exitCode = $this->commandTester->execute([
             'paths' => ['/tmp/test'],
-            '--configuration' => '/tmp/test/churn.yml',
+            '--configuration' => '/tmp/test',
         ]);
         $display = $this->commandTester->getDisplay();
 
