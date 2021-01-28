@@ -64,6 +64,14 @@ class RunCommand extends Command
     }
 
     /**
+     * Returns a new instance of the command.
+     */
+    public static function newInstance(): self
+    {
+        return new self(new ProcessHandlerFactory(), new ResultsRendererFactory());
+    }
+
+    /**
      * Configure the command
      */
     protected function configure(): void

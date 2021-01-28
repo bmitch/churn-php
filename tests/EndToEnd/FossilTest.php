@@ -6,7 +6,6 @@ namespace Churn\Tests\EndToEnd;
 
 use Churn\Command\RunCommand;
 use Churn\Tests\BaseTestCase;
-use DI\ContainerBuilder;
 use InvalidArgumentException;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -18,9 +17,8 @@ class FossilTest extends BaseTestCase
 
     protected function setUp()
     {
-        $container = ContainerBuilder::buildDevContainer();
         $application = new Application('churn-php', 'test');
-        $application->add($container->get(RunCommand::class));
+        $application->add(RunCommand::newInstance());
         $command = $application->find('run');
         $this->commandTester = new CommandTester($command);
     }
