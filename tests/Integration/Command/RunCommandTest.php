@@ -96,4 +96,11 @@ class RunCommandTest extends BaseTestCase
             '--configuration' => 'not a valid configuration file',
         ]);
     }
+
+    /** @test */
+    public function it_throws_when_no_directory(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->commandTester->execute(['paths' => []]);
+    }
 }
