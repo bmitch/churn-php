@@ -21,7 +21,8 @@ RUN mkdir -p /tmp/test \
  && echo '<?php class Foo {}' > Foo.php \
  && echo '<?php class Bar {}' > Bar.php \
  && fossil add Bar.php \
- && fossil commit -m "2nd commit" \
- && echo "vcs: fossil" > churn.yml
+ && fossil commit -m "2nd commit"
+
+COPY churn.yml /tmp/test/
 
 CMD ["bash"]

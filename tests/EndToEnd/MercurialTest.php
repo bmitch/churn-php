@@ -32,7 +32,7 @@ class MercurialTest extends BaseTestCase
     public function it_works_with_mercurial()
     {
         $exitCode = $this->commandTester->execute([
-            'paths' => ['/tmp/test'],
+            'paths' => [],
             '--configuration' => '/tmp/test',
         ]);
         $display = $this->commandTester->getDisplay();

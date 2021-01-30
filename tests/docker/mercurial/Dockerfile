@@ -18,7 +18,8 @@ RUN cd /tmp \
  && echo '<?php class Foo {}' > Foo.php \
  && echo '<?php class Bar {}' > Bar.php \
  && hg add Bar.php \
- && hg --config ui.username="John Doe" commit Foo.php Bar.php -m "2nd commit" \
- && echo "vcs: mercurial" > churn.yml
+ && hg --config ui.username="John Doe" commit Foo.php Bar.php -m "2nd commit"
+
+COPY churn.yml /tmp/test/
 
 CMD ["bash"]
