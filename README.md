@@ -17,7 +17,6 @@ Helps discover good candidates for refactoring.
 * [How to Install?](#how-to-install)
 * [How to Use?](#how-to-use)
 * [How to Configure?](#how-to-configure)
-* [Tests](#tests)
 * [Similar Packages](#similar-packages)
 * [Contact](#contact)
 * [Contributing](#contributing)
@@ -40,7 +39,7 @@ A file that changes a lot and has a high complexity might be a better candidate 
 ## Compatibility
 * PHP 7.1+
 
-If you want to install `churn-php` in Symfony project, your Symfony components version must be 3.3 or higher.
+If you want to install `churn-php` in Symfony project, your Symfony components version must be 3.4 or higher.
 
 ## How to Install?
 Install via Composer:
@@ -130,10 +129,6 @@ To use a different format use `--format` option. Example command for `json`:
 vendor/bin/churn run --format json
 ```
 
-## Tests
-* To run the PHPUnit tests execute `vendor/bin/phpunit`.
-* Before making a pull request please see the [contributing](#contributing) section below.
-
 ## Similar Packages
 * https://github.com/danmayer/churn (Ruby)
 * https://github.com/chad/turbulence (Ruby)
@@ -143,7 +138,7 @@ Questions, comments, feedback? [@bmitch2112](https://twitter.com/bmitch2112)
 
 ## Contributing
 * Please run `composer test` on PHP 7.1 and ensure it passes.
-* If you do have access to PHP 7.1 please make sure that CI build passes when you make pull request. If you are unable to get it to pass in the pull request please ping me and I can help.
+* If you don't have access to PHP 7.1 please make sure that CI build passes when you make pull request. If you are unable to get it to pass in the pull request please ping me and I can help.
 * Please see [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## License
