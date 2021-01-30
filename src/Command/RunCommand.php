@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Churn\Command;
 
 use Churn\Configuration\Config;
+use Churn\Configuration\Loader;
 use Churn\File\FileFinder;
 use Churn\Process\Observer\OnSuccess;
 use Churn\Process\Observer\OnSuccessAccumulate;
@@ -22,7 +23,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
-use Symfony\Component\Yaml\Yaml;
 
 /** @SuppressWarnings(PHPMD.CouplingBetweenObjects) */
 class RunCommand extends Command
@@ -50,7 +50,7 @@ class RunCommand extends Command
     private $renderFactory;
 
     /**
-     * ChurnCommand constructor.
+     * Class constructor.
      *
      * @param ProcessHandlerFactory $processHandlerFactory The process handler factory.
      * @param ResultsRendererFactory $renderFactory The Results Renderer Factory.
@@ -87,7 +87,7 @@ class RunCommand extends Command
     }
 
     /**
-     * Execute the command
+     * Execute the command.
      *
      * @param InputInterface $input Input.
      * @param OutputInterface $output Output.
@@ -95,7 +95,22 @@ class RunCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->displayLogo($input, $output);
-        $config = $this->getConfiguration($input);
+        $config = Loader::fromPath((string) $input->getOption('configuration'));
+        $accumulator = $this->analyze($input, $output, $config);
+        $this->writeResult($input, $output, $accumulator);
+
+        return 0;
+    }
+
+    /**
+     * Run the actual analysis.
+     *
+     * @param InputInterface $input Input.
+     * @param OutputInterface $output Output.
+     * @param Config $config The configuration object.
+     */
+    private function analyze(InputInterface $input, OutputInterface $output, Config $config): ResultAccumulator
+    {
         $filesFinder = (new FileFinder($config->getFileExtensions(), $config->getFilesToIgnore()))
             ->getPhpFiles($this->getDirectoriesToScan($input, $config->getDirectoriesToScan()));
         $accumulator = new ResultAccumulator($config->getFilesToShow(), $config->getMinScoreToShow());
@@ -104,30 +119,8 @@ class RunCommand extends Command
             new ProcessFactory($config->getVCS(), $config->getCommitsSince()),
             $this->getOnSuccessObserver($input, $output, $accumulator)
         );
-        $this->writeResult($input, $output, $accumulator);
 
-        return 0;
-    }
-
-    /**
-     * @param InputInterface $input Input.
-     * @throws InvalidArgumentException If the configuration file cannot be read.
-     */
-    private function getConfiguration(InputInterface $input): Config
-    {
-        $confPath = $originalConfPath = (string) $input->getOption('configuration');
-
-        if (\is_dir($confPath)) {
-            $confPath = \rtrim($confPath, '/\\') . '/churn.yml';
-        }
-
-        if (!\is_readable($confPath)) {
-            throw new InvalidArgumentException('The configuration file can not be read at ' . $originalConfPath);
-        }
-
-        $content = (string) \file_get_contents($confPath);
-
-        return Config::create(Yaml::parse($content) ?? []);
+        return $accumulator;
     }
 
     /**
