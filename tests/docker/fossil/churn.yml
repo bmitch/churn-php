@@ -1,3 +1,4 @@
 vcs: fossil
 directoriesToScan:
   - /tmp/test
+minScoreToShow: ~

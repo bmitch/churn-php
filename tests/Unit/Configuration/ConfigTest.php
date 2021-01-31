@@ -44,7 +44,6 @@ class ConfigTest extends BaseTestCase
     public function it_can_return_its_values_when_instantiated_parameters()
     {
         $filesToShow = 13;
-
         $directoriesToScan = ['src', 'tests'];
         $minScoreToShow = 5;
         $parallelJobs = 7;
@@ -72,5 +71,15 @@ class ConfigTest extends BaseTestCase
         $this->assertSame($filesToIgnore, $config->getFilesToIgnore());
         $this->assertSame($fileExtensions, $config->getFileExtensions());
         $this->assertSame($vcs, $config->getVCS());
+    }
+
+    /** @test */
+    public function it_accepts_null_for_min_score_to_show()
+    {
+        $config = Config::create([
+            'minScoreToShow' => null,
+        ]);
+
+        $this->assertNull($config->getMinScoreToShow());
     }
 }

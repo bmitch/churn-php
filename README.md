@@ -81,6 +81,7 @@ A sample `churn.yml` file looks like:
 filesToShow: 10
 
 # The minimum score a file need to display in the results table.
+# Disabled if null.
 # Default: 0.1
 minScoreToShow: 0
 

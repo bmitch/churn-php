@@ -53,7 +53,7 @@ class Validator
      */
     private function validateMinScoreToShow(array $configuration): void
     {
-        if (!\array_key_exists('minScoreToShow', $configuration)) {
+        if (!\array_key_exists('minScoreToShow', $configuration) || null === $configuration['minScoreToShow']) {
             return;
         }
 
