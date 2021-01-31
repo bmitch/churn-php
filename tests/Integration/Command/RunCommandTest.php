@@ -39,7 +39,10 @@ class RunCommandTest extends BaseTestCase
     /** @test */
     public function it_displays_the_logo_at_the_beginning_by_default()
     {
-        $exitCode = $this->commandTester->execute(['paths' => [realpath(__DIR__ . '/../..')]]);
+        $exitCode = $this->commandTester->execute([
+            'paths' => [__DIR__],
+            '--parallel' => '1',
+        ]);
         $display = $this->commandTester->getDisplay();
 
         $this->assertEquals(0, $exitCode);
@@ -49,7 +52,7 @@ class RunCommandTest extends BaseTestCase
     /** @test */
     public function it_can_return_a_json_report()
     {
-        $exitCode = $this->commandTester->execute(['paths' => [realpath(__DIR__ . '/../..')], '--format' => 'json']);
+        $exitCode = $this->commandTester->execute(['paths' => [__DIR__], '--format' => 'json']);
         $data = \json_decode($this->commandTester->getDisplay(), true);
 
         $this->assertEquals(0, $exitCode);
@@ -61,7 +64,7 @@ class RunCommandTest extends BaseTestCase
     {
         $this->tmpFile = \tempnam(\sys_get_temp_dir(), 'churn-test-');
         $exitCode = $this->commandTester->execute([
-            'paths' => [realpath(__DIR__ . '/../..')],
+            'paths' => [\realpath(__DIR__ . '/../../')],
             '--format' => 'json',
             '--output' => $this->tmpFile,
         ]);
@@ -92,7 +95,7 @@ class RunCommandTest extends BaseTestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->commandTester->execute([
-            'paths' => [realpath(__DIR__ . '/../..')],
+            'paths' => [__DIR__],
             '--configuration' => 'not a valid configuration file',
         ]);
     }

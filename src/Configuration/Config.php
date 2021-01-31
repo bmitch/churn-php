@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Churn\Configuration;
 
-use Webmozart\Assert\Assert;
-
 class Config
 {
 
@@ -24,15 +22,12 @@ class Config
     private $configuration;
 
     /**
-     * Config constructor.
-     *
      * @param array<mixed> $configuration Raw config data.
-     * @throws \InvalidArgumentException If parameters is badly defined.
      */
     private function __construct(array $configuration = [])
     {
         if (!empty($configuration)) {
-            $this->validateConfigurationValues($configuration);
+            (new Validator())->validateConfigurationValues($configuration);
         }
 
         $this->configuration = $configuration;
@@ -57,13 +52,21 @@ class Config
     }
 
     /**
-     * Get the names of directories to scan.
+     * Get the paths of directories to scan.
      *
      * @return array<string>
      */
     public function getDirectoriesToScan(): array
     {
         return $this->configuration['directoriesToScan'] ?? self::DIRECTORIES_TO_SCAN;
+    }
+
+    /**
+     * @param array<string> $directories Paths of directories to scan.
+     */
+    public function setDirectoriesToScan(array $directories): void
+    {
+        $this->configuration['directoriesToScan'] = $directories;
     }
 
     /**
@@ -91,6 +94,14 @@ class Config
     }
 
     /**
+     * @param integer $parallelJobs Number of parallel jobs.
+     */
+    public function setParallelJobs(int $parallelJobs): void
+    {
+        $this->configuration['parallelJobs'] = $parallelJobs;
+    }
+
+    /**
      * Get how far back in the git history to go to count commits.
      */
     public function getCommitsSince(): string
@@ -99,8 +110,6 @@ class Config
     }
 
     /**
-     * Get the paths to files to ignore when processing.
-     *
      * @return array<string>
      */
     public function getFilesToIgnore(): array
@@ -124,117 +133,5 @@ class Config
     public function getVCS(): string
     {
         return $this->configuration['vcs'] ?? self::VCS;
-    }
-
-    /**
-     * @param array<mixed> $configuration The array containing the configuration values.
-     */
-    private function validateConfigurationValues(array $configuration): void
-    {
-        $this->validateDirectoriesToScan($configuration);
-        $this->validateFilesToShow($configuration);
-        $this->validateMinScoreToShow($configuration);
-        $this->validateParallelJobs($configuration);
-        $this->validateCommitsSince($configuration);
-        $this->validateFilesToIgnore($configuration);
-        $this->validateFileExtensions($configuration);
-        $this->validateVCS($configuration);
-    }
-
-    /**
-     * @param array<mixed> $configuration The array containing the configuration values.
-     */
-    private function validateDirectoriesToScan(array $configuration): void
-    {
-        if (!\array_key_exists('directoriesToScan', $configuration)) {
-            return;
-        }
-
-        Assert::allString($configuration['directoriesToScan'], 'Directories to scan should be an array of strings');
-    }
-
-    /**
-     * @param array<mixed> $configuration The array containing the configuration values.
-     */
-    private function validateFilesToShow(array $configuration): void
-    {
-        if (!\array_key_exists('filesToShow', $configuration)) {
-            return;
-        }
-
-        Assert::integer($configuration['filesToShow'], 'Files to show should be an integer');
-    }
-
-    /**
-     * @param array<mixed> $configuration The array containing the configuration values.
-     */
-    private function validateMinScoreToShow(array $configuration): void
-    {
-        if (!\array_key_exists('minScoreToShow', $configuration)) {
-            return;
-        }
-
-        Assert::numeric($configuration['minScoreToShow'], 'Minimum score to show should be a number');
-    }
-
-    /**
-     * @param array<mixed> $configuration The array containing the configuration values.
-     */
-    private function validateParallelJobs(array $configuration): void
-    {
-        if (!\array_key_exists('parallelJobs', $configuration)) {
-            return;
-        }
-
-        Assert::integer($configuration['parallelJobs'], 'Amount of parallel jobs should be an integer');
-    }
-
-    /**
-     * @param array<mixed> $configuration The array containing the configuration values.
-     * @throws \InvalidArgumentException If date is in a bad format.
-     */
-    private function validateCommitsSince(array $configuration): void
-    {
-        if (!\array_key_exists('commitsSince', $configuration)) {
-            return;
-        }
-
-        Assert::string($configuration['commitsSince'], 'Commits since should be a string');
-    }
-
-    /**
-     * @param array<mixed> $configuration The array containing the configuration values.
-     */
-    private function validateFilesToIgnore(array $configuration): void
-    {
-        if (!\array_key_exists('filesToIgnore', $configuration)) {
-            return;
-        }
-
-        Assert::isArray($configuration['filesToIgnore'], 'Files to ignore should be an array of strings');
-    }
-
-    /**
-     * @param array<mixed> $configuration The array containing the configuration values.
-     */
-    private function validateFileExtensions(array $configuration): void
-    {
-        if (!\array_key_exists('fileExtensions', $configuration)) {
-            return;
-        }
-
-        Assert::isArray($configuration['fileExtensions'], 'File extensions should be an array of strings');
-    }
-
-    /**
-     * @param array<mixed> $configuration The array containing the configuration values.
-     */
-    private function validateVCS(array $configuration): void
-    {
-        if (!\array_key_exists('vcs', $configuration)) {
-            return;
-        }
-
-        Assert::string($configuration['vcs'], 'VCS should be a string');
     }
 }

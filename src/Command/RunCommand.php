@@ -23,6 +23,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
+use Webmozart\Assert\Assert;
 
 /** @SuppressWarnings(PHPMD.CouplingBetweenObjects) */
 class RunCommand extends Command
@@ -78,9 +79,10 @@ class RunCommand extends Command
     {
         $this->setName('run')
             ->addArgument('paths', InputArgument::IS_ARRAY, 'Path to source to check.')
-            ->addOption('configuration', 'c', InputOption::VALUE_OPTIONAL, 'Path to the configuration file', 'churn.yml')  // @codingStandardsIgnoreLine
+            ->addOption('configuration', 'c', InputOption::VALUE_REQUIRED, 'Path to the configuration file', 'churn.yml') // @codingStandardsIgnoreLine
             ->addOption('format', null, InputOption::VALUE_REQUIRED, 'The output format to use', 'text')
             ->addOption('output', 'o', InputOption::VALUE_REQUIRED, 'The path where to write the result')
+            ->addOption('parallel', null, InputOption::VALUE_REQUIRED, 'Number of parallel jobs')
             ->addOption('progress', 'p', InputOption::VALUE_NONE, 'Show progress bar')
             ->setDescription('Check files')
             ->setHelp('Checks the churn on the provided path argument(s).');
@@ -95,11 +97,37 @@ class RunCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->displayLogo($input, $output);
-        $config = Loader::fromPath((string) $input->getOption('configuration'));
-        $accumulator = $this->analyze($input, $output, $config);
+        $accumulator = $this->analyze($input, $output, $this->getConfiguration($input));
         $this->writeResult($input, $output, $accumulator);
 
         return 0;
+    }
+
+    /**
+     * @param InputInterface $input Input.
+     * @throws InvalidArgumentException If paths argument invalid.
+     */
+    private function getConfiguration(InputInterface $input): Config
+    {
+        $config = Loader::fromPath((string) $input->getOption('configuration'));
+
+        if ([] !== $input->getArgument('paths')) {
+            $config->setDirectoriesToScan($input->getArgument('paths'));
+        }
+
+        if ([] === $config->getDirectoriesToScan()) {
+            throw new InvalidArgumentException(
+                'Provide the directories you want to scan as arguments, ' .
+                'or configure them under "directoriesToScan" in your churn.yml file.'
+            );
+        }
+
+        if (null !== $input->getOption('parallel')) {
+            Assert::integerish($input->getOption('parallel'), 'Amount of parallel jobs should be an integer');
+            $config->setParallelJobs((int) $input->getOption('parallel'));
+        }
+
+        return $config;
     }
 
     /**
@@ -112,7 +140,7 @@ class RunCommand extends Command
     private function analyze(InputInterface $input, OutputInterface $output, Config $config): ResultAccumulator
     {
         $filesFinder = (new FileFinder($config->getFileExtensions(), $config->getFilesToIgnore()))
-            ->getPhpFiles($this->getDirectoriesToScan($input, $config->getDirectoriesToScan()));
+            ->getPhpFiles($config->getDirectoriesToScan());
         $accumulator = new ResultAccumulator($config->getFilesToShow(), $config->getMinScoreToShow());
         $this->processHandlerFactory->getProcessHandler($config)->process(
             $filesFinder,
@@ -121,32 +149,6 @@ class RunCommand extends Command
         );
 
         return $accumulator;
-    }
-
-    /**
-     * Get the directories to scan.
-     *
-     * @param InputInterface $input Input Interface.
-     * @param array<string> $dirsConfigured The directories configured to scan.
-     * @throws InvalidArgumentException If paths argument invalid.
-     * @return array<string> When no directories to scan found.
-     */
-    private function getDirectoriesToScan(InputInterface $input, array $dirsConfigured): array
-    {
-        $dirsProvidedAsArgs = (array) $input->getArgument('paths');
-
-        if ([] !== $dirsProvidedAsArgs) {
-            return $dirsProvidedAsArgs;
-        }
-
-        if ([] !== $dirsConfigured) {
-            return $dirsConfigured;
-        }
-
-        throw new InvalidArgumentException(
-            'Provide the directories you want to scan as arguments, ' .
-            'or configure them under "directoriesToScan" in your churn.yml file.'
-        );
     }
 
     /**
