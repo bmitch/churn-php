@@ -26,7 +26,7 @@ class Config
      */
     private function __construct(array $configuration = [])
     {
-        if (!empty($configuration)) {
+        if ([] !== $configuration) {
             (new Validator())->validateConfigurationValues($configuration);
         }
 
@@ -78,11 +78,15 @@ class Config
     }
 
     /**
-     * Get the minimum score a file need to display.
+     * Get the minimum score a file need to display (ignored if null).
      */
-    public function getMinScoreToShow(): float
+    public function getMinScoreToShow(): ?float
     {
-        return $this->configuration['minScoreToShow'] ?? self::MINIMUM_SCORE_TO_SHOW;
+        if (\array_key_exists('minScoreToShow', $this->configuration)) {
+            return $this->configuration['minScoreToShow'];
+        }
+
+        return self::MINIMUM_SCORE_TO_SHOW;
     }
 
     /**
