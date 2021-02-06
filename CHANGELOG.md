@@ -4,7 +4,7 @@
 
 [Full Changelog](https://github.com/bmitch/churn-php/compare/1.4.0...HEAD)
 
-## [1.3.0](https://github.com/bmitch/churn-php/tree/1.4.0) (2021-02-06)
+## [1.4.0](https://github.com/bmitch/churn-php/tree/1.4.0) (2021-02-06)
 
 [Full Changelog](https://github.com/bmitch/churn-php/compare/1.3.0...1.4.0)
 
