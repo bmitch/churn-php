@@ -2,7 +2,52 @@
 
 ## [Unreleased](https://github.com/bmitch/churn-php/tree/HEAD)
 
-[Full Changelog](https://github.com/bmitch/churn-php/compare/1.3.0...HEAD)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.4.0...HEAD)
+
+## [1.3.0](https://github.com/bmitch/churn-php/tree/1.4.0) (2021-02-06)
+
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.3.0...1.4.0)
+
+**Implemented enhancements:**
+
+- Add a --parallel option [\#293](https://github.com/bmitch/churn-php/issues/293)
+- minScoreToShow should be nullable [\#290](https://github.com/bmitch/churn-php/issues/290)
+- Support Fossil [\#276](https://github.com/bmitch/churn-php/issues/276)
+- Support Mercurial [\#275](https://github.com/bmitch/churn-php/issues/275)
+- Support SVN [\#274](https://github.com/bmitch/churn-php/issues/274)
+- Incompatibility between dev dependencies [\#271](https://github.com/bmitch/churn-php/issues/271)
+- Support mercurial/svn/etc. [\#95](https://github.com/bmitch/churn-php/issues/95)
+
+**Closed issues:**
+
+- Test\(s\) for ConsoleResultsRenderer [\#161](https://github.com/bmitch/churn-php/issues/161)
+- Tests for ChurnCommand [\#158](https://github.com/bmitch/churn-php/issues/158)
+
+**Merged pull requests:**
+
+- Add support for subversion [\#299](https://github.com/bmitch/churn-php/pull/299) ([villfa](https://github.com/villfa))
+- Give the ability to disable min score [\#298](https://github.com/bmitch/churn-php/pull/298) ([villfa](https://github.com/villfa))
+- Add --parallel option [\#297](https://github.com/bmitch/churn-php/pull/297) ([villfa](https://github.com/villfa))
+- Test the directoriesToScan configuration [\#296](https://github.com/bmitch/churn-php/pull/296) ([villfa](https://github.com/villfa))
+- Add a configuration loader class [\#295](https://github.com/bmitch/churn-php/pull/295) ([villfa](https://github.com/villfa))
+- Add a test for RunCommand [\#294](https://github.com/bmitch/churn-php/pull/294) ([villfa](https://github.com/villfa))
+- Reduce boot time [\#289](https://github.com/bmitch/churn-php/pull/289) ([villfa](https://github.com/villfa))
+- Move docker files in tests/ [\#288](https://github.com/bmitch/churn-php/pull/288) ([villfa](https://github.com/villfa))
+- Improve how to handle invalid path in FileFinder [\#287](https://github.com/bmitch/churn-php/pull/287) ([villfa](https://github.com/villfa))
+- \[ImgBot\] Optimize images [\#286](https://github.com/bmitch/churn-php/pull/286) ([villfa](https://github.com/villfa))
+- Add support for fossil [\#285](https://github.com/bmitch/churn-php/pull/285) ([villfa](https://github.com/villfa))
+- Add tests for mercurial [\#284](https://github.com/bmitch/churn-php/pull/284) ([villfa](https://github.com/villfa))
+- Require CI tools only in dev mode [\#283](https://github.com/bmitch/churn-php/pull/283) ([villfa](https://github.com/villfa))
+- Add support for Mercurial [\#282](https://github.com/bmitch/churn-php/pull/282) ([villfa](https://github.com/villfa))
+- Throw error for invalid configuration path [\#281](https://github.com/bmitch/churn-php/pull/281) ([villfa](https://github.com/villfa))
+- Check if running from PHAR only once [\#280](https://github.com/bmitch/churn-php/pull/280) ([villfa](https://github.com/villfa))
+- Cache Composer artifacts [\#279](https://github.com/bmitch/churn-php/pull/279) ([villfa](https://github.com/villfa))
+- Enable new PHPMD rule [\#278](https://github.com/bmitch/churn-php/pull/278) ([villfa](https://github.com/villfa))
+- Update coding style [\#277](https://github.com/bmitch/churn-php/pull/277) ([villfa](https://github.com/villfa))
+- Add tests for RunCommand [\#273](https://github.com/bmitch/churn-php/pull/273) ([villfa](https://github.com/villfa))
+- Use composer-bin-plugin [\#272](https://github.com/bmitch/churn-php/pull/272) ([villfa](https://github.com/villfa))
+- Remove Saythanks [\#270](https://github.com/bmitch/churn-php/pull/270) ([szepeviktor](https://github.com/szepeviktor))
+- Release only releases [\#268](https://github.com/bmitch/churn-php/pull/268) ([szepeviktor](https://github.com/szepeviktor))
 
 ## [1.3.0](https://github.com/bmitch/churn-php/tree/1.3.0) (2020-11-26)
 
@@ -26,6 +71,7 @@
 
 **Merged pull requests:**
 
+- Prepare changelog for 1.3.0 [\#269](https://github.com/bmitch/churn-php/pull/269) ([villfa](https://github.com/villfa))
 - Automate release process [\#267](https://github.com/bmitch/churn-php/pull/267) ([villfa](https://github.com/villfa))
 - Move from Travis to GH-Actions [\#266](https://github.com/bmitch/churn-php/pull/266) ([villfa](https://github.com/villfa))
 - Fix some PHP docs [\#265](https://github.com/bmitch/churn-php/pull/265) ([villfa](https://github.com/villfa))
