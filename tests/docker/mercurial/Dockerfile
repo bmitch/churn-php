@@ -21,5 +21,3 @@ RUN cd /tmp \
  && hg --config ui.username="John Doe" commit Foo.php Bar.php -m "2nd commit"
 
 COPY churn.yml /tmp/test/
-
-CMD ["bash"]

@@ -24,5 +24,3 @@ RUN mkdir -p /tmp/test \
  && fossil commit -m "2nd commit"
 
 COPY churn.yml /tmp/test/
-
-CMD ["bash"]

@@ -68,8 +68,9 @@ jobs:
     strategy:
       matrix:
         vcs:
-          - mercurial
           - fossil
+          - mercurial
+          - subversion
 
     steps:
       - name: "Checkout"
