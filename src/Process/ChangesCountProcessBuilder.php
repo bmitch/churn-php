@@ -9,7 +9,9 @@ use Churn\Process\ChangesCount\FossilChangesCountProcess;
 use Churn\Process\ChangesCount\GitChangesCountProcess;
 use Churn\Process\ChangesCount\MercurialChangesCountProcess;
 use Churn\Process\ChangesCount\NoVcsChangesCountProcess;
+use Churn\Process\ChangesCount\SubversionChangesCountProcess;
 use Closure;
+use DateTime;
 use InvalidArgumentException;
 
 class ChangesCountProcessBuilder
@@ -22,25 +24,20 @@ class ChangesCountProcessBuilder
      */
     public function getBuilder(string $vcs, string $commitsSince): Closure
     {
-        if ('git' === $vcs) {
-            return $this->getGitChangesCountProcessBuilder($commitsSince);
+        switch ($vcs) {
+            case 'git':
+                return $this->getGitChangesCountProcessBuilder($commitsSince);
+            case 'subversion':
+                return $this->getSubversionChangesCountProcessBuilder($commitsSince);
+            case 'mercurial':
+                return $this->getMercurialChangesCountProcessBuilder($commitsSince);
+            case 'fossil':
+                return $this->getFossilChangesCountProcessBuilder($commitsSince);
+            case 'none':
+                return $this->getNoVcsChangesCountProcessBuilder();
+            default:
+                throw new InvalidArgumentException('Unsupported VCS: ' . $vcs);
         }
-
-        if ('mercurial' === $vcs) {
-            return $this->getMercurialChangesCountProcessBuilder($commitsSince);
-        }
-
-        if ('fossil' === $vcs) {
-            return $this->getFossilChangesCountProcessBuilder($commitsSince);
-        }
-
-        if ('none' === $vcs) {
-            return static function (File $file): ChangesCountInterface {
-                return new NoVcsChangesCountProcess($file);
-            };
-        }
-
-        throw new InvalidArgumentException('Unsupported VCS: ' . $vcs);
     }
 
     /**
@@ -50,6 +47,22 @@ class ChangesCountProcessBuilder
     {
         return static function (File $file) use ($commitsSince): ChangesCountInterface {
             return new GitChangesCountProcess($file, $commitsSince);
+        };
+    }
+
+    /**
+     * @param string $commitsSince String containing the date of when to look at commits since.
+     */
+    private function getSubversionChangesCountProcessBuilder(string $commitsSince): Closure
+    {
+        $dateRange = \sprintf(
+            '{%s}:{%s}',
+            \date('Y-m-d', \strtotime($commitsSince)),
+            (new DateTime('tomorrow'))->format('Y-m-d')
+        );
+
+        return static function (File $file) use ($dateRange): ChangesCountInterface {
+            return new SubversionChangesCountProcess($file, $dateRange);
         };
     }
 
@@ -74,6 +87,16 @@ class ChangesCountProcessBuilder
 
         return static function (File $file) use ($date): ChangesCountInterface {
             return new FossilChangesCountProcess($file, $date);
+        };
+    }
+
+    /**
+     * Returns a builder for NoVcsChangesCountProcess.
+     */
+    private function getNoVcsChangesCountProcessBuilder(): Closure
+    {
+        return static function (File $file): ChangesCountInterface {
+            return new NoVcsChangesCountProcess($file);
         };
     }
 }
