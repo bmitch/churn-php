@@ -88,12 +88,15 @@ class ParallelProcessHandler implements ProcessHandler
      */
     private function addToPool(array &$pool, File $file, ProcessFactory $processFactory): void
     {
-        $process = $processFactory->createChangesCountProcess($file);
-        $process->start();
-        $pool['CountChanges:' . $process->getFilename()] = $process;
-        $process = $processFactory->createCyclomaticComplexityProcess($file);
-        $process->start();
-        $pool['Complexity:' . $process->getFilename()] = $process;
+        $processes = [
+            $processFactory->createChangesCountProcess($file),
+            $processFactory->createCyclomaticComplexityProcess($file),
+        ];
+
+        foreach ($processes as $i => $process) {
+            $process->start();
+            $pool["$i:" . $file->getDisplayPath()] = $process;
+        }
     }
 
     /**
@@ -103,11 +106,8 @@ class ParallelProcessHandler implements ProcessHandler
      */
     private function getResult(ProcessInterface $process): Result
     {
-        if (!isset($this->completedProcesses[$process->getFileName()])) {
-            $this->completedProcesses[$process->getFileName()] = new Result($process->getFileName());
-        }
-
-        $result = $this->completedProcesses[$process->getFileName()];
+        $key = $process->getFile()->getDisplayPath();
+        $result = $this->completedProcesses[$key] = $this->completedProcesses[$key] ?? new Result($key);
 
         if ($process instanceof ChangesCountInterface) {
             $result->setCommits($process->countChanges());

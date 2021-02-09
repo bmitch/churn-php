@@ -45,12 +45,6 @@ class NoVcsChangesCountProcessTest extends BaseTestCase
     }
 
     /** @test */
-    public function it_can_return_the_filename()
-    {
-        $this->assertEquals('/foo', $this->process->getFilename());
-    }
-
-    /** @test */
     public function it_can_return_the_file()
     {
         $this->assertEquals('/foo', $this->process->getFile()->getDisplayPath());

@@ -7,6 +7,7 @@ namespace Churn\Command;
 use Churn\Configuration\Config;
 use Churn\Configuration\Loader;
 use Churn\File\FileFinder;
+use Churn\File\FileHelper;
 use Churn\Process\Observer\OnSuccess;
 use Churn\Process\Observer\OnSuccessAccumulate;
 use Churn\Process\Observer\OnSuccessCollection;
@@ -109,10 +110,10 @@ class RunCommand extends Command
      */
     private function getConfiguration(InputInterface $input): Config
     {
-        $config = Loader::fromPath((string) $input->getOption('configuration'));
-
+        $isDefaultValue = !$input->hasParameterOption('--configuration') && !$input->hasParameterOption('-c');
+        $config = Loader::fromPath((string) $input->getOption('configuration'), $isDefaultValue);
         if ([] !== $input->getArgument('paths')) {
-            $config->setDirectoriesToScan($input->getArgument('paths'));
+            $config->setDirectoriesToScan((array) $input->getArgument('paths'));
         }
 
         if ([] === $config->getDirectoriesToScan()) {
@@ -140,7 +141,7 @@ class RunCommand extends Command
     private function analyze(InputInterface $input, OutputInterface $output, Config $config): ResultAccumulator
     {
         $filesFinder = (new FileFinder($config->getFileExtensions(), $config->getFilesToIgnore()))
-            ->getPhpFiles($config->getDirectoriesToScan());
+            ->getPhpFiles($this->getDirectoriesToScan($input, $config));
         $accumulator = new ResultAccumulator($config->getFilesToShow(), $config->getMinScoreToShow());
         $this->processHandlerFactory->getProcessHandler($config)->process(
             $filesFinder,
@@ -149,6 +150,25 @@ class RunCommand extends Command
         );
 
         return $accumulator;
+    }
+
+    /**
+     * @param InputInterface $input Input.
+     * @param Config $config The configuration object.
+     * @return array<string> Array of absolute paths.
+     */
+    private function getDirectoriesToScan(InputInterface $input, Config $config): array
+    {
+        $basePath = null !== $config->getPath() && [] === $input->getArgument('paths')
+            ? \dirname($config->getPath())
+            : \getcwd();
+        $paths = [];
+
+        foreach ($config->getDirectoriesToScan() as $path) {
+            $paths[] = FileHelper::toAbsolutePath($path, $basePath);
+        }
+
+        return $paths;
     }
 
     /**
@@ -163,7 +183,7 @@ class RunCommand extends Command
     ): OnSuccess {
         $observer = new OnSuccessAccumulate($accumulator);
 
-        if ((bool) $input->getOption('progress')) {
+        if (true === $input->getOption('progress')) {
             $progressBar = new ProgressBar($output);
             $progressBar->start();
             $observer = new OnSuccessCollection($observer, new OnSuccessProgress($progressBar));
@@ -192,7 +212,7 @@ class RunCommand extends Command
      */
     private function writeResult(InputInterface $input, OutputInterface $output, ResultAccumulator $accumulator): void
     {
-        if ((bool) $input->getOption('progress')) {
+        if (true === $input->getOption('progress')) {
             $output->writeln("\n");
         }
 

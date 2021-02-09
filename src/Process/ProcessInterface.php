@@ -20,12 +20,6 @@ interface ProcessInterface
     public function isSuccessful(): bool;
 
     /**
-     * Gets the file name of the file the process
-     * is being executed on.
-     */
-    public function getFilename(): string;
-
-    /**
      * Gets the file the process is being executed on.
      */
     public function getFile(): File;

@@ -48,15 +48,6 @@ class CyclomaticComplexityProcessTest extends BaseTestCase
     }
 
     /** @test */
-    public function it_can_get_the_name_of_the_file_it_is_processing()
-    {
-        $file = new File('foo/bar/baz.php', 'bar/baz.php');
-        $process = m::mock(Process::class);
-        $churnProcess = new CyclomaticComplexityProcess($file, $process);
-        $this->assertSame('bar/baz.php', $churnProcess->getFilename());
-    }
-
-    /** @test */
     public function it_can_get_the_file_it_is_processing()
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');

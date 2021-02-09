@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Churn\Process\Handler;
 
+use Churn\Process\ChangesCountInterface;
+use Churn\Process\CyclomaticComplexityInterface;
 use Churn\Process\Observer\OnSuccess;
 use Churn\Process\ProcessFactory;
+use Churn\Process\ProcessInterface;
 use Churn\Result\Result;
 use Generator;
 
@@ -23,17 +26,39 @@ class SequentialProcessHandler implements ProcessHandler
     {
         foreach ($filesFinder as $file) {
             $result = new Result($file->getDisplayPath());
-            $process = $processFactory->createChangesCountProcess($file);
-            $process->start();
+            $processes = [
+                $processFactory->createChangesCountProcess($file),
+                $processFactory->createCyclomaticComplexityProcess($file),
+            ];
 
-            while (!$process->isSuccessful());
-            $result->setCommits($process->countChanges());
-            $process = $processFactory->createCyclomaticComplexityProcess($file);
-            $process->start();
+            foreach ($processes as $process) {
+                $this->executeProcess($process, $result);
+            }
 
-            while (!$process->isSuccessful());
-            $result->setComplexity($process->getCyclomaticComplexity());
             $onSuccess($result);
         }
+    }
+
+    /**
+     * Execute a process and save the result when it's done.
+     *
+     * @param ProcessInterface $process The process to execute.
+     * @param Result $result The result to complete.
+     */
+    private function executeProcess(ProcessInterface $process, Result $result): Result
+    {
+        $process->start();
+
+        while (!$process->isSuccessful());
+
+        if ($process instanceof ChangesCountInterface) {
+            $result->setCommits($process->countChanges());
+        }
+
+        if ($process instanceof CyclomaticComplexityInterface) {
+            $result->setComplexity($process->getCyclomaticComplexity());
+        }
+
+        return $result;
     }
 }
