@@ -44,14 +44,12 @@ class ParallelProcessHandlerTest extends BaseTestCase
         $process1 = m::mock(ChangesCountInterface::class);
         $process1->shouldReceive('start');
         $process1->shouldReceive('isSuccessful')->andReturn(true);
-        $process1->shouldReceive('getFileName')->andReturn(__FILE__);
         $process1->shouldReceive('getFile')->andReturn($file);
         $process1->shouldReceive('countChanges')->andReturn(1);
 
         $process2 = m::mock(CyclomaticComplexityProcess::class);
         $process2->shouldReceive('start');
         $process2->shouldReceive('isSuccessful')->andReturn(true);
-        $process2->shouldReceive('getFileName')->andReturn(__FILE__);
         $process2->shouldReceive('getFile')->andReturn($file);
         $process2->shouldReceive('getCyclomaticComplexity')->andReturn(2);
 

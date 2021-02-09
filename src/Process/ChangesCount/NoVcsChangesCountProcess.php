@@ -52,15 +52,6 @@ class NoVcsChangesCountProcess implements ChangesCountInterface
     }
 
     /**
-     * Gets the file name of the file the process
-     * is being executed on.
-     */
-    public function getFilename(): string
-    {
-        return $this->file->getDisplayPath();
-    }
-
-    /**
      * Gets the file the process is being executed on.
      */
     public function getFile(): File
