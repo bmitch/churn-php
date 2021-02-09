@@ -22,25 +22,33 @@ class Config
     private $configuration;
 
     /**
-     * @param array<mixed> $configuration Raw config data.
+     * @var string|null
      */
-    private function __construct(array $configuration = [])
+    private $path;
+
+    /**
+     * @param array<mixed> $configuration Raw config data.
+     * @param string|null $path The path of the configuration file if any.
+     */
+    private function __construct(array $configuration = [], ?string $path = null)
     {
         if ([] !== $configuration) {
             (new Validator())->validateConfigurationValues($configuration);
         }
 
         $this->configuration = $configuration;
+        $this->path = $path;
     }
 
     /**
      * Create a config with given configuration.
      *
      * @param array<mixed> $configuration The array containing the configuration values.
+     * @param string|null $path The path of the configuration file if any.
      */
-    public static function create(array $configuration): Config
+    public static function create(array $configuration, ?string $path = null): Config
     {
-        return new self($configuration);
+        return new self($configuration, $path);
     }
 
     /**
@@ -49,6 +57,14 @@ class Config
     public static function createFromDefaultValues(): Config
     {
         return new self();
+    }
+
+    /**
+     * Return the path of the configuration file.
+     */
+    public function getPath(): ?string
+    {
+        return $this->path;
     }
 
     /**

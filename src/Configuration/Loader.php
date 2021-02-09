@@ -12,9 +12,10 @@ class Loader
 
     /**
      * @param string $confPath Path of the configuration file to load.
+     * @param boolean $isDefaultValue Indicates whether $confPath contains the default value.
      * @throws InvalidArgumentException If the configuration file cannot be read.
      */
-    public static function fromPath(string $confPath): Config
+    public static function fromPath(string $confPath, bool $isDefaultValue): Config
     {
         $originalConfPath = $confPath;
 
@@ -22,12 +23,16 @@ class Loader
             $confPath = \rtrim($confPath, '/\\') . '/churn.yml';
         }
 
-        if (!\is_readable($confPath)) {
-            throw new InvalidArgumentException('The configuration file can not be read at ' . $originalConfPath);
+        if (\is_readable($confPath)) {
+            $content = (string) \file_get_contents($confPath);
+
+            return Config::create(Yaml::parse($content) ?? [], \realpath($confPath));
         }
 
-        $content = (string) \file_get_contents($confPath);
+        if ($isDefaultValue) {
+            return Config::createFromDefaultValues();
+        }
 
-        return Config::create(Yaml::parse($content) ?? []);
+        throw new InvalidArgumentException('The configuration file can not be read at ' . $originalConfPath);
     }
 }
