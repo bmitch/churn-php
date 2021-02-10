@@ -19,28 +19,56 @@ class ProcessFactoryTest extends BaseTestCase
      */
     private $processFactory;
 
+    public function setup()
+    {
+        $config = Config::createFromDefaultValues();
+        $this->processFactory = new ProcessFactory($config->getVCS(), $config->getCommitsSince());
+    }
+
     /** @test */
     public function it_can_be_created()
     {
         $this->assertInstanceOf(ProcessFactory::class, $this->processFactory);
     }
 
+    private function extractChangesCountProcess(iterable $processes): ?ChangesCountInterface
+    {
+        foreach ($processes as $process) {
+            if ($process instanceof ChangesCountInterface) {
+                return $process;
+            }
+        }
+
+        return null;
+    }
+
+    private function extractCyclomaticComplexityProcess(iterable $processes): ?CyclomaticComplexityInterface
+    {
+        foreach ($processes as $process) {
+            if ($process instanceof CyclomaticComplexityInterface) {
+                return $process;
+            }
+        }
+
+        return null;
+    }
+
     /** @test */
     public function it_can_create_a_git_commit_count_process()
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
-        $result = $this->processFactory->createChangesCountProcess($file);
-        $this->assertInstanceOf(ChangesCountInterface::class, $result);
-        $this->assertSame($file, $result->getFile());
+        $process = $this->extractChangesCountProcess($this->processFactory->createProcesses($file));
+        $this->assertInstanceOf(ChangesCountInterface::class, $process);
+        $this->assertSame($file, $process->getFile());
     }
 
     /** @test */
     public function it_can_create_a_cyclomatic_complexity_process()
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
-        $result = $this->processFactory->createCyclomaticComplexityProcess($file);
-        $this->assertInstanceOf(CyclomaticComplexityInterface::class, $result);
-        $this->assertSame($file, $result->getFile());
+        $process = $this->extractCyclomaticComplexityProcess($this->processFactory->createProcesses($file));
+        $this->assertInstanceOf(CyclomaticComplexityInterface::class, $process);
+        $this->assertSame($file, $process->getFile());
     }
 
     /** @test */
@@ -56,14 +84,8 @@ class ProcessFactoryTest extends BaseTestCase
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $this->processFactory = new ProcessFactory('none', '');
-        $result = $this->processFactory->createChangesCountProcess($file);
-        $this->assertSame($file, $result->getFile());
-        $this->assertEquals(1, $result->countChanges());
-    }
-
-    public function setup()
-    {
-        $config = Config::createFromDefaultValues();
-        $this->processFactory = new ProcessFactory($config->getVCS(), $config->getCommitsSince());
+        $process = $this->extractChangesCountProcess($this->processFactory->createProcesses($file));
+        $this->assertSame($file, $process->getFile());
+        $this->assertEquals(1, $process->countChanges());
     }
 }
