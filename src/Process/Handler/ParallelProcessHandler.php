@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace Churn\Process\Handler;
 
 use Churn\File\File;
-use Churn\Process\ChangesCountInterface;
-use Churn\Process\CyclomaticComplexityInterface;
 use Churn\Process\Observer\OnSuccess;
 use Churn\Process\ProcessFactory;
 use Churn\Process\ProcessInterface;
 use Churn\Result\Result;
 use Generator;
 
-class ParallelProcessHandler implements ProcessHandler
+class ParallelProcessHandler extends BaseProcessHandler
 {
 
     /**
@@ -107,17 +105,9 @@ class ParallelProcessHandler implements ProcessHandler
     private function getResult(ProcessInterface $process): Result
     {
         $key = $process->getFile()->getDisplayPath();
-        $result = $this->completedProcesses[$key] = $this->completedProcesses[$key] ?? new Result($key);
+        $this->completedProcesses[$key] = $this->completedProcesses[$key] ?? new Result($key);
 
-        if ($process instanceof ChangesCountInterface) {
-            $result->setCommits($process->countChanges());
-        }
-
-        if ($process instanceof CyclomaticComplexityInterface) {
-            $result->setComplexity($process->getCyclomaticComplexity());
-        }
-
-        return $result;
+        return $this->saveResult($process, $this->completedProcesses[$key]);
     }
 
     /**
