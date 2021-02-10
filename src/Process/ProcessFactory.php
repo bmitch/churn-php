@@ -40,23 +40,16 @@ class ProcessFactory
     }
 
     /**
-     * Creates a process that will count the number of changes for $file.
-     *
-     * @param File $file File that the process will execute on.
+     * @param File $file File that the processes will execute on.
+     * @return iterable<ProcessInterface> The list of processes to execute.
      */
-    public function createChangesCountProcess(File $file): ChangesCountInterface
+    public function createProcesses(File $file): iterable
     {
-        return ($this->changesCountProcessBuilder)($file);
-    }
+        $processes = [];
+        $processes[] = ($this->changesCountProcessBuilder)($file);
+        $processes[] = ($this->cyclomaticComplexityBuilder)($file);
 
-    /**
-     * Creates a Cyclomatic Complexity Process that will run on $file.
-     *
-     * @param File $file File that the process will execute on.
-     */
-    public function createCyclomaticComplexityProcess(File $file): CyclomaticComplexityInterface
-    {
-        return ($this->cyclomaticComplexityBuilder)($file);
+        return $processes;
     }
 
     /**

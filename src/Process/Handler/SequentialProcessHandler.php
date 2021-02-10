@@ -24,12 +24,8 @@ class SequentialProcessHandler extends BaseProcessHandler
     {
         foreach ($filesFinder as $file) {
             $result = new Result($file->getDisplayPath());
-            $processes = [
-                $processFactory->createChangesCountProcess($file),
-                $processFactory->createCyclomaticComplexityProcess($file),
-            ];
 
-            foreach ($processes as $process) {
+            foreach ($processFactory->createProcesses($file) as $process) {
                 $this->executeProcess($process, $result);
             }
 

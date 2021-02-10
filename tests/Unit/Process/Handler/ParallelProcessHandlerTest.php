@@ -54,8 +54,7 @@ class ParallelProcessHandlerTest extends BaseTestCase
         $process2->shouldReceive('getCyclomaticComplexity')->andReturn(2);
 
         $processFactory = m::mock(ProcessFactory::class);
-        $processFactory->shouldReceive('createChangesCountProcess')->andReturn($process1);
-        $processFactory->shouldReceive('createCyclomaticComplexityProcess')->andReturn($process2);
+        $processFactory->shouldReceive('createProcesses')->andReturn([$process1, $process2]);
 
         $observer = m::mock(OnSuccess::class);
         $observer->shouldReceive('__invoke')->once();
