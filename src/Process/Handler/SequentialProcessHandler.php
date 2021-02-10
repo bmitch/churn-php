@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Churn\Process\Handler;
 
-use Churn\Process\ChangesCountInterface;
-use Churn\Process\CyclomaticComplexityInterface;
 use Churn\Process\Observer\OnSuccess;
 use Churn\Process\ProcessFactory;
 use Churn\Process\ProcessInterface;
 use Churn\Result\Result;
 use Generator;
 
-class SequentialProcessHandler implements ProcessHandler
+class SequentialProcessHandler extends BaseProcessHandler
 {
 
     /**
@@ -45,20 +43,12 @@ class SequentialProcessHandler implements ProcessHandler
      * @param ProcessInterface $process The process to execute.
      * @param Result $result The result to complete.
      */
-    private function executeProcess(ProcessInterface $process, Result $result): Result
+    private function executeProcess(ProcessInterface $process, Result $result): void
     {
         $process->start();
 
         while (!$process->isSuccessful());
 
-        if ($process instanceof ChangesCountInterface) {
-            $result->setCommits($process->countChanges());
-        }
-
-        if ($process instanceof CyclomaticComplexityInterface) {
-            $result->setComplexity($process->getCyclomaticComplexity());
-        }
-
-        return $result;
+        $this->saveResult($process, $result);
     }
 }
