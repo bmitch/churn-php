@@ -10,14 +10,33 @@ use InvalidArgumentException;
 
 class ConfigTest extends BaseTestCase
 {
-    /** @test */
-    public function it_throws_exception_if_badly_instantiated()
+    /**
+     * @test
+     * @dataProvider provide_invalid_values
+     */
+    public function it_throws_exception_if_badly_instantiated(array $config, string $expectedMessage)
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->assertInstanceOf(
-            Config::class,
-            Config::create(['fileExtensions' => 5])
-        );
+        $this->expectExceptionMessage($expectedMessage);
+        Config::create($config);
+    }
+
+    public function provide_invalid_values(): iterable
+    {
+        yield [
+            ['fileExtensions' => 5],
+            'File extensions should be an array of strings'
+        ];
+
+        yield [
+            ['directoriesToScan' => 'not an array'],
+            'Directories to scan should be an array of strings'
+        ];
+
+        yield [
+            ['directoriesToScan' => ['/tmp', 42]],
+            'Directories to scan should be an array of strings'
+        ];
     }
 
     /** @test */
@@ -38,6 +57,7 @@ class ConfigTest extends BaseTestCase
         $this->assertSame([], $config->getFilesToIgnore());
         $this->assertSame(['php'], $config->getFileExtensions());
         $this->assertSame('git', $config->getVCS());
+        $this->assertSame(null, $config->getCachePath());
     }
 
     /** @test */
@@ -51,6 +71,7 @@ class ConfigTest extends BaseTestCase
         $filesToIgnore = ['foo.php', 'bar.php', 'baz.php'];
         $fileExtensions = ['php', 'inc'];
         $vcs = 'none';
+        $cachePath = '/tmp/.churn.cache';
 
         $config = Config::create([
             'directoriesToScan' => $directoriesToScan,
@@ -61,6 +82,7 @@ class ConfigTest extends BaseTestCase
             'filesToIgnore' => $filesToIgnore,
             'fileExtensions' => $fileExtensions,
             'vcs' => $vcs,
+            'cachePath' => $cachePath,
         ]);
 
         $this->assertSame($directoriesToScan, $config->getDirectoriesToScan());
@@ -71,6 +93,7 @@ class ConfigTest extends BaseTestCase
         $this->assertSame($filesToIgnore, $config->getFilesToIgnore());
         $this->assertSame($fileExtensions, $config->getFileExtensions());
         $this->assertSame($vcs, $config->getVCS());
+        $this->assertSame($cachePath, $config->getCachePath());
     }
 
     /** @test */

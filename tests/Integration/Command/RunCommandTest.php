@@ -12,6 +12,9 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class RunCommandTest extends BaseTestCase
 {
+
+    private const BAR = '0 [>---------------------------]';
+
     /** @var CommandTester */
     private $commandTester;
 
@@ -47,6 +50,24 @@ class RunCommandTest extends BaseTestCase
 
         $this->assertEquals(0, $exitCode);
         $this->assertEquals(RunCommand::LOGO, substr($display, 0, strlen(RunCommand::LOGO)));
+        // there is no progress bar by default
+        $this->assertFalse(strpos($display, self::BAR), 'The progress bar shouldn\'t be displayed');
+    }
+
+    /** @test */
+    public function it_can_show_a_progress_bar()
+    {
+        $exitCode = $this->commandTester->execute([
+            'paths' => [__DIR__],
+            '--progress' => null,
+        ]);
+        $display = $this->commandTester->getDisplay();
+
+        $this->assertEquals(0, $exitCode);
+        $this->assertEquals(RunCommand::LOGO, substr($display, 0, strlen(RunCommand::LOGO)));
+        // the progress bar must be right after the logo
+        $display = ltrim(substr($display, strlen(RunCommand::LOGO)));
+        $this->assertEquals(self::BAR, substr($display, 0, strlen(self::BAR)));
     }
 
     /** @test */
@@ -105,5 +126,39 @@ class RunCommandTest extends BaseTestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->commandTester->execute(['paths' => []]);
+    }
+
+    /** @test */
+    public function it_can_use_cache(): void
+    {
+        // delete cache if any
+        $cachePath = $this->tmpFile = __DIR__ . '/config/.churn.cache';
+        if (is_file($cachePath)) {
+            unlink($cachePath);
+        }
+        $this->assertFalse(file_exists($cachePath), "File $cachePath shouldn't exist");
+
+        // generate cache
+        $exitCode = $this->commandTester->execute([
+            'paths' => [],
+            '-c' => __DIR__ . '/config/test-cache.yml',
+        ]);
+        $displayBeforeCache = $this->commandTester->getDisplay();
+
+        $this->assertEquals(0, $exitCode);
+        $this->assertTrue(file_exists($cachePath), "File $cachePath should exist");
+        $this->assertGreaterThan(0, filesize($cachePath), 'Cache file is empty');
+
+        // use cache
+        $exitCode = $this->commandTester->execute([
+            'paths' => [],
+            '-c' => __DIR__ . '/config/test-cache.yml',
+        ]);
+        $displayAfterCache = $this->commandTester->getDisplay();
+
+        $this->assertEquals(0, $exitCode);
+        $this->assertEquals($displayBeforeCache, $displayAfterCache);
+        $this->assertTrue(file_exists($cachePath), "File $cachePath should exist");
+        $this->assertGreaterThan(0, filesize($cachePath), 'Cache file is empty');
     }
 }

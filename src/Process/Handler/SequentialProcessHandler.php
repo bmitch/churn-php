@@ -23,7 +23,7 @@ class SequentialProcessHandler extends BaseProcessHandler
     public function process(Generator $filesFinder, ProcessFactory $processFactory, OnSuccess $onSuccess): void
     {
         foreach ($filesFinder as $file) {
-            $result = new Result($file->getDisplayPath());
+            $result = new Result($file);
 
             foreach ($processFactory->createProcesses($file) as $process) {
                 $this->executeProcess($process, $result);

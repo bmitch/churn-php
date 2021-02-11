@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Churn\File;
 
+use InvalidArgumentException;
+use Symfony\Component\Filesystem\Filesystem;
+
 class FileHelper
 {
 
@@ -14,20 +17,35 @@ class FileHelper
      */
     public static function toAbsolutePath(string $path, string $basePath): string
     {
-        $path = \trim($path);
+        return (new Filesystem())->isAbsolutePath($path)
+            ? $path
+            : $basePath . '/' . $path;
+    }
 
-        if (0 === \strpos($path, '/')) {
-            return $path;
+    /**
+     * Check whether the path is writable and create the missing folders if needed.
+     *
+     * @param string $filePath The file path to check.
+     * @throws InvalidArgumentException If the path is invalid.
+     */
+    public static function ensureFileIsWritable(string $filePath): void
+    {
+        if ('' === $filePath) {
+            throw new InvalidArgumentException('Path cannot be empty');
         }
 
-        if ('\\' === $path[0] || (\strlen($path) >= 3 && \preg_match('#^[A-Z]\:[/\\\]#i', \substr($path, 0, 3)))) {
-            return $path;
+        if (\is_dir($filePath)) {
+            throw new InvalidArgumentException('Path cannot be a folder');
         }
 
-        if (false !== \strpos($path, '://')) {
-            return $path;
+        if (!\is_file($filePath)) {
+            (new Filesystem())->mkdir(\dirname($filePath));
+
+            return;
         }
 
-        return $basePath . '/' . $path;
+        if (!\is_writable($filePath)) {
+            throw new InvalidArgumentException('File is not writable');
+        }
     }
 }

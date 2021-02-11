@@ -27,6 +27,5 @@ class FileHelperTest extends BaseTestCase
         yield ['d:\\foo', '/path', 'd:\\foo'];
         yield ['E:/foo', '/path', 'E:/foo'];
         yield ['f:/foo', '/path', 'f:/foo'];
-        yield ['://foo', '/path', '://foo'];
     }
 }

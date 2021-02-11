@@ -22,6 +22,7 @@ class Validator
         $this->validateFilesToIgnore($configuration);
         $this->validateFileExtensions($configuration);
         $this->validateVCS($configuration);
+        $this->validateCachePath($configuration);
     }
 
     /**
@@ -33,6 +34,7 @@ class Validator
             return;
         }
 
+        Assert::isArray($configuration['directoriesToScan'], 'Directories to scan should be an array of strings');
         Assert::allString($configuration['directoriesToScan'], 'Directories to scan should be an array of strings');
     }
 
@@ -94,6 +96,7 @@ class Validator
         }
 
         Assert::isArray($configuration['filesToIgnore'], 'Files to ignore should be an array of strings');
+        Assert::allString($configuration['filesToIgnore'], 'Files to ignore should be an array of strings');
     }
 
     /**
@@ -106,6 +109,7 @@ class Validator
         }
 
         Assert::isArray($configuration['fileExtensions'], 'File extensions should be an array of strings');
+        Assert::allString($configuration['fileExtensions'], 'File extensions should be an array of strings');
     }
 
     /**
@@ -118,5 +122,17 @@ class Validator
         }
 
         Assert::string($configuration['vcs'], 'VCS should be a string');
+    }
+
+    /**
+     * @param array<mixed> $configuration The array containing the configuration values.
+     */
+    private function validateCachePath(array $configuration): void
+    {
+        if (!isset($configuration['cachePath'])) {
+            return;
+        }
+
+        Assert::string($configuration['cachePath'], 'Cache path should be a string');
     }
 }

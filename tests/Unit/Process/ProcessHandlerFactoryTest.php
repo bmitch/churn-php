@@ -21,7 +21,7 @@ class ProcessHandlerFactoryTest extends BaseTestCase
 
     /**
      * @test
-     * @dataProvider provideConfigWithCorrespondingProcessHandler
+     * @dataProvider provide_config_with_process_handler
      */
     public function it_returns_the_right_process_handler(Config $config, string $expectedClassName)
     {
@@ -30,7 +30,7 @@ class ProcessHandlerFactoryTest extends BaseTestCase
         $this->assertEquals($expectedClassName, get_class($processHandler));
     }
 
-    public function provideConfigWithCorrespondingProcessHandler(): iterable
+    public function provide_config_with_process_handler(): iterable
     {
         $config = m::mock(Config::class);
         $config->shouldReceive('getParallelJobs')->andReturn(0);

@@ -1,0 +1,3 @@
+directoriesToScan:
+  - "../"
+cachePath: .churn.cache

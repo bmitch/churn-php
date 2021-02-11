@@ -69,9 +69,9 @@ docker run --rm -ti -v $PWD:/app dockerizedphp/churn run src
 You may add an optional `churn.yml` file which can be used to configure churn-php. The location of the churn.yml file can be customized using these commands:
 
 ```
-Default: "churn.yml" 
-vendor/bin/churn run -c <path>
-vendor/bin/churn run --configuration[=CONFIGURATION] <path>
+# Default: "churn.yml" 
+vendor/bin/churn run --configuration=config-dir/ <path>
+vendor/bin/churn run --configuration=my-config.yml <path>
 ```
 A sample `churn.yml` file looks like:
 
@@ -108,10 +108,21 @@ fileExtensions:
  - php
  - inc
 
+# This list is used only if there is no argument when running churn.
+# Default: <empty>
+directoriesToScan:
+ - src
+ - tests/
+
 # The version control system used for your project.
 # Accepted values: fossil, git, mercurial, subversion, none
 # Default: git
  vcs: git
+
+# The path of the cache file. It doesn't need to exist before running churn.
+# Disabled if null.
+# Default: null
+ cachePath: .churn.cache
  ```
 
 If a `churn.yml` file is omitted or an individual setting is omitted the default values above will be used.
