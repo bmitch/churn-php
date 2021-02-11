@@ -15,6 +15,7 @@ class Config
     private const FILES_TO_IGNORE = [];
     private const FILE_EXTENSIONS_TO_PARSE = ['php'];
     private const VCS = 'git';
+    private const CACHE_PATH = null;
 
     /**
      * @var array<string, mixed>
@@ -153,5 +154,13 @@ class Config
     public function getVCS(): string
     {
         return $this->configuration['vcs'] ?? self::VCS;
+    }
+
+    /**
+     * Get the cache file path.
+     */
+    public function getCachePath(): ?string
+    {
+        return $this->configuration['cachePath'] ?? self::CACHE_PATH;
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Churn\Tests\Result;
 
+use Churn\File\File;
 use Churn\Result\Result;
 use Churn\Result\ResultAccumulator;
 use Churn\Tests\BaseTestCase;
@@ -17,7 +18,7 @@ class ResultAccumulatorTest extends BaseTestCase
         $result->shouldReceive('getCommits')->andReturn($commits);
         $result->shouldReceive('getComplexity')->andReturn($complexity);
         $result->shouldReceive('getPriority')->andReturn($commits * $complexity);
-        $result->shouldReceive('getFile')->andReturn($file);
+        $result->shouldReceive('getFile')->andReturn(new File("/$file", $file));
         $result->shouldReceive('getScore')->andReturn($score);
 
         return $result;

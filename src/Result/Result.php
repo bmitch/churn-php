@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Churn\Result;
 
+use Churn\File\File;
 use Webmozart\Assert\Assert;
 
 class Result
@@ -12,7 +13,7 @@ class Result
     /**
      * The file property.
      *
-     * @var string
+     * @var File
      */
     private $file;
 
@@ -31,11 +32,9 @@ class Result
     private $complexity;
 
     /**
-     * Class constructor.
-     *
-     * @param string $file The path of the processed file.
+     * @param File $file The processed file.
      */
-    public function __construct(string $file)
+    public function __construct(File $file)
     {
         $this->file = $file;
         $this->commits = -1;
@@ -43,9 +42,9 @@ class Result
     }
 
     /**
-     * Get the file path.
+     * Return the file.
      */
-    public function getFile(): string
+    public function getFile(): File
     {
         return $this->file;
     }

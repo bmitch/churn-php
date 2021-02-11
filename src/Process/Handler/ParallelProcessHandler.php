@@ -100,7 +100,7 @@ class ParallelProcessHandler extends BaseProcessHandler
     private function getResult(ProcessInterface $process): Result
     {
         $key = $process->getFile()->getDisplayPath();
-        $this->completedProcesses[$key] = $this->completedProcesses[$key] ?? new Result($key);
+        $this->completedProcesses[$key] = $this->completedProcesses[$key] ?? new Result($process->getFile());
 
         return $this->saveResult($process, $this->completedProcesses[$key]);
     }
@@ -115,7 +115,7 @@ class ParallelProcessHandler extends BaseProcessHandler
             return;
         }
 
-        unset($this->completedProcesses[$result->getFile()]);
+        unset($this->completedProcesses[$result->getFile()->getDisplayPath()]);
         $onSuccess($result);
     }
 }

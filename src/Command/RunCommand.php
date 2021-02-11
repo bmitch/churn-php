@@ -8,10 +8,9 @@ use Churn\Configuration\Config;
 use Churn\Configuration\Loader;
 use Churn\File\FileFinder;
 use Churn\File\FileHelper;
-use Churn\Process\Observer\OnSuccess;
-use Churn\Process\Observer\OnSuccessAccumulate;
-use Churn\Process\Observer\OnSuccessCollection;
-use Churn\Process\Observer\OnSuccessProgress;
+use Churn\Process\CacheProcessFactory;
+use Churn\Process\ConcreteProcessFactory;
+use Churn\Process\Observer\OnSuccessBuilder;
 use Churn\Process\ProcessFactory;
 use Churn\Process\ProcessHandlerFactory;
 use Churn\Result\ResultAccumulator;
@@ -97,7 +96,7 @@ class RunCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->displayLogo($input, $output);
+        $this->printLogo($input, $output);
         $accumulator = $this->analyze($input, $output, $this->getConfiguration($input));
         $this->writeResult($input, $output, $accumulator);
 
@@ -140,14 +139,20 @@ class RunCommand extends Command
      */
     private function analyze(InputInterface $input, OutputInterface $output, Config $config): ResultAccumulator
     {
+        $observers = [];
+        if (true === $input->getOption('progress')) {
+            $observers[] = $progressBar = new ProgressBar($output);
+            $progressBar->start();
+        }
         $filesFinder = (new FileFinder($config->getFileExtensions(), $config->getFilesToIgnore()))
             ->getPhpFiles($this->getDirectoriesToScan($input, $config));
-        $accumulator = new ResultAccumulator($config->getFilesToShow(), $config->getMinScoreToShow());
-        $this->processHandlerFactory->getProcessHandler($config)->process(
-            $filesFinder,
-            new ProcessFactory($config->getVCS(), $config->getCommitsSince()),
-            $this->getOnSuccessObserver($input, $output, $accumulator)
-        );
+        $observers[] = $accumulator = new ResultAccumulator($config->getFilesToShow(), $config->getMinScoreToShow());
+        $observers[] = $processFactory = $this->getProcessFactory($config);
+        $observer = (new OnSuccessBuilder())->build($observers);
+        $this->processHandlerFactory->getProcessHandler($config)->process($filesFinder, $processFactory, $observer);
+        if ($processFactory instanceof CacheProcessFactory) {
+            $processFactory->writeCache();
+        }
 
         return $accumulator;
     }
@@ -172,31 +177,28 @@ class RunCommand extends Command
     }
 
     /**
-     * @param InputInterface $input Input.
-     * @param OutputInterface $output Output.
-     * @param ResultAccumulator $accumulator The object accumulating the results.
+     * @param Config $config The configuration object.
      */
-    private function getOnSuccessObserver(
-        InputInterface $input,
-        OutputInterface $output,
-        ResultAccumulator $accumulator
-    ): OnSuccess {
-        $observer = new OnSuccessAccumulate($accumulator);
+    private function getProcessFactory(Config $config): ProcessFactory
+    {
+        $factory = new ConcreteProcessFactory($config->getVCS(), $config->getCommitsSince());
 
-        if (true === $input->getOption('progress')) {
-            $progressBar = new ProgressBar($output);
-            $progressBar->start();
-            $observer = new OnSuccessCollection($observer, new OnSuccessProgress($progressBar));
+        if (null !== $config->getCachePath()) {
+            $basePath = $config->getPath()
+                ? \dirname($config->getPath())
+                : \getcwd();
+            $path = $config->getCachePath();
+            $factory = new CacheProcessFactory(FileHelper::toAbsolutePath($path, $basePath), $factory);
         }
 
-        return $observer;
+        return $factory;
     }
 
     /**
      * @param InputInterface $input Input.
      * @param OutputInterface $output Output.
      */
-    private function displayLogo(InputInterface $input, OutputInterface $output): void
+    private function printLogo(InputInterface $input, OutputInterface $output): void
     {
         if ('text' !== $input->getOption('format') && empty($input->getOption('output'))) {
             return;

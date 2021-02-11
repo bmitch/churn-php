@@ -10,6 +10,7 @@ use Churn\Process\ChangesCountInterface;
 use Churn\Process\CyclomaticComplexityProcess;
 use Churn\Process\Handler\ParallelProcessHandler;
 use Churn\Process\Observer\OnSuccess;
+use Churn\Process\ConcreteProcessFactory;
 use Churn\Process\ProcessFactory;
 use Churn\Tests\BaseTestCase;
 use Generator;
@@ -28,7 +29,7 @@ class ParallelProcessHandlerTest extends BaseTestCase
     {
         $processHandler = new ParallelProcessHandler(3);
         $config = Config::createFromDefaultValues();
-        $processFactory = new ProcessFactory($config->getVCS(), $config->getCommitsSince());
+        $processFactory = new ConcreteProcessFactory($config->getVCS(), $config->getCommitsSince());
 
         $observer = m::mock(OnSuccess::class);
         $observer->shouldReceive('__invoke')->never();

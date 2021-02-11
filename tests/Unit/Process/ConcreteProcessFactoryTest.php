@@ -8,27 +8,27 @@ use Churn\Configuration\Config;
 use Churn\File\File;
 use Churn\Process\ChangesCountInterface;
 use Churn\Process\CyclomaticComplexityInterface;
-use Churn\Process\ProcessFactory;
+use Churn\Process\ConcreteProcessFactory;
 use Churn\Tests\BaseTestCase;
 use InvalidArgumentException;
 
-class ProcessFactoryTest extends BaseTestCase
+class ConcreteProcessFactoryTest extends BaseTestCase
 {
     /**
-     * @var ProcessFactory
+     * @var ConcreteProcessFactory
      */
     private $processFactory;
 
     public function setup()
     {
         $config = Config::createFromDefaultValues();
-        $this->processFactory = new ProcessFactory($config->getVCS(), $config->getCommitsSince());
+        $this->processFactory = new ConcreteProcessFactory($config->getVCS(), $config->getCommitsSince());
     }
 
     /** @test */
     public function it_can_be_created()
     {
-        $this->assertInstanceOf(ProcessFactory::class, $this->processFactory);
+        $this->assertInstanceOf(ConcreteProcessFactory::class, $this->processFactory);
     }
 
     private function extractChangesCountProcess(iterable $processes): ?ChangesCountInterface
@@ -76,14 +76,14 @@ class ProcessFactoryTest extends BaseTestCase
     {
         $config = Config::createFromDefaultValues();
         $this->expectException(InvalidArgumentException::class);
-        $this->processFactory = new ProcessFactory('not a valid VCS', $config->getCommitsSince());
+        $this->processFactory = new ConcreteProcessFactory('not a valid VCS', $config->getCommitsSince());
     }
 
     /** @test */
     public function it_always_counts_one_when_there_is_no_VCS()
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
-        $this->processFactory = new ProcessFactory('none', '');
+        $this->processFactory = new ConcreteProcessFactory('none', '');
         $process = $this->extractChangesCountProcess($this->processFactory->createProcesses($file));
         $this->assertSame($file, $process->getFile());
         $this->assertEquals(1, $process->countChanges());

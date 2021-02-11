@@ -106,7 +106,7 @@ class ResultAccumulator
             }
 
             $rows[] = [
-                $result->getFile(),
+                $result->getFile()->getDisplayPath(),
                 $result->getCommits(),
                 $result->getComplexity(),
                 $score,
