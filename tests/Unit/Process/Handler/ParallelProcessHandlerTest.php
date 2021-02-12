@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Churn\Tests\Unit\Process\Handler;
 
 use Churn\Configuration\Config;
+use Churn\Event\Broker;
 use Churn\File\File;
 use Churn\Process\ChangesCountInterface;
 use Churn\Process\CyclomaticComplexityProcess;
 use Churn\Process\Handler\ParallelProcessHandler;
-use Churn\Process\Observer\OnSuccess;
 use Churn\Process\ConcreteProcessFactory;
 use Churn\Process\ProcessFactory;
 use Churn\Tests\BaseTestCase;
@@ -21,13 +21,15 @@ class ParallelProcessHandlerTest extends BaseTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(ParallelProcessHandler::class, new ParallelProcessHandler(2));
+        $broker = m::mock(Broker::class);
+        $this->assertInstanceOf(ParallelProcessHandler::class, new ParallelProcessHandler(2, $broker));
     }
 
     /** @test */
     public function it_doesnt_call_the_observer_when_no_file()
     {
-        $processHandler = new ParallelProcessHandler(3);
+        $broker = m::mock(Broker::class);
+        $processHandler = new ParallelProcessHandler(3, $broker);
         $config = Config::createFromDefaultValues();
         $processFactory = new ConcreteProcessFactory($config->getVCS(), $config->getCommitsSince());
 
@@ -38,7 +40,7 @@ class ParallelProcessHandlerTest extends BaseTestCase
     }
 
     /** @test */
-    public function it_calls_the_observer_for_one_file()
+    public function it_calls_the_broker_for_one_file()
     {
         $file = new File(__FILE__, __FILE__);
 
@@ -57,11 +59,11 @@ class ParallelProcessHandlerTest extends BaseTestCase
         $processFactory = m::mock(ProcessFactory::class);
         $processFactory->shouldReceive('createProcesses')->andReturn([$process1, $process2]);
 
-        $observer = m::mock(OnSuccess::class);
-        $observer->shouldReceive('__invoke')->once();
+        $broker = m::mock(Broker::class);
+        $broker->shouldReceive('notify')->once();
 
-        $processHandler = new ParallelProcessHandler(3);
-        $processHandler->process($this->getFileGenerator($file), $processFactory, $observer);
+        $processHandler = new ParallelProcessHandler(3, $broker);
+        $processHandler->process($this->getFileGenerator($file), $processFactory);
     }
 
     private function getFileGenerator(File ...$files): Generator

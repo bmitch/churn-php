@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Churn\Result;
 
-class ResultAccumulator
+use Churn\Event\Event\AfterFileAnalysisEvent;
+use Churn\Event\Subscriber\AfterFileAnalysis;
+
+class ResultAccumulator implements AfterFileAnalysis
 {
 
     /**
@@ -43,6 +46,14 @@ class ResultAccumulator
         $this->numberOfFiles = 0;
         $this->minScore = $minScore;
         $this->highestScores = new HighestScores($maxSize);
+    }
+
+    /**
+     * @param AfterFileAnalysisEvent $event The event triggered when the analysis of a file is done.
+     */
+    public function onAfterFileAnalysis(AfterFileAnalysisEvent $event): void
+    {
+        $this->add($event->getResult());
     }
 
     /**
