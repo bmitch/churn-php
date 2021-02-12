@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Churn\Tests\Unit\Process;
 
 use Churn\Configuration\Config;
+use Churn\Event\Broker;
 use Churn\Process\Handler\ParallelProcessHandler;
 use Churn\Process\Handler\SequentialProcessHandler;
 use Churn\Process\ProcessHandlerFactory;
@@ -25,8 +26,9 @@ class ProcessHandlerFactoryTest extends BaseTestCase
      */
     public function it_returns_the_right_process_handler(Config $config, string $expectedClassName)
     {
+        $broker = m::mock(Broker::class);
         $factory = new ProcessHandlerFactory();
-        $processHandler = $factory->getProcessHandler($config);
+        $processHandler = $factory->getProcessHandler($config, $broker);
         $this->assertEquals($expectedClassName, get_class($processHandler));
     }
 

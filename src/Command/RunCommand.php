@@ -4,20 +4,22 @@ declare(strict_types=1);
 
 namespace Churn\Command;
 
+use Churn\Command\Helper\ProgressBarSubscriber;
 use Churn\Configuration\Config;
 use Churn\Configuration\Loader;
+use Churn\Event\Broker;
+use Churn\Event\Event\AfterAnalysisEvent;
+use Churn\Event\Event\BeforeAnalysisEvent;
 use Churn\File\FileFinder;
 use Churn\File\FileHelper;
 use Churn\Process\CacheProcessFactory;
 use Churn\Process\ConcreteProcessFactory;
-use Churn\Process\Observer\OnSuccessBuilder;
 use Churn\Process\ProcessFactory;
 use Churn\Process\ProcessHandlerFactory;
 use Churn\Result\ResultAccumulator;
 use Churn\Result\ResultsRendererFactory;
 use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -96,9 +98,13 @@ class RunCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $broker = new Broker();
         $this->printLogo($input, $output);
-        $accumulator = $this->analyze($input, $output, $this->getConfiguration($input));
-        $this->writeResult($input, $output, $accumulator);
+        if (true === $input->getOption('progress')) {
+            $broker->subscribe(new ProgressBarSubscriber($output));
+        }
+        $report = $this->analyze($input, $this->getConfiguration($input), $broker);
+        $this->writeResult($input, $output, $report);
 
         return 0;
     }
@@ -134,27 +140,20 @@ class RunCommand extends Command
      * Run the actual analysis.
      *
      * @param InputInterface $input Input.
-     * @param OutputInterface $output Output.
      * @param Config $config The configuration object.
+     * @param Broker $broker The event broker.
      */
-    private function analyze(InputInterface $input, OutputInterface $output, Config $config): ResultAccumulator
+    private function analyze(InputInterface $input, Config $config, Broker $broker): ResultAccumulator
     {
-        $observers = [];
-        if (true === $input->getOption('progress')) {
-            $observers[] = $progressBar = new ProgressBar($output);
-            $progressBar->start();
-        }
+        $broker->subscribe($report = new ResultAccumulator($config->getFilesToShow(), $config->getMinScoreToShow()));
+        $broker->subscribe($processFactory = $this->getProcessFactory($config));
+        $broker->notify(new BeforeAnalysisEvent());
         $filesFinder = (new FileFinder($config->getFileExtensions(), $config->getFilesToIgnore()))
             ->getPhpFiles($this->getDirectoriesToScan($input, $config));
-        $observers[] = $accumulator = new ResultAccumulator($config->getFilesToShow(), $config->getMinScoreToShow());
-        $observers[] = $processFactory = $this->getProcessFactory($config);
-        $observer = (new OnSuccessBuilder())->build($observers);
-        $this->processHandlerFactory->getProcessHandler($config)->process($filesFinder, $processFactory, $observer);
-        if ($processFactory instanceof CacheProcessFactory) {
-            $processFactory->writeCache();
-        }
+        $this->processHandlerFactory->getProcessHandler($config, $broker)->process($filesFinder, $processFactory);
+        $broker->notify(new AfterAnalysisEvent($report));
 
-        return $accumulator;
+        return $report;
     }
 
     /**
@@ -210,9 +209,9 @@ class RunCommand extends Command
     /**
      * @param InputInterface $input Input.
      * @param OutputInterface $output Output.
-     * @param ResultAccumulator $accumulator The results to write.
+     * @param ResultAccumulator $report The report to write.
      */
-    private function writeResult(InputInterface $input, OutputInterface $output, ResultAccumulator $accumulator): void
+    private function writeResult(InputInterface $input, OutputInterface $output, ResultAccumulator $report): void
     {
         if (true === $input->getOption('progress')) {
             $output->writeln("\n");
@@ -227,6 +226,6 @@ class RunCommand extends Command
         }
 
         $renderer = $this->renderFactory->getRenderer($input->getOption('format'));
-        $renderer->render($output, $accumulator->toArray());
+        $renderer->render($output, $report->toArray());
     }
 }

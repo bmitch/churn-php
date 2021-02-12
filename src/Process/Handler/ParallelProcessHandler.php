@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Churn\Process\Handler;
 
+use Churn\Event\Broker;
+use Churn\Event\Event\AfterFileAnalysisEvent;
 use Churn\File\File;
-use Churn\Process\Observer\OnSuccess;
 use Churn\Process\ProcessFactory;
 use Churn\Process\ProcessInterface;
 use Churn\Result\Result;
@@ -29,14 +30,19 @@ class ParallelProcessHandler extends BaseProcessHandler
     private $numberOfParallelJobs;
 
     /**
-     * ProcessManager constructor.
-     *
-     * @param integer $numberOfParallelJobs Number of parallel jobs to run.
+     * @var Broker
      */
-    public function __construct(int $numberOfParallelJobs)
+    private $broker;
+
+    /**
+     * @param integer $numberOfParallelJobs Number of parallel jobs to run.
+     * @param Broker $broker The event broker.
+     */
+    public function __construct(int $numberOfParallelJobs, Broker $broker)
     {
         $this->numberOfParallelJobs = $numberOfParallelJobs;
         $this->completedProcesses = [];
+        $this->broker = $broker;
     }
 
     /**
@@ -44,30 +50,28 @@ class ParallelProcessHandler extends BaseProcessHandler
      *
      * @param Generator $filesFinder Collection of files.
      * @param ProcessFactory $processFactory Process Factory.
-     * @param OnSuccess $onSuccess The OnSuccess event observer.
      */
-    public function process(Generator $filesFinder, ProcessFactory $processFactory, OnSuccess $onSuccess): void
+    public function process(Generator $filesFinder, ProcessFactory $processFactory): void
     {
         $pool = [];
 
         foreach ($filesFinder as $file) {
             while (\count($pool) >= $this->numberOfParallelJobs) {
-                $this->checkRunningProcesses($pool, $onSuccess);
+                $this->checkRunningProcesses($pool);
             }
 
             $this->addToPool($pool, $file, $processFactory);
         }
 
         while (\count($pool) > 0) {
-            $this->checkRunningProcesses($pool, $onSuccess);
+            $this->checkRunningProcesses($pool);
         }
     }
 
     /**
      * @param array<ProcessInterface> $pool Pool of processes.
-     * @param OnSuccess $onSuccess The OnSuccess event observer.
      */
-    private function checkRunningProcesses(array &$pool, OnSuccess $onSuccess): void
+    private function checkRunningProcesses(array &$pool): void
     {
         foreach ($pool as $key => $process) {
             if (!$process->isSuccessful()) {
@@ -75,7 +79,7 @@ class ParallelProcessHandler extends BaseProcessHandler
             }
 
             unset($pool[$key]);
-            $this->sendEventIfComplete($this->getResult($process), $onSuccess);
+            $this->sendEventIfComplete($this->getResult($process));
         }
     }
 
@@ -107,15 +111,14 @@ class ParallelProcessHandler extends BaseProcessHandler
 
     /**
      * @param Result $result The result of the processes for a file.
-     * @param OnSuccess $onSuccess The OnSuccess event observer.
      */
-    private function sendEventIfComplete(Result $result, OnSuccess $onSuccess): void
+    private function sendEventIfComplete(Result $result): void
     {
         if (!$result->isComplete()) {
             return;
         }
 
         unset($this->completedProcesses[$result->getFile()->getDisplayPath()]);
-        $onSuccess($result);
+        $this->broker->notify(new AfterFileAnalysisEvent($result));
     }
 }

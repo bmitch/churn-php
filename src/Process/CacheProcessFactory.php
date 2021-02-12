@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace Churn\Process;
 
+use Churn\Event\Event\AfterAnalysisEvent;
+use Churn\Event\Event\AfterFileAnalysisEvent;
+use Churn\Event\Subscriber\AfterAnalysis;
+use Churn\Event\Subscriber\AfterFileAnalysis;
 use Churn\File\File;
 use Churn\File\FileHelper;
 use Churn\Result\Result;
 use InvalidArgumentException;
 use Throwable;
 
-class CacheProcessFactory implements ProcessFactory
+class CacheProcessFactory implements AfterAnalysis, AfterFileAnalysis, ProcessFactory
 {
 
     /**
@@ -65,6 +69,22 @@ class CacheProcessFactory implements ProcessFactory
         $this->cache[$key][3] = true;
 
         return [new PredefinedProcess($file, $countChanges, $cyclomaticComplexity)];
+    }
+
+    /**
+     * @param AfterAnalysisEvent $event The event triggered when the analysis is done.
+     */
+    public function onAfterAnalysis(AfterAnalysisEvent $event): void
+    {
+        $this->writeCache();
+    }
+
+    /**
+     * @param AfterFileAnalysisEvent $event The event triggered when the analysis of a file is done.
+     */
+    public function onAfterFileAnalysis(AfterFileAnalysisEvent $event): void
+    {
+        $this->addToCache($event->getResult());
     }
 
     /**

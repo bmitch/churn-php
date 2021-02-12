@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Churn\Tests\Unit\Process\Handler;
 
+use Churn\Event\Broker;
 use Churn\File\File;
 use Churn\Process\ChangesCountInterface;
 use Churn\Process\CyclomaticComplexityInterface;
 use Churn\Process\Handler\SequentialProcessHandler;
-use Churn\Process\Observer\OnSuccess;
 use Churn\Process\ProcessFactory;
 use Churn\Tests\BaseTestCase;
 use Generator;
@@ -19,11 +19,12 @@ class SequentialProcessHandlerTest extends BaseTestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(SequentialProcessHandler::class, new SequentialProcessHandler());
+        $broker = m::mock(Broker::class);
+        $this->assertInstanceOf(SequentialProcessHandler::class, new SequentialProcessHandler($broker));
     }
 
     /** @test */
-    public function it_calls_the_observer_for_one_file()
+    public function it_calls_the_broker_for_one_file()
     {
         $process1 = m::mock(ChangesCountInterface::class);
         $process1->shouldReceive('start');
@@ -38,11 +39,11 @@ class SequentialProcessHandlerTest extends BaseTestCase
         $processFactory = m::mock(ProcessFactory::class);
         $processFactory->shouldReceive('createProcesses')->andReturn([$process1, $process2]);
 
-        $observer = m::mock(OnSuccess::class);
-        $observer->shouldReceive('__invoke')->once();
+        $broker = m::mock(Broker::class);
+        $broker->shouldReceive('notify')->once();
 
-        $processHandler = new SequentialProcessHandler();
-        $processHandler->process($this->getFileGenerator(), $processFactory, $observer);
+        $processHandler = new SequentialProcessHandler($broker);
+        $processHandler->process($this->getFileGenerator(), $processFactory);
     }
 
     private function getFileGenerator(): Generator
