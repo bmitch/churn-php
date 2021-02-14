@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Churn\Configuration;
 
+/**
+ * @internal
+ */
 class Config
 {
 
@@ -16,6 +19,7 @@ class Config
     private const FILE_EXTENSIONS_TO_PARSE = ['php'];
     private const VCS = 'git';
     private const CACHE_PATH = null;
+    private const HOOKS = [];
 
     /**
      * @var array<string, mixed>
@@ -61,11 +65,13 @@ class Config
     }
 
     /**
-     * Return the path of the configuration file.
+     * Return the path of the folder containing the configuration file.
      */
-    public function getPath(): ?string
+    public function getDirPath(): string
     {
-        return $this->path;
+        return null === $this->path
+            ? \getcwd()
+            : \dirname($this->path);
     }
 
     /**
@@ -162,5 +168,15 @@ class Config
     public function getCachePath(): ?string
     {
         return $this->configuration['cachePath'] ?? self::CACHE_PATH;
+    }
+
+    /**
+     * Get the hooks.
+     *
+     * @return array<string>
+     */
+    public function getHooks(): array
+    {
+        return $this->configuration['hooks'] ?? self::HOOKS;
     }
 }

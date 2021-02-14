@@ -102,4 +102,18 @@ class ResultAccumulatorTest extends BaseTestCase
 
         $this->assertEquals(0, $accumulator->getNumberOfFiles());
     }
+
+    /** @test */
+    public function it_returns_the_max_score(): void
+    {
+        $accumulator = new ResultAccumulator(10, 0.1);
+
+        $this->assertNull($accumulator->getMaxScore());
+
+        $accumulator->add($this->mockResult(5, 1, 'file2', 0.2));
+        $accumulator->add($this->mockResult(10, 2, 'file1', 0.3));
+        $accumulator->add($this->mockResult(1, 4, 'file3', 0.1));
+
+        $this->assertEquals(0.3, $accumulator->getMaxScore());
+    }
 }

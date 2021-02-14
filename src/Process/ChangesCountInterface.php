@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Churn\Process;
 
+/**
+ * @internal
+ */
 interface ChangesCountInterface extends ProcessInterface
 {
 

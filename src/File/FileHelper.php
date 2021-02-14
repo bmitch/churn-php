@@ -7,6 +7,9 @@ namespace Churn\File;
 use InvalidArgumentException;
 use Symfony\Component\Filesystem\Filesystem;
 
+/**
+ * @internal
+ */
 class FileHelper
 {
 

@@ -11,6 +11,9 @@ use Churn\Process\ProcessInterface;
 use Churn\Result\Result;
 use Generator;
 
+/**
+ * @internal
+ */
 class SequentialProcessHandler extends BaseProcessHandler
 {
 

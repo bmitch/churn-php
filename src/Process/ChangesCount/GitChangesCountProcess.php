@@ -9,6 +9,9 @@ use Churn\Process\ChangesCountInterface;
 use Churn\Process\ChurnProcess;
 use Symfony\Component\Process\Process;
 
+/**
+ * @internal
+ */
 class GitChangesCountProcess extends ChurnProcess implements ChangesCountInterface
 {
 

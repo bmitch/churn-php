@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Churn\Process;
 
+/**
+ * @internal
+ */
 class CyclomaticComplexityProcess extends ChurnProcess implements CyclomaticComplexityInterface
 {
 

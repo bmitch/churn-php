@@ -7,6 +7,9 @@ namespace Churn\Process\Handler;
 use Churn\Process\ProcessFactory;
 use Generator;
 
+/**
+ * @internal
+ */
 interface ProcessHandler
 {
 

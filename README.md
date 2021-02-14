@@ -114,6 +114,15 @@ directoriesToScan:
  - src
  - tests/
 
+# List of user-defined hooks.
+# They can be referenced by their full qualified class name if churn has access to the autoloader.
+# Otherwise the file path can be used as well.
+# See below the section about hooks for more details.
+# Default: <empty>
+hooks:
+ - Namespace\MyHook
+ - path/to/my-hook.php
+
 # The version control system used for your project.
 # Accepted values: fossil, git, mercurial, subversion, none
 # Default: git
@@ -140,6 +149,16 @@ To use a different format use `--format` option. Example command for `json`:
 ```bash
 vendor/bin/churn run --format json
 ```
+
+### Hooks
+
+The *hooks* configuration allows you to customize `churn`.
+
+A user-defined hook must implement at least one of the following interfaces:
+
+* [AfterAnalysisHook](src/Event/Hook/AfterAnalysisHook.php)
+* [AfterFileAnalysisHook](src/Event/Hook/AfterFileAnalysisHook.php)
+* [BeforeAnalysisHook](src/Event/Hook/BeforeAnalysisHook.php)
 
 ## Similar Packages
 * https://github.com/danmayer/churn (Ruby)

@@ -9,6 +9,9 @@ use Churn\Process\ChangesCountInterface;
 use Churn\Process\ChurnProcess;
 use Symfony\Component\Process\Process;
 
+/**
+ * @internal
+ */
 class MercurialChangesCountProcess extends ChurnProcess implements ChangesCountInterface
 {
 
@@ -24,7 +27,7 @@ class MercurialChangesCountProcess extends ChurnProcess implements ChangesCountI
             'hg', '--pager=never', '--color=never',
             'log', '--date', "$dateSince to now",
             $file->getFullPath(), '--template=\'1\\n\'',
-        ]);
+        ], \dirname($file->getFullPath()));
 
         parent::__construct($file, $process);
     }

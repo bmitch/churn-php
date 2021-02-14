@@ -10,6 +10,9 @@ use Churn\Result\Render\JsonResultsRenderer;
 use Churn\Result\Render\ResultsRendererInterface;
 use InvalidArgumentException;
 
+/**
+ * @internal
+ */
 class ResultsRendererFactory
 {
 

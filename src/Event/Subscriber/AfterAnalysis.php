@@ -6,6 +6,9 @@ namespace Churn\Event\Subscriber;
 
 use Churn\Event\Event\AfterAnalysisEvent;
 
+/**
+ * @internal
+ */
 interface AfterAnalysis
 {
 

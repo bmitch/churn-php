@@ -14,6 +14,9 @@ use Churn\Result\Result;
 use InvalidArgumentException;
 use Throwable;
 
+/**
+ * @internal
+ */
 class CacheProcessFactory implements AfterAnalysis, AfterFileAnalysis, ProcessFactory
 {
 

@@ -7,6 +7,9 @@ namespace Churn\Process\ChangesCount;
 use Churn\File\File;
 use Churn\Process\ChangesCountInterface;
 
+/**
+ * @internal
+ */
 class NoVcsChangesCountProcess implements ChangesCountInterface
 {
 

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Churn\Event\Event;
 
-use Churn\Event\Event;
 use Churn\Result\ResultAccumulator;
 
-class AfterAnalysisEvent implements Event
+/**
+ * @internal
+ */
+final class AfterAnalysisEvent implements AfterAnalysis
 {
 
     /**
@@ -24,10 +26,34 @@ class AfterAnalysisEvent implements Event
     }
 
     /**
-     * Return the results report.
+     * Returns the total number of files analysed.
      */
-    public function getResultAccumulator(): ResultAccumulator
+    public function getNumberOfFiles(): int
     {
-        return $this->resultAccumulator;
+        return $this->resultAccumulator->getNumberOfFiles();
+    }
+
+    /**
+     * Returns the max number of changes among the analysed files.
+     */
+    public function getMaxNumberOfChanges(): int
+    {
+        return $this->resultAccumulator->getMaxCommits();
+    }
+
+    /**
+     * Returns the max cyclomatic complexity among the analysed files.
+     */
+    public function getMaxCyclomaticComplexity(): int
+    {
+        return $this->resultAccumulator->getMaxComplexity();
+    }
+
+    /**
+     * Returns the highest score among the analysed files.
+     */
+    public function getMaxScore(): ?float
+    {
+        return $this->resultAccumulator->getMaxScore();
     }
 }

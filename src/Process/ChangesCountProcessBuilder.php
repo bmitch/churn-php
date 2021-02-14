@@ -14,6 +14,9 @@ use Closure;
 use DateTime;
 use InvalidArgumentException;
 
+/**
+ * @internal
+ */
 class ChangesCountProcessBuilder
 {
 

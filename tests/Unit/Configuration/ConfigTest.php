@@ -58,6 +58,7 @@ class ConfigTest extends BaseTestCase
         $this->assertSame(['php'], $config->getFileExtensions());
         $this->assertSame('git', $config->getVCS());
         $this->assertSame(null, $config->getCachePath());
+        $this->assertSame([], $config->getHooks());
     }
 
     /** @test */
@@ -72,6 +73,7 @@ class ConfigTest extends BaseTestCase
         $fileExtensions = ['php', 'inc'];
         $vcs = 'none';
         $cachePath = '/tmp/.churn.cache';
+        $hooks = ['Hook1', 'Hook2'];
 
         $config = Config::create([
             'directoriesToScan' => $directoriesToScan,
@@ -83,6 +85,7 @@ class ConfigTest extends BaseTestCase
             'fileExtensions' => $fileExtensions,
             'vcs' => $vcs,
             'cachePath' => $cachePath,
+            'hooks' => $hooks,
         ]);
 
         $this->assertSame($directoriesToScan, $config->getDirectoriesToScan());
@@ -94,6 +97,7 @@ class ConfigTest extends BaseTestCase
         $this->assertSame($fileExtensions, $config->getFileExtensions());
         $this->assertSame($vcs, $config->getVCS());
         $this->assertSame($cachePath, $config->getCachePath());
+        $this->assertSame($hooks, $config->getHooks());
     }
 
     /** @test */
