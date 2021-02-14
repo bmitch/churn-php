@@ -24,6 +24,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
 use Webmozart\Assert\Assert;
@@ -90,6 +91,7 @@ class RunCommand extends Command
             ->addOption('output', 'o', InputOption::VALUE_REQUIRED, 'The path where to write the result')
             ->addOption('parallel', null, InputOption::VALUE_REQUIRED, 'Number of parallel jobs')
             ->addOption('progress', 'p', InputOption::VALUE_NONE, 'Show progress bar')
+            ->addOption('quiet', 'q', InputOption::VALUE_NONE, 'Suppress all normal output')
             ->setDescription('Check files')
             ->setHelp('Checks the churn on the provided path argument(s).');
     }
@@ -102,6 +104,9 @@ class RunCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        if (true === $input->getOption('quiet')) {
+            $output = new NullOutput();
+        }
         $config = $this->getConfiguration($input);
         $broker = new Broker();
         $this->attachHooks($config, $broker);
