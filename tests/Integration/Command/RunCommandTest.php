@@ -6,6 +6,10 @@ namespace Churn\Tests\Integration\Command;
 
 use Churn\Command\RunCommand;
 use Churn\Tests\BaseTestCase;
+use Churn\Tests\Integration\Command\Assets\TestAfterAnalysisHook;
+use Churn\Tests\Integration\Command\Assets\TestAfterFileAnalysisHook;
+use Churn\Tests\Integration\Command\Assets\TestBeforeAnalysisHook;
+use Churn\Tests\Integration\Command\Assets\TestHook;
 use InvalidArgumentException;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -160,5 +164,45 @@ class RunCommandTest extends BaseTestCase
         $this->assertEquals($displayBeforeCache, $displayAfterCache);
         $this->assertTrue(file_exists($cachePath), "File $cachePath should exist");
         $this->assertGreaterThan(0, filesize($cachePath), 'Cache file is empty');
+    }
+
+    /** @test */
+    public function it_can_use_a_hook_by_classname(): void
+    {
+        TestHook::reset();
+
+        $exitCode = $this->commandTester->execute([
+            'paths' => [__FILE__, __DIR__ . '/AssessComplexityCommandTest.php'],
+            '-c' => __DIR__ . '/config/hook-by-classname.yml',
+        ]);
+
+        $this->assertEquals(0, $exitCode);
+        $this->assertEquals(1, TestHook::$nbAfterAnalysisEvent);
+        $this->assertEquals(2, TestHook::$nbAfterFileAnalysisEvent);
+        $this->assertEquals(1, TestHook::$nbBeforeAnalysisEvent);
+    }
+
+    /** @test */
+    public function it_can_use_a_hook_by_path(): void
+    {
+        $exitCode = $this->commandTester->execute([
+            'paths' => [__FILE__, __DIR__ . '/AssessComplexityCommandTest.php'],
+            '-c' => __DIR__ . '/config/hook-by-path.yml',
+        ]);
+
+        $this->assertEquals(0, $exitCode);
+        $this->assertEquals(1, TestAfterAnalysisHook::$nbAfterAnalysisEvent);
+        $this->assertEquals(2, TestAfterFileAnalysisHook::$nbAfterFileAnalysisEvent);
+        $this->assertEquals(1, TestBeforeAnalysisHook::$nbBeforeAnalysisEvent);
+    }
+
+    /** @test */
+    public function it_throws_for_invalid_hooks(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->commandTester->execute([
+            'paths' => [__FILE__, __DIR__ . '/AssessComplexityCommandTest.php'],
+            '-c' => __DIR__ . '/config/hook-invalid.yml',
+        ]);
     }
 }

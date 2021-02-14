@@ -11,6 +11,9 @@ use Churn\Event\Subscriber\AfterAnalysis;
 use Churn\Event\Subscriber\AfterFileAnalysis;
 use Churn\Event\Subscriber\BeforeAnalysis;
 
+/**
+ * @internal
+ */
 class Broker
 {
 
@@ -20,7 +23,7 @@ class Broker
     private $subscribers;
 
     /**
-     * @var array<string>
+     * @var array<array<string>>
      */
     private $channels;
 
@@ -62,9 +65,18 @@ class Broker
                 continue;
             }
 
-            foreach ($subscribers as $subscriber) {
-                $subscriber($event);
-            }
+            $this->notifyAll($event, $subscribers);
+        }
+    }
+
+    /**
+     * @param Event $event The triggered event.
+     * @param array<callable> $subscribers The subscribers to notify.
+     */
+    private function notifyAll(Event $event, array $subscribers): void
+    {
+        foreach ($subscribers as $subscriber) {
+            $subscriber($event);
         }
     }
 }

@@ -1,3 +1,4 @@
+minScoreToShow: 1
 directoriesToScan:
   - "../"
 cachePath: .churn.cache

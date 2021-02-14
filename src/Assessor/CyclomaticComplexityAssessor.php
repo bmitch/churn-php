@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Churn\Assessor;
 
+/**
+ * @internal
+ */
 class CyclomaticComplexityAssessor
 {
 
@@ -145,7 +148,7 @@ class CyclomaticComplexityAssessor
      */
     protected function howManyPatternMatches(string $pattern, string $string): int
     {
-        return \preg_match_all($pattern, $string);
+        return (int) \preg_match_all($pattern, $string);
     }
 
     /**

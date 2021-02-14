@@ -6,6 +6,9 @@ namespace Churn\Event\Subscriber;
 
 use Churn\Event\Event\BeforeAnalysisEvent;
 
+/**
+ * @internal
+ */
 interface BeforeAnalysis
 {
 

@@ -8,6 +8,9 @@ use Churn\File\File;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
+/**
+ * @internal
+ */
 abstract class ChurnProcess implements ProcessInterface
 {
 

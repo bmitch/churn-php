@@ -6,6 +6,9 @@ namespace Churn\Configuration;
 
 use Webmozart\Assert\Assert;
 
+/**
+ * @internal
+ */
 class Validator
 {
 
@@ -23,6 +26,7 @@ class Validator
         $this->validateFileExtensions($configuration);
         $this->validateVCS($configuration);
         $this->validateCachePath($configuration);
+        $this->validateHooks($configuration);
     }
 
     /**
@@ -134,5 +138,18 @@ class Validator
         }
 
         Assert::string($configuration['cachePath'], 'Cache path should be a string');
+    }
+
+    /**
+     * @param array<mixed> $configuration The array containing the configuration values.
+     */
+    private function validateHooks(array $configuration): void
+    {
+        if (!\array_key_exists('hooks', $configuration)) {
+            return;
+        }
+
+        Assert::isArray($configuration['hooks'], 'Hooks should be an array of strings');
+        Assert::allString($configuration['hooks'], 'Hooks should be an array of strings');
     }
 }

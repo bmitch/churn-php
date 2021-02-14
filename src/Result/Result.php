@@ -7,6 +7,9 @@ namespace Churn\Result;
 use Churn\File\File;
 use Webmozart\Assert\Assert;
 
+/**
+ * @internal
+ */
 class Result
 {
 

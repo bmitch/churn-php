@@ -10,6 +10,9 @@ use Phar;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
+/**
+ * @internal
+ */
 class ConcreteProcessFactory implements ProcessFactory
 {
 

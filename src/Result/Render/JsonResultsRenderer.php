@@ -6,6 +6,9 @@ namespace Churn\Result\Render;
 
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @internal
+ */
 class JsonResultsRenderer implements ResultsRendererInterface
 {
 
@@ -17,14 +20,16 @@ class JsonResultsRenderer implements ResultsRendererInterface
      */
     public function render(OutputInterface $output, array $results): void
     {
-        $data = \array_map(static function (array $result): array {
-            return [
+        $data = [];
+
+        foreach ($results as $result) {
+            $data[] = [
                 'file' => $result[0],
                 'commits' => $result[1],
                 'complexity' => $result[2],
                 'score' => $result[3],
             ];
-        }, $results);
+        }
 
         $output->write(\json_encode($data));
     }

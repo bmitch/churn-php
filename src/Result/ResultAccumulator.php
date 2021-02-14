@@ -7,6 +7,9 @@ namespace Churn\Result;
 use Churn\Event\Event\AfterFileAnalysisEvent;
 use Churn\Event\Subscriber\AfterFileAnalysis;
 
+/**
+ * @internal
+ */
 class ResultAccumulator implements AfterFileAnalysis
 {
 
@@ -100,6 +103,18 @@ class ResultAccumulator implements AfterFileAnalysis
     public function getNumberOfFiles(): int
     {
         return $this->numberOfFiles;
+    }
+
+    /**
+     * Returns the highest score.
+     */
+    public function getMaxScore(): ?float
+    {
+        $result = $this->highestScores->toArray()[0] ?? null;
+
+        return null === $result
+            ? null
+            : $result->getScore($this->maxCommits, $this->maxComplexity);
     }
 
     /**

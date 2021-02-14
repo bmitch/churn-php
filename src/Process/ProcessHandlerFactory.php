@@ -10,6 +10,9 @@ use Churn\Process\Handler\ParallelProcessHandler;
 use Churn\Process\Handler\ProcessHandler;
 use Churn\Process\Handler\SequentialProcessHandler;
 
+/**
+ * @internal
+ */
 class ProcessHandlerFactory
 {
 

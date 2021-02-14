@@ -6,6 +6,9 @@ namespace Churn\Process;
 
 use Churn\File\File;
 
+/**
+ * @internal
+ */
 class PredefinedProcess implements ChangesCountInterface, CyclomaticComplexityInterface
 {
 

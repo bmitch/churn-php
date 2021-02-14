@@ -10,6 +10,7 @@ use Churn\Configuration\Loader;
 use Churn\Event\Broker;
 use Churn\Event\Event\AfterAnalysisEvent;
 use Churn\Event\Event\BeforeAnalysisEvent;
+use Churn\Event\HookLoader;
 use Churn\File\FileFinder;
 use Churn\File\FileHelper;
 use Churn\Process\CacheProcessFactory;
@@ -27,7 +28,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
 use Webmozart\Assert\Assert;
 
-/** @SuppressWarnings(PHPMD.CouplingBetweenObjects) */
+/**
+ * @internal
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class RunCommand extends Command
 {
 
@@ -98,12 +102,14 @@ class RunCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $config = $this->getConfiguration($input);
         $broker = new Broker();
+        $this->attachHooks($config, $broker);
         $this->printLogo($input, $output);
         if (true === $input->getOption('progress')) {
             $broker->subscribe(new ProgressBarSubscriber($output));
         }
-        $report = $this->analyze($input, $this->getConfiguration($input), $broker);
+        $report = $this->analyze($input, $config, $broker);
         $this->writeResult($input, $output, $report);
 
         return 0;
@@ -137,6 +143,26 @@ class RunCommand extends Command
     }
 
     /**
+     * @param Config $config The configuration object.
+     * @param Broker $broker The event broker.
+     * @throws InvalidArgumentException If a hook is invalid.
+     */
+    private function attachHooks(Config $config, Broker $broker): void
+    {
+        if ([] === $config->getHooks()) {
+            return;
+        }
+
+        $loader = new HookLoader($config->getDirPath());
+
+        foreach ($config->getHooks() as $hook) {
+            if (!$loader->attach($hook, $broker)) {
+                throw new InvalidArgumentException('Invalid hook: ' . $hook);
+            }
+        }
+    }
+
+    /**
      * Run the actual analysis.
      *
      * @param InputInterface $input Input.
@@ -163,8 +189,8 @@ class RunCommand extends Command
      */
     private function getDirectoriesToScan(InputInterface $input, Config $config): array
     {
-        $basePath = null !== $config->getPath() && [] === $input->getArgument('paths')
-            ? \dirname($config->getPath())
+        $basePath = [] === $input->getArgument('paths')
+            ? $config->getDirPath()
             : \getcwd();
         $paths = [];
 
@@ -183,9 +209,7 @@ class RunCommand extends Command
         $factory = new ConcreteProcessFactory($config->getVCS(), $config->getCommitsSince());
 
         if (null !== $config->getCachePath()) {
-            $basePath = $config->getPath()
-                ? \dirname($config->getPath())
-                : \getcwd();
+            $basePath = $config->getDirPath();
             $path = $config->getCachePath();
             $factory = new CacheProcessFactory(FileHelper::toAbsolutePath($path, $basePath), $factory);
         }

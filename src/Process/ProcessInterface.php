@@ -6,6 +6,9 @@ namespace Churn\Process;
 
 use Churn\File\File;
 
+/**
+ * @internal
+ */
 interface ProcessInterface
 {
 

@@ -6,6 +6,9 @@ namespace Churn\Result;
 
 use SplFixedArray;
 
+/**
+ * @internal
+ */
 class HighestScores
 {
 

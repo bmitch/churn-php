@@ -7,6 +7,9 @@ namespace Churn\Configuration;
 use InvalidArgumentException;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @internal
+ */
 class Loader
 {
 

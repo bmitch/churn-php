@@ -9,6 +9,9 @@ use Churn\Process\CyclomaticComplexityInterface;
 use Churn\Process\ProcessInterface;
 use Churn\Result\Result;
 
+/**
+ * @internal
+ */
 abstract class BaseProcessHandler implements ProcessHandler
 {
 

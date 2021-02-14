@@ -6,6 +6,9 @@ namespace Churn\Result\Render;
 
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @internal
+ */
 interface ResultsRendererInterface
 {
 
