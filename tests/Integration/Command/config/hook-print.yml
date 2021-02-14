@@ -1,0 +1,2 @@
+hooks:
+  - Churn\Tests\Integration\Command\Assets\PrintHook

@@ -6,6 +6,7 @@ namespace Churn\Tests\Integration\Command;
 
 use Churn\Command\RunCommand;
 use Churn\Tests\BaseTestCase;
+use Churn\Tests\Integration\Command\Assets\PrintHook;
 use Churn\Tests\Integration\Command\Assets\TestAfterAnalysisHook;
 use Churn\Tests\Integration\Command\Assets\TestAfterFileAnalysisHook;
 use Churn\Tests\Integration\Command\Assets\TestBeforeAnalysisHook;
@@ -204,5 +205,23 @@ class RunCommandTest extends BaseTestCase
             'paths' => [__FILE__, __DIR__ . '/AssessComplexityCommandTest.php'],
             '-c' => __DIR__ . '/config/hook-invalid.yml',
         ]);
+    }
+
+    /** @test */
+    public function it_can_suppress_normal_output(): void
+    {
+        TestHook::reset();
+
+        ob_start();
+        $exitCode = $this->commandTester->execute([
+            'paths' => [__FILE__, __DIR__ . '/AssessComplexityCommandTest.php'],
+            '-c' => __DIR__ . '/config/hook-print.yml',
+            '--quiet' => null,
+        ]);
+        $display = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertEquals(0, $exitCode);
+        $this->assertEquals('Churn: DONE', $display);
     }
 }
