@@ -13,6 +13,7 @@ class Config
     private const DIRECTORIES_TO_SCAN = [];
     private const FILES_TO_SHOW = 10;
     private const MINIMUM_SCORE_TO_SHOW = 0.1;
+    private const MAXIMUM_SCORE_THRESHOLD = null;
     private const AMOUNT_OF_PARALLEL_JOBS = 10;
     private const SHOW_COMMITS_SINCE = '10 years ago';
     private const FILES_TO_IGNORE = [];
@@ -110,6 +111,18 @@ class Config
         }
 
         return self::MINIMUM_SCORE_TO_SHOW;
+    }
+
+    /**
+     * Get the maximum score threshold.
+     */
+    public function getMaxScoreThreshold(): ?float
+    {
+        if (\array_key_exists('maxScoreThreshold', $this->configuration)) {
+            return $this->configuration['maxScoreThreshold'];
+        }
+
+        return self::MAXIMUM_SCORE_THRESHOLD;
     }
 
     /**

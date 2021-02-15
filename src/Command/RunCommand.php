@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Churn\Command;
 
+use Churn\Command\Helper\MaxScoreChecker;
 use Churn\Command\Helper\ProgressBarSubscriber;
 use Churn\Configuration\Config;
 use Churn\Configuration\Loader;
@@ -109,7 +110,7 @@ class RunCommand extends Command
         }
         $config = $this->getConfiguration($input);
         $broker = new Broker();
-        $this->attachHooks($config, $broker);
+        (new HookLoader($config->getDirPath()))->attachHooks($config->getHooks(), $broker);
         $this->printLogo($input, $output);
         if (true === $input->getOption('progress')) {
             $broker->subscribe(new ProgressBarSubscriber($output));
@@ -117,7 +118,7 @@ class RunCommand extends Command
         $report = $this->analyze($input, $config, $broker);
         $this->writeResult($input, $output, $report);
 
-        return 0;
+        return (int) (new MaxScoreChecker($config->getMaxScoreThreshold()))->isOverThreshold($input, $output, $report);
     }
 
     /**
@@ -145,26 +146,6 @@ class RunCommand extends Command
         }
 
         return $config;
-    }
-
-    /**
-     * @param Config $config The configuration object.
-     * @param Broker $broker The event broker.
-     * @throws InvalidArgumentException If a hook is invalid.
-     */
-    private function attachHooks(Config $config, Broker $broker): void
-    {
-        if ([] === $config->getHooks()) {
-            return;
-        }
-
-        $loader = new HookLoader($config->getDirPath());
-
-        foreach ($config->getHooks() as $hook) {
-            if (!$loader->attach($hook, $broker)) {
-                throw new InvalidArgumentException('Invalid hook: ' . $hook);
-            }
-        }
     }
 
     /**

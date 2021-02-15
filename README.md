@@ -85,6 +85,11 @@ filesToShow: 10
 # Default: 0.1
 minScoreToShow: 0
 
+# The command returns an 1 exit code if the highest score is greater than the threshold.
+# Disabled if null.
+# Default: null
+maxScoreThreshold: 0.9
+
 # The number of parallel jobs to use when processing files.
 # Default: 10
 parallelJobs: 10
@@ -126,12 +131,12 @@ hooks:
 # The version control system used for your project.
 # Accepted values: fossil, git, mercurial, subversion, none
 # Default: git
- vcs: git
+vcs: git
 
 # The path of the cache file. It doesn't need to exist before running churn.
 # Disabled if null.
 # Default: null
- cachePath: .churn.cache
+cachePath: .churn.cache
  ```
 
 If a `churn.yml` file is omitted or an individual setting is omitted the default values above will be used.
