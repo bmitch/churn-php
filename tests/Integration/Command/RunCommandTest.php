@@ -224,4 +224,17 @@ class RunCommandTest extends BaseTestCase
         $this->assertEquals(0, $exitCode);
         $this->assertEquals('Churn: DONE', $display);
     }
+
+    /** @test */
+    public function it_can_return_one_as_exit_code(): void
+    {
+        $exitCode = $this->commandTester->execute([
+            'paths' => [__FILE__],
+            '-c' => __DIR__ . '/config/test-threshold.yml',
+        ]);
+        $display = $this->commandTester->getDisplay();
+
+        $this->assertEquals(1, $exitCode);
+        $this->assertStringContainsString('Max score is over the threshold', $display);
+    }
 }

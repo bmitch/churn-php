@@ -11,6 +11,7 @@ use Churn\Event\Subscriber\AfterAnalysisHookDecorator;
 use Churn\Event\Subscriber\AfterFileAnalysisHookDecorator;
 use Churn\Event\Subscriber\BeforeAnalysisHookDecorator;
 use Churn\File\FileHelper;
+use InvalidArgumentException;
 
 /**
  * @internal
@@ -39,6 +40,24 @@ final class HookLoader
             BeforeAnalysisHookDecorator::class => BeforeAnalysisHook::class,
         ];
         $this->basePath = $basePath;
+    }
+
+    /**
+     * @param array<string> $hooks The list of hooks to attach.
+     * @param Broker $broker The event broker.
+     * @throws InvalidArgumentException If a hook is invalid.
+     */
+    public function attachHooks(array $hooks, Broker $broker): void
+    {
+        if ([] === $hooks) {
+            return;
+        }
+
+        foreach ($hooks as $hook) {
+            if (!$this->attach($hook, $broker)) {
+                throw new InvalidArgumentException('Invalid hook: ' . $hook);
+            }
+        }
     }
 
     /**

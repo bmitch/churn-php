@@ -52,6 +52,7 @@ class ConfigTest extends BaseTestCase
         $this->assertSame([], $config->getDirectoriesToScan());
         $this->assertSame(10, $config->getFilesToShow());
         $this->assertSame(0.1, $config->getMinScoreToShow());
+        $this->assertSame(null, $config->getMaxScoreThreshold());
         $this->assertSame(10, $config->getParallelJobs());
         $this->assertSame('10 years ago', $config->getCommitsSince());
         $this->assertSame([], $config->getFilesToIgnore());
@@ -67,6 +68,7 @@ class ConfigTest extends BaseTestCase
         $filesToShow = 13;
         $directoriesToScan = ['src', 'tests'];
         $minScoreToShow = 5;
+        $maxScoreThreshold = 9.5;
         $parallelJobs = 7;
         $commitsSince = '4 years ago';
         $filesToIgnore = ['foo.php', 'bar.php', 'baz.php'];
@@ -79,6 +81,7 @@ class ConfigTest extends BaseTestCase
             'directoriesToScan' => $directoriesToScan,
             'filesToShow' => $filesToShow,
             'minScoreToShow' => $minScoreToShow,
+            'maxScoreThreshold' => $maxScoreThreshold,
             'parallelJobs' => $parallelJobs,
             'commitsSince' => $commitsSince,
             'filesToIgnore' => $filesToIgnore,
@@ -91,6 +94,7 @@ class ConfigTest extends BaseTestCase
         $this->assertSame($directoriesToScan, $config->getDirectoriesToScan());
         $this->assertSame($filesToShow, $config->getFilesToShow());
         $this->assertEquals($minScoreToShow, $config->getMinScoreToShow());
+        $this->assertSame($maxScoreThreshold, $config->getMaxScoreThreshold());
         $this->assertSame($parallelJobs, $config->getParallelJobs());
         $this->assertSame($commitsSince, $config->getCommitsSince());
         $this->assertSame($filesToIgnore, $config->getFilesToIgnore());

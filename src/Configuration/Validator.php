@@ -20,6 +20,7 @@ class Validator
         $this->validateDirectoriesToScan($configuration);
         $this->validateFilesToShow($configuration);
         $this->validateMinScoreToShow($configuration);
+        $this->validateMaxScoreThreshold($configuration);
         $this->validateParallelJobs($configuration);
         $this->validateCommitsSince($configuration);
         $this->validateFilesToIgnore($configuration);
@@ -59,11 +60,23 @@ class Validator
      */
     private function validateMinScoreToShow(array $configuration): void
     {
-        if (!\array_key_exists('minScoreToShow', $configuration) || null === $configuration['minScoreToShow']) {
+        if (!isset($configuration['minScoreToShow'])) {
             return;
         }
 
         Assert::numeric($configuration['minScoreToShow'], 'Minimum score to show should be a number');
+    }
+
+    /**
+     * @param array<mixed> $configuration The array containing the configuration values.
+     */
+    private function validateMaxScoreThreshold(array $configuration): void
+    {
+        if (!isset($configuration['maxScoreThreshold'])) {
+            return;
+        }
+
+        Assert::numeric($configuration['maxScoreThreshold'], 'Maximum score threshold should be a number');
     }
 
     /**
