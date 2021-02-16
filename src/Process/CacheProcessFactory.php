@@ -47,7 +47,7 @@ class CacheProcessFactory implements AfterAnalysis, AfterFileAnalysis, ProcessFa
         } catch (Throwable $e) {
             $message = 'Invalid cache file path: ' . $e->getMessage();
 
-            throw new InvalidArgumentException($message, $e->getCode(), $e);
+            throw new InvalidArgumentException($message, 0, $e);
         }
 
         $this->cachePath = $cachePath;

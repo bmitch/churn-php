@@ -53,7 +53,7 @@ jobs:
             composer-
 
       - name: "Install dependencies"
-        run: "composer update --no-interaction --no-progress --prefer-dist"
+        run: "composer update --no-interaction  --no-scripts --no-progress --prefer-dist"
 
       - name: "Run tests"
         run: "vendor/bin/simple-phpunit --colors=always --testdox"
@@ -98,7 +98,7 @@ jobs:
             composer-
 
       - name: "Install dependencies"
-        run: "composer update --no-interaction --no-progress --prefer-dist"
+        run: "composer update --no-interaction  --no-scripts --no-progress --prefer-dist"
 
       - name: "Build Docker image"
         run: "docker build -t ${{ matrix.vcs }} -f tests/docker/${{ matrix.vcs }}/Dockerfile tests/docker/${{ matrix.vcs }}"

@@ -18,12 +18,12 @@ class Broker
 {
 
     /**
-     * @var array<string, array<callable>>
+     * @var array<class-string, array<callable>>
      */
-    private $subscribers;
+    private $subscribers = [];
 
     /**
-     * @var array<array<string>>
+     * @var array<array{class-string, string, class-string}>
      */
     private $channels;
 

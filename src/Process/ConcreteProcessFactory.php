@@ -19,14 +19,14 @@ class ConcreteProcessFactory implements ProcessFactory
     /**
      * Builder of objects implementing ChangesCountInterface.
      *
-     * @var Closure
+     * @var Closure(File $file): ChangesCountInterface
      */
     private $changesCountProcessBuilder;
 
     /**
      * Builder of objects implementing CyclomaticComplexityInterface.
      *
-     * @var Closure
+     * @var Closure(File $file): CyclomaticComplexityInterface
      */
     private $cyclomaticComplexityBuilder;
 
@@ -58,7 +58,6 @@ class ConcreteProcessFactory implements ProcessFactory
     /**
      * @param string $vcs Name of the version control system.
      * @param string $commitsSince String containing the date of when to look at commits since.
-     * @throws InvalidArgumentException If VCS is not supported.
      */
     private function getChangesCountProcessBuilder(string $vcs, string $commitsSince): Closure
     {

@@ -20,7 +20,7 @@ final class HookLoader
 {
 
     /**
-     * @var array<string, string>
+     * @var array<class-string, class-string>
      */
     private $decorators;
 
@@ -83,7 +83,7 @@ final class HookLoader
 
     /**
      * @param string $hookPath The class name or the file path of the hook.
-     * @return array<mixed>
+     * @return array<class-string>
      */
     private function loadHooks(string $hookPath): array
     {
@@ -104,7 +104,7 @@ final class HookLoader
     }
 
     /**
-     * @param string $hookName The class name of the hook.
+     * @param class-string $hookName The class name of the hook.
      * @return array<mixed>
      */
     private function hookToSubscribers(string $hookName): array
