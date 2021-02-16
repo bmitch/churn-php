@@ -19,14 +19,14 @@ class ConcreteProcessFactory implements ProcessFactory
     /**
      * Builder of objects implementing ChangesCountInterface.
      *
-     * @var Closure(File $file): ChangesCountInterface
+     * @var Closure(File):ChangesCountInterface
      */
     private $changesCountProcessBuilder;
 
     /**
      * Builder of objects implementing CyclomaticComplexityInterface.
      *
-     * @var Closure(File $file): CyclomaticComplexityInterface
+     * @var Closure(File):CyclomaticComplexityInterface
      */
     private $cyclomaticComplexityBuilder;
 
