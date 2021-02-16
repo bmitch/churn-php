@@ -14,6 +14,7 @@ img/ export-ignore
 phpcs.xml export-ignore
 phpmd.xml export-ignore
 phpunit.xml.dist export-ignore
+psalm.xml export-ignore
 README.md export-ignore
 tests/ export-ignore
 vendor-bin/ export-ignore

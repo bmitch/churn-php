@@ -194,9 +194,9 @@ class RunCommand extends Command
     {
         $factory = new ConcreteProcessFactory($config->getVCS(), $config->getCommitsSince());
 
-        if (null !== $config->getCachePath()) {
+        $path = $config->getCachePath();
+        if (null !== $path) {
             $basePath = $config->getDirPath();
-            $path = $config->getCachePath();
             $factory = new CacheProcessFactory(FileHelper::toAbsolutePath($path, $basePath), $factory);
         }
 

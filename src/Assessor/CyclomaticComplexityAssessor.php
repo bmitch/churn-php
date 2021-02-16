@@ -15,7 +15,7 @@ class CyclomaticComplexityAssessor
      *
      * @var integer
      */
-    protected $score;
+    protected $score = 0;
 
     /**
      * Asses the files cyclomatic complexity.

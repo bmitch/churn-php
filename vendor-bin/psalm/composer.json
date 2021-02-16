@@ -1,0 +1,6 @@
+{
+    "require-dev": {
+        "vimeo/psalm": "^4.6",
+        "psalm/plugin-symfony": "^2.1"
+    }
+}
