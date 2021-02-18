@@ -35,12 +35,13 @@ class Validator
      */
     private function validateDirectoriesToScan(array $configuration): void
     {
-        if (!\array_key_exists('directoriesToScan', $configuration)) {
+        $key = Config::KEY_DIRECTORIES_TO_SCAN;
+        if (!\array_key_exists($key, $configuration)) {
             return;
         }
 
-        Assert::isArray($configuration['directoriesToScan'], 'Directories to scan should be an array of strings');
-        Assert::allString($configuration['directoriesToScan'], 'Directories to scan should be an array of strings');
+        Assert::isArray($configuration[$key], 'Directories to scan should be an array of strings');
+        Assert::allString($configuration[$key], 'Directories to scan should be an array of strings');
     }
 
     /**
@@ -48,11 +49,12 @@ class Validator
      */
     private function validateFilesToShow(array $configuration): void
     {
-        if (!\array_key_exists('filesToShow', $configuration)) {
+        $key = Config::KEY_FILES_TO_SHOW;
+        if (!\array_key_exists($key, $configuration)) {
             return;
         }
 
-        Assert::integer($configuration['filesToShow'], 'Files to show should be an integer');
+        Assert::integer($configuration[$key], 'Files to show should be an integer');
     }
 
     /**
@@ -60,11 +62,12 @@ class Validator
      */
     private function validateMinScoreToShow(array $configuration): void
     {
-        if (!isset($configuration['minScoreToShow'])) {
+        $key = Config::KEY_MINIMUM_SCORE_TO_SHOW;
+        if (!isset($configuration[$key])) {
             return;
         }
 
-        Assert::numeric($configuration['minScoreToShow'], 'Minimum score to show should be a number');
+        Assert::numeric($configuration[$key], 'Minimum score to show should be a number');
     }
 
     /**
@@ -72,11 +75,12 @@ class Validator
      */
     private function validateMaxScoreThreshold(array $configuration): void
     {
-        if (!isset($configuration['maxScoreThreshold'])) {
+        $key = Config::KEY_MAXIMUM_SCORE_THRESHOLD;
+        if (!isset($configuration[$key])) {
             return;
         }
 
-        Assert::numeric($configuration['maxScoreThreshold'], 'Maximum score threshold should be a number');
+        Assert::numeric($configuration[$key], 'Maximum score threshold should be a number');
     }
 
     /**
@@ -84,11 +88,12 @@ class Validator
      */
     private function validateParallelJobs(array $configuration): void
     {
-        if (!\array_key_exists('parallelJobs', $configuration)) {
+        $key = Config::KEY_AMOUNT_OF_PARALLEL_JOBS;
+        if (!\array_key_exists($key, $configuration)) {
             return;
         }
 
-        Assert::integer($configuration['parallelJobs'], 'Amount of parallel jobs should be an integer');
+        Assert::integer($configuration[$key], 'Amount of parallel jobs should be an integer');
     }
 
     /**
@@ -96,11 +101,12 @@ class Validator
      */
     private function validateCommitsSince(array $configuration): void
     {
-        if (!\array_key_exists('commitsSince', $configuration)) {
+        $key = Config::KEY_SHOW_COMMITS_SINCE;
+        if (!\array_key_exists($key, $configuration)) {
             return;
         }
 
-        Assert::string($configuration['commitsSince'], 'Commits since should be a string');
+        Assert::string($configuration[$key], 'Commits since should be a string');
     }
 
     /**
@@ -108,12 +114,13 @@ class Validator
      */
     private function validateFilesToIgnore(array $configuration): void
     {
-        if (!\array_key_exists('filesToIgnore', $configuration)) {
+        $key = Config::KEY_FILES_TO_IGNORE;
+        if (!\array_key_exists($key, $configuration)) {
             return;
         }
 
-        Assert::isArray($configuration['filesToIgnore'], 'Files to ignore should be an array of strings');
-        Assert::allString($configuration['filesToIgnore'], 'Files to ignore should be an array of strings');
+        Assert::isArray($configuration[$key], 'Files to ignore should be an array of strings');
+        Assert::allString($configuration[$key], 'Files to ignore should be an array of strings');
     }
 
     /**
@@ -121,12 +128,13 @@ class Validator
      */
     private function validateFileExtensions(array $configuration): void
     {
-        if (!\array_key_exists('fileExtensions', $configuration)) {
+        $key = Config::KEY_FILE_EXTENSIONS_TO_PARSE;
+        if (!\array_key_exists($key, $configuration)) {
             return;
         }
 
-        Assert::isArray($configuration['fileExtensions'], 'File extensions should be an array of strings');
-        Assert::allString($configuration['fileExtensions'], 'File extensions should be an array of strings');
+        Assert::isArray($configuration[$key], 'File extensions should be an array of strings');
+        Assert::allString($configuration[$key], 'File extensions should be an array of strings');
     }
 
     /**
@@ -134,11 +142,12 @@ class Validator
      */
     private function validateVCS(array $configuration): void
     {
-        if (!\array_key_exists('vcs', $configuration)) {
+        $key = Config::KEY_VCS;
+        if (!\array_key_exists($key, $configuration)) {
             return;
         }
 
-        Assert::string($configuration['vcs'], 'VCS should be a string');
+        Assert::string($configuration[$key], 'VCS should be a string');
     }
 
     /**
@@ -146,11 +155,12 @@ class Validator
      */
     private function validateCachePath(array $configuration): void
     {
-        if (!isset($configuration['cachePath'])) {
+        $key = Config::KEY_CACHE_PATH;
+        if (!isset($configuration[$key])) {
             return;
         }
 
-        Assert::string($configuration['cachePath'], 'Cache path should be a string');
+        Assert::string($configuration[$key], 'Cache path should be a string');
     }
 
     /**
@@ -158,11 +168,12 @@ class Validator
      */
     private function validateHooks(array $configuration): void
     {
-        if (!\array_key_exists('hooks', $configuration)) {
+        $key = Config::KEY_HOOKS;
+        if (!\array_key_exists($key, $configuration)) {
             return;
         }
 
-        Assert::isArray($configuration['hooks'], 'Hooks should be an array of strings');
-        Assert::allString($configuration['hooks'], 'Hooks should be an array of strings');
+        Assert::isArray($configuration[$key], 'Hooks should be an array of strings');
+        Assert::allString($configuration[$key], 'Hooks should be an array of strings');
     }
 }

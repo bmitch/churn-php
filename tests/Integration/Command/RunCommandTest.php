@@ -237,4 +237,17 @@ class RunCommandTest extends BaseTestCase
         $this->assertEquals(1, $exitCode);
         $this->assertStringContainsString('Max score is over the threshold', $display);
     }
+
+    /** @test */
+    public function it_can_warn_about_unrecognized_keys(): void
+    {
+        $exitCode = $this->commandTester->execute([
+            'paths' => [__FILE__],
+            '-c' => __DIR__ . '/config/unrecognized-keys.yml',
+        ]);
+        $display = $this->commandTester->getDisplay();
+
+        $this->assertEquals(0, $exitCode);
+        $this->assertStringContainsString('Unrecognized configuration keys: foo, bar', $display);
+    }
 }

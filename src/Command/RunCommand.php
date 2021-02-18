@@ -108,10 +108,10 @@ class RunCommand extends Command
         if (true === $input->getOption('quiet')) {
             $output = new NullOutput();
         }
-        $config = $this->getConfiguration($input);
+        $this->printLogo($input, $output);
+        $config = $this->getConfiguration($input, $output);
         $broker = new Broker();
         (new HookLoader($config->getDirPath()))->attachHooks($config->getHooks(), $broker);
-        $this->printLogo($input, $output);
         if (true === $input->getOption('progress')) {
             $broker->subscribe(new ProgressBarSubscriber($output));
         }
@@ -123,14 +123,36 @@ class RunCommand extends Command
 
     /**
      * @param InputInterface $input Input.
-     * @throws InvalidArgumentException If paths argument invalid.
+     * @param OutputInterface $output Output.
      */
-    private function getConfiguration(InputInterface $input): Config
+    private function getConfiguration(InputInterface $input, OutputInterface $output): Config
     {
         $isDefaultValue = !$input->hasParameterOption('--configuration') && !$input->hasParameterOption('-c');
         $config = Loader::fromPath((string) $input->getOption('configuration'), $isDefaultValue);
         if ([] !== $input->getArgument('paths')) {
             $config->setDirectoriesToScan((array) $input->getArgument('paths'));
+        }
+
+        $this->checkConfiguration($config, $output);
+
+        if (null !== $input->getOption('parallel')) {
+            Assert::integerish($input->getOption('parallel'), 'Amount of parallel jobs should be an integer');
+            $config->setParallelJobs((int) $input->getOption('parallel'));
+        }
+
+        return $config;
+    }
+
+    /**
+     * @param Config $config The configuration object.
+     * @param OutputInterface $output Output.
+     * @throws InvalidArgumentException If paths argument invalid.
+     */
+    private function checkConfiguration(Config $config, OutputInterface $output): void
+    {
+        $unrecognizedKeys = $config->getUnrecognizedKeys();
+        if ([] !== $unrecognizedKeys) {
+            $output->writeln('<error>Unrecognized configuration keys: ' . \implode(', ', $unrecognizedKeys) . "</>\n");
         }
 
         if ([] === $config->getDirectoriesToScan()) {
@@ -139,13 +161,6 @@ class RunCommand extends Command
                 'or configure them under "directoriesToScan" in your churn.yml file.'
             );
         }
-
-        if (null !== $input->getOption('parallel')) {
-            Assert::integerish($input->getOption('parallel'), 'Amount of parallel jobs should be an integer');
-            $config->setParallelJobs((int) $input->getOption('parallel'));
-        }
-
-        return $config;
     }
 
     /**
