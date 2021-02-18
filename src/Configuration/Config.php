@@ -10,6 +10,18 @@ namespace Churn\Configuration;
 class Config
 {
 
+    public const KEY_DIRECTORIES_TO_SCAN = 'directoriesToScan';
+    public const KEY_FILES_TO_SHOW = 'filesToShow';
+    public const KEY_MINIMUM_SCORE_TO_SHOW = 'minScoreToShow';
+    public const KEY_MAXIMUM_SCORE_THRESHOLD = 'maxScoreThreshold';
+    public const KEY_AMOUNT_OF_PARALLEL_JOBS = 'parallelJobs';
+    public const KEY_SHOW_COMMITS_SINCE = 'commitsSince';
+    public const KEY_FILES_TO_IGNORE = 'filesToIgnore';
+    public const KEY_FILE_EXTENSIONS_TO_PARSE = 'fileExtensions';
+    public const KEY_VCS = 'vcs';
+    public const KEY_CACHE_PATH = 'cachePath';
+    public const KEY_HOOKS = 'hooks';
+
     private const DIRECTORIES_TO_SCAN = [];
     private const FILES_TO_SHOW = 10;
     private const MINIMUM_SCORE_TO_SHOW = 0.1;
@@ -66,6 +78,28 @@ class Config
     }
 
     /**
+     * @return array<string> The unrecognized keys.
+     */
+    public function getUnrecognizedKeys(): array
+    {
+        $knownKeys = [
+            self::KEY_DIRECTORIES_TO_SCAN => null,
+            self::KEY_FILES_TO_SHOW => null,
+            self::KEY_MINIMUM_SCORE_TO_SHOW => null,
+            self::KEY_MAXIMUM_SCORE_THRESHOLD => null,
+            self::KEY_AMOUNT_OF_PARALLEL_JOBS => null,
+            self::KEY_SHOW_COMMITS_SINCE => null,
+            self::KEY_FILES_TO_IGNORE => null,
+            self::KEY_FILE_EXTENSIONS_TO_PARSE => null,
+            self::KEY_VCS => null,
+            self::KEY_CACHE_PATH => null,
+            self::KEY_HOOKS => null,
+        ];
+
+        return \array_keys(\array_diff_key($this->configuration, $knownKeys));
+    }
+
+    /**
      * Return the path of the folder containing the configuration file.
      */
     public function getDirPath(): string
@@ -82,7 +116,7 @@ class Config
      */
     public function getDirectoriesToScan(): array
     {
-        return $this->configuration['directoriesToScan'] ?? self::DIRECTORIES_TO_SCAN;
+        return $this->configuration[self::KEY_DIRECTORIES_TO_SCAN] ?? self::DIRECTORIES_TO_SCAN;
     }
 
     /**
@@ -90,7 +124,7 @@ class Config
      */
     public function setDirectoriesToScan(array $directories): void
     {
-        $this->configuration['directoriesToScan'] = $directories;
+        $this->configuration[self::KEY_DIRECTORIES_TO_SCAN] = $directories;
     }
 
     /**
@@ -98,7 +132,7 @@ class Config
      */
     public function getFilesToShow(): int
     {
-        return $this->configuration['filesToShow'] ?? self::FILES_TO_SHOW;
+        return $this->configuration[self::KEY_FILES_TO_SHOW] ?? self::FILES_TO_SHOW;
     }
 
     /**
@@ -106,8 +140,8 @@ class Config
      */
     public function getMinScoreToShow(): ?float
     {
-        if (\array_key_exists('minScoreToShow', $this->configuration)) {
-            return $this->configuration['minScoreToShow'];
+        if (\array_key_exists(self::KEY_MINIMUM_SCORE_TO_SHOW, $this->configuration)) {
+            return $this->configuration[self::KEY_MINIMUM_SCORE_TO_SHOW];
         }
 
         return self::MINIMUM_SCORE_TO_SHOW;
@@ -118,8 +152,8 @@ class Config
      */
     public function getMaxScoreThreshold(): ?float
     {
-        if (\array_key_exists('maxScoreThreshold', $this->configuration)) {
-            return $this->configuration['maxScoreThreshold'];
+        if (\array_key_exists(self::KEY_MAXIMUM_SCORE_THRESHOLD, $this->configuration)) {
+            return $this->configuration[self::KEY_MAXIMUM_SCORE_THRESHOLD];
         }
 
         return self::MAXIMUM_SCORE_THRESHOLD;
@@ -130,7 +164,7 @@ class Config
      */
     public function getParallelJobs(): int
     {
-        return $this->configuration['parallelJobs'] ?? self::AMOUNT_OF_PARALLEL_JOBS;
+        return $this->configuration[self::KEY_AMOUNT_OF_PARALLEL_JOBS] ?? self::AMOUNT_OF_PARALLEL_JOBS;
     }
 
     /**
@@ -138,7 +172,7 @@ class Config
      */
     public function setParallelJobs(int $parallelJobs): void
     {
-        $this->configuration['parallelJobs'] = $parallelJobs;
+        $this->configuration[self::KEY_AMOUNT_OF_PARALLEL_JOBS] = $parallelJobs;
     }
 
     /**
@@ -146,7 +180,7 @@ class Config
      */
     public function getCommitsSince(): string
     {
-        return $this->configuration['commitsSince'] ?? self::SHOW_COMMITS_SINCE;
+        return $this->configuration[self::KEY_SHOW_COMMITS_SINCE] ?? self::SHOW_COMMITS_SINCE;
     }
 
     /**
@@ -154,7 +188,7 @@ class Config
      */
     public function getFilesToIgnore(): array
     {
-        return $this->configuration['filesToIgnore'] ?? self::FILES_TO_IGNORE;
+        return $this->configuration[self::KEY_FILES_TO_IGNORE] ?? self::FILES_TO_IGNORE;
     }
 
     /**
@@ -164,7 +198,7 @@ class Config
      */
     public function getFileExtensions(): array
     {
-        return $this->configuration['fileExtensions'] ?? self::FILE_EXTENSIONS_TO_PARSE;
+        return $this->configuration[self::KEY_FILE_EXTENSIONS_TO_PARSE] ?? self::FILE_EXTENSIONS_TO_PARSE;
     }
 
     /**
@@ -172,7 +206,7 @@ class Config
      */
     public function getVCS(): string
     {
-        return $this->configuration['vcs'] ?? self::VCS;
+        return $this->configuration[self::KEY_VCS] ?? self::VCS;
     }
 
     /**
@@ -180,7 +214,7 @@ class Config
      */
     public function getCachePath(): ?string
     {
-        return $this->configuration['cachePath'] ?? self::CACHE_PATH;
+        return $this->configuration[self::KEY_CACHE_PATH] ?? self::CACHE_PATH;
     }
 
     /**
@@ -190,6 +224,6 @@ class Config
      */
     public function getHooks(): array
     {
-        return $this->configuration['hooks'] ?? self::HOOKS;
+        return $this->configuration[self::KEY_HOOKS] ?? self::HOOKS;
     }
 }
