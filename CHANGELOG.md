@@ -2,7 +2,33 @@
 
 ## [Unreleased](https://github.com/bmitch/churn-php/tree/HEAD)
 
-[Full Changelog](https://github.com/bmitch/churn-php/compare/1.4.0...HEAD)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.5.0...HEAD)
+
+## [1.5.0](https://github.com/bmitch/churn-php/tree/1.5.0) (2021-02-18)
+
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.4.0...1.5.0)
+
+**Implemented enhancements:**
+
+- Warn when a configuration key is unknown [\#302](https://github.com/bmitch/churn-php/issues/302)
+- Add a --quiet option [\#292](https://github.com/bmitch/churn-php/issues/292)
+- Add hooks to enable customization by users [\#291](https://github.com/bmitch/churn-php/issues/291)
+- Make command fail if score is higher than a configurable threshold [\#232](https://github.com/bmitch/churn-php/issues/232)
+- Use a cache to speed up calculations [\#187](https://github.com/bmitch/churn-php/issues/187)
+
+**Fixed bugs:**
+
+- directoriesToScan configuration doesn't handle relative paths well  [\#300](https://github.com/bmitch/churn-php/issues/300)
+
+**Merged pull requests:**
+
+- Warn about unrecognized config keys [\#308](https://github.com/bmitch/churn-php/pull/308) ([villfa](https://github.com/villfa))
+- Add psalm to the CI pipeline [\#307](https://github.com/bmitch/churn-php/pull/307) ([villfa](https://github.com/villfa))
+- Add configuration maxScoreThreshold [\#306](https://github.com/bmitch/churn-php/pull/306) ([villfa](https://github.com/villfa))
+- Add --quiet option [\#305](https://github.com/bmitch/churn-php/pull/305) ([villfa](https://github.com/villfa))
+- Allow user-defined hooks [\#304](https://github.com/bmitch/churn-php/pull/304) ([villfa](https://github.com/villfa))
+- Add a configuration to enable caching [\#303](https://github.com/bmitch/churn-php/pull/303) ([villfa](https://github.com/villfa))
+- Make paths absolute before scanning [\#301](https://github.com/bmitch/churn-php/pull/301) ([villfa](https://github.com/villfa))
 
 ## [1.4.0](https://github.com/bmitch/churn-php/tree/1.4.0) (2021-02-06)
 
