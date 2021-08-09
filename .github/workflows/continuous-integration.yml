@@ -9,6 +9,8 @@ on:
     paths-ignore:
       - '**.md'
       - 'img/**'
+  # Allow manually triggering the workflow
+  workflow_dispatch:
 
 jobs:
   tests:
