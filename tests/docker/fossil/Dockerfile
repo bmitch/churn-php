@@ -14,7 +14,7 @@ ENV FOSSIL_USER=john_doe
 RUN mkdir -p /tmp/test \
  && cd /tmp/test \
  && fossil init test.fossil \
- && fossil open test.fossil \
+ && fossil open -f test.fossil \
  && touch Foo.php \
  && fossil add Foo.php \
  && fossil commit -m "First commit" \
