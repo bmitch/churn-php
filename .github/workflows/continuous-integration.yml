@@ -129,7 +129,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "pcov"
-          php-version: "7.4"
+          php-version: "8.0"
           tools: composer:v2, composer-normalize
 
       - name: Get composer cache directory
@@ -140,9 +140,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.composercache.outputs.dir }}
-          key: composer-${{ runner.os }}-7.4-${{ hashFiles('composer.*') }}
+          key: composer-${{ runner.os }}-8.0-${{ hashFiles('composer.*') }}
           restore-keys: |
-            composer-${{ runner.os }}-7.4-
+            composer-${{ runner.os }}-8.0-
             composer-${{ runner.os }}-
             composer-
 
