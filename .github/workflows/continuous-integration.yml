@@ -56,7 +56,12 @@ jobs:
             composer-
 
       - name: "Install dependencies"
-        run: "composer update --no-interaction  --no-scripts --no-progress --prefer-dist"
+        run: |
+          composer update --no-interaction --no-scripts --no-progress --prefer-dist
+          composer bin php-parallel-lint update --no-interaction --no-progress --prefer-dist
+
+      - name: "Check PHP syntax"
+        run: "vendor/bin/parallel-lint src tests"
 
       - name: "Run tests"
         run: "vendor/bin/simple-phpunit --colors=always --testdox"
@@ -101,7 +106,7 @@ jobs:
             composer-
 
       - name: "Install dependencies"
-        run: "composer update --no-interaction  --no-scripts --no-progress --prefer-dist"
+        run: "composer update --no-interaction --no-scripts --no-progress --prefer-dist"
 
       - name: "Build Docker image"
         run: "docker build -t ${{ matrix.vcs }} -f tests/docker/${{ matrix.vcs }}/Dockerfile tests/docker/${{ matrix.vcs }}"
@@ -147,21 +152,43 @@ jobs:
             composer-${{ runner.os }}-
             composer-
 
+      - name: "Validate composer.json"
+        run: "composer validate --strict"
+
       - name: "Install dependencies"
         run: "composer update --no-interaction --no-progress --prefer-dist"
 
-      - name: "Run tests"
-        run: "composer test"
+      - name: "Run PHP Mess Detector"
+        run: "vendor/bin/phpmd src text phpmd.xml"
+
+      - name: "Run PHPLOC"
+        run: "vendor/bin/phploc src"
+
+      - name: "Run PHP Copy/Paste Detector"
+        run: "vendor/bin/phpcpd src"
+
+      - name: "Run Psalm"
+        run: "vendor/bin/psalm --php-version=8.0"
+
+      - name: "Run PHP_CodeSniffer"
+        run: |
+          vendor/bin/phpcs --standard=psr12 src -spn
+          vendor/bin/phpcs --runtime-set php_version 70103 --standard=phpcs.xml src -spn
+          vendor/bin/phpcs --standard=codor.xml src -spn
 
       - name: "Normalize composer.json"
         run: "composer-normalize --dry-run --no-check-lock --no-update-lock"
 
-      - uses: actions/download-artifact@v2
+      - name: "Calculate code coverage"
+        run: "vendor/bin/simple-phpunit --colors=always --testdox --testsuite churn-tests --coverage-clover=coverage.xml"
+
+      - name: "Download other code coverage reports"
+        uses: actions/download-artifact@v2
         with:
           name: coverage
           path: ./coverage
 
-      - name: "List coverage reports"
+      - name: "List all coverage reports"
         run: echo coverage_reports=./coverage/$(ls -m coverage/ | sed "s/, */,.\/coverage\//g") >> $GITHUB_ENV
 
       - uses: codecov/codecov-action@v1
