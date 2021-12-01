@@ -6,6 +6,7 @@ namespace Churn\Command\Helper;
 
 use Churn\Result\ResultAccumulator;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -41,6 +42,9 @@ class MaxScoreChecker
         }
 
         if ('text' === $input->getOption('format') || !empty($input->getOption('output'))) {
+            $output = $output instanceof ConsoleOutputInterface
+                ? $output->getErrorOutput()
+                : $output;
             $output->writeln('<error>Max score is over the threshold</>');
         }
 
