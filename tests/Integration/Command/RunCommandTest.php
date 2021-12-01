@@ -106,6 +106,7 @@ class RunCommandTest extends BaseTestCase
 
     private function assertReport($data): void
     {
+        $this->assertTrue(is_array($data), 'Expected array, got ' . gettype($data) . ' (' . var_export($data, true) . ')');
         $i = 0;
         foreach ($data as $key => $value) {
             $this->assertEquals($i++, $key);
@@ -231,8 +232,8 @@ class RunCommandTest extends BaseTestCase
         $exitCode = $this->commandTester->execute([
             'paths' => [__FILE__],
             '-c' => __DIR__ . '/config/test-threshold.yml',
-        ]);
-        $display = $this->commandTester->getDisplay();
+        ], ['capture_stderr_separately' => true]);
+        $display = $this->commandTester->getErrorOutput();
 
         $this->assertEquals(1, $exitCode);
         $this->assertStringContainsString('Max score is over the threshold', $display);
@@ -244,10 +245,26 @@ class RunCommandTest extends BaseTestCase
         $exitCode = $this->commandTester->execute([
             'paths' => [__FILE__],
             '-c' => __DIR__ . '/config/unrecognized-keys.yml',
-        ]);
-        $display = $this->commandTester->getDisplay();
+        ], ['capture_stderr_separately' => true]);
+        $display = $this->commandTester->getErrorOutput();
 
         $this->assertEquals(0, $exitCode);
+        $this->assertStringContainsString('Unrecognized configuration keys: foo, bar', $display);
+    }
+
+    /** @test */
+    public function it_can_return_a_json_report_and_also_warn()
+    {
+        $exitCode = $this->commandTester->execute([
+            'paths' => [__DIR__],
+            '--format' => 'json',
+            '-c' => __DIR__ . '/config/unrecognized-keys.yml',
+        ], ['capture_stderr_separately' => true]);
+        $display = $this->commandTester->getErrorOutput();
+        $data = \json_decode($this->commandTester->getDisplay(), true);
+
+        $this->assertEquals(0, $exitCode);
+        $this->assertReport($data);
         $this->assertStringContainsString('Unrecognized configuration keys: foo, bar', $display);
     }
 }

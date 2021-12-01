@@ -25,6 +25,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
@@ -152,6 +153,9 @@ class RunCommand extends Command
     {
         $unrecognizedKeys = $config->getUnrecognizedKeys();
         if ([] !== $unrecognizedKeys) {
+            $output = $output instanceof ConsoleOutputInterface
+                ? $output->getErrorOutput()
+                : $output;
             $output->writeln('<error>Unrecognized configuration keys: ' . \implode(', ', $unrecognizedKeys) . "</>\n");
         }
 
