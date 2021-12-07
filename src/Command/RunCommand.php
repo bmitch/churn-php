@@ -179,8 +179,9 @@ class RunCommand extends Command
         $broker->subscribe($report = new ResultAccumulator($config->getFilesToShow(), $config->getMinScoreToShow()));
         $broker->subscribe($processFactory = $this->getProcessFactory($config));
         $broker->notify(new BeforeAnalysisEvent());
-        $filesFinder = (new FileFinder($config->getFileExtensions(), $config->getFilesToIgnore()))
-            ->getPhpFiles($this->getDirectoriesToScan($input, $config));
+        $basePath = $this->getBasePath($input, $config);
+        $filesFinder = (new FileFinder($config->getFileExtensions(), $config->getFilesToIgnore(), $basePath))
+            ->getPhpFiles($config->getDirectoriesToScan());
         $this->processHandlerFactory->getProcessHandler($config, $broker)->process($filesFinder, $processFactory);
         $broker->notify(new AfterAnalysisEvent($report));
 
@@ -190,20 +191,13 @@ class RunCommand extends Command
     /**
      * @param InputInterface $input Input.
      * @param Config $config The configuration object.
-     * @return array<string> Array of absolute paths.
+     * @return string The base path.
      */
-    private function getDirectoriesToScan(InputInterface $input, Config $config): array
+    private function getBasePath(InputInterface $input, Config $config): string
     {
-        $basePath = [] === $input->getArgument('paths')
+        return [] === $input->getArgument('paths')
             ? $config->getDirPath()
             : \getcwd();
-        $paths = [];
-
-        foreach ($config->getDirectoriesToScan() as $path) {
-            $paths[] = FileHelper::toAbsolutePath($path, $basePath);
-        }
-
-        return $paths;
     }
 
     /**
