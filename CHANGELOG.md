@@ -2,7 +2,24 @@
 
 ## [Unreleased](https://github.com/bmitch/churn-php/tree/HEAD)
 
-[Full Changelog](https://github.com/bmitch/churn-php/compare/1.5.0...HEAD)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.5.1...HEAD)
+
+## [1.5.1](https://github.com/bmitch/churn-php/tree/1.5.1) (2021-12-07)
+
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.5.0...1.5.1)
+
+**Fixed bugs:**
+
+- \[Regression\] Too long paths [\#314](https://github.com/bmitch/churn-php/issues/314)
+
+**Merged pull requests:**
+
+- Display the shorter relative path [\#316](https://github.com/bmitch/churn-php/pull/316) ([villfa](https://github.com/villfa))
+- Write errors to the error output [\#313](https://github.com/bmitch/churn-php/pull/313) ([villfa](https://github.com/villfa))
+- Add compatibilty with Symfony 6 [\#312](https://github.com/bmitch/churn-php/pull/312) ([villfa](https://github.com/villfa))
+- Test with PHP-8.1 [\#311](https://github.com/bmitch/churn-php/pull/311) ([villfa](https://github.com/villfa))
+- Fix the build [\#310](https://github.com/bmitch/churn-php/pull/310) ([villfa](https://github.com/villfa))
+- Upgrade slevomat/coding-standard to 7.x [\#309](https://github.com/bmitch/churn-php/pull/309) ([villfa](https://github.com/villfa))
 
 ## [1.5.0](https://github.com/bmitch/churn-php/tree/1.5.0) (2021-02-18)
 
@@ -176,7 +193,7 @@
 - Add application version [\#225](https://github.com/bmitch/churn-php/pull/225) ([villfa](https://github.com/villfa))
 - Update CHANGELOG.md [\#224](https://github.com/bmitch/churn-php/pull/224) ([villfa](https://github.com/villfa))
 - Update README.md [\#223](https://github.com/bmitch/churn-php/pull/223) ([villfa](https://github.com/villfa))
-- Write Tests for Process Manager [\#221](https://github.com/bmitch/churn-php/pull/221) ([Borumer](https://github.com/Borumer))
+- Write Tests for Process Manager [\#221](https://github.com/bmitch/churn-php/pull/221) ([varunsingh87](https://github.com/varunsingh87))
 - Fix unit test [\#220](https://github.com/bmitch/churn-php/pull/220) ([villfa](https://github.com/villfa))
 - Drop ChurnCommandOld [\#218](https://github.com/bmitch/churn-php/pull/218) ([simPod](https://github.com/simPod))
 - Allow Symfony 5 [\#217](https://github.com/bmitch/churn-php/pull/217) ([simPod](https://github.com/simPod))
