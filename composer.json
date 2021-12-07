@@ -1,18 +1,18 @@
 {
     "name": "bmitch/churn-php",
     "description": "Discover files in need of refactoring.",
+    "license": "MIT",
     "keywords": [
         "bmitch",
         "churn-php"
     ],
-    "homepage": "https://github.com/bmitch/churn-php",
-    "license": "MIT",
     "authors": [
         {
             "name": "Bill Mitchell",
             "email": "wkmitch@gmail.com"
         }
     ],
+    "homepage": "https://github.com/bmitch/churn-php",
     "require": {
         "php": ">=7.1.3",
         "composer/package-versions-deprecated": "^1.11",
@@ -29,9 +29,6 @@
         "slevomat/coding-standard": "^7.0",
         "symfony/phpunit-bridge": "^5.1 || ^6.0"
     },
-    "config": {
-        "sort-packages": true
-    },
     "autoload": {
         "psr-4": {
             "Churn\\": "src"
@@ -45,6 +42,9 @@
     "bin": [
         "bin/churn"
     ],
+    "config": {
+        "sort-packages": true
+    },
     "scripts": {
         "post-install-cmd": [
             "@composer bin all install --ansi"
