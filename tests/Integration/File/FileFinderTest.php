@@ -35,6 +35,6 @@ class FileFinderTest extends BaseTestCase
     {
         parent::setup();
 
-        $this->fileFinder = new FileFinder(['php'], []);
+        $this->fileFinder = new FileFinder(['php'], [], __DIR__);
     }
 }

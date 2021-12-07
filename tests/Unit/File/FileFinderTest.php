@@ -17,7 +17,7 @@ class FileFinderTest extends BaseTestCase
 
     public function setup()
     {
-        $this->fileFinder = new FileFinder(['php'], []);
+        $this->fileFinder = new FileFinder(['php'], [], __DIR__);
     }
 
     /** @test */
@@ -53,53 +53,53 @@ class FileFinderTest extends BaseTestCase
     /** @test */
     public function it_ignores_files_specified_to_ignore_in_the_config()
     {
-        $fileFinder = new FileFinder(['php'], ['Assets/Baz.php']);
+        $fileFinder = new FileFinder(['php'], ['Assets/Baz.php'], __DIR__);
         $this->assertCount(2, iterator_to_array($fileFinder->getPhpFiles([__DIR__ . '/../Assets']), false));
     }
 
     /** @test */
     public function it_ignores_everything_within_a_folder()
     {
-        $fileFinder = new FileFinder(['php'], ['Assets2/DeepAssets/*']);
+        $fileFinder = new FileFinder(['php'], ['Assets2/DeepAssets/*'], __DIR__);
         $this->assertCount(1, iterator_to_array($fileFinder->getPhpFiles([__DIR__ . '/../Assets2']), false));
 
-        $fileFinder = new FileFinder(['php', 'inc'], ['Assets2/DeepAssets/*']);
+        $fileFinder = new FileFinder(['php', 'inc'], ['Assets2/DeepAssets/*'], __DIR__);
         $this->assertCount(2, iterator_to_array($fileFinder->getPhpFiles([__DIR__ . '/../Assets2']), false));
     }
 
     /** @test */
     public function it_ignores_everything_starts_with_a_string()
     {
-        $fileFinder = new FileFinder(['php'], ['Assets2/F*']);
+        $fileFinder = new FileFinder(['php'], ['Assets2/F*'], __DIR__);
         $this->assertCount(3, iterator_to_array($fileFinder->getPhpFiles([__DIR__ . '/../Assets2']), false));
 
-        $fileFinder = new FileFinder(['php'], ['Assets2/DeepAssets/Deep*']);
+        $fileFinder = new FileFinder(['php'], ['Assets2/DeepAssets/Deep*'], __DIR__);
         $this->assertCount(2, iterator_to_array($fileFinder->getPhpFiles([__DIR__ . '/../Assets2']), false));
 
-        $fileFinder = new FileFinder(['php'], ['Assets2/DeepAssets/Dif*']);
+        $fileFinder = new FileFinder(['php'], ['Assets2/DeepAssets/Dif*'], __DIR__);
         $this->assertCount(3, iterator_to_array($fileFinder->getPhpFiles([__DIR__ . '/../Assets2']), false));
     }
 
     /** @test */
     public function it_ignores_multiple_matching_patterns_in_multiple_folders()
     {
-        $fileFinder = new FileFinder(['php'], ['Assets2/F*', 'Assets/B*']);
+        $fileFinder = new FileFinder(['php'], ['Assets2/F*', 'Assets/B*'], __DIR__);
         $this->assertCount(4, iterator_to_array($fileFinder->getPhpFiles([__DIR__ . '/../Assets', __DIR__ . '/../Assets2']), false));
 
-        $fileFinder = new FileFinder(['php', 'inc'], ['Assets2/DeepAssets/De*', 'Assets/B*']);
+        $fileFinder = new FileFinder(['php', 'inc'], ['Assets2/DeepAssets/De*', 'Assets/B*'], __DIR__);
         $this->assertCount(5, iterator_to_array($fileFinder->getPhpFiles([__DIR__ . '/../Assets', __DIR__ . '/../Assets2']), false));
 
-        $fileFinder = new FileFinder(['php', 'inc'], ['Assets2/DeepAssets/Di*', 'Assets2/DeepAssets/De*', 'Assets2/F*']);
+        $fileFinder = new FileFinder(['php', 'inc'], ['Assets2/DeepAssets/Di*', 'Assets2/DeepAssets/De*', 'Assets2/F*'], __DIR__);
         $this->assertCount(1, iterator_to_array($fileFinder->getPhpFiles([__DIR__ . '/../Assets2']), false));
 
-        $fileFinder = new FileFinder(['php', 'inc'], ['Assets2/*.php']);
+        $fileFinder = new FileFinder(['php', 'inc'], ['Assets2/*.php'], __DIR__);
         $this->assertCount(1, iterator_to_array($fileFinder->getPhpFiles([__DIR__ . '/../Assets2']), false));
     }
 
     /** @test */
     public function it_uses_extensions_specified_in_the_config()
     {
-        $fileFinder = new FileFinder(['php', 'inc'], []);
+        $fileFinder = new FileFinder(['php', 'inc'], [], __DIR__);
         $this->assertCount(4, iterator_to_array($fileFinder->getPhpFiles([__DIR__ . '/../Assets']), false));
     }
 }

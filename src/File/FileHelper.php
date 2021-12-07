@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Churn\File;
 
 use InvalidArgumentException;
+use Symfony\Component\Filesystem\Exception\InvalidArgumentException as FilesystemException;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -23,6 +24,22 @@ class FileHelper
         return (new Filesystem())->isAbsolutePath($path)
             ? $path
             : $basePath . '/' . $path;
+    }
+
+    /**
+     * @param string $path The absolute path of an item.
+     * @param string $basePath The absolute base path.
+     * @return string The relative path of the given item.
+     */
+    public static function toRelativePath(string $path, string $basePath): string
+    {
+        try {
+            $relativePath = (new Filesystem())->makePathRelative($path, $basePath);
+
+            return \rtrim($relativePath, '/\\');
+        } catch (FilesystemException $e) {
+            return $path;
+        }
     }
 
     /**

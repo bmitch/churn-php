@@ -30,17 +30,26 @@ class FileFinder
     private $filters;
 
     /**
+     * The base path.
+     *
+     * @var string
+     */
+    private $basePath;
+
+    /**
      * Class constructor.
      *
      * @param array<string> $fileExtensions List of file extensions to look for.
      * @param array<string> $filesToIgnore List of files to ignore.
+     * @param string $basePath The base path.
      */
-    public function __construct(array $fileExtensions, array $filesToIgnore)
+    public function __construct(array $fileExtensions, array $filesToIgnore, string $basePath)
     {
         $this->fileExtensions = $fileExtensions;
         $this->filters = \array_map(function (string $fileToIgnore): string {
             return $this->patternToRegex($fileToIgnore);
         }, $filesToIgnore);
+        $this->basePath = $basePath;
     }
 
     /**
@@ -53,7 +62,9 @@ class FileFinder
     public function getPhpFiles(array $paths): Generator
     {
         foreach ($paths as $path) {
-            yield from $this->getPhpFilesFromPath($path);
+            $absolutePath = FileHelper::toAbsolutePath($path, $this->basePath);
+
+            yield from $this->getPhpFilesFromPath($absolutePath);
         }
     }
 
@@ -69,7 +80,7 @@ class FileFinder
         if (\is_file($path)) {
             $file = new SplFileInfo($path);
 
-            yield new File($file->getRealPath(), $file->getPathName());
+            yield new File($file->getRealPath(), $this->getDisplayPath($file));
 
             return;
         }
@@ -80,8 +91,17 @@ class FileFinder
         }
 
         foreach ($this->findPhpFiles($path) as $file) {
-            yield new File($file->getRealPath(), $file->getPathName());
+            yield new File($file->getRealPath(), $this->getDisplayPath($file));
         }
+    }
+
+    /**
+     * @param SplFileInfo $file The file object.
+     * @return string The file path to display.
+     */
+    private function getDisplayPath(SplFileInfo $file): string
+    {
+        return FileHelper::toRelativePath($file->getPathName(), $this->basePath);
     }
 
     /**
