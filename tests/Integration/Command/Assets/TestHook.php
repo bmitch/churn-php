@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Churn\Tests\Integration\Command\Assets;
 
-use Churn\Event\Event\AfterAnalysisEvent;
-use Churn\Event\Event\AfterFileAnalysisEvent;
-use Churn\Event\Event\BeforeAnalysisEvent;
+use Churn\Event\Event\AfterAnalysis;
+use Churn\Event\Event\AfterFileAnalysis;
+use Churn\Event\Event\BeforeAnalysis;
 use Churn\Event\Hook\AfterAnalysisHook;
 use Churn\Event\Hook\AfterFileAnalysisHook;
 use Churn\Event\Hook\BeforeAnalysisHook;
@@ -26,25 +26,25 @@ class TestHook implements AfterAnalysisHook, AfterFileAnalysisHook, BeforeAnalys
     }
 
     /**
-     * @param AfterAnalysisEvent $event The event triggered when the analysis is done.
+     * @param AfterAnalysis $event The event triggered when the analysis is done.
      */
-    public static function afterAnalysis(AfterAnalysisEvent $event): void
+    public static function afterAnalysis(AfterAnalysis $event): void
     {
         self::$nbAfterAnalysisEvent++;
     }
 
     /**
-     * @param AfterFileAnalysisEvent $event The event triggered when the analysis of a file is done.
+     * @param AfterFileAnalysis $event The event triggered when the analysis of a file is done.
      */
-    public static function afterFileAnalysis(AfterFileAnalysisEvent $event): void
+    public static function afterFileAnalysis(AfterFileAnalysis $event): void
     {
         self::$nbAfterFileAnalysisEvent++;
     }
 
     /**
-     * @param BeforeAnalysisEvent $event The event triggered when the analysis starts.
+     * @param BeforeAnalysis $event The event triggered when the analysis starts.
      */
-    public static function beforeAnalysis(BeforeAnalysisEvent $event): void
+    public static function beforeAnalysis(BeforeAnalysis $event): void
     {
         self::$nbBeforeAnalysisEvent++;
     }
