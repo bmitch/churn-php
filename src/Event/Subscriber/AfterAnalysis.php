@@ -11,7 +11,6 @@ use Churn\Event\Event\AfterAnalysisEvent;
  */
 interface AfterAnalysis
 {
-
     /**
      * @param AfterAnalysisEvent $event The event triggered when the analysis is done.
      */

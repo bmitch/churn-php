@@ -11,7 +11,6 @@ use Churn\Event\Event\AfterFileAnalysisEvent;
  */
 class AfterFileAnalysisHookDecorator implements AfterFileAnalysis
 {
-
     /**
      * @var string
      */

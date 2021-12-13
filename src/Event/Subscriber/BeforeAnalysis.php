@@ -11,7 +11,6 @@ use Churn\Event\Event\BeforeAnalysisEvent;
  */
 interface BeforeAnalysis
 {
-
     /**
      * @param BeforeAnalysisEvent $event The event triggered when the analysis starts.
      */

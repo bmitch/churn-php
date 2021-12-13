@@ -9,5 +9,4 @@ namespace Churn\Event;
  */
 interface Event
 {
-
 }

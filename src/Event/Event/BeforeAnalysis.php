@@ -8,5 +8,4 @@ use Churn\Event\Event;
 
 interface BeforeAnalysis extends Event
 {
-
 }

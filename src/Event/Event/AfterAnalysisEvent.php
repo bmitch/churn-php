@@ -11,7 +11,6 @@ use Churn\Result\ResultAccumulator;
  */
 final class AfterAnalysisEvent implements AfterAnalysis
 {
-
     /**
      * @var ResultAccumulator
      */

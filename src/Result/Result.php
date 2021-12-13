@@ -12,7 +12,6 @@ use Webmozart\Assert\Assert;
  */
 class Result
 {
-
     /**
      * The file property.
      *

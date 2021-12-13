@@ -14,7 +14,6 @@ use Symfony\Component\Process\Process;
  */
 class GitChangesCountProcess extends ChurnProcess implements ChangesCountInterface
 {
-
     /**
      * Class constructor.
      *

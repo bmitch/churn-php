@@ -11,7 +11,6 @@ use Churn\Event\Event\AfterFileAnalysisEvent;
  */
 interface AfterFileAnalysis
 {
-
     /**
      * @param AfterFileAnalysisEvent $event The event triggered when the analysis of a file is done.
      */

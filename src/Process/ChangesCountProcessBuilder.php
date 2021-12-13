@@ -19,7 +19,6 @@ use InvalidArgumentException;
  */
 class ChangesCountProcessBuilder
 {
-
     /**
      * @param string $vcs Name of the version control system.
      * @param string $commitsSince String containing the date of when to look at commits since.

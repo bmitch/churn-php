@@ -9,5 +9,4 @@ namespace Churn\Event\Event;
  */
 final class BeforeAnalysisEvent implements BeforeAnalysis
 {
-
 }

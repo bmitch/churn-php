@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class JsonResultsRenderer implements ResultsRendererInterface
 {
-
     /**
      * Renders the results.
      *

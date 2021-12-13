@@ -14,7 +14,6 @@ use Churn\Result\Result;
  */
 abstract class BaseProcessHandler implements ProcessHandler
 {
-
     /**
      * @param ProcessInterface $process A successful process.
      * @param Result $result The result object to hydrate.

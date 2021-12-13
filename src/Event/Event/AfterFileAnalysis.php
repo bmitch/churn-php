@@ -8,7 +8,6 @@ use Churn\Event\Event;
 
 interface AfterFileAnalysis extends Event
 {
-
     /**
      * Returns the absolute path of the file.
      */

@@ -11,7 +11,6 @@ use Churn\Result\Result;
  */
 final class AfterFileAnalysisEvent implements AfterFileAnalysis
 {
-
     /**
      * @var Result
      */

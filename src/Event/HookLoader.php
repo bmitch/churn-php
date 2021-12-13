@@ -18,7 +18,6 @@ use InvalidArgumentException;
  */
 final class HookLoader
 {
-
     /**
      * @var array<class-string, class-string>
      */

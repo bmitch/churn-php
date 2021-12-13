@@ -12,7 +12,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Loader
 {
-
     /**
      * @param string $confPath Path of the configuration file to load.
      * @param boolean $isDefaultValue Indicates whether $confPath contains the default value.

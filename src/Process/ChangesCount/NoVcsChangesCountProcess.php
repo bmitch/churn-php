@@ -12,7 +12,6 @@ use Churn\Process\ChangesCountInterface;
  */
 class NoVcsChangesCountProcess implements ChangesCountInterface
 {
-
     /**
      * The file the process will be executed on.
      *

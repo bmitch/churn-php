@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CsvResultsRenderer implements ResultsRendererInterface
 {
-
     /**
      * Renders the results.
      *

@@ -18,7 +18,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ProgressBarSubscriber implements AfterAnalysis, AfterFileAnalysis, BeforeAnalysis
 {
-
     /**
      * @var ProgressBar
      */

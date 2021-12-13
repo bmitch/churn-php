@@ -15,7 +15,6 @@ use Symfony\Component\Process\Process;
  */
 class ConcreteProcessFactory implements ProcessFactory
 {
-
     /**
      * Builder of objects implementing ChangesCountInterface.
      *

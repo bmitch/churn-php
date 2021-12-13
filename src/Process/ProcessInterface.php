@@ -11,7 +11,6 @@ use Churn\File\File;
  */
 interface ProcessInterface
 {
-
     /**
      * Start the process.
      */

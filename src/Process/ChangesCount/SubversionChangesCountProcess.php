@@ -14,7 +14,6 @@ use Symfony\Component\Process\Process;
  */
 class SubversionChangesCountProcess extends ChurnProcess implements ChangesCountInterface
 {
-
     /**
      * Class constructor.
      *

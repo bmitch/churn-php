@@ -15,7 +15,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class AssessComplexityCommand extends Command
 {
-
     /**
      * Configure the command
      */

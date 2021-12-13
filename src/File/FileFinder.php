@@ -14,7 +14,6 @@ use SplFileInfo;
  */
 class FileFinder
 {
-
     /**
      * List of file extensions to look for.
      *

@@ -8,7 +8,6 @@ use Churn\Event\Event\BeforeAnalysis;
 
 interface BeforeAnalysisHook
 {
-
     /**
      * @param BeforeAnalysis $event The event triggered when the analysis starts.
      */

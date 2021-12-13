@@ -16,7 +16,6 @@ use Churn\Event\Subscriber\BeforeAnalysis;
  */
 class Broker
 {
-
     /**
      * @var array<class-string, array<callable>>
      */

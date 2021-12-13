@@ -17,7 +17,6 @@ use Generator;
  */
 class ParallelProcessHandler extends BaseProcessHandler
 {
-
     /**
      * Array of completed processes.
      *

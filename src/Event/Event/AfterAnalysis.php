@@ -8,7 +8,6 @@ use Churn\Event\Event;
 
 interface AfterAnalysis extends Event
 {
-
     /**
      * Returns the total number of files analysed.
      */

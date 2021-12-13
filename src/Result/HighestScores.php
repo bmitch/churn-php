@@ -11,7 +11,6 @@ use SplFixedArray;
  */
 class HighestScores
 {
-
     /**
      * @var SplFixedArray
      */

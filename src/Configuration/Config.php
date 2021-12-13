@@ -9,7 +9,6 @@ namespace Churn\Configuration;
  */
 class Config
 {
-
     public const KEY_DIRECTORIES_TO_SCAN = 'directoriesToScan';
     public const KEY_FILES_TO_SHOW = 'filesToShow';
     public const KEY_MINIMUM_SCORE_TO_SHOW = 'minScoreToShow';

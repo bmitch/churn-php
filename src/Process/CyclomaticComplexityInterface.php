@@ -9,7 +9,6 @@ namespace Churn\Process;
  */
 interface CyclomaticComplexityInterface extends ProcessInterface
 {
-
     /**
      * Returns the cyclomatic complexity of a file.
      */
