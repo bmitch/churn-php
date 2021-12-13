@@ -16,7 +16,6 @@ use Generator;
  */
 class SequentialProcessHandler extends BaseProcessHandler
 {
-
     /**
      * @var Broker
      */

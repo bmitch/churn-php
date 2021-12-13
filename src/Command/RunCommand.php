@@ -37,7 +37,6 @@ use Webmozart\Assert\Assert;
  */
 class RunCommand extends Command
 {
-
     public const LOGO = "
     ___  _   _  __  __  ____  _  _     ____  _   _  ____
    / __)( )_( )(  )(  )(  _ \( \( )___(  _ \( )_( )(  _ \

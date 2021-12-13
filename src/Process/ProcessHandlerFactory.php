@@ -15,7 +15,6 @@ use Churn\Process\Handler\SequentialProcessHandler;
  */
 class ProcessHandlerFactory
 {
-
     /**
      * Returns a process handler depending on the configuration.
      *

@@ -11,7 +11,6 @@ use Churn\Event\Event\AfterAnalysisEvent;
  */
 class AfterAnalysisHookDecorator implements AfterAnalysis
 {
-
     /**
      * @var string
      */

@@ -12,7 +12,6 @@ use Churn\Event\Subscriber\AfterFileAnalysis;
  */
 class ResultAccumulator implements AfterFileAnalysis
 {
-
     /**
      * @var integer
      */

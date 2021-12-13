@@ -9,7 +9,6 @@ namespace Churn\Assessor;
  */
 class CyclomaticComplexityAssessor
 {
-
     /**
      * The total cyclomatic complexity score.
      *

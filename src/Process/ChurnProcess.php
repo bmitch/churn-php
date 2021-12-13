@@ -13,7 +13,6 @@ use Symfony\Component\Process\Process;
  */
 abstract class ChurnProcess implements ProcessInterface
 {
-
     /**
      * The file the process will be executed on.
      *

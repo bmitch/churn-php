@@ -11,7 +11,6 @@ use Webmozart\Assert\Assert;
  */
 class Validator
 {
-
     /**
      * @param array<mixed> $configuration The array containing the configuration values.
      */

@@ -8,7 +8,6 @@ use Churn\Event\Event\AfterAnalysis;
 
 interface AfterAnalysisHook
 {
-
     /**
      * @param AfterAnalysis $event The event triggered when the analysis is done.
      */

@@ -11,7 +11,6 @@ use Churn\File\File;
  */
 interface ProcessFactory
 {
-
     /**
      * @param File $file File that the processes will execute on.
      * @return iterable<ProcessInterface> The list of processes to execute.

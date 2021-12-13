@@ -8,7 +8,6 @@ use Churn\Event\Event\AfterFileAnalysis;
 
 interface AfterFileAnalysisHook
 {
-
     /**
      * @param AfterFileAnalysis $event The event triggered when the analysis of a file is done.
      */

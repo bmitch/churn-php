@@ -12,7 +12,6 @@ use Generator;
  */
 interface ProcessHandler
 {
-
     /**
      * Run the processes to gather information.
      *

@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 interface ResultsRendererInterface
 {
-
     /**
      * Renders the results.
      *

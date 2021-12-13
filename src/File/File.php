@@ -9,7 +9,6 @@ namespace Churn\File;
  */
 class File
 {
-
     /**
      * The full path of the file.
      *

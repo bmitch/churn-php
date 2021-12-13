@@ -13,7 +13,6 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class FileHelper
 {
-
     /**
      * @param string $path The path of an item.
      * @param string $basePath The absolute base path.

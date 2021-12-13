@@ -11,7 +11,6 @@ use Churn\File\File;
  */
 class PredefinedProcess implements ChangesCountInterface, CyclomaticComplexityInterface
 {
-
     /**
      * @var File
      */

@@ -11,7 +11,6 @@ use Churn\Event\Event\BeforeAnalysisEvent;
  */
 class BeforeAnalysisHookDecorator implements BeforeAnalysis
 {
-
     /**
      * @var string
      */

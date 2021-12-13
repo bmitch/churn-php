@@ -15,7 +15,6 @@ use InvalidArgumentException;
  */
 class ResultsRendererFactory
 {
-
     private const FORMAT_JSON = 'json';
     private const FORMAT_CSV = 'csv';
     private const FORMAT_TEXT = 'text';

@@ -14,7 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class MaxScoreChecker
 {
-
     /**
      * @var float|null
      */
