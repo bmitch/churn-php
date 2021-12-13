@@ -43,6 +43,10 @@
         "bin/churn"
     ],
     "config": {
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true,
+            "composer/package-versions-deprecated": true
+        },
         "sort-packages": true
     },
     "scripts": {
