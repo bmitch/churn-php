@@ -24,6 +24,13 @@ class LoaderTest extends BaseTestCase
     public function it_throws_if_the_chosen_file_is_missing()
     {
         $this->expectException(InvalidArgumentException::class);
-        $config = Loader::fromPath('non-existing-config-file.yml', false);
+        Loader::fromPath('non-existing-config-file.yml', false);
+    }
+
+    /** @test */
+    public function it_throws_if_the_content_is_invalid()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        Loader::fromPath(__FILE__, false);
     }
 }
