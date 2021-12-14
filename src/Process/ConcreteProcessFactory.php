@@ -68,7 +68,7 @@ class ConcreteProcessFactory implements ProcessFactory
      */
     private function getCyclomaticComplexityProcessBuilder(): Closure
     {
-        $phpExecutable = (string)(new PhpExecutableFinder())->find();
+        $phpExecutable = $this->getPhpExecutable();
         $command = \array_merge([$phpExecutable], $this->getAssessorArguments());
 
         return static function (File $file) use ($command): CyclomaticComplexityInterface {
@@ -77,6 +77,20 @@ class ConcreteProcessFactory implements ProcessFactory
 
             return new CyclomaticComplexityProcess($file, $process);
         };
+    }
+
+    /**
+     * @return string The PHP executable.
+     */
+    private function getPhpExecutable(): string
+    {
+        $php = 'php';
+        $executableFound = (new PhpExecutableFinder())->find();
+        if (false !== $executableFound) {
+            $php = $executableFound;
+        }
+
+        return $php;
     }
 
     /** @return array<string> */
