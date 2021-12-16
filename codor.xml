@@ -2,7 +2,9 @@
 <ruleset name="Project">
     <description>Project Coding Standard</description>
 
-    <rule ref="vendor/bmitch/codor/src/Codor/ruleset.xml"/>
+    <rule ref="vendor/bmitch/codor/src/Codor/ruleset.xml">
+        <exclude name="Codor.Classes.FinalPrivate.Codor\Sniffs\Classes\FinalPrivateSniff"/>
+    </rule>
     <rule ref="Codor.Files.IndentationLevel">
         <properties>
             <property name="indentationLimit" value="3"/>
