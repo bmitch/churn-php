@@ -35,7 +35,7 @@ class Loader
         $confPath = self::normalizePath($originalConfPath = $confPath);
 
         if (false !== $confPath && \is_readable($confPath)) {
-            $config = new Config($confPath);
+            $config = new EditableConfig($confPath);
             $config->setUnrecognizedKeys(self::validate($config, self::loadYaml($confPath)));
 
             return $config;
@@ -82,11 +82,11 @@ class Loader
     }
 
     /**
-     * @param Config $config The configuration object.
+     * @param EditableConfig $config The configuration object.
      * @param array<mixed> $configuration The array containing the configuration values.
      * @return array<int|string>
      */
-    private static function validate(Config $config, array $configuration): array
+    private static function validate(EditableConfig $config, array $configuration): array
     {
         $validators = [new CachePath(), new CommitsSince(), new DirectoriesToScan(), new FileExtensions(),
         new FilesToIgnore(), new FilesToShow(), new Hooks(), new MaxScoreThreshold(), new MinScoreToShow(),

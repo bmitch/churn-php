@@ -4,36 +4,28 @@ declare(strict_types=1);
 
 namespace Churn\Configuration\Validator;
 
-use Churn\Configuration\Config;
-use Churn\Configuration\Validator;
+use Churn\Configuration\EditableConfig;
 use Webmozart\Assert\Assert;
 
 /**
  * @internal
  */
-final class MaxScoreThreshold implements Validator
+final class MaxScoreThreshold extends BaseValidator
 {
-    private const KEY = 'maxScoreThreshold';
-
     /**
-     * Returns the configuration key.
+     * Class constructor.
      */
-    public function getKey(): string
+    public function __construct()
     {
-        return self::KEY;
+        parent::__construct('maxScoreThreshold');
     }
 
     /**
-     * @param Config $config The configuration object.
-     * @param array<mixed> $configuration The array containing the configuration values.
+     * @param EditableConfig $config The configuration object.
+     * @param mixed $value The value to validate.
      */
-    public function validate(Config $config, array $configuration): void
+    protected function validateValue(EditableConfig $config, $value): void
     {
-        if (!\array_key_exists(self::KEY, $configuration)) {
-            return;
-        }
-
-        $value = $configuration[self::KEY];
         if (null === $value) {
             $config->setMaxScoreThreshold(null);
 

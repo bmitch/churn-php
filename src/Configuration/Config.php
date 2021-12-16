@@ -12,67 +12,67 @@ class Config
     /**
      * @var array<string>
      */
-    private $directoriesToScan = [];
+    protected $directoriesToScan = [];
 
     /**
      * @var integer
      */
-    private $filesToShow = 10;
+    protected $filesToShow = 10;
 
     /**
      * @var float|null
      */
-    private $minScoreToShow = 0.1;
+    protected $minScoreToShow = 0.1;
 
     /**
      * @var float|null
      */
-    private $maxScoreThreshold = null;
+    protected $maxScoreThreshold = null;
 
     /**
      * @var integer
      */
-    private $parallelJobs = 10;
+    protected $parallelJobs = 10;
 
     /**
      * @var string
      */
-    private $commitsSince = '10 years ago';
+    protected $commitsSince = '10 years ago';
 
     /**
      * @var array<string>
      */
-    private $filesToIgnore = [];
+    protected $filesToIgnore = [];
 
     /**
      * @var array<string>
      */
-    private $fileExtensions = ['php'];
+    protected $fileExtensions = ['php'];
 
     /**
      * @var string
      */
-    private $vcs = 'git';
+    protected $vcs = 'git';
 
     /**
      * @var string|null
      */
-    private $cachePath = null;
+    protected $cachePath = null;
 
     /**
      * @var array<string>
      */
-    private $hooks = [];
+    protected $hooks = [];
 
     /**
      * @var string|null
      */
-    private $path;
+    protected $path;
 
     /**
      * @var array<int|string>
      */
-    private $unrecognizedKeys = [];
+    protected $unrecognizedKeys = [];
 
     /**
      * @param string|null $path The path of the configuration file if any.
@@ -88,14 +88,6 @@ class Config
     public function getUnrecognizedKeys(): array
     {
         return $this->unrecognizedKeys;
-    }
-
-    /**
-     * @param array<int|string> $unrecognizedKeys The unrecognized keys.
-     */
-    public function setUnrecognizedKeys(array $unrecognizedKeys): void
-    {
-        $this->unrecognizedKeys = $unrecognizedKeys;
     }
 
     /**
@@ -135,14 +127,6 @@ class Config
     }
 
     /**
-     * @param integer $filesToShow The number of files to display in the results table.
-     */
-    public function setFilesToShow(int $filesToShow): void
-    {
-        $this->filesToShow = $filesToShow;
-    }
-
-    /**
      * Get the minimum score a file need to display (ignored if null).
      */
     public function getMinScoreToShow(): ?float
@@ -151,27 +135,11 @@ class Config
     }
 
     /**
-     * @param float|null $minScoreToShow The minimum score for a file to be displayed (ignored if null).
-     */
-    public function setMinScoreToShow(?float $minScoreToShow): void
-    {
-        $this->minScoreToShow = $minScoreToShow;
-    }
-
-    /**
      * Get the maximum score threshold.
      */
     public function getMaxScoreThreshold(): ?float
     {
         return $this->maxScoreThreshold;
-    }
-
-    /**
-     * @param float|null $maxScoreThreshold The maximum score threshold.
-     */
-    public function setMaxScoreThreshold(?float $maxScoreThreshold): void
-    {
-        $this->maxScoreThreshold = $maxScoreThreshold;
     }
 
     /**
@@ -199,27 +167,11 @@ class Config
     }
 
     /**
-     * @param string $commitsSince Criteria to apply when counting changes.
-     */
-    public function setCommitsSince(string $commitsSince): void
-    {
-        $this->commitsSince = $commitsSince;
-    }
-
-    /**
      * @return array<string>
      */
     public function getFilesToIgnore(): array
     {
         return $this->filesToIgnore;
-    }
-
-    /**
-     * @param array<string> $filesToIgnore The files to ignore.
-     */
-    public function setFilesToIgnore(array $filesToIgnore): void
-    {
-        $this->filesToIgnore = $filesToIgnore;
     }
 
     /**
@@ -233,27 +185,11 @@ class Config
     }
 
     /**
-     * @param array<string> $fileExtensions The file extensions to use when processing.
-     */
-    public function setFileExtensions(array $fileExtensions): void
-    {
-        $this->fileExtensions = $fileExtensions;
-    }
-
-    /**
      * Get the version control system.
      */
     public function getVCS(): string
     {
         return $this->vcs;
-    }
-
-    /**
-     * @param string $vcs The version control system.
-     */
-    public function setVCS(string $vcs): void
-    {
-        $this->vcs = $vcs;
     }
 
     /**
@@ -265,14 +201,6 @@ class Config
     }
 
     /**
-     * @param string|null $cachePath The cache file path.
-     */
-    public function setCachePath(?string $cachePath): void
-    {
-        $this->cachePath = $cachePath;
-    }
-
-    /**
      * Get the hooks.
      *
      * @return array<string>
@@ -280,13 +208,5 @@ class Config
     public function getHooks(): array
     {
         return $this->hooks;
-    }
-
-    /**
-     * @param array<string> $hooks The hooks.
-     */
-    public function setHooks(array $hooks): void
-    {
-        $this->hooks = $hooks;
     }
 }

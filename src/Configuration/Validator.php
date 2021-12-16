@@ -15,8 +15,8 @@ interface Validator
     public function getKey(): string;
 
     /**
-     * @param Config $config The configuration object.
+     * @param EditableConfig $config The configuration object.
      * @param array<mixed> $configuration The array containing the configuration values.
      */
-    public function validate(Config $config, array $configuration): void;
+    public function validate(EditableConfig $config, array $configuration): void;
 }
