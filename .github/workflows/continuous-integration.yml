@@ -38,6 +38,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
+          ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
           php-version: "${{ matrix.php-version }}"
           tools: composer:v2
 
@@ -88,6 +89,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
+          ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
           php-version: "8.0"
           tools: composer:v2
 
@@ -135,6 +137,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "pcov"
+          ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
           php-version: "8.0"
           tools: composer:v2, composer-normalize
 
@@ -210,6 +213,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
+          ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
           php-version: "7.2"
           tools: composer:v2
 
