@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Churn\Tests\Unit\Process\Handler;
 
-use Churn\Configuration\Config;
 use Churn\Event\Broker;
 use Churn\File\File;
 use Churn\Process\ChangesCountInterface;
@@ -30,8 +29,7 @@ class ParallelProcessHandlerTest extends BaseTestCase
     {
         $broker = m::mock(Broker::class);
         $processHandler = new ParallelProcessHandler(3, $broker);
-        $config = Config::createFromDefaultValues();
-        $processFactory = new ConcreteProcessFactory($config->getVCS(), $config->getCommitsSince());
+        $processFactory = new ConcreteProcessFactory('none', '');
 
         $observer = m::mock(OnSuccess::class);
         $observer->shouldReceive('__invoke')->never();

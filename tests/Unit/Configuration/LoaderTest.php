@@ -16,7 +16,7 @@ class LoaderTest extends BaseTestCase
     {
         $config = Loader::fromPath('non-existing-config-file.yml', true);
 
-        $this->assertEquals(Config::createFromDefaultValues(), $config);
+        $this->assertEquals(new Config(), $config);
         $this->assertEquals(\getcwd(), $config->getDirPath());
     }
 

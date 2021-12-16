@@ -127,6 +127,7 @@ jobs:
   analysis:
     name: "Static Analysis"
     runs-on: ubuntu-latest
+    # Run after "test-vcs" to gather all code coverage reports
     needs: [test-vcs]
 
     steps:
@@ -203,6 +204,7 @@ jobs:
   build:
     name: "Build Phar"
     runs-on: ubuntu-latest
+    # Build when everything else is ok
     needs: [tests, analysis]
 
     steps:

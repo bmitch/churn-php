@@ -10,7 +10,7 @@
     </rule>
     <rule ref="Codor.Classes.ClassLength">
         <properties>
-            <property name="maxLength" value="243"/>
+            <property name="maxLength" value="300"/>
         </properties>
     </rule>
 

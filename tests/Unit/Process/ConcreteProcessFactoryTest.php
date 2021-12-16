@@ -21,7 +21,7 @@ class ConcreteProcessFactoryTest extends BaseTestCase
 
     public function setup()
     {
-        $config = Config::createFromDefaultValues();
+        $config = new Config();
         $this->processFactory = new ConcreteProcessFactory($config->getVCS(), $config->getCommitsSince());
     }
 
@@ -74,7 +74,7 @@ class ConcreteProcessFactoryTest extends BaseTestCase
     /** @test */
     public function it_throws_exception_if_VCS_is_not_supported()
     {
-        $config = Config::createFromDefaultValues();
+        $config = new Config();
         $this->expectException(InvalidArgumentException::class);
         $this->processFactory = new ConcreteProcessFactory('not a valid VCS', $config->getCommitsSince());
     }
