@@ -4,6 +4,12 @@
     xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
     bootstrap="vendor/autoload.php"
     colors="true"
+    convertDeprecationsToExceptions="true"
+    convertErrorsToExceptions="true"
+    convertWarningsToExceptions="true"
+    convertNoticesToExceptions="true"
+    failOnRisky="true"
+    failOnWarning="true"
     verbose="true"
 >
     <testsuites>
