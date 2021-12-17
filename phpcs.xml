@@ -2,6 +2,14 @@
 <ruleset name="MyStandard">
   <description>My custom coding standard.</description>
 
+  <arg value="spn"/>
+
+  <config name="php_version" value="70103"/>
+
+  <file>./src</file>
+
+  <rule ref="PSR12"/>
+
   <!-- Dock Blocks -->
   <rule ref="Squiz.Commenting.FunctionComment" />
   <rule ref="Squiz.Commenting.FunctionCommentThrowTag" />
@@ -46,5 +54,20 @@
     <exclude name="Squiz.Commenting.FunctionComment.ScalarTypeHintMissing"/>
     <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamName"/>
     <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType"/>
+  </rule>
+
+  <!-- Codor rules -->
+  <rule ref="vendor/bmitch/codor/src/Codor/ruleset.xml">
+    <exclude name="Codor.Classes.FinalPrivate.Codor\Sniffs\Classes\FinalPrivateSniff"/>
+  </rule>
+  <rule ref="Codor.Files.IndentationLevel">
+    <properties>
+      <property name="indentationLimit" value="3"/>
+    </properties>
+  </rule>
+  <rule ref="Codor.Classes.ClassLength">
+    <properties>
+      <property name="maxLength" value="243"/>
+    </properties>
   </rule>
 </ruleset>
