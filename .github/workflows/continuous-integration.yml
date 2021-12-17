@@ -176,9 +176,9 @@ jobs:
 
       - name: "Run PHP_CodeSniffer"
         run: |
-          vendor/bin/phpcs --standard=psr12 src -spn
+          vendor/bin/phpcs --runtime-set php_version 70103 --standard=psr12 src -spn
           vendor/bin/phpcs --runtime-set php_version 70103 --standard=phpcs.xml src -spn
-          vendor/bin/phpcs --standard=codor.xml src -spn
+          vendor/bin/phpcs --runtime-set php_version 70103 --standard=codor.xml src -spn
 
       - name: "Normalize composer.json"
         run: "composer-normalize --dry-run --no-check-lock --no-update-lock"

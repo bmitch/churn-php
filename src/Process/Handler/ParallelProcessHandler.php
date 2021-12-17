@@ -52,6 +52,7 @@ class ParallelProcessHandler extends BaseProcessHandler
      *
      * @param Generator $filesFinder Collection of files.
      * @param ProcessFactory $processFactory Process Factory.
+     * @psalm-param Generator<\Churn\File\File> $filesFinder
      */
     public function process(Generator $filesFinder, ProcessFactory $processFactory): void
     {
@@ -92,9 +93,11 @@ class ParallelProcessHandler extends BaseProcessHandler
      */
     private function addToPool(array &$pool, File $file, ProcessFactory $processFactory): void
     {
-        foreach ($processFactory->createProcesses($file) as $i => $process) {
+        $i = 0;
+        foreach ($processFactory->createProcesses($file) as $process) {
             $process->start();
             $pool["$i:" . $file->getDisplayPath()] = $process;
+            $i++;
         }
     }
 

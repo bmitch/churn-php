@@ -4,20 +4,22 @@ declare(strict_types=1);
 
 namespace Churn\Event\Subscriber;
 
-use Churn\Event\Event\BeforeAnalysisEvent;
+use Churn\Event\Event\BeforeAnalysis as BeforeAnalysisEvent;
 
 /**
  * @internal
+ * @implements HookDecorator<\Churn\Event\Hook\BeforeAnalysisHook>
  */
-class BeforeAnalysisHookDecorator implements BeforeAnalysis
+class BeforeAnalysisHookDecorator implements BeforeAnalysis, HookDecorator
 {
     /**
-     * @var string
+     * @var class-string<\Churn\Event\Hook\BeforeAnalysisHook>
      */
     private $hook;
 
     /**
      * @param string $hook The user-defined hook class name.
+     * @psalm-param class-string<\Churn\Event\Hook\BeforeAnalysisHook> $hook
      */
     public function __construct(string $hook)
     {
@@ -29,6 +31,6 @@ class BeforeAnalysisHookDecorator implements BeforeAnalysis
      */
     public function onBeforeAnalysis(BeforeAnalysisEvent $event): void
     {
-        \call_user_func([$this->hook, 'beforeAnalysis'], $event);
+        $this->hook::beforeAnalysis($event);
     }
 }

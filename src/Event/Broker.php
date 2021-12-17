@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace Churn\Event;
 
-use Churn\Event\Event\AfterAnalysisEvent;
-use Churn\Event\Event\AfterFileAnalysisEvent;
-use Churn\Event\Event\BeforeAnalysisEvent;
-use Churn\Event\Subscriber\AfterAnalysis;
-use Churn\Event\Subscriber\AfterFileAnalysis;
-use Churn\Event\Subscriber\BeforeAnalysis;
+use Churn\Event\Channel\AfterAnalysisChannel;
+use Churn\Event\Channel\AfterFileAnalysisChannel;
+use Churn\Event\Channel\BeforeAnalysisChannel;
 
 /**
  * @internal
@@ -22,7 +19,7 @@ class Broker
     private $subscribers = [];
 
     /**
-     * @var array<array{class-string, string, class-string}>
+     * @var array<\Churn\Event\Channel>
      */
     private $channels;
 
@@ -32,25 +29,23 @@ class Broker
     public function __construct()
     {
         $this->channels = [
-            [AfterAnalysis::class, 'onAfterAnalysis', AfterAnalysisEvent::class],
-            [AfterFileAnalysis::class, 'onAfterFileAnalysis', AfterFileAnalysisEvent::class],
-            [BeforeAnalysis::class, 'onBeforeAnalysis', BeforeAnalysisEvent::class],
+            new AfterAnalysisChannel(),
+            new AfterFileAnalysisChannel(),
+            new BeforeAnalysisChannel(),
         ];
     }
 
     /**
-     * @param mixed $subscriber A subscriber object.
+     * @param object $subscriber A subscriber object.
      */
     public function subscribe($subscriber): void
     {
-        foreach ($this->channels as [$class, $method, $eventClass]) {
-            if (!$subscriber instanceof $class) {
+        foreach ($this->channels as $channel) {
+            if (!$channel->accepts($subscriber)) {
                 continue;
             }
 
-            $this->subscribers[$eventClass][] = static function (Event $event) use ($subscriber, $method): void {
-                $subscriber->$method($event);
-            };
+            $this->subscribers[$channel->getEventClassname()][] = $channel->buildEventHandler($subscriber);
         }
     }
 

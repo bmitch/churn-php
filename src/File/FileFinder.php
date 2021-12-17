@@ -131,7 +131,7 @@ class FileFinder
         $directoryIterator = new RecursiveDirectoryIterator($path);
 
         foreach (new RecursiveIteratorIterator($directoryIterator) as $item) {
-            if ($item->isDir()) {
+            if (!$item instanceof SplFileInfo || $item->isDir()) {
                 continue;
             }
 

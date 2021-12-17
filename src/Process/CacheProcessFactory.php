@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Churn\Process;
 
-use Churn\Event\Event\AfterAnalysisEvent;
-use Churn\Event\Event\AfterFileAnalysisEvent;
+use Churn\Event\Event\AfterAnalysis as AfterAnalysisEvent;
+use Churn\Event\Event\AfterFileAnalysis as AfterFileAnalysisEvent;
 use Churn\Event\Subscriber\AfterAnalysis;
 use Churn\Event\Subscriber\AfterFileAnalysis;
 use Churn\File\File;
 use Churn\File\FileHelper;
-use Churn\Result\Result;
 use InvalidArgumentException;
 use Throwable;
 
@@ -30,7 +29,7 @@ class CacheProcessFactory implements AfterAnalysis, AfterFileAnalysis, ProcessFa
     private $processFactory;
 
     /**
-     * @var array<string, array<mixed>> The cached data.
+     * @var array<string, array<scalar>> The cached data.
      */
     private $cache;
 
@@ -86,25 +85,30 @@ class CacheProcessFactory implements AfterAnalysis, AfterFileAnalysis, ProcessFa
      */
     public function onAfterFileAnalysis(AfterFileAnalysisEvent $event): void
     {
-        $this->addToCache($event->getResult());
+        $this->addToCache(
+            $event->getFilePath(),
+            $event->getNumberOfChanges(),
+            $event->getCyclomaticComplexity()
+        );
     }
 
     /**
-     * @param Result $result The result to save.
+     * @param string $path The absolute path of the file.
+     * @param integer $nbChanges The number of times the file has been changed.
+     * @param integer $complexity The cyclomatic complexity of the file.
      */
-    public function addToCache(Result $result): void
+    private function addToCache(string $path, int $nbChanges, int $complexity): void
     {
-        $path = $result->getFile()->getFullPath();
         $this->cache[$path][0] = $this->cache[$path][0] ?? \md5_file($path);
-        $this->cache[$path][1] = $result->getCommits();
-        $this->cache[$path][2] = $result->getComplexity();
+        $this->cache[$path][1] = $nbChanges;
+        $this->cache[$path][2] = $complexity;
         $this->cache[$path][3] = true;
     }
 
     /**
      * Write the cache in its file.
      */
-    public function writeCache(): void
+    private function writeCache(): void
     {
         $data = [];
 
@@ -139,7 +143,7 @@ class CacheProcessFactory implements AfterAnalysis, AfterFileAnalysis, ProcessFa
 
     /**
      * @param string $cachePath Cache file path.
-     * @return array<string, array<mixed>>
+     * @return array<string, array<scalar>>
      */
     private function loadCache(string $cachePath): array
     {
