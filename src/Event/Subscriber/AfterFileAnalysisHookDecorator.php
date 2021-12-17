@@ -4,20 +4,22 @@ declare(strict_types=1);
 
 namespace Churn\Event\Subscriber;
 
-use Churn\Event\Event\AfterFileAnalysisEvent;
+use Churn\Event\Event\AfterFileAnalysis as AfterFileAnalysisEvent;
 
 /**
  * @internal
+ * @implements HookDecorator<\Churn\Event\Hook\AfterFileAnalysisHook>
  */
-class AfterFileAnalysisHookDecorator implements AfterFileAnalysis
+class AfterFileAnalysisHookDecorator implements AfterFileAnalysis, HookDecorator
 {
     /**
-     * @var string
+     * @var class-string<\Churn\Event\Hook\AfterFileAnalysisHook>
      */
     private $hook;
 
     /**
      * @param string $hook The user-defined hook class name.
+     * @psalm-param class-string<\Churn\Event\Hook\AfterFileAnalysisHook> $hook
      */
     public function __construct(string $hook)
     {
@@ -29,6 +31,6 @@ class AfterFileAnalysisHookDecorator implements AfterFileAnalysis
      */
     public function onAfterFileAnalysis(AfterFileAnalysisEvent $event): void
     {
-        \call_user_func([$this->hook, 'afterFileAnalysis'], $event);
+        $this->hook::afterFileAnalysis($event);
     }
 }

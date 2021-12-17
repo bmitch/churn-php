@@ -49,6 +49,7 @@ abstract class BaseValidator implements Validator
             return;
         }
 
+        /** @var mixed $value */
         $value = $configuration[$this->key];
 
         $this->validateValue($config, $value);

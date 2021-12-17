@@ -17,6 +17,7 @@ interface ProcessHandler
      *
      * @param Generator $filesFinder Collection of files.
      * @param ProcessFactory $processFactory Process Factory.
+     * @psalm-param Generator<\Churn\File\File> $filesFinder
      */
     public function process(Generator $filesFinder, ProcessFactory $processFactory): void;
 }

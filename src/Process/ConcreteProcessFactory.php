@@ -57,6 +57,7 @@ class ConcreteProcessFactory implements ProcessFactory
     /**
      * @param string $vcs Name of the version control system.
      * @param string $commitsSince String containing the date of when to look at commits since.
+     * @return Closure(File):ChangesCountInterface
      */
     private function getChangesCountProcessBuilder(string $vcs, string $commitsSince): Closure
     {
@@ -65,6 +66,8 @@ class ConcreteProcessFactory implements ProcessFactory
 
     /**
      * Returns a cyclomatic complexity builder.
+     *
+     * @return Closure(File):CyclomaticComplexityInterface
      */
     private function getCyclomaticComplexityProcessBuilder(): Closure
     {

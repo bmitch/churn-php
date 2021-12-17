@@ -22,6 +22,7 @@ class ChangesCountProcessBuilder
     /**
      * @param string $vcs Name of the version control system.
      * @param string $commitsSince String containing the date of when to look at commits since.
+     * @return Closure(File):ChangesCountInterface
      * @throws InvalidArgumentException If VCS is not supported.
      */
     public function getBuilder(string $vcs, string $commitsSince): Closure
@@ -44,6 +45,7 @@ class ChangesCountProcessBuilder
 
     /**
      * @param string $commitsSince String containing the date of when to look at commits since.
+     * @return Closure(File):ChangesCountInterface
      */
     private function getGitChangesCountProcessBuilder(string $commitsSince): Closure
     {
@@ -54,6 +56,7 @@ class ChangesCountProcessBuilder
 
     /**
      * @param string $commitsSince String containing the date of when to look at commits since.
+     * @return Closure(File):ChangesCountInterface
      */
     private function getSubversionChangesCountProcessBuilder(string $commitsSince): Closure
     {
@@ -70,6 +73,7 @@ class ChangesCountProcessBuilder
 
     /**
      * @param string $commitsSince String containing the date of when to look at commits since.
+     * @return Closure(File):ChangesCountInterface
      */
     private function getMercurialChangesCountProcessBuilder(string $commitsSince): Closure
     {
@@ -82,6 +86,7 @@ class ChangesCountProcessBuilder
 
     /**
      * @param string $commitsSince String containing the date of when to look at commits since.
+     * @return Closure(File):ChangesCountInterface
      */
     private function getFossilChangesCountProcessBuilder(string $commitsSince): Closure
     {
@@ -94,6 +99,8 @@ class ChangesCountProcessBuilder
 
     /**
      * Returns a builder for NoVcsChangesCountProcess.
+     *
+     * @return Closure(File):ChangesCountInterface
      */
     private function getNoVcsChangesCountProcessBuilder(): Closure
     {

@@ -19,7 +19,7 @@ use InvalidArgumentException;
 final class HookLoader
 {
     /**
-     * @var array<class-string, class-string>
+     * @var array<class-string<\Churn\Event\Subscriber\HookDecorator>, class-string>
      */
     private $decorators;
 
@@ -104,7 +104,7 @@ final class HookLoader
 
     /**
      * @param class-string $hookName The class name of the hook.
-     * @return array<mixed>
+     * @return array<\Churn\Event\Subscriber\HookDecorator>
      */
     private function hookToSubscribers(string $hookName): array
     {

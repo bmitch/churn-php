@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Churn\Event\Subscriber;
 
-use Churn\Event\Event\AfterAnalysisEvent;
+use Churn\Event\Event\AfterAnalysis as AfterAnalysisEvent;
 
 /**
  * @internal
