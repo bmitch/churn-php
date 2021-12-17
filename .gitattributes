@@ -8,7 +8,6 @@
 box.json.dist export-ignore
 CHANGELOG.md export-ignore
 churn.yml export-ignore
-codor.xml export-ignore
 CONTRIBUTING.md export-ignore
 img/ export-ignore
 phpcs.xml export-ignore
