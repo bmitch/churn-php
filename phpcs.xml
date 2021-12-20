@@ -9,6 +9,9 @@
   <file>./src</file>
 
   <rule ref="PSR12"/>
+
+  <!-- PHPCompatibility -->
+  <config name="testVersion" value="7.1-"/>
   <rule ref="PHPCompatibility"/>
 
   <!-- Dock Blocks -->
