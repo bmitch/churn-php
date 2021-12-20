@@ -24,9 +24,7 @@
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.4",
-        "bmitch/codor": "^1.2",
         "mockery/mockery": "^1.2.0",
-        "slevomat/coding-standard": "^7.0",
         "symfony/phpunit-bridge": "^5.1 || ^6.0"
     },
     "autoload": {
@@ -45,8 +43,7 @@
     "config": {
         "allow-plugins": {
             "bamarni/composer-bin-plugin": true,
-            "composer/package-versions-deprecated": true,
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "composer/package-versions-deprecated": true
         },
         "sort-packages": true
     },

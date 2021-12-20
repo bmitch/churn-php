@@ -10,6 +10,10 @@
 
   <rule ref="PSR12"/>
 
+  <!-- PHPCompatibility -->
+  <config name="testVersion" value="7.1-"/>
+  <rule ref="PHPCompatibility"/>
+
   <!-- Dock Blocks -->
   <rule ref="Squiz.Commenting.FunctionComment" />
   <rule ref="Squiz.Commenting.FunctionCommentThrowTag" />
@@ -22,7 +26,7 @@
     </properties>
   </rule>
 
-  <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
+  <rule ref="vendor-bin/phpcs/vendor/slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
     <exclude name="SlevomatCodingStandard.Classes.EmptyLinesAroundClassBraces.NoEmptyLineAfterOpeningBrace"/>
     <exclude name="SlevomatCodingStandard.Classes.EmptyLinesAroundClassBraces.NoEmptyLineBeforeClosingBrace"/>
     <exclude name="SlevomatCodingStandard.Classes.SuperfluousInterfaceNaming.SuperfluousSuffix"/>
@@ -57,7 +61,7 @@
   </rule>
 
   <!-- Codor rules -->
-  <rule ref="vendor/bmitch/codor/src/Codor/ruleset.xml">
+  <rule ref="vendor-bin/phpcs/vendor/bmitch/codor/src/Codor/ruleset.xml">
     <exclude name="Codor.Classes.FinalPrivate.Codor\Sniffs\Classes\FinalPrivateSniff"/>
   </rule>
   <rule ref="Codor.Files.IndentationLevel">
