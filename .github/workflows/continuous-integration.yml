@@ -16,6 +16,8 @@ jobs:
   tests:
     name: "CI"
     runs-on: ${{ matrix.os }}
+    # We want to run on external PRs, but not on our own internal PRs as they'll be run by the push to the branch.
+    if: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
 
     strategy:
       matrix:
@@ -73,6 +75,8 @@ jobs:
   test-vcs:
     name: "Test VCS"
     runs-on: ubuntu-latest
+    # We want to run on external PRs, but not on our own internal PRs as they'll be run by the push to the branch.
+    if: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
 
     strategy:
       matrix:
