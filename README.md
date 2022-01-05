@@ -159,11 +159,13 @@ vendor/bin/churn run --format json
 
 The *hooks* configuration allows you to customize `churn`.
 
-A user-defined hook must implement at least one of the following interfaces:
+A user-defined hook must implement at least one Hook interface:
 
-* [AfterAnalysisHook](src/Event/Hook/AfterAnalysisHook.php)
-* [AfterFileAnalysisHook](src/Event/Hook/AfterFileAnalysisHook.php)
-* [BeforeAnalysisHook](src/Event/Hook/BeforeAnalysisHook.php)
+| Hook interface | Corresponding event interface |
+|----------------|-------------------------------|
+| [AfterAnalysisHook](src/Event/Hook/AfterAnalysisHook.php) | [AfterAnalysis](src/Event/Event/AfterAnalysis.php) |
+| [AfterFileAnalysisHook](src/Event/Hook/AfterFileAnalysisHook.php) | [AfterFileAnalysis](src/Event/Event/AfterFileAnalysis.php) |
+| [BeforeAnalysisHook](src/Event/Hook/BeforeAnalysisHook.php) | [BeforeAnalysis](src/Event/Event/BeforeAnalysis.php) |
 
 ## Similar Packages
 * https://github.com/danmayer/churn (Ruby)
