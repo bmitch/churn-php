@@ -4,3 +4,7 @@ build:
       tests:
         override:
           - php-scrutinizer-run
+
+filter:
+  paths:
+    - src/
