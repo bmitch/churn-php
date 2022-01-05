@@ -159,7 +159,7 @@ vendor/bin/churn run --format json
 
 The *hooks* configuration allows you to customize `churn`.
 
-A user-defined hook must implement at least one of the following interfaces:
+A user-defined hook must implement at least one Hook interface:
 
 | Hook interface | Corresponding event interface |
 |----------------|-------------------------------|
