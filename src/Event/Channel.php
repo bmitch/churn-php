@@ -19,14 +19,12 @@ interface Channel
     public function accepts($subscriber): bool;
 
     /**
-     * @return string
      * @psalm-return class-string<E>
      */
     public function getEventClassname(): string;
 
     /**
      * @param object $subscriber A subscriber instance.
-     * @return Closure
      * @psalm-param S $subscriber
      * @psalm-return Closure(E): void
      */
