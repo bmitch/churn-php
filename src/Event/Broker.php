@@ -14,7 +14,8 @@ use Churn\Event\Channel\BeforeAnalysisChannel;
 class Broker
 {
     /**
-     * @var array<class-string, array<callable>>
+     * @var array<string, array<callable>>
+     * @psalm-var array<class-string, array<callable>>
      */
     private $subscribers = [];
 
