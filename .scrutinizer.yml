@@ -5,6 +5,18 @@ build:
         override:
           - php-scrutinizer-run
 
+checks: 
+  php: true
+
+coding_style: 
+  php: 
+    spaces: 
+      around_operators: 
+        concatenation: true
+      before_parentheses:
+        closure_definition: true
+
+
 filter:
   paths:
     - src/
