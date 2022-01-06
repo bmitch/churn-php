@@ -9,7 +9,13 @@
     "authors": [
         {
             "name": "Bill Mitchell",
-            "email": "wkmitch@gmail.com"
+            "email": "wkmitch@gmail.com",
+            "role": "creator"
+        },
+        {
+            "name": "Fabien Villepinte",
+            "email": "fabien.villepinte@gmail.com",
+            "role": "maintainer"
         }
     ],
     "homepage": "https://github.com/bmitch/churn-php",
