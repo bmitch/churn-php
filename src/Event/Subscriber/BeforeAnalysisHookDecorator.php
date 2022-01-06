@@ -13,7 +13,8 @@ use Churn\Event\Event\BeforeAnalysis as BeforeAnalysisEvent;
 class BeforeAnalysisHookDecorator implements BeforeAnalysis, HookDecorator
 {
     /**
-     * @var class-string<\Churn\Event\Hook\BeforeAnalysisHook>
+     * @var string
+     * @psalm-var class-string<\Churn\Event\Hook\BeforeAnalysisHook>
      */
     private $hook;
 

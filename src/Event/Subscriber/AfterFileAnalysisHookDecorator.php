@@ -13,7 +13,8 @@ use Churn\Event\Event\AfterFileAnalysis as AfterFileAnalysisEvent;
 class AfterFileAnalysisHookDecorator implements AfterFileAnalysis, HookDecorator
 {
     /**
-     * @var class-string<\Churn\Event\Hook\AfterFileAnalysisHook>
+     * @var string
+     * @psalm-var class-string<\Churn\Event\Hook\AfterFileAnalysisHook>
      */
     private $hook;
 

@@ -13,7 +13,8 @@ use Churn\Event\Event\AfterAnalysis as AfterAnalysisEvent;
 class AfterAnalysisHookDecorator implements AfterAnalysis, HookDecorator
 {
     /**
-     * @var class-string<\Churn\Event\Hook\AfterAnalysisHook>
+     * @var string
+     * @psalm-var class-string<\Churn\Event\Hook\AfterAnalysisHook>
      */
     private $hook;
 

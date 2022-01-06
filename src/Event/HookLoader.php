@@ -19,7 +19,8 @@ use InvalidArgumentException;
 final class HookLoader
 {
     /**
-     * @var array<class-string<\Churn\Event\Subscriber\HookDecorator>, class-string>
+     * @var array<string, string>
+     * @psalm-var array<class-string<\Churn\Event\Subscriber\HookDecorator>, class-string>
      */
     private $decorators;
 
@@ -82,7 +83,8 @@ final class HookLoader
 
     /**
      * @param string $hookPath The class name or the file path of the hook.
-     * @return array<class-string>
+     * @return array<string>
+     * @psalm-return array<class-string>
      */
     private function loadHooks(string $hookPath): array
     {
@@ -103,8 +105,9 @@ final class HookLoader
     }
 
     /**
-     * @param class-string $hookName The class name of the hook.
+     * @param string $hookName The class name of the hook.
      * @return array<\Churn\Event\Subscriber\HookDecorator>
+     * @psalm-param class-string $hookName
      */
     private function hookToSubscribers(string $hookName): array
     {
