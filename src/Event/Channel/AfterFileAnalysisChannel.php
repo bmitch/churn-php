@@ -24,7 +24,7 @@ final class AfterFileAnalysisChannel implements Channel
     }
 
     /**
-     * @return class-string<AfterFileAnalysisEvent>
+     * @psalm-return class-string<AfterFileAnalysisEvent>
      */
     public function getEventClassname(): string
     {
@@ -33,8 +33,8 @@ final class AfterFileAnalysisChannel implements Channel
 
     /**
      * @param object $subscriber A subscriber instance.
-     * @return Closure(AfterFileAnalysisEvent): void
      * @psalm-param AfterFileAnalysis $subscriber
+     * @psalm-return Closure(AfterFileAnalysisEvent): void
      */
     public function buildEventHandler($subscriber): Closure
     {

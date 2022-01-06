@@ -24,7 +24,7 @@ final class BeforeAnalysisChannel implements Channel
     }
 
     /**
-     * @return class-string<BeforeAnalysisEvent>
+     * @psalm-return class-string<BeforeAnalysisEvent>
      */
     public function getEventClassname(): string
     {
@@ -33,8 +33,8 @@ final class BeforeAnalysisChannel implements Channel
 
     /**
      * @param object $subscriber A subscriber instance.
-     * @return Closure(BeforeAnalysisEvent): void
      * @psalm-param BeforeAnalysis $subscriber
+     * @psalm-return Closure(BeforeAnalysisEvent): void
      */
     public function buildEventHandler($subscriber): Closure
     {
