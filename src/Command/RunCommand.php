@@ -196,7 +196,7 @@ class RunCommand extends Command
     {
         return [] === $input->getArgument('paths')
             ? $config->getDirPath()
-            : \getcwd();
+            : (string)\getcwd();
     }
 
     /**
@@ -239,12 +239,11 @@ class RunCommand extends Command
             $output->writeln("\n");
         }
 
-        if (!empty($input->getOption('output'))) {
-            $output = new StreamOutput(
-                \fopen((string) $input->getOption('output'), 'w+'),
-                OutputInterface::VERBOSITY_NORMAL,
-                false
-            );
+        $outputPath = $input->getOption('output');
+        if (\is_string($outputPath) && '' !== $outputPath) {
+            $handler = \fopen($outputPath, 'w+');
+            Assert::notFalse($handler, 'Cannot write into: ' . $outputPath);
+            $output = new StreamOutput($handler, OutputInterface::VERBOSITY_NORMAL, false);
         }
 
         $renderer = $this->renderFactory->getRenderer($input->getOption('format'));

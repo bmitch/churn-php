@@ -113,7 +113,7 @@ class CacheProcessFactory implements AfterAnalysis, AfterFileAnalysis, ProcessFa
         $data = [];
 
         foreach ($this->cache as $path => $values) {
-            if (!$values[3]) {
+            if (!(bool)$values[3]) {
                 continue;
             }
 
@@ -151,9 +151,14 @@ class CacheProcessFactory implements AfterAnalysis, AfterFileAnalysis, ProcessFa
             return [];
         }
 
+        $rows = \file($cachePath);
+        if (false === $rows) {
+            return [];
+        }
+
         $cache = [];
 
-        foreach (\file($cachePath) as $row) {
+        foreach ($rows as $row) {
             $data = \explode(',', $row);
             $cache[$data[0]] = \array_slice($data, 1);
             $cache[$data[0]][3] = false;

@@ -13,6 +13,7 @@ use Churn\Process\ChangesCount\SubversionChangesCountProcess;
 use Closure;
 use DateTime;
 use InvalidArgumentException;
+use Webmozart\Assert\Assert;
 
 /**
  * @internal
@@ -62,7 +63,7 @@ class ChangesCountProcessBuilder
     {
         $dateRange = \sprintf(
             '{%s}:{%s}',
-            \date('Y-m-d', \strtotime($commitsSince)),
+            \date('Y-m-d', $this->toTime($commitsSince)),
             (new DateTime('tomorrow'))->format('Y-m-d')
         );
 
@@ -77,7 +78,7 @@ class ChangesCountProcessBuilder
      */
     private function getMercurialChangesCountProcessBuilder(string $commitsSince): Closure
     {
-        $date = \date('Y-m-d', \strtotime($commitsSince));
+        $date = \date('Y-m-d', $this->toTime($commitsSince));
 
         return static function (File $file) use ($date): ChangesCountInterface {
             return new MercurialChangesCountProcess($file, $date);
@@ -90,7 +91,7 @@ class ChangesCountProcessBuilder
      */
     private function getFossilChangesCountProcessBuilder(string $commitsSince): Closure
     {
-        $date = \date('Y-m-d', \strtotime($commitsSince));
+        $date = \date('Y-m-d', $this->toTime($commitsSince));
 
         return static function (File $file) use ($date): ChangesCountInterface {
             return new FossilChangesCountProcess($file, $date);
@@ -107,5 +108,18 @@ class ChangesCountProcessBuilder
         return static function (File $file): ChangesCountInterface {
             return new NoVcsChangesCountProcess($file);
         };
+    }
+
+    /**
+     * Convert a string like "3 years ago" to timestamp.
+     *
+     * @param string $commitsSince String containing the date of when to look at commits since.
+     */
+    private function toTime(string $commitsSince): int
+    {
+        $time = \strtotime($commitsSince);
+        Assert::positiveInteger($time, 'Commits since can not be converted to timestamp');
+
+        return $time;
     }
 }

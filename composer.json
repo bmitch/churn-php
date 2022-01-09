@@ -70,10 +70,11 @@
             "phpmd src text phpmd.xml",
             "phploc src",
             "phpcpd src",
-            "psalm",
             "simple-phpunit --colors=always --testdox --testsuite churn-tests --coverage-clover=coverage.xml",
             "@php bin/churn run src -p -vvv",
-            "phpcs"
+            "phpcs",
+            "psalm",
+            "phpstan"
         ]
     }
 }
