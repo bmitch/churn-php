@@ -196,7 +196,7 @@ class RunCommand extends Command
     {
         return [] === $input->getArgument('paths')
             ? $config->getDirPath()
-            : (string)\getcwd();
+            : (string) \getcwd();
     }
 
     /**

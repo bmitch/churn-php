@@ -79,7 +79,7 @@ class FileFinder
         if (\is_file($path)) {
             $file = new SplFileInfo($path);
 
-            yield new File((string)$file->getRealPath(), $this->getDisplayPath($file));
+            yield new File((string) $file->getRealPath(), $this->getDisplayPath($file));
 
             return;
         }
@@ -90,7 +90,7 @@ class FileFinder
         }
 
         foreach ($this->findPhpFiles($path) as $file) {
-            yield new File((string)$file->getRealPath(), $this->getDisplayPath($file));
+            yield new File((string) $file->getRealPath(), $this->getDisplayPath($file));
         }
     }
 
@@ -148,7 +148,7 @@ class FileFinder
     {
         foreach ($this->filters as $regex) {
             $realPath = $file->getRealPath();
-            if (false === $realPath || (bool)\preg_match("#{$regex}#", $realPath)) {
+            if (false === $realPath || (bool) \preg_match("#{$regex}#", $realPath)) {
                 return true;
             }
         }
@@ -163,7 +163,7 @@ class FileFinder
      */
     private function patternToRegex(string $filePattern): string
     {
-        $regex = (string)\preg_replace("#(.*)\*([\w.]*)$#", "$1.+$2$", $filePattern);
+        $regex = (string) \preg_replace("#(.*)\*([\w.]*)$#", "$1.+$2$", $filePattern);
 
         if ('\\' === \DIRECTORY_SEPARATOR) {
             $regex = \str_replace('/', '\\\\', $regex);

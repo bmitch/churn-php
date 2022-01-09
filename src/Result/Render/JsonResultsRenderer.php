@@ -30,6 +30,6 @@ class JsonResultsRenderer implements ResultsRendererInterface
             ];
         }
 
-        $output->write((string)\json_encode($data));
+        $output->write((string) \json_encode($data));
     }
 }

@@ -113,7 +113,7 @@ class CacheProcessFactory implements AfterAnalysis, AfterFileAnalysis, ProcessFa
         $data = [];
 
         foreach ($this->cache as $path => $values) {
-            if (!(bool)$values[3]) {
+            if (!(bool) $values[3]) {
                 continue;
             }
 
