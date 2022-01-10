@@ -131,7 +131,10 @@ class RunCommandTest extends BaseTestCase
     public function it_throws_when_no_directory(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->commandTester->execute(['paths' => []]);
+        $this->commandTester->execute([
+            'paths' => [],
+            '-c' => __DIR__ . '/config/empty.yml',
+        ]);
     }
 
     /** @test */
