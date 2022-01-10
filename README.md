@@ -43,7 +43,7 @@ If you want to install `churn-php` in Symfony project, your Symfony components v
 
 ## How to Install?
 Install via Composer:
-```
+```sh
 composer require bmitch/churn-php --dev
 ```
 
@@ -53,22 +53,25 @@ phive install churn
 ```
 
 ## How to Use?
-```
+```sh
 vendor/bin/churn run <one or more paths to source code> ...
 vendor/bin/churn run src
 vendor/bin/churn run src tests
+
+# the command name can be skipped if directoriesToScan is set in churn.yml
+vendor/bin/churn
 ```
 
 You can also use `churn-php` via [Docker](https://hub.docker.com/r/dockerizedphp/churn):
 
-```
+```sh
 docker run --rm -ti -v $PWD:/app dockerizedphp/churn run src
 ```
 
 ## How to Configure?
 You may add an optional `churn.yml` file which can be used to configure churn-php. The location of the churn.yml file can be customized using these commands:
 
-```
+```sh
 # Default: "churn.yml" 
 vendor/bin/churn run --configuration=config-dir/ <path>
 vendor/bin/churn run --configuration=my-config.yml <path>
