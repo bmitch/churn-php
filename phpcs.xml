@@ -59,6 +59,7 @@
     <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamName"/>
     <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType"/>
   </rule>
+  <rule ref="vendor-bin/phpcs/vendor/squizlabs/php_codesniffer/src/Standards/Generic/Sniffs/Formatting/SpaceAfterCastSniff.php"/>
 
   <!-- Codor rules -->
   <rule ref="vendor-bin/phpcs/vendor/bmitch/codor/src/Codor/ruleset.xml">

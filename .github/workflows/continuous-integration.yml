@@ -176,7 +176,10 @@ jobs:
         run: "vendor/bin/phpcpd src"
 
       - name: "Run Psalm"
-        run: "vendor/bin/psalm --php-version=8.0 --show-info=true"
+        run: "vendor/bin/psalm --show-info=true"
+
+      - name: "Run PHPStan"
+        run: "vendor/bin/phpstan"
 
       - name: "Run PHP_CodeSniffer"
         run: "vendor/bin/phpcs"

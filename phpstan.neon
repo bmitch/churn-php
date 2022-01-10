@@ -1,0 +1,13 @@
+parameters:
+  level: 8
+  paths:
+    - %currentWorkingDirectory%/src/
+
+  checkGenericClassInNonGenericObjectType: false
+  ignoreErrors:
+    - '/Construct empty\(\) is not allowed\. Use more strict comparison/'
+    - '/Call to function is_subclass_of\(\) with class-string and class-string will always evaluate to true/'
+    - '/Casting to .+ something that''s already/'
+
+  symfony:
+    console_application_loader: %currentWorkingDirectory%/tests/console-application.php

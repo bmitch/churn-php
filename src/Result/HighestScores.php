@@ -22,7 +22,7 @@ class HighestScores
     public function __construct(int $maxSize)
     {
         // PHPDoc mandatory for now, see: https://github.com/vimeo/psalm/issues/7160
-        /** @var SplFixedArray<Result|null> $this->scores */
+        /** @psalm-suppress MixedPropertyTypeCoercion */
         $this->scores = new SplFixedArray($maxSize);
     }
 

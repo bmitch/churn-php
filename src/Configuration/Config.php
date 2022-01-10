@@ -96,7 +96,7 @@ class Config
     public function getDirPath(): string
     {
         return null === $this->path
-            ? \getcwd()
+            ? (string) \getcwd()
             : \dirname($this->path);
     }
 

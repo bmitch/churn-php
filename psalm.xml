@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <psalm
     errorLevel="1"
+    phpVersion="8.0"
     resolveFromConfigFile="true"
     skipChecksOnUnresolvableIncludes="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

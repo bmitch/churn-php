@@ -24,17 +24,18 @@ class CyclomaticComplexityAssessor
     public function assess(string $filePath): int
     {
         $this->score = 0;
-
         $contents = $this->getFileContents($filePath);
-        $this->hasAtLeastOneMethod($contents);
-        $this->countTheIfStatements($contents);
-        $this->countTheElseIfStatements($contents);
-        $this->countTheWhileLoops($contents);
-        $this->countTheForLoops($contents);
-        $this->countTheCaseStatements($contents);
-        $this->countTheTernaryOperators($contents);
-        $this->countTheLogicalAnds($contents);
-        $this->countTheLogicalOrs($contents);
+        if (false !== $contents) {
+            $this->hasAtLeastOneMethod($contents);
+            $this->countTheIfStatements($contents);
+            $this->countTheElseIfStatements($contents);
+            $this->countTheWhileLoops($contents);
+            $this->countTheForLoops($contents);
+            $this->countTheCaseStatements($contents);
+            $this->countTheTernaryOperators($contents);
+            $this->countTheLogicalAnds($contents);
+            $this->countTheLogicalOrs($contents);
+        }
 
         if (0 === $this->score) {
             $this->score = 1;
@@ -154,8 +155,9 @@ class CyclomaticComplexityAssessor
      * Return the contents of the provided file at $filePath.
      *
      * @param string $filePath Path and filename.
+     * @return string|false The file content.
      */
-    protected function getFileContents(string $filePath): string
+    protected function getFileContents(string $filePath)
     {
         return \file_get_contents($filePath);
     }
