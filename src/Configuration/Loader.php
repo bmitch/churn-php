@@ -32,7 +32,8 @@ class Loader
      */
     public static function fromPath(string $confPath, bool $isDefaultValue): Config
     {
-        $confPath = self::normalizePath($originalConfPath = $confPath);
+        $originalConfPath = $confPath;
+        $confPath = self::normalizePath($isDefaultValue ? '.' : $confPath);
 
         if (false !== $confPath && \is_readable($confPath)) {
             $config = new EditableConfig($confPath);
@@ -54,9 +55,18 @@ class Loader
      */
     private static function normalizePath(string $confPath)
     {
-        if (\is_dir($confPath)) {
-            $confPath = \rtrim($confPath, '/\\') . '/churn.yml';
+        if (!\is_dir($confPath)) {
+            return \realpath($confPath);
         }
+
+        $confPath = \rtrim($confPath, '/\\') . '/churn.yml';
+        $realConfPath = \realpath($confPath);
+
+        if (false !== $realConfPath) {
+            return $realConfPath;
+        }
+
+        $confPath .= '.dist';
 
         return \realpath($confPath);
     }
