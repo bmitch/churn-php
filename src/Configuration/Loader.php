@@ -54,9 +54,18 @@ class Loader
      */
     private static function normalizePath(string $confPath)
     {
-        if (\is_dir($confPath)) {
-            $confPath = \rtrim($confPath, '/\\') . '/churn.yml';
+        if (!\is_dir($confPath)) {
+            return \realpath($confPath);
         }
+
+        $confPath = \rtrim($confPath, '/\\') . '/churn.yml';
+        $realConfPath = \realpath($confPath);
+
+        if (false !== $realConfPath) {
+            return $realConfPath;
+        }
+
+        $confPath .= '.dist';
 
         return \realpath($confPath);
     }

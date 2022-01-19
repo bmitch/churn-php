@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Churn\Tests\Unit\Configuration;
 
 use Churn\Configuration\Config;
+use Churn\Configuration\EditableConfig;
 use Churn\Configuration\Loader;
 use Churn\Tests\BaseTestCase;
 use InvalidArgumentException;
@@ -32,5 +33,15 @@ class LoaderTest extends BaseTestCase
     {
         $this->expectException(InvalidArgumentException::class);
         Loader::fromPath(__FILE__, false);
+    }
+
+    /** @test */
+    public function it_fallbacks_on_the_distributed_file()
+    {
+        $dirPath = \realpath(__DIR__ . '/config/dist');
+        $config = Loader::fromPath($dirPath, true);
+
+        $this->assertEquals(new EditableConfig($dirPath . DIRECTORY_SEPARATOR . 'churn.yml.dist'), $config);
+        $this->assertEquals($dirPath, $config->getDirPath());
     }
 }
