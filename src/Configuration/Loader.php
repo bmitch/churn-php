@@ -34,6 +34,10 @@ class Loader
     {
         $confPath = self::normalizePath($originalConfPath = $confPath);
 
+        if (false === $confPath && $isDefaultValue) {
+            $confPath = \realpath($originalConfPath . '.dist');
+        }
+
         if (false !== $confPath && \is_readable($confPath)) {
             $config = new EditableConfig($confPath);
             $config->setUnrecognizedKeys(self::validate($config, self::loadYaml($confPath)));

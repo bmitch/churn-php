@@ -44,4 +44,21 @@ class LoaderTest extends BaseTestCase
         $this->assertEquals(new EditableConfig($dirPath . DIRECTORY_SEPARATOR . 'churn.yml.dist'), $config);
         $this->assertEquals($dirPath, $config->getDirPath());
     }
+
+    /** @test */
+    public function it_fallbacks_on_the_default_distributed_file()
+    {
+        $cwd = \getcwd();
+        $dirPath = \realpath(__DIR__ . '/config/dist');
+        try {
+            chdir($dirPath);
+            $config = Loader::fromPath('churn.yml', true);
+
+            $this->assertEquals(new EditableConfig($dirPath . DIRECTORY_SEPARATOR . 'churn.yml.dist'), $config);
+            $this->assertEquals($dirPath, $config->getDirPath());
+        } finally {
+            // restore cwd
+            chdir($cwd);
+        }
+    }
 }
