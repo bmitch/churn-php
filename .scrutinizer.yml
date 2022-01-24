@@ -1,10 +1,8 @@
 build:
+  environment:
+    php: 7.4.27
   nodes:
     analysis:
-      dependencies:
-        override:
-          - composer self-update --2
-          - composer install --no-interaction --no-scripts
       tests:
         override:
           - php-scrutinizer-run
