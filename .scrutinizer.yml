@@ -3,8 +3,7 @@ build:
     analysis:
       dependencies:
         before:
-          - echo $PATH
-          - composer selfupdate --2 --no-interaction
+          - /home/scrutinizer/.phpenv/shims/php /usr/bin/composer.phar self-update --2 --no-interaction
       tests:
         override:
           - php-scrutinizer-run
