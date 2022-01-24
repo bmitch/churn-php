@@ -5,11 +5,18 @@ require_once __DIR__ . '/bootstrap.php';
 
 use Churn\Command\AssessComplexityCommand;
 use Churn\Command\RunCommand;
-use PackageVersions\Versions;
+use Composer\InstalledVersions;
 use Symfony\Component\Console\Application;
 
-$version = substr(Versions::getVersion('bmitch/churn-php'), 0, -33);
-$application = new Application('churn-php', $version);
+$application = new Application('churn-php', (function (string $package): string {
+    $version = InstalledVersions::getPrettyVersion($package);
+    $ref = InstalledVersions::getReference($package);
+    if ($ref) {
+        $version .= '@' . \substr($ref, 0, 7);
+    }
+
+    return $version;
+})('bmitch/churn-php'));
 $application->add(new AssessComplexityCommand());
 $application->add($run = RunCommand::newInstance());
 $application->setDefaultCommand($run->getName());

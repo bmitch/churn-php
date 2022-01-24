@@ -1,9 +1,17 @@
 build:
+  environment:
+    # For some reasons Composer version depends on PHP version
+    # so we need a version of PHP high enough to get Composer2.
+    php: 7.4.27
   nodes:
     analysis:
       tests:
         override:
           - php-scrutinizer-run
+
+build_failure_conditions:
+  # No new major or critical issue is introduced (existing ones are tolerated)
+  - 'issues.severity(>= MAJOR).new.exists'
 
 checks: 
   php: true
