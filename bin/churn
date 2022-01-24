@@ -8,13 +8,15 @@ use Churn\Command\RunCommand;
 use Composer\InstalledVersions;
 use Symfony\Component\Console\Application;
 
-$version = InstalledVersions::getPrettyVersion('bmitch/churn-php');
-$ref = InstalledVersions::getReference('bmitch/churn-php');
-if (!empty($ref)) {
-    $version .= '@' . \substr($ref, 0, 7);
-}
+$application = new Application('churn-php', (function (string $package): string {
+    $version = InstalledVersions::getPrettyVersion($package);
+    $ref = InstalledVersions::getReference($package);
+    if ($ref) {
+        $version .= '@' . \substr($ref, 0, 7);
+    }
 
-$application = new Application('churn-php', $version);
+    return $version;
+})('bmitch/churn-php'));
 $application->add(new AssessComplexityCommand());
 $application->add($run = RunCommand::newInstance());
 $application->setDefaultCommand($run->getName());
