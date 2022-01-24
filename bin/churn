@@ -9,8 +9,9 @@ use Composer\InstalledVersions;
 use Symfony\Component\Console\Application;
 
 $version = InstalledVersions::getPrettyVersion('bmitch/churn-php');
-if (\substr($version, 0, 4) === 'dev-') {
-    $version .= '@' . \substr(InstalledVersions::getReference('bmitch/churn-php'), 0, 7);
+$ref = InstalledVersions::getReference('bmitch/churn-php');
+if (!empty($ref)) {
+    $version .= '@' . \substr($ref, 0, 7);
 }
 
 $application = new Application('churn-php', $version);
