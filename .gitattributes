@@ -10,6 +10,7 @@ CHANGELOG.md export-ignore
 churn.yml export-ignore
 CONTRIBUTING.md export-ignore
 img/ export-ignore
+Makefile export-ignore
 phpcs.xml export-ignore
 phpmd.xml export-ignore
 phpstan.neon export-ignore
