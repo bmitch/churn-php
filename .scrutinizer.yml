@@ -1,5 +1,7 @@
 build:
   environment:
+    # For some reasons Composer version depends on PHP version
+    # so we need a version of PHP high enough to get Composer2.
     php: 7.4.27
   nodes:
     analysis:
