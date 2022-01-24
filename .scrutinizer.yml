@@ -2,8 +2,9 @@ build:
   nodes:
     analysis:
       dependencies:
-        before:
-          - curl -sL https://getcomposer.org/download/latest-stable/composer.phar -o /usr/local/bin/composer
+        override:
+          - composer self-update --2
+          - composer install --no-interaction --no-scripts
       tests:
         override:
           - php-scrutinizer-run
