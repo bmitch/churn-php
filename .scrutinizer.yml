@@ -9,6 +9,10 @@ build:
         override:
           - php-scrutinizer-run
 
+build_failure_conditions:
+  # No new major or critical issue is introduced (existing ones are tolerated)
+  - 'issues.severity(>= MAJOR).new.exists'
+
 checks: 
   php: true
 
