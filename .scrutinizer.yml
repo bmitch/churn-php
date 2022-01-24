@@ -3,7 +3,7 @@ build:
     analysis:
       dependencies:
         before:
-          - /home/scrutinizer/.phpenv/shims/php /usr/bin/composer.phar self-update --2 --no-interaction
+          - curl -sL https://getcomposer.org/download/latest-stable/composer.phar -o /usr/local/bin/composer
       tests:
         override:
           - php-scrutinizer-run
