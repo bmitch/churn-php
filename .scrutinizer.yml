@@ -1,6 +1,9 @@
 build:
   nodes:
     analysis:
+      dependencies:
+        before:
+          - composer selfupdate --2 --no-interaction
       tests:
         override:
           - php-scrutinizer-run
