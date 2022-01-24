@@ -302,5 +302,5 @@ jobs:
 
       - name: Test churn.phar error message
         run: |
-          php -r "passthru('churn.phar &> error', \$code); if (\$code !== 1) exit('Invalid error code. Expected 1, got ' . \$code);"
+          php -r "passthru('./churn.phar &> error', \$code); if (\$code !== 1) exit('Invalid error code. Expected 1, got ' . \$code);"
           grep 'The application requires the version ">=7.1.3" or greater' error
