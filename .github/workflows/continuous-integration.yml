@@ -243,10 +243,12 @@ jobs:
           mv build/churn.phar .
 
       - name: "Test Version"
-        run: diff -u <(bin/churn -V) <(./churn.phar -V)
+        run: |
+          diff -u <(build/bin/churn -V) <(./churn.phar -V)
+          ./churn.phar --version | grep -E '^churn-php .+@[0-9a-z]{7}$'
 
       - name: "Test Phar"
-        run: diff -u <(bin/churn --format=csv | sort) <(./churn.phar --format=csv | sort)
+        run: diff -u <(build/bin/churn --format=csv | sort) <(./churn.phar --format=csv | sort)
 
       - name: "Save Phar"
         uses: actions/upload-artifact@v2
