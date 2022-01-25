@@ -41,19 +41,10 @@ jobs:
           content="${content//$'\r'/'%0D'}"
           echo "::set-output name=message::$content"
 
-      - name: "Install dependencies"
+      - name: "Build PHAR"
         run: |
-          composer config platform.php 7.1.3
-          composer update --no-dev --no-interaction --no-progress --prefer-dist
-          composer config --unset platform.php
-
-      - name: "Download Box"
-        run: |
-          curl -sL https://github.com/box-project/box/releases/download/3.9.1/box.phar -o box.phar
-          chmod +x box.phar
-
-      - name: "Compile PHAR"
-        run: ./box.phar compile
+          make build
+          mv build/churn.phar .
 
       - name: "Sign PHAR"
         run: echo "$GPG_PASSPHRASE" | gpg --pinentry-mode=loopback --passphrase-fd 0 -u wkmitch@gmail.com --output churn.phar.asc --detach-sign churn.phar

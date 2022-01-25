@@ -3,6 +3,10 @@
         "KevinGH\\Box\\Compactor\\Php"
     ],
     "dump-autoload": false,
+    "files-bin": [
+        "LICENSE.md",
+        "manifest.xml"
+    ],
     "finder": [
         {
             "in": "bin"

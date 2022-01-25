@@ -237,22 +237,10 @@ jobs:
             composer-${{ runner.os }}-
             composer-
 
-      - name: "Install dependencies"
+      - name: "Build Phar"
         run: |
-          composer config platform.php 7.1.3
-          composer update --no-dev --no-interaction --no-progress --prefer-dist
-          composer config --unset platform.php
-
-      - name: "Download Box"
-        run: |
-          curl -sL https://github.com/box-project/box/releases/download/3.9.1/box.phar -o box.phar
-          chmod +x box.phar
-
-      - name: "Validate box configuration"
-        run: ./box.phar validate
-
-      - name: "Compile"
-        run: ./box.phar compile
+          make build
+          mv build/churn.phar .
 
       - name: "Test Version"
         run: diff -u <(bin/churn -V) <(./churn.phar -V)
