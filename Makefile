@@ -34,5 +34,4 @@ build: box
 .PHONY: clean
 clean:	## Clean the build folder
 clean:
-	rm -rf build/src build/bin build/composer.json build/box.json.dist build/manifest.xml build/LICENSE.md \
-	build/vendor build/composer.lock build/box.phar build/churn.phar
+	(cd build && rm -rf src bin composer.json box.json.dist manifest.xml LICENSE.md vendor composer.lock box.phar churn.phar)
