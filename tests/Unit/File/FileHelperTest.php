@@ -4,11 +4,20 @@ declare(strict_types=1);
 
 namespace Churn\Tests\Unit\File;
 
+use InvalidArgumentException;
 use Churn\File\FileHelper;
 use Churn\Tests\BaseTestCase;
+use Symfony\Component\Filesystem\Filesystem;
 
 class FileHelperTest extends BaseTestCase
 {
+    /** @var string[] */
+    private $filesToDelete = [];
+
+    protected function tearDown()
+    {
+        (new Filesystem())->remove($this->filesToDelete);
+    }
 
     /**
      * @test
@@ -49,5 +58,41 @@ class FileHelperTest extends BaseTestCase
         if ('\\' === \DIRECTORY_SEPARATOR) {
             yield ['C:\\foo\\file.php', 'C:\\foo\\', 'file.php'];
         }
+    }
+
+    /**
+     * @test
+     * @dataProvider provide_writable_paths
+     */
+    public function it_can_ensure_a_file_is_writable(string $filePath): void
+    {
+        $dirPath = \dirname($filePath);
+
+        FileHelper::ensureFileIsWritable($filePath);
+
+        $this->assertTrue(\is_dir($dirPath), "Directory should exist: " . $dirPath);
+    }
+
+    public function provide_writable_paths(): iterable
+    {
+        yield [__FILE__];
+        yield [__DIR__ . '/non-existing-file'];
+        $this->filesToDelete[] = __DIR__ . '/path';
+        yield [__DIR__ . '/path/to/non-existing-file'];
+    }
+
+    /**
+     * @test
+     * @dataProvider provide_unwritable_paths
+     */
+    public function it_throws_with_unwritable_files(string $filePath): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        FileHelper::ensureFileIsWritable($filePath);
+    }
+
+    public function provide_unwritable_paths(): iterable
+    {
+        yield [__DIR__];
     }
 }
