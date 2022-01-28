@@ -83,6 +83,11 @@ class ValidatorTest extends BaseTestCase
     public function it_accepts_null(Validator $validator, string $method): void
     {
         $config = new EditableConfig();
+        // set non-null values to test they will be changed
+        $config->setCachePath('/cache/path');
+        $config->setMaxScoreThreshold(1.0);
+        $config->setMinScoreToShow(1);
+
         $validator->validate($config, [$validator->getKey() => null]);
 
         $this->assertNull($config->$method());
