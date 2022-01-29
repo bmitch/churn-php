@@ -83,16 +83,17 @@ class FileHelperTest extends BaseTestCase
 
     /**
      * @test
-     * @dataProvider provide_unwritable_paths
+     * @dataProvider provide_invalid_writable_paths
      */
-    public function it_throws_with_unwritable_files(string $filePath): void
+    public function it_throws_with_invalid_writable_files(string $filePath): void
     {
         $this->expectException(InvalidArgumentException::class);
         FileHelper::ensureFileIsWritable($filePath);
     }
 
-    public function provide_unwritable_paths(): iterable
+    public function provide_invalid_writable_paths(): iterable
     {
+        yield [''];
         yield [__DIR__];
     }
 }

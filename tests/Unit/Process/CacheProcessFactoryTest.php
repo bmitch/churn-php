@@ -16,16 +16,17 @@ class CacheProcessFactoryTest extends BaseTestCase
      * @test
      * @dataProvider provide_invalid_paths
      */
-    public function it_throws_for_invalid_cache_path(string $cachePath): void
+    public function it_throws_for_invalid_cache_path(string $cachePath, string $errorMessage): void
     {
         $factory = m::mock(ProcessFactory::class);
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid cache file path: ' . $errorMessage);
         new CacheProcessFactory($cachePath, $factory);
     }
 
     public function provide_invalid_paths(): iterable
     {
-        yield [''];
-        yield [__DIR__];
+        yield ['', 'Path cannot be empty'];
+        yield [__DIR__, 'Path cannot be a folder'];
     }
 }
