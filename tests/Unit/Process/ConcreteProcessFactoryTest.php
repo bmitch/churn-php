@@ -76,7 +76,8 @@ class ConcreteProcessFactoryTest extends BaseTestCase
     {
         $config = new Config();
         $this->expectException(InvalidArgumentException::class);
-        $this->processFactory = new ConcreteProcessFactory('not a valid VCS', $config->getCommitsSince());
+        $this->expectExceptionMessage('Unsupported VCS: not a valid VCS');
+        new ConcreteProcessFactory('not a valid VCS', $config->getCommitsSince());
     }
 
     /** @test */

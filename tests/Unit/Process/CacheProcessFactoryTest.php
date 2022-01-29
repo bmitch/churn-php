@@ -21,6 +21,7 @@ class CacheProcessFactoryTest extends BaseTestCase
         $factory = m::mock(ProcessFactory::class);
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid cache file path: ' . $errorMessage);
+        $this->expectExceptionCode(0);
         new CacheProcessFactory($cachePath, $factory);
     }
 
