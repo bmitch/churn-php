@@ -104,33 +104,34 @@ class ValidatorTest extends BaseTestCase
      * @test
      * @dataProvider provide_validators_with_invalid_value
      */
-    public function it_throws_with_invalid_value(Validator $validator, $invalidValue): void
+    public function it_throws_with_invalid_value(Validator $validator, $invalidValue, string $errorMessage): void
     {
         $config = new EditableConfig();
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage($errorMessage);
         $validator->validate($config, [$validator->getKey() => $invalidValue]);
     }
 
     public function provide_validators_with_invalid_value(): iterable
     {
-        yield 'CachePath / int' => [new CachePath(), 123];
-        yield 'CommitsSince / int' => [new CommitsSince(), 123];
-        yield 'CommitsSince / null' => [new CommitsSince(), null];
-        yield 'DirectoriesToScan / string' => [new DirectoriesToScan(), 'foo'];
-        yield 'DirectoriesToScan / null' => [new DirectoriesToScan(), null];
-        yield 'FileExtensions / string' => [new FileExtensions(), 'foo'];
-        yield 'FileExtensions / null' => [new FileExtensions(), null];
-        yield 'FilesToIgnore / string' => [new FilesToIgnore(), 'foo'];
-        yield 'FilesToIgnore / null' => [new FilesToIgnore(), null];
-        yield 'FilesToShow / string' => [new FilesToShow(), 'foo'];
-        yield 'FilesToShow / null' => [new FilesToShow(), null];
-        yield 'Hooks / string' => [new Hooks(), 'foo'];
-        yield 'Hooks / null' => [new Hooks(), null];
-        yield 'MaxScoreThreshold / string' => [new MaxScoreThreshold(), 'foo'];
-        yield 'MinScoreToShow / string' => [new MinScoreToShow(), 'foo'];
-        yield 'ParallelJobs / string' => [new ParallelJobs(), 'foo'];
-        yield 'ParallelJobs / null' => [new ParallelJobs(), null];
-        yield 'Vcs / int' => [new Vcs(), 123];
-        yield 'Vcs / null' => [new Vcs(), null];
+        yield 'CachePath / int' => [new CachePath(), 123, 'Cache path should be a string'];
+        yield 'CommitsSince / int' => [new CommitsSince(), 123, 'Commits since should be a string'];
+        yield 'CommitsSince / null' => [new CommitsSince(), null, 'Commits since should be a string'];
+        yield 'DirectoriesToScan / string' => [new DirectoriesToScan(), 'foo', 'Directories to scan should be an array of strings'];
+        yield 'DirectoriesToScan / null' => [new DirectoriesToScan(), null, 'Directories to scan should be an array of strings'];
+        yield 'FileExtensions / string' => [new FileExtensions(), 'foo', 'File extensions should be an array of strings'];
+        yield 'FileExtensions / null' => [new FileExtensions(), null, 'File extensions should be an array of strings'];
+        yield 'FilesToIgnore / string' => [new FilesToIgnore(), 'foo', 'Files to ignore should be an array of strings'];
+        yield 'FilesToIgnore / null' => [new FilesToIgnore(), null, 'Files to ignore should be an array of strings'];
+        yield 'FilesToShow / string' => [new FilesToShow(), 'foo', 'Files to show should be an integer'];
+        yield 'FilesToShow / null' => [new FilesToShow(), null, 'Files to show should be an integer'];
+        yield 'Hooks / string' => [new Hooks(), 'foo', 'Hooks should be an array of strings'];
+        yield 'Hooks / null' => [new Hooks(), null, 'Hooks should be an array of strings'];
+        yield 'MaxScoreThreshold / string' => [new MaxScoreThreshold(), 'foo', 'Maximum score threshold should be a number'];
+        yield 'MinScoreToShow / string' => [new MinScoreToShow(), 'foo', 'Minimum score to show should be a number'];
+        yield 'ParallelJobs / string' => [new ParallelJobs(), 'foo', 'Amount of parallel jobs should be an integer'];
+        yield 'ParallelJobs / null' => [new ParallelJobs(), null, 'Amount of parallel jobs should be an integer'];
+        yield 'Vcs / int' => [new Vcs(), 123, 'VCS should be a string'];
+        yield 'Vcs / null' => [new Vcs(), null, 'VCS should be a string'];
     }
 }
