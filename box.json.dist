@@ -1,4 +1,5 @@
 {
+    "check-requirements": false,
     "compactors": [
         "KevinGH\\Box\\Compactor\\Php"
     ],

@@ -17,7 +17,7 @@ help:
 .PHONY: box
 box:	## Download box.phar
 box:
-	test -e build/box.phar || curl -sL https://github.com/box-project/box/releases/download/3.9.1/box.phar -o build/box.phar
+	test -e build/box.phar || curl -sL https://github.com/box-project/box/releases/download/3.14.0/box.phar -o build/box.phar
 	chmod +x build/box.phar
 
 .PHONY: build
