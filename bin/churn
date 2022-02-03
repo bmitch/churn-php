@@ -1,23 +1,35 @@
 #!/usr/bin/env php
 <?php
 
+if (!version_compare(PHP_VERSION, PHP_VERSION, '=')) {
+    fwrite(
+        STDERR,
+        sprintf(
+            '%s declares an invalid value for PHP_VERSION.' . PHP_EOL .
+            'This breaks fundamental functionality such as version_compare().' . PHP_EOL .
+            'Please use a different PHP interpreter.' . PHP_EOL,
+            PHP_BINARY
+        )
+    );
+
+    die(1);
+}
+
+if (version_compare('7.1.3', PHP_VERSION, '>=')) {
+    fwrite(
+        STDERR,
+        sprintf(
+            'The application requires the version ">=7.1.3" or greater.' . PHP_EOL .
+            'You are using PHP %s (%s).' . PHP_EOL,
+            PHP_VERSION,
+            PHP_BINARY
+        )
+    );
+
+    die(1);
+}
+
 require_once __DIR__ . '/bootstrap.php';
 
-use Churn\Command\AssessComplexityCommand;
-use Churn\Command\RunCommand;
-use Composer\InstalledVersions;
-use Symfony\Component\Console\Application;
-
-$application = new Application('churn-php', (function (string $package): string {
-    $version = InstalledVersions::getPrettyVersion($package);
-    $ref = InstalledVersions::getReference($package);
-    if ($ref) {
-        $version .= '@' . \substr($ref, 0, 7);
-    }
-
-    return $version;
-})('bmitch/churn-php'));
-$application->add(new AssessComplexityCommand());
-$application->add($run = RunCommand::newInstance());
-$application->setDefaultCommand($run->getName());
+$application = require_once __DIR__ . '/app.php';
 $application->run();
