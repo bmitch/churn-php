@@ -23,7 +23,8 @@ Helps discover good candidates for refactoring.
 * [License](#license)
 
 ## What is it?
-`churn-php` is a package that helps you identify php files in your project that could be good candidates for refactoring. It examines each PHP file in the path it is provided and:
+`churn-php` is a package that helps you identify php files in your project that could be good candidates for refactoring.
+It examines each PHP file in the path it is provided and:
 * Checks how many commits it has.
 * Calculates the cyclomatic complexity.
 * Creates a score based on these two values.
@@ -34,47 +35,43 @@ The results are displayed in a table:
 
 A file that changes a lot and has a high complexity might be a better candidate for refactoring than a file that doesn't change a lot and has a low complexity.
 
-`churn-php` only assists the developer to identify files for refactoring. It's best to use the results in addition to your own judgment to decide which files you may want to refactor.
+`churn-php` only assists the developer to identify files for refactoring.
+It's best to use the results in addition to your own judgment to decide which files you may want to refactor.
 
 ## Compatibility
 * PHP 7.1+
-
-If you want to install `churn-php` in Symfony project, your Symfony components version must be 3.4 or higher.
+* Composer 2.0+
 
 ## How to Install?
-Install via Composer:
+Download the [last release](https://github.com/bmitch/churn-php/releases/latest) of `churn.phar`
+or install it with [Phive](https://phar.io/):
+```sh
+phive install churn
+```
+
+You can also install `churn-php` via Composer:
 ```sh
 composer require bmitch/churn-php --dev
 ```
 
-You can also install `churn-php` with [Phive](https://phar.io/):
-```
-phive install churn
-```
-
 ## How to Use?
 ```sh
-vendor/bin/churn run <one or more paths to source code> ...
-vendor/bin/churn run src
-vendor/bin/churn run src tests
+churn run <one or more paths to source code> ...
+churn run src
+churn run src tests
 
 # the command name can be skipped if directoriesToScan is set in churn.yml
-vendor/bin/churn
-```
-
-You can also use `churn-php` via [Docker](https://hub.docker.com/r/dockerizedphp/churn):
-
-```sh
-docker run --rm -ti -v $PWD:/app dockerizedphp/churn run src
+churn
 ```
 
 ## How to Configure?
-You may add an optional `churn.yml` file which can be used to configure churn-php. The location of the churn.yml file can be customized using these commands:
+You may add an optional `churn.yml` file which can be used to configure churn-php.
+The location of this file can be customized using the `--configuration` option:
 
 ```sh
-# Default: "churn.yml" 
-vendor/bin/churn run --configuration=config-dir/ <path>
-vendor/bin/churn run --configuration=my-config.yml <path>
+# Default: "churn.yml" or "churn.yml.dist"
+churn run --configuration=config-dir/ <path>
+churn run --configuration=my-config.yml <path>
 ```
 A sample `churn.yml` file looks like:
 
@@ -155,7 +152,7 @@ You can configure `churn` to output the result in different formats. The availab
 To use a different format use `--format` option. Example command for `json`: 
 
 ```bash
-vendor/bin/churn run --format json
+churn run --format json
 ```
 
 ### Hooks
@@ -179,7 +176,8 @@ Questions, comments, feedback? [@bmitch2112](https://twitter.com/bmitch2112)
 
 ## Contributing
 * Please run `composer test` on PHP 7.1 and ensure it passes.
-* If you don't have access to PHP 7.1 please make sure that CI build passes when you make pull request. If you are unable to get it to pass in the pull request please ping me and I can help.
+* If you don't have access to PHP 7.1 please make sure that CI build passes when you make pull request.
+  If you are unable to get it to pass in the pull request please ping me and I can help.
 * Please see [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## License
