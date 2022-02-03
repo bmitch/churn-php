@@ -2,7 +2,52 @@
 
 ## [Unreleased](https://github.com/bmitch/churn-php/tree/HEAD)
 
-[Full Changelog](https://github.com/bmitch/churn-php/compare/1.5.1...HEAD)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.6.0...HEAD)
+
+## [1.6.0](https://github.com/bmitch/churn-php/tree/1.6.0) (2022-02-03)
+
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.5.1...1.6.0)
+
+**Implemented enhancements:**
+
+- Use composer-runtime-api v2 [\#339](https://github.com/bmitch/churn-php/issues/339)
+- Add a manifest to the phar [\#336](https://github.com/bmitch/churn-php/issues/336)
+- Fallback on churn.yml.dist [\#335](https://github.com/bmitch/churn-php/issues/335)
+- Make run the default command [\#333](https://github.com/bmitch/churn-php/issues/333)
+
+**Fixed bugs:**
+
+- Deprecated: Return type of RequirementCollection::getIterator\(\) [\#344](https://github.com/bmitch/churn-php/issues/344)
+
+**Closed issues:**
+
+- Test phar with PHP 7.0 [\#337](https://github.com/bmitch/churn-php/issues/337)
+- Add PHPStan [\#331](https://github.com/bmitch/churn-php/issues/331)
+- Add PHPCompatibility to the CI [\#315](https://github.com/bmitch/churn-php/issues/315)
+
+**Merged pull requests:**
+
+- Check PHP requirement without Box [\#345](https://github.com/bmitch/churn-php/pull/345) ([villfa](https://github.com/villfa))
+- Add more tests [\#343](https://github.com/bmitch/churn-php/pull/343) ([villfa](https://github.com/villfa))
+- Add manifest and license to PHAR [\#342](https://github.com/bmitch/churn-php/pull/342) ([villfa](https://github.com/villfa))
+- Remove composer/package-versions-deprecated [\#341](https://github.com/bmitch/churn-php/pull/341) ([villfa](https://github.com/villfa))
+- Test phar with unsupported PHP versions [\#340](https://github.com/bmitch/churn-php/pull/340) ([villfa](https://github.com/villfa))
+- Fallback on churn.yml.dist [\#338](https://github.com/bmitch/churn-php/pull/338) ([villfa](https://github.com/villfa))
+- Make run the default command [\#334](https://github.com/bmitch/churn-php/pull/334) ([villfa](https://github.com/villfa))
+- Add PHPStan to the CI [\#332](https://github.com/bmitch/churn-php/pull/332) ([villfa](https://github.com/villfa))
+- Fix Scrutinizer issues [\#329](https://github.com/bmitch/churn-php/pull/329) ([villfa](https://github.com/villfa))
+- Add links to the event interfaces [\#328](https://github.com/bmitch/churn-php/pull/328) ([villfa](https://github.com/villfa))
+- Run the tests just once for internal PRs [\#327](https://github.com/bmitch/churn-php/pull/327) ([villfa](https://github.com/villfa))
+- Add PHPCompatibility to the test suite [\#326](https://github.com/bmitch/churn-php/pull/326) ([villfa](https://github.com/villfa))
+- Fine tune PHPCS configuration [\#325](https://github.com/bmitch/churn-php/pull/325) ([villfa](https://github.com/villfa))
+- Change Psalm error level to 1 [\#324](https://github.com/bmitch/churn-php/pull/324) ([villfa](https://github.com/villfa))
+- Split the configuration validator [\#323](https://github.com/bmitch/churn-php/pull/323) ([villfa](https://github.com/villfa))
+- Make PHPUnit stricter [\#322](https://github.com/bmitch/churn-php/pull/322) ([villfa](https://github.com/villfa))
+- Tune PHP configuration [\#321](https://github.com/bmitch/churn-php/pull/321) ([villfa](https://github.com/villfa))
+- Better handling of functions returning false [\#320](https://github.com/bmitch/churn-php/pull/320) ([villfa](https://github.com/villfa))
+- Set allow-plugins for Composer 2.2 [\#319](https://github.com/bmitch/churn-php/pull/319) ([villfa](https://github.com/villfa))
+- Fix CS [\#318](https://github.com/bmitch/churn-php/pull/318) ([villfa](https://github.com/villfa))
+- Fix type declaration in hooks [\#317](https://github.com/bmitch/churn-php/pull/317) ([villfa](https://github.com/villfa))
 
 ## [1.5.1](https://github.com/bmitch/churn-php/tree/1.5.1) (2021-12-07)
 
