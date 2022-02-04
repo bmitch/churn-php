@@ -5,7 +5,7 @@
 		<author name="Bill Mitchell" email="wkmitch@gmail.com"/>
 		<license type="MIT" url="https://github.com/bmitch/churn-php/blob/master/LICENSE.md"/>
 	</copyright>
-	<require>
+	<requires>
 		<php version="^7.1 || ^8.0">
 			<ext name="json"/>
 		</php>
