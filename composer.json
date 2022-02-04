@@ -31,6 +31,7 @@
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.4",
         "mockery/mockery": "^1.2.0",
+        "phar-io/manifest": "^1.0 || ^2.0",
         "symfony/phpunit-bridge": "^5.1 || ^6.0"
     },
     "autoload": {

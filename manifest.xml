@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phar xmlns="https://phar.io/xml/manifest/1.0">
-	<contains name="bmitch/churn-php" version="dev-master" type="application" />
+	<contains name="bmitch/churn-php" version="0.0.0-dev" type="application" />
 	<copyright>
 		<author name="Bill Mitchell" email="wkmitch@gmail.com"/>
 		<license type="MIT" url="https://github.com/bmitch/churn-php/blob/master/LICENSE.md"/>
