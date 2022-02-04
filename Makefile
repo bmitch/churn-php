@@ -27,7 +27,7 @@ build: box
 	$(COMPOSER_BIN) config platform.php 7.1.3 --working-dir=build/
 	$(COMPOSER_BIN) update --no-dev --no-interaction --prefer-dist --working-dir=build/
 	CHURN_VERSION=$$( $(PHP_BIN) build/bin/churn --version --no-ansi | grep -Po '(?<= )[^@]+' ) ;\
-	sed -i -e "s@dev-master@$${CHURN_VERSION}@g" build/manifest.xml
+	sed -i -e "s@0.0.0-dev@$${CHURN_VERSION}@g" build/manifest.xml
 	$(PHP_BIN) build/box.phar validate build/box.json.dist
 	$(PHP_BIN) build/box.phar compile --working-dir=build/
 
