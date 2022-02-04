@@ -2,7 +2,19 @@
 
 ## [Unreleased](https://github.com/bmitch/churn-php/tree/HEAD)
 
-[Full Changelog](https://github.com/bmitch/churn-php/compare/1.6.0...HEAD)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.6.1...HEAD)
+
+## [1.6.1](https://github.com/bmitch/churn-php/tree/1.6.1) (2022-02-04)
+
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.6.0...1.6.1)
+
+**Fixed bugs:**
+
+- \[1.6.0\] Manifest typo error  [\#346](https://github.com/bmitch/churn-php/issues/346)
+
+**Merged pull requests:**
+
+- Test manifest.xml validity [\#347](https://github.com/bmitch/churn-php/pull/347) ([villfa](https://github.com/villfa))
 
 ## [1.6.0](https://github.com/bmitch/churn-php/tree/1.6.0) (2022-02-03)
 
