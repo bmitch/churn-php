@@ -128,8 +128,8 @@ jobs:
           name: coverage
           path: ./coverage-${{ matrix.vcs }}.xml
 
-  analysis:
-    name: "Static Analysis"
+  coverage:
+    name: "Code coverage"
     runs-on: ubuntu-latest
     # Run after "test-vcs" to gather all code coverage reports
     needs: [test-vcs]
@@ -144,7 +144,58 @@ jobs:
           coverage: "pcov"
           ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
           php-version: "8.0"
-          tools: composer:v2, composer-normalize, infection
+          tools: composer:v2
+
+      - name: Get composer cache directory
+        id: composercache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composercache.outputs.dir }}
+          key: composer-${{ runner.os }}-8.0-${{ hashFiles('composer.*') }}
+          restore-keys: |
+            composer-${{ runner.os }}-8.0-
+            composer-${{ runner.os }}-
+            composer-
+
+      - name: "Install dependencies"
+        run: "composer update --no-interaction --no-scripts --no-progress --prefer-dist"
+
+      - name: "Calculate code coverage"
+        run: "vendor/bin/simple-phpunit --colors=always --testdox --testsuite churn-tests --coverage-clover=coverage.xml"
+
+      - name: "Download other code coverage reports"
+        uses: actions/download-artifact@v2
+        with:
+          name: coverage
+          path: ./coverage
+
+      - name: "List all coverage reports"
+        run: echo coverage_reports=./coverage/$(ls -m coverage/ | sed "s/, */,.\/coverage\//g") >> $GITHUB_ENV
+
+      - uses: codecov/codecov-action@v1
+        with:
+          files: ./coverage.xml,${{ env.coverage_reports }}
+          fail_ci_if_error: true
+          verbose: true
+
+  analysis:
+    name: "Static Analysis"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
+          php-version: "8.0"
+          tools: composer:v2, composer-normalize
 
       - name: Get composer cache directory
         id: composercache
@@ -187,34 +238,49 @@ jobs:
       - name: "Normalize composer.json"
         run: "composer-normalize --dry-run --no-check-lock --no-update-lock"
 
-      - name: "Calculate code coverage"
-        run: "vendor/bin/simple-phpunit --colors=always --testdox --testsuite churn-tests --coverage-clover=coverage.xml"
+  mutation:
+    name: "Mutation testing"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "pcov"
+          ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
+          php-version: "8.0"
+          tools: composer:v2, infection
+
+      - name: Get composer cache directory
+        id: composercache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composercache.outputs.dir }}
+          key: composer-${{ runner.os }}-8.0-${{ hashFiles('composer.*') }}
+          restore-keys: |
+            composer-${{ runner.os }}-8.0-
+            composer-${{ runner.os }}-
+            composer-
+
+      - name: "Install dependencies"
+        run: "composer update --no-interaction --no-scripts --no-progress --prefer-dist"
 
       - name: "Run Infection"
         run: |
           git fetch --depth=1 origin $GITHUB_BASE_REF
           infection -j$(nproc) --logger-github --git-diff-filter=AM --git-diff-base=origin/$GITHUB_BASE_REF --ignore-msi-with-no-mutations --min-msi=85 --min-covered-msi=95
 
-      - name: "Download other code coverage reports"
-        uses: actions/download-artifact@v2
-        with:
-          name: coverage
-          path: ./coverage
-
-      - name: "List all coverage reports"
-        run: echo coverage_reports=./coverage/$(ls -m coverage/ | sed "s/, */,.\/coverage\//g") >> $GITHUB_ENV
-
-      - uses: codecov/codecov-action@v1
-        with:
-          files: ./coverage.xml,${{ env.coverage_reports }}
-          fail_ci_if_error: true
-          verbose: true
-
   build:
     name: "Build Phar"
     runs-on: ubuntu-latest
     # Build when everything else is ok
-    needs: [tests, analysis]
+    needs: [tests, analysis, coverage, mutation]
 
     steps:
       - name: "Checkout"
