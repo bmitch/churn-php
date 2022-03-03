@@ -28,7 +28,7 @@ class AssessComplexityCommandTest extends BaseTestCase
     }
 
     /** @test */
-    public function it_returns_the_cyclomatic_complexity()
+    public function it_returns_the_cyclomatic_complexity_greater_than_zero()
     {
         $exitCode = $this->commandTester->execute(['file' => __FILE__]);
         $result = \rtrim($this->commandTester->getDisplay());
@@ -36,5 +36,16 @@ class AssessComplexityCommandTest extends BaseTestCase
         $this->assertEquals(0, $exitCode);
         $this->assertTrue(\ctype_digit($result), 'The result of the command must be an integer');
         $this->assertGreaterThan(0, (int) $result);
+    }
+
+    /** @test */
+    public function it_returns_zero_for_non_existing_file()
+    {
+        $exitCode = $this->commandTester->execute(['file' => 'nonexisting-file.php']);
+        $result = \rtrim($this->commandTester->getDisplay());
+
+        $this->assertEquals(0, $exitCode);
+        $this->assertTrue(\ctype_digit($result), 'The result of the command must be an integer');
+        $this->assertEquals(0, (int) $result);
     }
 }

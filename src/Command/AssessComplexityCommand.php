@@ -34,7 +34,9 @@ class AssessComplexityCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $file = (string) $input->getArgument('file');
-        $contents = \file_get_contents($file);
+        $contents = \is_file($file)
+            ? \file_get_contents($file)
+            : false;
 
         if (false === $contents) {
             $output->writeln('0');
