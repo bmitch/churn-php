@@ -19,23 +19,20 @@ class CyclomaticComplexityAssessor
     /**
      * Asses the files cyclomatic complexity.
      *
-     * @param string $filePath Path and file name.
+     * @param string $contents The contents of a PHP file.
      */
-    public function assess(string $filePath): int
+    public function assess(string $contents): int
     {
         $this->score = 0;
-        $contents = $this->getFileContents($filePath);
-        if (false !== $contents) {
-            $this->hasAtLeastOneMethod($contents);
-            $this->countTheIfStatements($contents);
-            $this->countTheElseIfStatements($contents);
-            $this->countTheWhileLoops($contents);
-            $this->countTheForLoops($contents);
-            $this->countTheCaseStatements($contents);
-            $this->countTheTernaryOperators($contents);
-            $this->countTheLogicalAnds($contents);
-            $this->countTheLogicalOrs($contents);
-        }
+        $this->hasAtLeastOneMethod($contents);
+        $this->countTheIfStatements($contents);
+        $this->countTheElseIfStatements($contents);
+        $this->countTheWhileLoops($contents);
+        $this->countTheForLoops($contents);
+        $this->countTheCaseStatements($contents);
+        $this->countTheTernaryOperators($contents);
+        $this->countTheLogicalAnds($contents);
+        $this->countTheLogicalOrs($contents);
 
         if (0 === $this->score) {
             $this->score = 1;
@@ -149,16 +146,5 @@ class CyclomaticComplexityAssessor
     private function howManyPatternMatches(string $pattern, string $string): int
     {
         return (int) \preg_match_all($pattern, $string);
-    }
-
-    /**
-     * Return the contents of the provided file at $filePath.
-     *
-     * @param string $filePath Path and filename.
-     * @return string|false The file content.
-     */
-    private function getFileContents(string $filePath)
-    {
-        return \file_get_contents($filePath);
     }
 }

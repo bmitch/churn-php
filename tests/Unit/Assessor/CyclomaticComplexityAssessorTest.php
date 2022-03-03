@@ -10,12 +10,6 @@ use Churn\Assessor\CyclomaticComplexityAssessor;
 class CyclomaticComplexityAssessorTest extends BaseTestCase
 {
     /** @test */
-    public function the_class_itself_has_a_complexity_of_four()
-    {
-        $this->assertEquals(4, $this->assess('src/Assessor/CyclomaticComplexityAssessor.php'));
-    }
-
-    /** @test */
     public function an_empty_class_should_have_a_complexity_of_one()
     {
         $this->assertEquals(1, $this->assess('tests/Unit/Assessor/Assets/EmptyClass.inc'));
@@ -90,6 +84,9 @@ class CyclomaticComplexityAssessorTest extends BaseTestCase
 
     protected function assess($filename)
     {
-        return (new CyclomaticComplexityAssessor())->assess($filename);
+        $contents = \file_get_contents($filename);
+        assert($contents !== false);
+
+        return (new CyclomaticComplexityAssessor())->assess($contents);
     }
 }

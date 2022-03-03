@@ -6,5 +6,11 @@ require_once __DIR__ . '/bootstrap.php';
 use Churn\Assessor\CyclomaticComplexityAssessor;
 
 $file = $argv[1];
+$contents = \file_get_contents($file);
+if ($contents === false) {
+    echo 0;
+    return;
+}
+
 $assessor = new CyclomaticComplexityAssessor();
-echo $assessor->assess($file);
+echo $assessor->assess($contents);
