@@ -193,7 +193,7 @@ jobs:
       - name: "Run Infection"
         run: |
           git fetch --depth=1 origin $GITHUB_BASE_REF
-          infection -j$(nproc) --logger-github --git-diff-filter=AM --git-diff-base=origin/$GITHUB_BASE_REF --ignore-msi-with-no-mutations --min-msi=50 --min-covered-msi=70
+          infection -j$(nproc) --logger-github --git-diff-filter=AM --git-diff-base=origin/$GITHUB_BASE_REF --ignore-msi-with-no-mutations --min-msi=85 --min-covered-msi=95
 
       - name: "Download other code coverage reports"
         uses: actions/download-artifact@v2

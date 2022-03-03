@@ -18,11 +18,11 @@
             <directory>tests/Unit</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist>
+    <coverage>
+        <include>
             <directory suffix=".php">src</directory>
-        </whitelist>
-    </filter>
+        </include>
+    </coverage>
     <php>
         <env name="SYMFONY_PHPUNIT_REMOVE_RETURN_TYPEHINT" value="1" />
     </php>
