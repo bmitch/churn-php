@@ -10,6 +10,7 @@ CHANGELOG.md export-ignore
 churn.yml export-ignore
 CONTRIBUTING.md export-ignore
 img/ export-ignore
+infection.json export-ignore
 Makefile export-ignore
 manifest.xml export-ignore
 phpcs.xml export-ignore

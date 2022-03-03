@@ -7,6 +7,7 @@
   <config name="php_version" value="70103"/>
 
   <file>./src</file>
+  <file>./bin</file>
 
   <rule ref="PSR12"/>
 

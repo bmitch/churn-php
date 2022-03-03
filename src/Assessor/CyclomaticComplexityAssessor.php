@@ -14,28 +14,25 @@ class CyclomaticComplexityAssessor
      *
      * @var integer
      */
-    protected $score = 0;
+    private $score = 0;
 
     /**
      * Asses the files cyclomatic complexity.
      *
-     * @param string $filePath Path and file name.
+     * @param string $contents The contents of a PHP file.
      */
-    public function assess(string $filePath): int
+    public function assess(string $contents): int
     {
         $this->score = 0;
-        $contents = $this->getFileContents($filePath);
-        if (false !== $contents) {
-            $this->hasAtLeastOneMethod($contents);
-            $this->countTheIfStatements($contents);
-            $this->countTheElseIfStatements($contents);
-            $this->countTheWhileLoops($contents);
-            $this->countTheForLoops($contents);
-            $this->countTheCaseStatements($contents);
-            $this->countTheTernaryOperators($contents);
-            $this->countTheLogicalAnds($contents);
-            $this->countTheLogicalOrs($contents);
-        }
+        $this->hasAtLeastOneMethod($contents);
+        $this->countTheIfStatements($contents);
+        $this->countTheElseIfStatements($contents);
+        $this->countTheWhileLoops($contents);
+        $this->countTheForLoops($contents);
+        $this->countTheCaseStatements($contents);
+        $this->countTheTernaryOperators($contents);
+        $this->countTheLogicalAnds($contents);
+        $this->countTheLogicalOrs($contents);
 
         if (0 === $this->score) {
             $this->score = 1;
@@ -49,7 +46,7 @@ class CyclomaticComplexityAssessor
      *
      * @param string $contents File contents.
      */
-    protected function hasAtLeastOneMethod(string $contents): void
+    private function hasAtLeastOneMethod(string $contents): void
     {
         \preg_match("/[ ]function[ ]/", $contents, $matches);
 
@@ -65,7 +62,7 @@ class CyclomaticComplexityAssessor
      *
      * @param string $contents File contents.
      */
-    protected function countTheIfStatements(string $contents): void
+    private function countTheIfStatements(string $contents): void
     {
         $this->score += $this->howManyPatternMatches("/[ ]if[ ]{0,}\(/", $contents);
     }
@@ -75,7 +72,7 @@ class CyclomaticComplexityAssessor
      *
      * @param string $contents File contents.
      */
-    protected function countTheElseIfStatements(string $contents): void
+    private function countTheElseIfStatements(string $contents): void
     {
         $this->score += $this->howManyPatternMatches("/else[ ]{0,}if[ ]{0,}\(/", $contents);
     }
@@ -85,7 +82,7 @@ class CyclomaticComplexityAssessor
      *
      * @param string $contents File contents.
      */
-    protected function countTheWhileLoops(string $contents): void
+    private function countTheWhileLoops(string $contents): void
     {
         $this->score += $this->howManyPatternMatches("/while[ ]{0,}\(/", $contents);
     }
@@ -95,7 +92,7 @@ class CyclomaticComplexityAssessor
      *
      * @param string $contents File contents.
      */
-    protected function countTheForLoops(string $contents): void
+    private function countTheForLoops(string $contents): void
     {
         $this->score += $this->howManyPatternMatches("/[ ]for(each){0,1}[ ]{0,}\(/", $contents);
     }
@@ -105,7 +102,7 @@ class CyclomaticComplexityAssessor
      *
      * @param string $contents File contents.
      */
-    protected function countTheCaseStatements(string $contents): void
+    private function countTheCaseStatements(string $contents): void
     {
         $this->score += $this->howManyPatternMatches("/[ ]case[ ]{1}(.*)\:/", $contents);
     }
@@ -115,7 +112,7 @@ class CyclomaticComplexityAssessor
      *
      * @param string $contents File contents.
      */
-    protected function countTheTernaryOperators(string $contents): void
+    private function countTheTernaryOperators(string $contents): void
     {
         $this->score += $this->howManyPatternMatches("/[ ]\?.*:.*;/", $contents);
     }
@@ -125,7 +122,7 @@ class CyclomaticComplexityAssessor
      *
      * @param string $contents File contents.
      */
-    protected function countTheLogicalAnds(string $contents): void
+    private function countTheLogicalAnds(string $contents): void
     {
         $this->score += $this->howManyPatternMatches("/[ ]&&[ ]/", $contents);
     }
@@ -135,7 +132,7 @@ class CyclomaticComplexityAssessor
      *
      * @param string $contents File contents.
      */
-    protected function countTheLogicalOrs(string $contents): void
+    private function countTheLogicalOrs(string $contents): void
     {
         $this->score += $this->howManyPatternMatches("/[ ]\|\|[ ]/", $contents);
     }
@@ -146,19 +143,8 @@ class CyclomaticComplexityAssessor
      * @param string $pattern Regex pattern.
      * @param string $string Any string.
      */
-    protected function howManyPatternMatches(string $pattern, string $string): int
+    private function howManyPatternMatches(string $pattern, string $string): int
     {
         return (int) \preg_match_all($pattern, $string);
-    }
-
-    /**
-     * Return the contents of the provided file at $filePath.
-     *
-     * @param string $filePath Path and filename.
-     * @return string|false The file content.
-     */
-    protected function getFileContents(string $filePath)
-    {
-        return \file_get_contents($filePath);
     }
 }
