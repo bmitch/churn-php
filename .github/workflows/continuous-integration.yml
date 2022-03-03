@@ -144,7 +144,7 @@ jobs:
           coverage: "pcov"
           ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
           php-version: "8.0"
-          tools: composer:v2, composer-normalize
+          tools: composer:v2, composer-normalize, infection
 
       - name: Get composer cache directory
         id: composercache
@@ -189,6 +189,11 @@ jobs:
 
       - name: "Calculate code coverage"
         run: "vendor/bin/simple-phpunit --colors=always --testdox --testsuite churn-tests --coverage-clover=coverage.xml"
+
+      - name: "Run Infection"
+        run: |
+          git fetch --depth=1 origin $GITHUB_BASE_REF
+          infection -j$(nproc) --logger-github --git-diff-filter=AM --git-diff-base=origin/$GITHUB_BASE_REF --ignore-msi-with-no-mutations --min-msi=50 --min-covered-msi=70
 
       - name: "Download other code coverage reports"
         uses: actions/download-artifact@v2
