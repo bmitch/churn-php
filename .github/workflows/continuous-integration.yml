@@ -60,8 +60,8 @@ jobs:
 
       - name: "Install dependencies"
         run: |
-          composer update --no-interaction --no-scripts --no-progress --prefer-dist
-          composer bin php-parallel-lint update --no-interaction --no-progress --prefer-dist
+          composer update --no-interaction --no-scripts --no-progress
+          composer bin php-parallel-lint update --no-interaction --no-progress
 
       - name: "Check PHP syntax"
         run: "vendor/bin/parallel-lint src tests"
@@ -97,22 +97,10 @@ jobs:
           php-version: "8.0"
           tools: composer:v2
 
-      - name: Get composer cache directory
-        id: composercache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache composer dependencies
-        uses: actions/cache@v2
+      - uses: "ramsey/composer-install@v2"
         with:
-          path: ${{ steps.composercache.outputs.dir }}
-          key: composer-${{ runner.os }}-8.0-${{ hashFiles('composer.*') }}
-          restore-keys: |
-            composer-${{ runner.os }}-8.0-
-            composer-${{ runner.os }}-
-            composer-
-
-      - name: "Install dependencies"
-        run: "composer update --no-interaction --no-scripts --no-progress --prefer-dist"
+          dependency-versions: "highest"
+          composer-options: "--no-scripts"
 
       - name: "Build Docker image"
         run: "docker build -t ${{ matrix.vcs }} -f tests/docker/${{ matrix.vcs }}/Dockerfile tests/docker/${{ matrix.vcs }}"
@@ -146,22 +134,10 @@ jobs:
           php-version: "8.0"
           tools: composer:v2
 
-      - name: Get composer cache directory
-        id: composercache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache composer dependencies
-        uses: actions/cache@v2
+      - uses: "ramsey/composer-install@v2"
         with:
-          path: ${{ steps.composercache.outputs.dir }}
-          key: composer-${{ runner.os }}-8.0-${{ hashFiles('composer.*') }}
-          restore-keys: |
-            composer-${{ runner.os }}-8.0-
-            composer-${{ runner.os }}-
-            composer-
-
-      - name: "Install dependencies"
-        run: "composer update --no-interaction --no-scripts --no-progress --prefer-dist"
+          dependency-versions: "highest"
+          composer-options: "--no-scripts"
 
       - name: "Calculate code coverage"
         run: "vendor/bin/simple-phpunit --colors=always --testdox --testsuite churn-tests --coverage-clover=coverage.xml"
@@ -184,6 +160,8 @@ jobs:
   analysis:
     name: "Static Analysis"
     runs-on: ubuntu-latest
+    # We want to run on external PRs, but not on our own internal PRs as they'll be run by the push to the branch.
+    if: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
 
     steps:
       - name: "Checkout"
@@ -197,25 +175,12 @@ jobs:
           php-version: "8.0"
           tools: composer:v2, composer-normalize
 
-      - name: Get composer cache directory
-        id: composercache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache composer dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composercache.outputs.dir }}
-          key: composer-${{ runner.os }}-8.0-${{ hashFiles('composer.*') }}
-          restore-keys: |
-            composer-${{ runner.os }}-8.0-
-            composer-${{ runner.os }}-
-            composer-
-
       - name: "Validate composer.json"
         run: "composer validate --strict"
 
-      - name: "Install dependencies"
-        run: "composer update --no-interaction --no-progress --prefer-dist"
+      - uses: "ramsey/composer-install@v2"
+        with:
+          dependency-versions: "highest"
 
       - name: "Run PHP Mess Detector"
         run: "vendor/bin/phpmd src text phpmd.xml"
@@ -238,49 +203,11 @@ jobs:
       - name: "Normalize composer.json"
         run: "composer-normalize --dry-run --no-check-lock --no-update-lock"
 
-  mutation:
-    name: "Mutation testing"
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v2"
-
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@v2"
-        with:
-          coverage: "pcov"
-          ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
-          php-version: "8.0"
-          tools: composer:v2, infection
-
-      - name: Get composer cache directory
-        id: composercache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache composer dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composercache.outputs.dir }}
-          key: composer-${{ runner.os }}-8.0-${{ hashFiles('composer.*') }}
-          restore-keys: |
-            composer-${{ runner.os }}-8.0-
-            composer-${{ runner.os }}-
-            composer-
-
-      - name: "Install dependencies"
-        run: "composer update --no-interaction --no-scripts --no-progress --prefer-dist"
-
-      - name: "Run Infection"
-        run: |
-          git fetch --depth=1 origin $GITHUB_BASE_REF
-          infection -j$(nproc) --logger-github --git-diff-filter=AM --git-diff-base=origin/$GITHUB_BASE_REF --ignore-msi-with-no-mutations --min-msi=85 --min-covered-msi=95
-
   build:
     name: "Build Phar"
     runs-on: ubuntu-latest
     # Build when everything else is ok
-    needs: [tests, analysis, coverage, mutation]
+    needs: [tests, analysis, coverage]
 
     steps:
       - name: "Checkout"
