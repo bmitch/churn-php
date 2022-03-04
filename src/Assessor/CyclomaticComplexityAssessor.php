@@ -45,24 +45,12 @@ class CyclomaticComplexityAssessor
      */
     public function assess(string $contents): int
     {
-        $tokens = \token_get_all($contents);
         $score = 0;
-        foreach ($tokens as $token) {
-            if (\is_array($token)) {
-                $score += $this->getComplexity($token[0]);
-
-                continue;
-            }
-            if ('?' !== $token) {
-                continue;
-            }
-
-            $score += 1;
+        foreach (\token_get_all($contents) as $token) {
+            $score += $this->getComplexity($token[0]);
         }
 
-        return 0 === $score
-            ? 1
-            : $score;
+        return \max(1, $score);
     }
 
     /**
@@ -86,10 +74,14 @@ class CyclomaticComplexityAssessor
     }
 
     /**
-     * @param integer $code Code of a PHP token.
+     * @param integer|string $code Code of a PHP token.
      */
-    private function getComplexity(int $code): int
+    private function getComplexity($code): int
     {
+        if ('?' === $code) {
+            return 1;
+        }
+
         return $this->tokens[$code] ?? 0;
     }
 }
