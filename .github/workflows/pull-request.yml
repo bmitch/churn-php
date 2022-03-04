@@ -23,22 +23,10 @@ jobs:
           php-version: "8.0"
           tools: composer:v2, infection
 
-      - name: Get composer cache directory
-        id: composercache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache composer dependencies
-        uses: actions/cache@v2
+      - uses: "ramsey/composer-install@v2"
         with:
-          path: ${{ steps.composercache.outputs.dir }}
-          key: composer-${{ runner.os }}-8.0-${{ hashFiles('composer.*') }}
-          restore-keys: |
-            composer-${{ runner.os }}-8.0-
-            composer-${{ runner.os }}-
-            composer-
-
-      - name: "Install dependencies"
-        run: "composer update --no-interaction --no-scripts --no-progress --prefer-dist"
+          dependency-versions: "highest"
+          composer-options: "--no-scripts"
 
       - name: "Run Infection"
         run: |
