@@ -1,13 +1,16 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 require_once __DIR__ . '/bootstrap.php';
 
 use Churn\Assessor\CyclomaticComplexityAssessor;
 
 $file = $argv[1];
 $contents = \file_get_contents($file);
-if ($contents === false) {
+
+if (false === $contents) {
     echo 0;
     return;
 }
