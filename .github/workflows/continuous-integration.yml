@@ -184,6 +184,8 @@ jobs:
   analysis:
     name: "Static Analysis"
     runs-on: ubuntu-latest
+    # We want to run on external PRs, but not on our own internal PRs as they'll be run by the push to the branch.
+    if: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
 
     steps:
       - name: "Checkout"
@@ -238,49 +240,11 @@ jobs:
       - name: "Normalize composer.json"
         run: "composer-normalize --dry-run --no-check-lock --no-update-lock"
 
-  mutation:
-    name: "Mutation testing"
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v2"
-
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@v2"
-        with:
-          coverage: "pcov"
-          ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
-          php-version: "8.0"
-          tools: composer:v2, infection
-
-      - name: Get composer cache directory
-        id: composercache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache composer dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composercache.outputs.dir }}
-          key: composer-${{ runner.os }}-8.0-${{ hashFiles('composer.*') }}
-          restore-keys: |
-            composer-${{ runner.os }}-8.0-
-            composer-${{ runner.os }}-
-            composer-
-
-      - name: "Install dependencies"
-        run: "composer update --no-interaction --no-scripts --no-progress --prefer-dist"
-
-      - name: "Run Infection"
-        run: |
-          git fetch --depth=1 origin $GITHUB_BASE_REF
-          infection -j$(nproc) --logger-github --git-diff-filter=AM --git-diff-base=origin/$GITHUB_BASE_REF --ignore-msi-with-no-mutations --min-msi=85 --min-covered-msi=95
-
   build:
     name: "Build Phar"
     runs-on: ubuntu-latest
     # Build when everything else is ok
-    needs: [tests, analysis, coverage, mutation]
+    needs: [tests, analysis, coverage]
 
     steps:
       - name: "Checkout"

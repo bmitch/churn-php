@@ -1,0 +1,46 @@
+name: "Pull Request"
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'img/**'
+
+jobs:
+  mutation:
+    name: "Mutation testing"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "pcov"
+          ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
+          php-version: "8.0"
+          tools: composer:v2, infection
+
+      - name: Get composer cache directory
+        id: composercache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composercache.outputs.dir }}
+          key: composer-${{ runner.os }}-8.0-${{ hashFiles('composer.*') }}
+          restore-keys: |
+            composer-${{ runner.os }}-8.0-
+            composer-${{ runner.os }}-
+            composer-
+
+      - name: "Install dependencies"
+        run: "composer update --no-interaction --no-scripts --no-progress --prefer-dist"
+
+      - name: "Run Infection"
+        run: |
+          git fetch --depth=1 origin $GITHUB_BASE_REF
+          infection -j$(nproc) --logger-github --git-diff-filter=AM --git-diff-base=origin/$GITHUB_BASE_REF --ignore-msi-with-no-mutations --min-msi=85 --min-covered-msi=95
