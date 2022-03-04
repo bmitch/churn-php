@@ -16,6 +16,31 @@ use Symfony\Component\Console\Output\OutputInterface;
 class AssessComplexityCommand extends Command
 {
     /**
+     * @var CyclomaticComplexityAssessor
+     */
+    private $assessor;
+
+    /**
+     * Class constructor.
+     *
+     * @param CyclomaticComplexityAssessor $assessor The class calculating the complexity.
+     */
+    public function __construct(CyclomaticComplexityAssessor $assessor)
+    {
+        parent::__construct();
+
+        $this->assessor = $assessor;
+    }
+
+    /**
+     * Returns a new instance of the command.
+     */
+    public static function newInstance(): self
+    {
+        return new self(new CyclomaticComplexityAssessor());
+    }
+
+    /**
      * Configure the command
      */
     protected function configure(): void
@@ -44,8 +69,7 @@ class AssessComplexityCommand extends Command
             return 0;
         }
 
-        $assessor = new CyclomaticComplexityAssessor();
-        $output->writeln((string) $assessor->assess($contents));
+        $output->writeln((string) $this->assessor->assess($contents));
 
         return 0;
     }

@@ -16,7 +16,7 @@ $application = new Application('churn-php', (static function (string $package): 
 
     return $version;
 })('bmitch/churn-php'));
-$application->add(new AssessComplexityCommand());
+$application->add(AssessComplexityCommand::newInstance());
 $application->add($run = RunCommand::newInstance());
 $application->setDefaultCommand($run->getName());
 

@@ -9,84 +9,287 @@ use Churn\Assessor\CyclomaticComplexityAssessor;
 
 class CyclomaticComplexityAssessorTest extends BaseTestCase
 {
-    /** @test */
-    public function an_empty_class_should_have_a_complexity_of_one()
+    /**
+     * @dataProvider provide_assess
+     */
+    public function test_assess(int $expectedScore, string $code)
     {
-        $this->assertEquals(1, $this->assess('tests/Unit/Assessor/Assets/EmptyClass.inc'));
+        $assessor = new CyclomaticComplexityAssessor();
+
+        $this->assertEquals($expectedScore, $assessor->assess($code));
     }
 
-    /** @test */
-    public function a_class_with_one_empty_method_has_a_complexity_of_one()
+    public function provide_assess(): iterable
     {
-        $this->assertEquals(1, $this->assess('tests/Unit/Assessor/Assets/ClassWithOneEmptyMethod.inc'));
+        yield 'an empty file' => [
+            1,
+            ''
+        ];
+
+        yield 'an empty class' => [
+            1,
+            <<<'EOC'
+<?php
+class EmptyClass
+{
+}
+EOC
+        ];
+
+        yield 'a class with one empty method' => [
+            1,
+            <<<'EOC'
+<?php
+class ClassWithOneEmptyMethod
+{
+    public function foobar()
+    {
+    }
+}
+EOC
+        ];
+
+        yield 'a class with a method containing one if statement' => [
+            2,
+            <<<'EOC'
+<?php
+class ClassWithOneMethodWithOneIf
+{
+    public function foobar()
+    {
+        if ($true) {
+            return true;
+        }
+
+        return false;
+    }
+}
+EOC
+        ];
+
+        yield 'a class with a method containing a nested if statement' => [
+            3,
+            <<<'EOC'
+<?php
+class ClassWithOneMethodWithNestedIf
+{
+    public function foobar()
+    {
+        if ($true) {
+            if ($true) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+EOC
+        ];
+
+        yield 'a class with a method containing an if else if statement' => [
+            3,
+            <<<'EOC'
+<?php
+class ClassWithIfElseIf
+{
+    public function foobar()
+    {
+        if ($true) {
+            return true;
+        } elseif ($false) {
+            return false;
+        }
+    }
+}
+EOC
+        ];
+
+        yield 'a class with a method containing a while loop' => [
+            2,
+            <<<'EOC'
+<?php
+class ClassWithWhileLoop
+{
+    public function foobar()
+    {
+        while ($c == $d) {
+            foobar();
+        }
+    }
+}
+EOC
+        ];
+
+        yield 'a class with a method containing a for loop' => [
+            2,
+            <<<'EOC'
+<?php
+class ClassWithForLoop
+{
+    public function foobar()
+    {
+        for ($n = 0; $n < $h; $n++) {
+            foobar();
+        }
+    }
+}
+EOC
+        ];
+
+        yield 'a class with a method a switch statement with 3 cases' => [
+            4,
+            <<<'EOC'
+<?php
+class ClassWithSwitch
+{
+    public function foobar()
+    {
+        switch ($z) {
+            case 1:
+                foobar();
+                break;
+            case 2:
+                foobar();
+                break;
+            case 3:
+                foobar();
+                break;
+            default:
+                foobar();
+                break;
+        }
+    }
+}
+EOC
+        ];
+
+        yield 'this class with many methods and many branches' => [
+            11,
+            <<<'EOC'
+<?php
+class LongClass
+{
+    public function foo()
+    {
+        for ($n = 0; $n < $h; $n++) {
+            foobar();
+        }
     }
 
-    /** @test */
-    public function a_class_with_a_method_containing_one_if_statement_has_a_complexity_of_two()
+    public function bar()
     {
-        $this->assertEquals(2, $this->assess('tests/Unit/Assessor/Assets/ClassWithOneMethodWithOneIf.inc'));
+        if ($true) {
+            return true;
+        } elseif ($false) {
+            return false;
+        }
+
+        if ($true) {
+            if ($true) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    /** @test */
-    public function a_class_with_a_method_containing_a_nested_if_statement_has_a_complexity_of_three()
+    public function baz()
     {
-        $this->assertEquals(3, $this->assess('tests/Unit/Assessor/Assets/ClassWithOneMethodWithNestedIf.inc'));
+        if ($true) {
+            return true;
+        }
+
+        return false;
     }
 
-    /** @test */
-    public function a_class_with_a_method_containing_an_if_else_if_statement_has_a_complexity_of_three()
+    public function uggh()
     {
-        $this->assertEquals(3, $this->assess('tests/Unit/Assessor/Assets/ClassWithIfElseIf.inc'));
+        switch ($z) {
+            case 1:
+                foobar();
+                break;
+            case 2:
+                foobar();
+                break;
+            case 3:
+                foobar();
+                break;
+            default:
+                foobar();
+                break;
+        }
+
+        while ($c == $d) {
+            foobar();
+        }
     }
+}
+EOC
+        ];
 
-    /** @test */
-    public function a_class_with_a_method_containing_a_while_loop_has_a_complexity_of_two()
+        yield 'a class with a ternary operator' => [
+            2,
+            <<<'EOC'
+<?php
+class ClassWithTernary
+{
+    public function foobar()
     {
-        $this->assertEquals(2, $this->assess('tests/Unit/Assessor/Assets/ClassWithWhileLoop.inc'));
+        $foo == 'bar' ? $baz++ : $zug;
     }
+}
+EOC
+        ];
 
-    /** @test */
-    public function a_class_with_a_method_containing_a_for_loop_has_a_complexity_of_two()
+        yield 'a class with a logical AND' => [
+            2,
+            <<<'EOC'
+<?php
+class ClassWithLogicalAnd
+{
+    public function foobar()
     {
-        $this->assertEquals(2, $this->assess('tests/Unit/Assessor/Assets/ClassWithForLoop.inc'));
-        $this->assertEquals(1, $this->assess('tests/Unit/Assessor/Assets/ClassWithNoForLoops.inc'));
+        return ($a == $b && $c == $d);
     }
+}
+EOC
+        ];
 
-    /** @test */
-    public function a_class_with_a_method_a_switch_statement_with_three_cases_has_a_complexity_of_four()
+        yield 'a class with a logical OR' => [
+            2,
+            <<<'EOC'
+<?php
+class ClassWithLogicalOr
+{
+    public function foobar()
     {
-        $this->assertEquals(4, $this->assess('tests/Unit/Assessor/Assets/ClassWithSwitchStatement.inc'));
+        return ($a == $b || $c == $d);
     }
+}
+EOC
+        ];
 
-    /** @test */
-    public function this_class_with_many_methods_and_many_branches_should_have_a_complexity_of_eleven()
-    {
-        $this->assertEquals(11, $this->assess('tests/Unit/Assessor/Assets/ClassWithManyMethodsAndLotsOfBranches.inc'));
-    }
+        yield 'syntax error' => [
+            1,
+            '<?php echo'
+        ];
 
-    /** @test */
-    public function a_class_with_a_ternary_opererator_should_return_two()
-    {
-        $this->assertEquals(2, $this->assess('tests/Unit/Assessor/Assets/ClassWithTernary.inc'));
-    }
+        yield 'file with commented code' => [
+            1,
+            '<?php // if (true) {if (true) {if (true) {if (true) {}}}}'
+        ];
 
-    /** @test */
-    public function a_class_with_a_logical_and_should_return_two()
-    {
-        $this->assertEquals(2, $this->assess('tests/Unit/Assessor/Assets/ClassWithLogicalAnd.inc'));
-    }
-
-    /** @test */
-    public function a_class_with_a_logical_or_should_return_two()
-    {
-        $this->assertEquals(2, $this->assess('tests/Unit/Assessor/Assets/ClassWithLogicalOr.inc'));
-    }
-
-    protected function assess($filename)
-    {
-        $contents = \file_get_contents($filename);
-        assert($contents !== false);
-
-        return (new CyclomaticComplexityAssessor())->assess($contents);
+        if (version_compare(PHP_VERSION, '7.4.0', '>=')) {
+            yield 'file with coalesce equal operator' => [
+                3,
+                <<<'EOC'
+<?php
+$a ??= 'a';
+$a ??= 'a';
+$a ??= 'a';
+EOC
+            ];
+        }
     }
 }

@@ -17,7 +17,7 @@ class AssessComplexityCommandTest extends BaseTestCase
     protected function setUp()
     {
         $application = new Application('churn-php', 'test');
-        $application->add(new AssessComplexityCommand());
+        $application->add(AssessComplexityCommand::newInstance());
         $command = $application->find('assess-complexity');
         $this->commandTester = new CommandTester($command);
     }

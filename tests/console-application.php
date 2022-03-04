@@ -13,7 +13,7 @@ use Churn\Command\RunCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application('churn-php', 'test');
-$application->add(new AssessComplexityCommand());
+$application->add(AssessComplexityCommand::newInstance());
 $application->add(RunCommand::newInstance());
 
 return $application;
