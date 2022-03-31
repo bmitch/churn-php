@@ -7,7 +7,7 @@ namespace Churn\Assessor;
 /**
  * @internal
  */
-class CyclomaticComplexityAssessor
+final class CyclomaticComplexityAssessor implements Assessor
 {
     /**
      * @var array<int, int>

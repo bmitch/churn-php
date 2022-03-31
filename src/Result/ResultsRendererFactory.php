@@ -13,7 +13,7 @@ use InvalidArgumentException;
 /**
  * @internal
  */
-class ResultsRendererFactory
+final class ResultsRendererFactory
 {
     private const FORMAT_JSON = 'json';
     private const FORMAT_CSV = 'csv';

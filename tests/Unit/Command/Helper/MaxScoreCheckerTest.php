@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Churn\Tests\Unit\Command\Helper;
 
 use Churn\Command\Helper\MaxScoreChecker;
-use Churn\Result\ResultAccumulator;
+use Churn\Result\ResultReporter;
 use Churn\Tests\BaseTestCase;
 use Mockery as m;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,7 +32,7 @@ class MaxScoreCheckerTest extends BaseTestCase
         $output = m::mock(OutputInterface::class);
         $output->shouldReceive('writeln');
 
-        $report = m::mock(ResultAccumulator::class);
+        $report = m::mock(ResultReporter::class);
         $report->shouldReceive('getMaxScore')->andReturn($maxScore);
 
         $checker = new MaxScoreChecker($threshold);

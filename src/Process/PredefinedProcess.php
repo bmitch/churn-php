@@ -9,7 +9,7 @@ use Churn\File\File;
 /**
  * @internal
  */
-class PredefinedProcess implements ChangesCountInterface, CyclomaticComplexityInterface
+final class PredefinedProcess implements ChangesCountInterface, CyclomaticComplexityInterface
 {
     /**
      * @var File

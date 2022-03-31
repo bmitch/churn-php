@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Churn\Event\Event;
 
-use Churn\Result\ResultAccumulator;
+use Churn\Result\ResultReporter;
 
 /**
  * @internal
@@ -12,16 +12,16 @@ use Churn\Result\ResultAccumulator;
 final class AfterAnalysisEvent implements AfterAnalysis
 {
     /**
-     * @var ResultAccumulator
+     * @var ResultReporter
      */
-    private $resultAccumulator;
+    private $resultReporter;
 
     /**
-     * @param ResultAccumulator $resultAccumulator The results report.
+     * @param ResultReporter $resultReporter The results report.
      */
-    public function __construct(ResultAccumulator $resultAccumulator)
+    public function __construct(ResultReporter $resultReporter)
     {
-        $this->resultAccumulator = $resultAccumulator;
+        $this->resultReporter = $resultReporter;
     }
 
     /**
@@ -29,7 +29,7 @@ final class AfterAnalysisEvent implements AfterAnalysis
      */
     public function getNumberOfFiles(): int
     {
-        return $this->resultAccumulator->getNumberOfFiles();
+        return $this->resultReporter->getNumberOfFiles();
     }
 
     /**
@@ -37,7 +37,7 @@ final class AfterAnalysisEvent implements AfterAnalysis
      */
     public function getMaxNumberOfChanges(): int
     {
-        return $this->resultAccumulator->getMaxCommits();
+        return $this->resultReporter->getMaxCommits();
     }
 
     /**
@@ -45,7 +45,7 @@ final class AfterAnalysisEvent implements AfterAnalysis
      */
     public function getMaxCyclomaticComplexity(): int
     {
-        return $this->resultAccumulator->getMaxComplexity();
+        return $this->resultReporter->getMaxComplexity();
     }
 
     /**
@@ -53,6 +53,6 @@ final class AfterAnalysisEvent implements AfterAnalysis
      */
     public function getMaxScore(): ?float
     {
-        return $this->resultAccumulator->getMaxScore();
+        return $this->resultReporter->getMaxScore();
     }
 }

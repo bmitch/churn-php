@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Churn\Command\Helper;
 
-use Churn\Result\ResultAccumulator;
+use Churn\Result\ResultReporter;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @internal
  */
-class MaxScoreChecker
+final class MaxScoreChecker
 {
     /**
      * @var float|null
@@ -30,9 +30,9 @@ class MaxScoreChecker
     /**
      * @param InputInterface $input Input.
      * @param OutputInterface $output Output.
-     * @param ResultAccumulator $report The report containing the scores.
+     * @param ResultReporter $report The report containing the scores.
      */
-    public function isOverThreshold(InputInterface $input, OutputInterface $output, ResultAccumulator $report): bool
+    public function isOverThreshold(InputInterface $input, OutputInterface $output, ResultReporter $report): bool
     {
         $maxScore = $report->getMaxScore();
 

@@ -7,7 +7,7 @@ namespace Churn\Configuration;
 /**
  * @internal
  */
-class Config
+abstract class Config
 {
     /**
      * @var array<string>

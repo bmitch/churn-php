@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Churn\Event\Event;
 
-use Churn\Result\Result;
+use Churn\Result\ResultInterface;
 
 /**
  * @internal
@@ -12,14 +12,14 @@ use Churn\Result\Result;
 final class AfterFileAnalysisEvent implements AfterFileAnalysis
 {
     /**
-     * @var Result
+     * @var ResultInterface
      */
     private $result;
 
     /**
-     * @param Result $result The result for a file.
+     * @param ResultInterface $result The result for a file.
      */
-    public function __construct(Result $result)
+    public function __construct(ResultInterface $result)
     {
         $this->result = $result;
     }
@@ -27,7 +27,7 @@ final class AfterFileAnalysisEvent implements AfterFileAnalysis
     /**
      * Returns the result for a file.
      */
-    public function getResult(): Result
+    public function getResult(): ResultInterface
     {
         return $this->result;
     }

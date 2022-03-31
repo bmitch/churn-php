@@ -14,7 +14,7 @@ use Generator;
 /**
  * @internal
  */
-class SequentialProcessHandler extends BaseProcessHandler
+final class SequentialProcessHandler extends BaseProcessHandler
 {
     /**
      * @var Broker

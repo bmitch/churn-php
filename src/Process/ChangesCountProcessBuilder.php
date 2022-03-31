@@ -18,7 +18,7 @@ use Webmozart\Assert\Assert;
 /**
  * @internal
  */
-class ChangesCountProcessBuilder
+final class ChangesCountProcessBuilder
 {
     /**
      * @param string $vcs Name of the version control system.

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Churn\Command;
 
+use Churn\Assessor\Assessor;
 use Churn\Assessor\CyclomaticComplexityAssessor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -13,19 +14,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @internal
  */
-class AssessComplexityCommand extends Command
+final class AssessComplexityCommand extends Command
 {
     /**
-     * @var CyclomaticComplexityAssessor
+     * @var Assessor
      */
     private $assessor;
 
     /**
      * Class constructor.
      *
-     * @param CyclomaticComplexityAssessor $assessor The class calculating the complexity.
+     * @param Assessor $assessor The class calculating the complexity.
      */
-    public function __construct(CyclomaticComplexityAssessor $assessor)
+    public function __construct(Assessor $assessor)
     {
         parent::__construct();
 

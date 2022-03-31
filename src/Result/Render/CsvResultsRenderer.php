@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @internal
  */
-class CsvResultsRenderer implements ResultsRendererInterface
+final class CsvResultsRenderer implements ResultsRendererInterface
 {
     /**
      * Renders the results.

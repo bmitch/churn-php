@@ -7,7 +7,7 @@ namespace Churn\Tests\Unit\Process\Handler;
 use Churn\Event\Broker;
 use Churn\File\File;
 use Churn\Process\ChangesCountInterface;
-use Churn\Process\CyclomaticComplexityProcess;
+use Churn\Process\CyclomaticComplexityInterface;
 use Churn\Process\Handler\ParallelProcessHandler;
 use Churn\Process\ConcreteProcessFactory;
 use Churn\Process\ProcessFactory;
@@ -48,7 +48,7 @@ class ParallelProcessHandlerTest extends BaseTestCase
         $process1->shouldReceive('getFile')->andReturn($file);
         $process1->shouldReceive('countChanges')->andReturn(1);
 
-        $process2 = m::mock(CyclomaticComplexityProcess::class);
+        $process2 = m::mock(CyclomaticComplexityInterface::class);
         $process2->shouldReceive('start');
         $process2->shouldReceive('isSuccessful')->andReturn(true);
         $process2->shouldReceive('getFile')->andReturn($file);

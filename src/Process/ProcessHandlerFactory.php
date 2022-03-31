@@ -13,7 +13,7 @@ use Churn\Process\Handler\SequentialProcessHandler;
 /**
  * @internal
  */
-class ProcessHandlerFactory
+final class ProcessHandlerFactory
 {
     /**
      * Returns a process handler depending on the configuration.

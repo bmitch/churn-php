@@ -12,7 +12,7 @@ use SplFileInfo;
 /**
  * @internal
  */
-class FileFinder
+final class FileFinder
 {
     /**
      * List of file extensions to look for.

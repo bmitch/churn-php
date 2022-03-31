@@ -10,7 +10,7 @@ use Churn\Event\Event\AfterFileAnalysis as AfterFileAnalysisEvent;
  * @internal
  * @implements HookDecorator<\Churn\Event\Hook\AfterFileAnalysisHook>
  */
-class AfterFileAnalysisHookDecorator implements AfterFileAnalysis, HookDecorator
+final class AfterFileAnalysisHookDecorator implements AfterFileAnalysis, HookDecorator
 {
     /**
      * @var string

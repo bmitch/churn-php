@@ -7,7 +7,7 @@ namespace Churn\File;
 /**
  * @internal
  */
-class File
+final class File
 {
     /**
      * The full path of the file.

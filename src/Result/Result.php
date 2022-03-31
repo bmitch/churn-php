@@ -10,7 +10,7 @@ use Webmozart\Assert\Assert;
 /**
  * @internal
  */
-class Result
+final class Result implements ResultInterface
 {
     /**
      * The file property.

@@ -13,7 +13,7 @@ use Symfony\Component\Process\Process;
 /**
  * @internal
  */
-class ConcreteProcessFactory implements ProcessFactory
+final class ConcreteProcessFactory implements ProcessFactory
 {
     /**
      * Builder of objects implementing ChangesCountInterface.
