@@ -15,7 +15,7 @@ use Generator;
 /**
  * @internal
  */
-class ParallelProcessHandler extends BaseProcessHandler
+final class ParallelProcessHandler extends BaseProcessHandler
 {
     /**
      * Array of completed processes.

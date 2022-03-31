@@ -11,7 +11,7 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * @internal
  */
-class FileHelper
+final class FileHelper
 {
     /**
      * @param string $path The path of an item.

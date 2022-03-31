@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Churn\Tests\Unit\Process;
 
-use Churn\Configuration\Config;
+use Churn\Configuration\ReadOnlyConfig;
 use Churn\File\File;
 use Churn\Process\ChangesCountInterface;
 use Churn\Process\CyclomaticComplexityInterface;
@@ -21,7 +21,7 @@ class ConcreteProcessFactoryTest extends BaseTestCase
 
     public function setup()
     {
-        $config = new Config();
+        $config = new ReadOnlyConfig();
         $this->processFactory = new ConcreteProcessFactory($config->getVCS(), $config->getCommitsSince());
     }
 
@@ -74,7 +74,7 @@ class ConcreteProcessFactoryTest extends BaseTestCase
     /** @test */
     public function it_throws_exception_if_VCS_is_not_supported()
     {
-        $config = new Config();
+        $config = new ReadOnlyConfig();
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported VCS: not a valid VCS');
         new ConcreteProcessFactory('not a valid VCS', $config->getCommitsSince());

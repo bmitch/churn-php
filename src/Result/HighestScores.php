@@ -9,10 +9,10 @@ use SplFixedArray;
 /**
  * @internal
  */
-class HighestScores
+final class HighestScores
 {
     /**
-     * @var SplFixedArray<Result|null>
+     * @var SplFixedArray<ResultInterface|null>
      */
     private $scores;
 
@@ -29,7 +29,7 @@ class HighestScores
     /**
      * Returns the results as a normal PHP array.
      *
-     * @return array<Result>
+     * @return array<ResultInterface>
      */
     public function toArray(): array
     {
@@ -39,9 +39,9 @@ class HighestScores
     /**
      * Add the result if its priority is high enough.
      *
-     * @param Result $result The result for a file.
+     * @param ResultInterface $result The result for a file.
      */
-    public function add(Result $result): void
+    public function add(ResultInterface $result): void
     {
         $worstScore = $this->scores[$this->scores->getSize() - 1];
         if (null !== $worstScore && $result->getPriority() <= $worstScore->getPriority()) {
@@ -54,9 +54,9 @@ class HighestScores
     /**
      * Returns the position where the result must be inserted.
      *
-     * @param Result $result The result for a file.
+     * @param ResultInterface $result The result for a file.
      */
-    private function findPosition(Result $result): int
+    private function findPosition(ResultInterface $result): int
     {
         $pos = 0;
 
@@ -74,10 +74,10 @@ class HighestScores
     /**
      * Inserts the result at a given position and shifts the lower elements.
      *
-     * @param Result $result The result for a file.
+     * @param ResultInterface $result The result for a file.
      * @param integer $position The position where the result must be inserted.
      */
-    private function insertAt(Result $result, int $position): void
+    private function insertAt(ResultInterface $result, int $position): void
     {
         for ($i = $this->scores->getSize() - 1; $i > $position; $i--) {
             $this->scores[$i] = $this->scores[$i - 1];

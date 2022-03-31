@@ -7,7 +7,7 @@ namespace Churn\Process;
 /**
  * @internal
  */
-class CyclomaticComplexityProcess extends ChurnProcess implements CyclomaticComplexityInterface
+final class CyclomaticComplexityProcess extends ChurnProcess implements CyclomaticComplexityInterface
 {
     /**
      * Returns the cyclomatic complexity of a file.

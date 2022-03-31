@@ -12,7 +12,7 @@ use Symfony\Component\Process\Process;
 /**
  * @internal
  */
-class MercurialChangesCountProcess extends ChurnProcess implements ChangesCountInterface
+final class MercurialChangesCountProcess extends ChurnProcess implements ChangesCountInterface
 {
     /**
      * Class constructor.

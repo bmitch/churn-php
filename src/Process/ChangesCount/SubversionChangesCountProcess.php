@@ -12,7 +12,7 @@ use Symfony\Component\Process\Process;
 /**
  * @internal
  */
-class SubversionChangesCountProcess extends ChurnProcess implements ChangesCountInterface
+final class SubversionChangesCountProcess extends ChurnProcess implements ChangesCountInterface
 {
     /**
      * Class constructor.

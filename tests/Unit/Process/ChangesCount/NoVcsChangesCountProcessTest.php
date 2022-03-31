@@ -18,9 +18,7 @@ class NoVcsChangesCountProcessTest extends BaseTestCase
 
     protected function setUp()
     {
-        $file = m::mock(File::class, [
-            'getDisplayPath' => '/foo',
-        ]);
+        $file = new File('/foo', '/foo');
         $this->process = new NoVcsChangesCountProcess($file);
     }
 

@@ -6,7 +6,7 @@ namespace Churn\Tests\Event\Event;
 
 use Churn\Event\Event\AfterFileAnalysisEvent;
 use Churn\File\File;
-use Churn\Result\Result;
+use Churn\Result\ResultInterface;
 use Churn\Tests\BaseTestCase;
 use Mockery as m;
 
@@ -19,9 +19,8 @@ class AfterFileAnalysisEventTest extends BaseTestCase
         $numberOfChanges = 2;
         $cyclomaticComplexity = 3;
 
-        $file = m::mock(File::class);
-        $file->shouldReceive('getFullPath')->andReturn($fullPath);
-        $result = m::mock(Result::class);
+        $file = new File($fullPath, $fullPath);
+        $result = m::mock(ResultInterface::class);
         $result->shouldReceive('getFile')->andReturn($file);
         $result->shouldReceive('getCommits')->andReturn($numberOfChanges);
         $result->shouldReceive('getComplexity')->andReturn($cyclomaticComplexity);

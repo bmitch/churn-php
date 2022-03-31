@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @internal
  */
-class ProgressBarSubscriber implements AfterAnalysis, AfterFileAnalysis, BeforeAnalysis
+final class ProgressBarSubscriber implements AfterAnalysis, AfterFileAnalysis, BeforeAnalysis
 {
     /**
      * @var ProgressBar

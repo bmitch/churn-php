@@ -23,7 +23,7 @@ use Symfony\Component\Yaml\Yaml;
  * @internal
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Loader
+final class Loader
 {
     /**
      * @param string $confPath Path of the configuration file to load.
@@ -43,7 +43,7 @@ class Loader
         }
 
         if ($isDefaultValue) {
-            return new Config();
+            return new ReadOnlyConfig();
         }
 
         throw new InvalidArgumentException('The configuration file can not be read at ' . $originalConfPath);

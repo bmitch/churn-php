@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Churn\Tests\Unit\Configuration;
 
-use Churn\Configuration\Config;
+use Churn\Configuration\ReadOnlyConfig;
 use Churn\Configuration\EditableConfig;
 use Churn\Configuration\Loader;
 use Churn\Tests\BaseTestCase;
@@ -20,7 +20,7 @@ class LoaderTest extends BaseTestCase
             chdir(__DIR__);
             $config = Loader::fromPath('churn.yml', true);
 
-            $this->assertEquals(new Config(), $config);
+            $this->assertEquals(new ReadOnlyConfig(), $config);
             $this->assertEquals(\getcwd(), $config->getDirPath());
         } finally {
             // restore cwd

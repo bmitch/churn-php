@@ -11,7 +11,7 @@ use Churn\Event\Subscriber\AfterFileAnalysis;
 /**
  * @internal
  */
-class ResultAccumulator implements AfterFileAnalysis
+final class ResultAccumulator implements AfterFileAnalysis, ResultReporter
 {
     /**
      * @var integer
@@ -64,9 +64,9 @@ class ResultAccumulator implements AfterFileAnalysis
     }
 
     /**
-     * @param Result $result The result for a file.
+     * @param ResultInterface $result The result for a file.
      */
-    public function add(Result $result): void
+    public function add(ResultInterface $result): void
     {
         if (0 === $result->getPriority()) {
             return;

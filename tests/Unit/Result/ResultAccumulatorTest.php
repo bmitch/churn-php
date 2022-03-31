@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Churn\Tests\Result;
 
 use Churn\File\File;
-use Churn\Result\Result;
+use Churn\Result\ResultInterface;
 use Churn\Result\ResultAccumulator;
 use Churn\Tests\BaseTestCase;
 use Mockery as m;
 
 class ResultAccumulatorTest extends BaseTestCase
 {
-    private function mockResult(int $commits, int $complexity, string $file, float $score = 0.0): Result
+    private function mockResult(int $commits, int $complexity, string $file, float $score = 0.0): ResultInterface
     {
-        $result = m::mock(Result::class);
+        $result = m::mock(ResultInterface::class);
         $result->shouldReceive('getCommits')->andReturn($commits);
         $result->shouldReceive('getComplexity')->andReturn($complexity);
         $result->shouldReceive('getPriority')->andReturn($commits * $complexity);

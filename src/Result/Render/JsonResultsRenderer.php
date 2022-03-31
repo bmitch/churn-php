@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @internal
  */
-class JsonResultsRenderer implements ResultsRendererInterface
+final class JsonResultsRenderer implements ResultsRendererInterface
 {
     /**
      * Renders the results.

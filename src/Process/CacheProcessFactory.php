@@ -16,7 +16,7 @@ use Throwable;
 /**
  * @internal
  */
-class CacheProcessFactory implements AfterAnalysis, AfterFileAnalysis, ProcessFactory
+final class CacheProcessFactory implements AfterAnalysis, AfterFileAnalysis, ProcessFactory
 {
     /**
      * @var string The cache file path.

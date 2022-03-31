@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @internal
  */
-class ConsoleResultsRenderer implements ResultsRendererInterface
+final class ConsoleResultsRenderer implements ResultsRendererInterface
 {
     /**
      * Renders the results.

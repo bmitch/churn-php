@@ -10,7 +10,7 @@ use Churn\Process\ChangesCountInterface;
 /**
  * @internal
  */
-class NoVcsChangesCountProcess implements ChangesCountInterface
+final class NoVcsChangesCountProcess implements ChangesCountInterface
 {
     /**
      * The file the process will be executed on.

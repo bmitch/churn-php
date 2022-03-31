@@ -9,6 +9,7 @@ use Churn\Command\Helper\ProgressBarSubscriber;
 use Churn\Configuration\Config;
 use Churn\Configuration\Loader;
 use Churn\Event\Broker;
+use Churn\Event\BrokerImpl;
 use Churn\Event\Event\AfterAnalysisEvent;
 use Churn\Event\Event\BeforeAnalysisEvent;
 use Churn\Event\HookLoader;
@@ -35,7 +36,7 @@ use Webmozart\Assert\Assert;
  * @internal
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class RunCommand extends Command
+final class RunCommand extends Command
 {
     public const LOGO = "
     ___  _   _  __  __  ____  _  _     ____  _   _  ____
@@ -110,7 +111,7 @@ class RunCommand extends Command
         }
         $this->printLogo($input, $output);
         $config = $this->getConfiguration($input, $output);
-        $broker = new Broker();
+        $broker = new BrokerImpl();
         (new HookLoader($config->getDirPath()))->attachHooks($config->getHooks(), $broker);
         if (true === $input->getOption('progress')) {
             $broker->subscribe(new ProgressBarSubscriber($output));
