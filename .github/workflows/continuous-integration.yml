@@ -330,4 +330,4 @@ jobs:
         run: chmod +x churn.phar
 
       - name: "Run Phar"
-        run: ./churn.phar
+        run: ./churn.phar --format=markdown >> $GITHUB_STEP_SUMMARY

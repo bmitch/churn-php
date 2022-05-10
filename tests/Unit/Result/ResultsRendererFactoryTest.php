@@ -7,6 +7,7 @@ namespace Churn\Tests\Unit\Result;
 use Churn\Result\Render\ConsoleResultsRenderer;
 use Churn\Result\Render\CsvResultsRenderer;
 use Churn\Result\Render\JsonResultsRenderer;
+use Churn\Result\Render\MarkdownResultsRenderer;
 use Churn\Result\ResultsRendererFactory;
 use Churn\Tests\BaseTestCase;
 use InvalidArgumentException;
@@ -34,6 +35,12 @@ class ResultsRendererFactoryTest extends BaseTestCase
     public function it_returns_the_csv_renderer_when_provided_csv_format()
     {
         $this->assertInstanceOf(CsvResultsRenderer::class, $this->factory->getRenderer('csv'));
+    }
+
+    /** @test */
+    public function it_returns_the_markdown_renderer_when_provided_markdown_format()
+    {
+        $this->assertInstanceOf(MarkdownResultsRenderer::class, $this->factory->getRenderer('markdown'));
     }
 
     /** @test */
