@@ -2,7 +2,30 @@
 
 ## [Unreleased](https://github.com/bmitch/churn-php/tree/HEAD)
 
-[Full Changelog](https://github.com/bmitch/churn-php/compare/1.6.1...HEAD)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.7.0...HEAD)
+
+## [1.7.0](https://github.com/bmitch/churn-php/tree/1.7.0) (2022-05-10)
+
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.6.1...1.7.0)
+
+**Implemented enhancements:**
+
+- Support markdown format [\#356](https://github.com/bmitch/churn-php/issues/356)
+- CyclomaticComplexityAssessor - Improve by using something like `nikic/PHP-Parser` [\#146](https://github.com/bmitch/churn-php/issues/146)
+
+**Closed issues:**
+
+- Add mutation testing [\#330](https://github.com/bmitch/churn-php/issues/330)
+
+**Merged pull requests:**
+
+- Add support for markdown format [\#357](https://github.com/bmitch/churn-php/pull/357) ([villfa](https://github.com/villfa))
+- Add final or abstract keyword when missing [\#355](https://github.com/bmitch/churn-php/pull/355) ([villfa](https://github.com/villfa))
+- Upgrade actions/checkout to v3 [\#353](https://github.com/bmitch/churn-php/pull/353) ([villfa](https://github.com/villfa))
+- Execute mutation tests only on PR [\#352](https://github.com/bmitch/churn-php/pull/352) ([villfa](https://github.com/villfa))
+- Refactor CyclomaticComplexityAssessor [\#351](https://github.com/bmitch/churn-php/pull/351) ([villfa](https://github.com/villfa))
+- Add Infection to the pipeline [\#350](https://github.com/bmitch/churn-php/pull/350) ([villfa](https://github.com/villfa))
+- Set fetch-depth to 0 [\#349](https://github.com/bmitch/churn-php/pull/349) ([villfa](https://github.com/villfa))
 
 ## [1.6.1](https://github.com/bmitch/churn-php/tree/1.6.1) (2022-02-04)
 
