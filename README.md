@@ -147,6 +147,7 @@ You can configure `churn` to output the result in different formats. The availab
 
 * `csv`
 * `json`
+* `markdown`
 * `text` (default)
 
 To use a different format use `--format` option. Example command for `json`: 
