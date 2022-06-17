@@ -9,6 +9,18 @@ use Churn\Tests\BaseTestCase;
 
 class FileTest extends BaseTestCase
 {
+    /**
+     * @var File
+     **/
+    private $file;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->file = new File('foo/bar/baz.php', 'bar/baz.php');
+    }
+
     /** @test */
     public function it_can_be_instantiated()
     {
@@ -20,12 +32,5 @@ class FileTest extends BaseTestCase
     {
         $this->assertSame('foo/bar/baz.php', $this->file->getFullPath());
         $this->assertSame('bar/baz.php', $this->file->getDisplayPath());
-    }
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->file = new File('foo/bar/baz.php', 'bar/baz.php');
     }
 }
