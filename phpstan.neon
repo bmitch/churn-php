@@ -4,9 +4,9 @@ parameters:
     - %currentWorkingDirectory%/src/
 
   checkGenericClassInNonGenericObjectType: false
+  reportUnmatchedIgnoredErrors: true
   ignoreErrors:
     - '/Construct empty\(\) is not allowed\. Use more strict comparison/'
-    - '/Call to function is_subclass_of\(\) with class-string and class-string will always evaluate to true/'
     - '/Casting to .+ something that''s already/'
 
   symfony:
