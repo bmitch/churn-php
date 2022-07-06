@@ -205,6 +205,7 @@ class RunCommandTest extends BaseTestCase
     public function it_throws_for_invalid_hooks(): void
     {
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid hook: invalid-hook');
         $this->commandTester->execute([
             'paths' => [__FILE__, __DIR__ . '/AssessComplexityCommandTest.php'],
             '-c' => __DIR__ . '/config/hook-invalid.yml',
