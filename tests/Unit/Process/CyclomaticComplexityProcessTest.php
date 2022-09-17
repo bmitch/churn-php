@@ -26,7 +26,7 @@ class CyclomaticComplexityProcessTest extends BaseTestCase
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
-        $process->shouldReceive('start');
+        $process->shouldReceive('start')->once();
         $churnProcess = new CyclomaticComplexityProcess($file, $process);
         $churnProcess->start();
     }
