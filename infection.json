@@ -6,7 +6,7 @@
         ]
     },
     "logs": {
-        "text": "infection.log"
+        "text": "php://stdout"
     },
     "mutators": {
         "@default": true,
