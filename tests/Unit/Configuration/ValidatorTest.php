@@ -134,4 +134,34 @@ class ValidatorTest extends BaseTestCase
         yield 'Vcs / int' => [new Vcs(), 123, 'VCS should be a string'];
         yield 'Vcs / null' => [new Vcs(), null, 'VCS should be a string'];
     }
+
+    /**
+     * @test
+     */
+    public function it_emits_a_deprecation_warning_for_commit_since(): void
+    {
+        $deprecationMessage = null;
+        set_error_handler(function ($_, $errstr) use (&$deprecationMessage) {
+            $deprecationMessage = $errstr;
+
+            return true;
+        }, \E_USER_DEPRECATED);
+
+        try {
+            $config = new EditableConfig();
+            $validator = new CommitsSince();
+            $validator->validate($config, ['commitSince' => 'one day ago']);
+
+            $this->assertEquals('one day ago', $config->getCommitsSince());
+            $this->assertEquals('commitSince', $validator->getKey());
+	} finally {
+            restore_error_handler();
+        }
+
+        $this->assertEquals(
+            'The "commitSince" configuration key is deprecated and won\'t be supported'
+            . ' in the next major version anymore. Use "commitsSince" instead.',
+            $deprecationMessage
+        );
+    }
 }
