@@ -1,2 +1,17 @@
 foo: ~
 bar: baz
+
+# The following keys must not be reported as unrecognized
+filesToShow: 10
+minScoreToShow: 0.1
+maxScoreThreshold: null
+parallelJobs: 10
+commitsSince: One year ago
+filesToIgnore: []
+fileExtensions:
+ - php
+directoriesToScan:
+ - src
+hooks: []
+vcs: git
+cachePath: null
