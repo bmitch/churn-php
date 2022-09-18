@@ -2,7 +2,22 @@
 
 ## [Unreleased](https://github.com/bmitch/churn-php/tree/HEAD)
 
-[Full Changelog](https://github.com/bmitch/churn-php/compare/1.7.0...HEAD)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.7.1...HEAD)
+
+## [1.7.0](https://github.com/bmitch/churn-php/tree/1.7.1) (2022-09-18)
+
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.7.0...1.7.1)
+
+**Fixed bugs:**
+
+- "commitsSince" not recognized [\#360](https://github.com/bmitch/churn-php/issues/360)
+
+**Merged pull requests:**
+
+- Fix typo in the "commitsSince" validator [\#362](https://github.com/bmitch/churn-php/pull/362) ([villfa](https://github.com/villfa))
+- Make tests pass with Mockery 1.5.1 [\#361](https://github.com/bmitch/churn-php/pull/361) ([villfa](https://github.com/villfa))
+- Fix PHPStan error with is\_subclass\_of [\#359](https://github.com/bmitch/churn-php/pull/359) ([villfa](https://github.com/villfa))
+- Test with PHP-8.2 [\#358](https://github.com/bmitch/churn-php/pull/358) ([villfa](https://github.com/villfa))
 
 ## [1.7.0](https://github.com/bmitch/churn-php/tree/1.7.0) (2022-05-10)
 
