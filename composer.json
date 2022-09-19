@@ -4,7 +4,8 @@
     "license": "MIT",
     "keywords": [
         "bmitch",
-        "churn-php"
+        "churn-php",
+        "static analysis"
     ],
     "authors": [
         {
