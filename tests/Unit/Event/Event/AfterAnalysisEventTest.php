@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Churn\Tests\Event\Event;
+namespace Churn\Tests\Unit\Event\Event;
 
 use Churn\Event\Event\AfterAnalysisEvent;
 use Churn\Result\ResultReporter;

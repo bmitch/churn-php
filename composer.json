@@ -69,6 +69,7 @@
         "test": [
             "@composer validate --strict",
             "parallel-lint src tests",
+            "@composer dump-autoload --optimize --strict-psr",
             "phpmd src text phpmd.xml",
             "phploc src",
             "phpcpd src",
