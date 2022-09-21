@@ -183,6 +183,9 @@ jobs:
         with:
           dependency-versions: "highest"
 
+      - name: "Check for PSR-4 violations"
+        run: "composer dump-autoload --optimize --strict-psr --no-scripts"
+
       - name: "Run PHP Mess Detector"
         run: "vendor/bin/phpmd src text phpmd.xml"
 

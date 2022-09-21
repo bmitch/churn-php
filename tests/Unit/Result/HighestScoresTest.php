@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Churn\Tests\Result;
+namespace Churn\Tests\Unit\Result;
 
 use Churn\Result\ResultInterface;
 use Churn\Result\HighestScores;
