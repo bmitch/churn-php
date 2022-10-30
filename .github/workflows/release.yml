@@ -39,7 +39,7 @@ jobs:
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
           content="${content//$'\r'/'%0D'}"
-          echo "::set-output name=message::$content"
+          echo "message=$content" >> $GITHUB_OUTPUT
 
       - name: "Build PHAR"
         run: |
