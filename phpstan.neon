@@ -6,7 +6,6 @@ parameters:
   checkGenericClassInNonGenericObjectType: false
   reportUnmatchedIgnoredErrors: true
   ignoreErrors:
-    - '/Construct empty\(\) is not allowed\. Use more strict comparison/'
     - '/Casting to .+ something that''s already/'
 
   checkTooWideReturnTypesInProtectedAndPublicMethods: true
