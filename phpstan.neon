@@ -9,5 +9,8 @@ parameters:
     - '/Construct empty\(\) is not allowed\. Use more strict comparison/'
     - '/Casting to .+ something that''s already/'
 
+  checkTooWideReturnTypesInProtectedAndPublicMethods: true
+  checkUninitializedProperties: true
+
   symfony:
     console_application_loader: %currentWorkingDirectory%/tests/console-application.php
