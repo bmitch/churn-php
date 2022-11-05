@@ -29,7 +29,7 @@ class ProcessHandlerFactoryTest extends BaseTestCase
         $broker = m::mock(Broker::class);
         $factory = new ProcessHandlerFactory();
         $processHandler = $factory->getProcessHandler($config, $broker);
-        $this->assertEquals($expectedClassName, get_class($processHandler));
+        $this->assertSame($expectedClassName, get_class($processHandler));
     }
 
     public function provide_config_with_process_handler(): iterable

@@ -25,7 +25,7 @@ class FileHelperTest extends BaseTestCase
      */
     public function it_can_return_absolute_path(string $path, string $confPath, string $expectedPath): void
     {
-        $this->assertEquals($expectedPath, FileHelper::toAbsolutePath($path, $confPath));
+        $this->assertSame($expectedPath, FileHelper::toAbsolutePath($path, $confPath));
     }
 
     public function provide_absolute_paths(): iterable
@@ -45,7 +45,7 @@ class FileHelperTest extends BaseTestCase
      */
     public function it_can_return_relative_path(string $path, string $confPath, string $expectedPath): void
     {
-        $this->assertEquals($expectedPath, FileHelper::toRelativePath($path, $confPath));
+        $this->assertSame($expectedPath, FileHelper::toRelativePath($path, $confPath));
     }
 
     public function provide_relative_paths(): iterable

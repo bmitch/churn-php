@@ -51,7 +51,7 @@ class SubversionTest extends BaseTestCase
 +---------+---------------+------------+-------+
 ";
 
-        $this->assertEquals(0, $exitCode);
-        $this->assertEquals($expected, $display);
+        $this->assertSame(0, $exitCode);
+        $this->assertSame($expected, $display);
     }
 }

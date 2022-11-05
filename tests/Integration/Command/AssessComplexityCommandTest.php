@@ -33,7 +33,7 @@ class AssessComplexityCommandTest extends BaseTestCase
         $exitCode = $this->commandTester->execute(['file' => __FILE__]);
         $result = \rtrim($this->commandTester->getDisplay());
 
-        $this->assertEquals(0, $exitCode);
+        $this->assertSame(0, $exitCode);
         $this->assertTrue(\ctype_digit($result), 'The result of the command must be an integer');
         $this->assertGreaterThan(0, (int) $result);
     }
@@ -44,8 +44,8 @@ class AssessComplexityCommandTest extends BaseTestCase
         $exitCode = $this->commandTester->execute(['file' => 'nonexisting-file.php']);
         $result = \rtrim($this->commandTester->getDisplay());
 
-        $this->assertEquals(0, $exitCode);
+        $this->assertSame(0, $exitCode);
         $this->assertTrue(\ctype_digit($result), 'The result of the command must be an integer');
-        $this->assertEquals(0, (int) $result);
+        $this->assertSame(0, (int) $result);
     }
 }

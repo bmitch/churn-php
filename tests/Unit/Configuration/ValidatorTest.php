@@ -152,13 +152,13 @@ class ValidatorTest extends BaseTestCase
             $validator = new CommitsSince();
             $validator->validate($config, ['commitSince' => 'one day ago']);
 
-            $this->assertEquals('one day ago', $config->getCommitsSince());
-            $this->assertEquals('commitSince', $validator->getKey());
+            $this->assertSame('one day ago', $config->getCommitsSince());
+            $this->assertSame('commitSince', $validator->getKey());
 	} finally {
             restore_error_handler();
         }
 
-        $this->assertEquals(
+        $this->assertSame(
             'The "commitSince" configuration key is deprecated and won\'t be supported'
             . ' in the next major version anymore. Use "commitsSince" instead.',
             $deprecationMessage

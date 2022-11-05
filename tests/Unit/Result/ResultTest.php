@@ -66,7 +66,7 @@ class ResultTest extends BaseTestCase
         $maxCommits = 10;
         $maxComplexity = 10;
 
-        $this->assertEquals(0.417, $this->result->getScore($maxCommits, $maxComplexity));
+        $this->assertSame(0.417, $this->result->getScore($maxCommits, $maxComplexity));
     }
 
     /**
