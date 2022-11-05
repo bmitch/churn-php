@@ -138,6 +138,16 @@ class RunCommandTest extends BaseTestCase
     }
 
     /** @test */
+    public function it_throws_for_invalid_parallel(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->commandTester->execute([
+            'paths' => [__DIR__],
+            '--parallel' => 'foo',
+        ]);
+    }
+
+    /** @test */
     public function it_can_use_cache(): void
     {
         // delete cache if any

@@ -8,6 +8,7 @@ use Churn\File\File;
 use Churn\Tests\BaseTestCase;
 use Churn\Process\CyclomaticComplexityProcess;
 use Mockery as m;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 class CyclomaticComplexityProcessTest extends BaseTestCase
@@ -39,12 +40,30 @@ class CyclomaticComplexityProcessTest extends BaseTestCase
         $process->shouldReceive('getExitCode')->andReturn(0);
         $churnProcess = new CyclomaticComplexityProcess($file, $process);
         $this->assertTrue($churnProcess->isSuccessful());
+    }
 
+    /** @test */
+    public function it_can_determine_if_it_was_unsuccessful()
+    {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
         $process->shouldReceive('getExitCode')->andReturn(null);
         $churnProcess = new CyclomaticComplexityProcess($file, $process);
         $this->assertFalse($churnProcess->isSuccessful());
+    }
+
+    /** @test */
+    public function it_throws_with_positive_exit_code()
+    {
+        $file = new File('foo/bar/baz.php', 'bar/baz.php');
+        $process = m::mock(Process::class);
+        $process->shouldReceive('getExitCode')->andReturn(1);
+        $process->shouldIgnoreMissing();
+        $churnProcess = new CyclomaticComplexityProcess($file, $process);
+
+        $this->expectException(ProcessFailedException::class);
+
+        $churnProcess->isSuccessful();
     }
 
     /** @test */
