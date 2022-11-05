@@ -26,9 +26,9 @@ class AfterAnalysisEventTest extends BaseTestCase
         $report->shouldReceive('getMaxScore')->andReturn($maxScore);
 
         $event = new AfterAnalysisEvent($report);
-        $this->assertEquals($numberOfFiles, $event->getNumberOfFiles());
-        $this->assertEquals($maxNumberOfChanges, $event->getMaxNumberOfChanges());
-        $this->assertEquals($maxCyclomaticComplexity, $event->getMaxCyclomaticComplexity());
-        $this->assertEquals($maxScore, $event->getMaxScore());
+        $this->assertSame($numberOfFiles, $event->getNumberOfFiles());
+        $this->assertSame($maxNumberOfChanges, $event->getMaxNumberOfChanges());
+        $this->assertSame($maxCyclomaticComplexity, $event->getMaxCyclomaticComplexity());
+        $this->assertSame($maxScore, $event->getMaxScore());
     }
 }

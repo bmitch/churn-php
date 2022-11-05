@@ -16,7 +16,7 @@ class CyclomaticComplexityAssessorTest extends BaseTestCase
     {
         $assessor = new CyclomaticComplexityAssessor();
 
-        $this->assertEquals($expectedScore, $assessor->assess($code));
+        $this->assertSame($expectedScore, $assessor->assess($code));
     }
 
     public function provide_assess(): iterable

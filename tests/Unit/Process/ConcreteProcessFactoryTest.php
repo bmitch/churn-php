@@ -87,6 +87,6 @@ class ConcreteProcessFactoryTest extends BaseTestCase
         $this->processFactory = new ConcreteProcessFactory('none', '');
         $process = $this->extractChangesCountProcess($this->processFactory->createProcesses($file));
         $this->assertSame($file, $process->getFile());
-        $this->assertEquals(1, $process->countChanges());
+        $this->assertSame(1, $process->countChanges());
     }
 }

@@ -22,9 +22,9 @@ class HighestScoresTest extends BaseTestCase
         $results = $scores->toArray();
 
         $this->assertCount(3, $results);
-        $this->assertEquals(3, $results[0]->getPriority());
-        $this->assertEquals(2, $results[1]->getPriority());
-        $this->assertEquals(1, $results[2]->getPriority());
+        $this->assertSame(3, $results[0]->getPriority());
+        $this->assertSame(2, $results[1]->getPriority());
+        $this->assertSame(1, $results[2]->getPriority());
     }
 
     /** @test */
@@ -40,8 +40,8 @@ class HighestScoresTest extends BaseTestCase
         $results = $scores->toArray();
 
         $this->assertCount(3, $results);
-        $this->assertEquals(5, $results[0]->getPriority());
-        $this->assertEquals(4, $results[1]->getPriority());
-        $this->assertEquals(3, $results[2]->getPriority());
+        $this->assertSame(5, $results[0]->getPriority());
+        $this->assertSame(4, $results[1]->getPriority());
+        $this->assertSame(3, $results[2]->getPriority());
     }
 }

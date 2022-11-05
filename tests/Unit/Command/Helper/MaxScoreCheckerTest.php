@@ -37,7 +37,7 @@ class MaxScoreCheckerTest extends BaseTestCase
 
         $checker = new MaxScoreChecker($threshold);
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedResult,
             $checker->isOverThreshold($input, $output, $report)
         );

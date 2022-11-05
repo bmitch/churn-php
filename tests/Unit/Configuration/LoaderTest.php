@@ -20,8 +20,8 @@ class LoaderTest extends BaseTestCase
             chdir(__DIR__);
             $config = Loader::fromPath('churn.yml', true);
 
-            $this->assertEquals(new ReadOnlyConfig(), $config);
-            $this->assertEquals(\getcwd(), $config->getDirPath());
+            $this->assertEqualsCanonicalizing(new ReadOnlyConfig(), $config);
+            $this->assertSame(\getcwd(), $config->getDirPath());
         } finally {
             // restore cwd
             chdir($cwd);
@@ -48,8 +48,8 @@ class LoaderTest extends BaseTestCase
         $dirPath = \realpath(__DIR__ . '/config/dist');
         $config = Loader::fromPath($dirPath, false);
 
-        $this->assertEquals(new EditableConfig($dirPath . DIRECTORY_SEPARATOR . 'churn.yml.dist'), $config);
-        $this->assertEquals($dirPath, $config->getDirPath());
+        $this->assertEqualsCanonicalizing(new EditableConfig($dirPath . DIRECTORY_SEPARATOR . 'churn.yml.dist'), $config);
+        $this->assertSame($dirPath, $config->getDirPath());
     }
 
     /** @test */
@@ -61,8 +61,8 @@ class LoaderTest extends BaseTestCase
             chdir($dirPath);
             $config = Loader::fromPath('churn.yml', true);
 
-            $this->assertEquals(new EditableConfig($dirPath . DIRECTORY_SEPARATOR . 'churn.yml.dist'), $config);
-            $this->assertEquals($dirPath, $config->getDirPath());
+            $this->assertEqualsCanonicalizing(new EditableConfig($dirPath . DIRECTORY_SEPARATOR . 'churn.yml.dist'), $config);
+            $this->assertSame($dirPath, $config->getDirPath());
         } finally {
             // restore cwd
             chdir($cwd);
