@@ -222,7 +222,7 @@ final class RunCommand extends Command
      */
     private function printLogo(InputInterface $input, OutputInterface $output): void
     {
-        if ('text' !== $input->getOption('format') && empty($input->getOption('output'))) {
+        if ('text' !== $input->getOption('format') && '' === (string) $input->getOption('output')) {
             return;
         }
 

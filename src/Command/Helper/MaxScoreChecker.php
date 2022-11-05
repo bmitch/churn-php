@@ -40,7 +40,7 @@ final class MaxScoreChecker
             return false;
         }
 
-        if ('text' === $input->getOption('format') || !empty($input->getOption('output'))) {
+        if ('text' === $input->getOption('format') || '' !== (string) $input->getOption('output')) {
             $output = $output instanceof ConsoleOutputInterface
                 ? $output->getErrorOutput()
                 : $output;
