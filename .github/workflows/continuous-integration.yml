@@ -113,7 +113,7 @@ jobs:
           docker run -i --rm -v $PWD:/churn ${{ matrix.vcs }} /churn/vendor/bin/simple-phpunit -c /churn/phpunit.xml.dist /churn/tests/EndToEnd/${vcs^}Test.php --coverage-clover=/churn/coverage-${{ matrix.vcs }}.xml
           sed -i 's/\/churn\/src/\/home\/runner\/work\/${{ github.event.repository.name }}\/${{ github.event.repository.name }}\/src/g' coverage-${{ matrix.vcs }}.xml
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-${{ matrix.vcs }}.xml
@@ -145,7 +145,7 @@ jobs:
         run: "vendor/bin/simple-phpunit --colors=always --testdox --testsuite churn-tests --coverage-clover=coverage.xml"
 
       - name: "Download other code coverage reports"
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: coverage
           path: ./coverage
@@ -255,7 +255,7 @@ jobs:
         run: diff -u <(build/bin/churn --format=csv | sort) <(./churn.phar --format=csv | sort)
 
       - name: "Save Phar"
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: churn.phar
           path: ./churn.phar
@@ -286,7 +286,7 @@ jobs:
           tools: none
 
       - name: Download churn.phar
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: churn.phar
 
@@ -328,7 +328,7 @@ jobs:
           tools: none
 
       - name: Download churn.phar
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: churn.phar
 
