@@ -14,16 +14,7 @@ use Symfony\Component\Process\Process;
 class CyclomaticComplexityProcessTest extends BaseTestCase
 {
     /** @test */
-    public function it_can_be_instantiated()
-    {
-        $file = new File('foo/bar/baz.php', 'bar/baz.php');
-        $process = new Process(['foo']);
-        $churnProcess = new CyclomaticComplexityProcess($file, $process);
-        $this->assertInstanceOf(CyclomaticComplexityProcess::class, $churnProcess);
-    }
-
-    /** @test */
-    public function it_can_be_started()
+    public function it_can_be_started(): void
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
@@ -33,27 +24,27 @@ class CyclomaticComplexityProcessTest extends BaseTestCase
     }
 
     /** @test */
-    public function it_can_determine_if_it_was_successful()
+    public function it_can_determine_if_it_was_successful(): void
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
         $process->shouldReceive('getExitCode')->andReturn(0);
         $churnProcess = new CyclomaticComplexityProcess($file, $process);
-        $this->assertTrue($churnProcess->isSuccessful());
+        self::assertTrue($churnProcess->isSuccessful());
     }
 
     /** @test */
-    public function it_can_determine_if_it_was_unsuccessful()
+    public function it_can_determine_if_it_was_unsuccessful(): void
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
         $process->shouldReceive('getExitCode')->andReturn(null);
         $churnProcess = new CyclomaticComplexityProcess($file, $process);
-        $this->assertFalse($churnProcess->isSuccessful());
+        self::assertFalse($churnProcess->isSuccessful());
     }
 
     /** @test */
-    public function it_throws_with_positive_exit_code()
+    public function it_throws_with_positive_exit_code(): void
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
@@ -67,21 +58,21 @@ class CyclomaticComplexityProcessTest extends BaseTestCase
     }
 
     /** @test */
-    public function it_can_get_the_file_it_is_processing()
+    public function it_can_get_the_file_it_is_processing(): void
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
         $churnProcess = new CyclomaticComplexityProcess($file, $process);
-        $this->assertSame($file, $churnProcess->getFile());
+        self::assertSame($file, $churnProcess->getFile());
     }
 
     /** @test */
-    public function it_can_get_the_cyclomatic_complexity()
+    public function it_can_get_the_cyclomatic_complexity(): void
     {
         $file = new File('foo/bar/baz.php', 'bar/baz.php');
         $process = m::mock(Process::class);
         $process->shouldReceive('getOutput')->andReturn('123');
         $churnProcess = new CyclomaticComplexityProcess($file, $process);
-        $this->assertSame(123, $churnProcess->getCyclomaticComplexity());
+        self::assertSame(123, $churnProcess->getCyclomaticComplexity());
     }
 }

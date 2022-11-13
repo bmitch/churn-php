@@ -196,6 +196,9 @@ jobs:
       - name: "Run PHP Copy/Paste Detector"
         run: "vendor/bin/phpcpd src"
 
+      - name: "Install PHPUnit"
+        run: "vendor/bin/simple-phpunit --version"
+
       - name: "Run Psalm"
         run: "vendor/bin/psalm --show-info=true"
 

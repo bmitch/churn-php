@@ -18,27 +18,19 @@ use Mockery as m;
 class ParallelProcessHandlerTest extends BaseTestCase
 {
     /** @test */
-    public function it_can_be_instantiated()
+    public function it_doesnt_call_the_observer_when_no_file(): void
     {
         $broker = m::mock(Broker::class);
-        $this->assertInstanceOf(ParallelProcessHandler::class, new ParallelProcessHandler(2, $broker));
-    }
+        $broker->shouldReceive('notify')->never();
 
-    /** @test */
-    public function it_doesnt_call_the_observer_when_no_file()
-    {
-        $broker = m::mock(Broker::class);
         $processHandler = new ParallelProcessHandler(3, $broker);
         $processFactory = new ConcreteProcessFactory('none', '');
 
-        $observer = m::mock(OnSuccess::class);
-        $observer->shouldReceive('__invoke')->never();
-
-        $processHandler->process($this->getFileGenerator(), $processFactory, $observer);
+        $processHandler->process($this->getFileGenerator(), $processFactory);
     }
 
     /** @test */
-    public function it_calls_the_broker_for_one_file()
+    public function it_calls_the_broker_for_one_file(): void
     {
         $file = new File(__FILE__, __FILE__);
 

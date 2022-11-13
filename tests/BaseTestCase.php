@@ -11,6 +11,8 @@ abstract class BaseTestCase extends TestCase
 {
     /**
      * @see https://github.com/phpspec/prophecy/issues/366#issuecomment-359587114
+     *
+     * @return void
      */
     protected function tearDown()
     {

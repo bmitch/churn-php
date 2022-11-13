@@ -10,31 +10,24 @@ use Churn\Tests\BaseTestCase;
 
 class FileFinderTest extends BaseTestCase
 {
-    /**
-     * The class being tested.
-     * @var FileFinder
-     */
+    /** @var FileFinder */
     private $fileFinder;
 
-    /** @test */
-    public function it_can_be_instantiated()
-    {
-        $this->assertInstanceOf(FileFinder::class, $this->fileFinder);
-    }
-
-    /** @test */
-    public function it_can_recursively_get_the_php_files_in_a_path()
-    {
-        $paths = [__DIR__];
-        $results = iterator_to_array($this->fileFinder->getPhpFiles($paths), false);
-        $this->assertCount(1, $results);
-        $this->assertInstanceOf(File::class, $results[0]);
-    }
-
+    /** @return void */
     public function setUp()
     {
-        parent::setup();
+        parent::setUp();
 
         $this->fileFinder = new FileFinder(['php'], [], __DIR__);
+    }
+
+    /** @test */
+    public function it_can_recursively_get_the_php_files_in_a_path(): void
+    {
+        $paths = [__DIR__];
+        /** @var array<mixed> $results */
+        $results = iterator_to_array($this->fileFinder->getPhpFiles($paths), false);
+        self::assertCount(1, $results);
+        self::assertInstanceOf(File::class, $results[0]);
     }
 }

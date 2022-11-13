@@ -2,11 +2,16 @@ parameters:
   level: 8
   paths:
     - %currentWorkingDirectory%/src/
+    - %currentWorkingDirectory%/tests/
+
+  bootstrapFiles:
+    - vendor/bin/.phpunit/phpunit/vendor/autoload.php
+    - tests/Integration/Command/Assets/hooks
 
   checkGenericClassInNonGenericObjectType: false
   reportUnmatchedIgnoredErrors: true
   ignoreErrors:
-    - '/Casting to .+ something that''s already/'
+    - '/^Casting to .+ something that''s already/'
 
   checkTooWideReturnTypesInProtectedAndPublicMethods: true
   checkUninitializedProperties: true

@@ -25,62 +25,158 @@ class ValidatorTest extends BaseTestCase
     /**
      * @test
      * @dataProvider provide_validators_with_default_value
+     * @param mixed $defaultValue
      */
-    public function it_returns_the_default_value(Validator $validator, string $method, $defaultValue): void
+    public function it_returns_the_default_value(Validator $validator, callable $getter, $defaultValue): void
     {
         $config = new EditableConfig();
         $validator->validate($config, []);
 
-        $this->assertSame($defaultValue, $config->$method());
+        self::assertSame($defaultValue, $getter($config));
     }
 
+    /**
+     * @return iterable<array{Validator, callable, mixed}>
+     */
     public function provide_validators_with_default_value(): iterable
     {
-        yield 'CachePath' => [new CachePath(), 'getCachePath', null];
-        yield 'CommitsSince' => [new CommitsSince(), 'getCommitsSince', '10 years ago'];
-        yield 'DirectoriesToScan' => [new DirectoriesToScan(), 'getDirectoriesToScan', []];
-        yield 'FileExtensions' => [new FileExtensions(), 'getFileExtensions', ['php']];
-        yield 'FilesToIgnore' => [new FilesToIgnore(), 'getFilesToIgnore', []];
-        yield 'FilesToShow' => [new FilesToShow(), 'getFilesToShow', 10];
-        yield 'Hooks' => [new Hooks(), 'getHooks', []];
-        yield 'MaxScoreThreshold' => [new MaxScoreThreshold(), 'getMaxScoreThreshold', null];
-        yield 'MinScoreToShow' => [new MinScoreToShow(), 'getMinScoreToShow', 0.1];
-        yield 'ParallelJobs' => [new ParallelJobs(), 'getParallelJobs', 10];
-        yield 'Vcs' => [new Vcs(), 'getVCS', 'git'];
+        yield 'CachePath' => [
+            new CachePath(),
+            static function (EditableConfig $config): ?string { return $config->getCachePath(); },
+            null,
+        ];
+        yield 'CommitsSince' => [
+            new CommitsSince(),
+            static function (EditableConfig $config): string { return $config->getCommitsSince(); },
+            '10 years ago',
+        ];
+        yield 'DirectoriesToScan' => [
+            new DirectoriesToScan(),
+            static function (EditableConfig $config): array { return $config->getDirectoriesToScan(); },
+            [],
+        ];
+        yield 'FileExtensions' => [
+            new FileExtensions(),
+            static function (EditableConfig $config): array { return $config->getFileExtensions(); },
+            ['php'],
+        ];
+        yield 'FilesToIgnore' => [
+            new FilesToIgnore(),
+            static function (EditableConfig $config): array { return $config->getFilesToIgnore(); },
+            [],
+        ];
+        yield 'FilesToShow' => [
+            new FilesToShow(),
+            static function (EditableConfig $config): int { return $config->getFilesToShow(); },
+            10,
+        ];
+        yield 'Hooks' => [
+            new Hooks(),
+            static function (EditableConfig $config): array { return $config->getHooks(); },
+            [],
+        ];
+        yield 'MaxScoreThreshold' => [
+            new MaxScoreThreshold(),
+            static function (EditableConfig $config): ?float { return $config->getMaxScoreThreshold(); },
+            null,
+        ];
+        yield 'MinScoreToShow' => [
+            new MinScoreToShow(),
+            static function (EditableConfig $config): ?float { return $config->getMinScoreToShow(); },
+            0.1,
+        ];
+        yield 'ParallelJobs' => [
+            new ParallelJobs(),
+            static function (EditableConfig $config): int { return $config->getParallelJobs(); },
+            10,
+        ];
+        yield 'Vcs' => [
+            new Vcs(),
+            static function (EditableConfig $config): string { return $config->getVCS(); },
+            'git',
+        ];
     }
 
     /**
      * @test
      * @dataProvider provide_validators_with_given_value
+     * @param mixed $value
      */
-    public function it_returns_the_given_value(Validator $validator, string $method, $value): void
+    public function it_returns_the_given_value(Validator $validator, callable $getter, $value): void
     {
         $config = new EditableConfig();
         $validator->validate($config, [$validator->getKey() => $value]);
 
-        $this->assertSame($value, $config->$method());
+        self::assertSame($value, $getter($config));
     }
 
+    /**
+     * @return iterable<array{Validator, callable, mixed}>
+     */
     public function provide_validators_with_given_value(): iterable
     {
-        yield 'CachePath' => [new CachePath(), 'getCachePath', '/tmp/.churn.cache'];
-        yield 'CommitsSince' => [new CommitsSince(), 'getCommitsSince', '4 years ago'];
-        yield 'DirectoriesToScan' => [new DirectoriesToScan(), 'getDirectoriesToScan', ['src', 'tests']];
-        yield 'FileExtensions' => [new FileExtensions(), 'getFileExtensions', ['php', 'inc']];
-        yield 'FilesToIgnore' => [new FilesToIgnore(), 'getFilesToIgnore', ['foo.php', 'bar.php', 'baz.php']];
-        yield 'FilesToShow' => [new FilesToShow(), 'getFilesToShow', 13];
-        yield 'Hooks' => [new Hooks(), 'getHooks', ['Hook1', 'Hook2']];
-        yield 'MaxScoreThreshold' => [new MaxScoreThreshold(), 'getMaxScoreThreshold', 9.5];
-        yield 'MinScoreToShow' => [new MinScoreToShow(), 'getMinScoreToShow', 5.0];
-        yield 'ParallelJobs' => [new ParallelJobs(), 'getParallelJobs', 7];
-        yield 'Vcs' => [new Vcs(), 'getVCS', 'none'];
+        yield 'CachePath' => [
+            new CachePath(),
+            static function (EditableConfig $config): ?string { return $config->getCachePath(); },
+            '/tmp/.churn.cache',
+        ];
+        yield 'CommitsSince' => [
+            new CommitsSince(),
+            static function (EditableConfig $config): string { return $config->getCommitsSince(); },
+            '4 years ago',
+        ];
+        yield 'DirectoriesToScan' => [
+            new DirectoriesToScan(),
+            static function (EditableConfig $config): array { return $config->getDirectoriesToScan(); },
+            ['src', 'tests'],
+        ];
+        yield 'FileExtensions' => [
+            new FileExtensions(),
+            static function (EditableConfig $config): array { return $config->getFileExtensions(); },
+            ['php', 'inc'],
+        ];
+        yield 'FilesToIgnore' => [
+            new FilesToIgnore(),
+            static function (EditableConfig $config): array { return $config->getFilesToIgnore(); },
+            ['foo.php', 'bar.php', 'baz.php'],
+        ];
+        yield 'FilesToShow' => [
+            new FilesToShow(),
+            static function (EditableConfig $config): int { return $config->getFilesToShow(); },
+            13,
+        ];
+        yield 'Hooks' => [
+            new Hooks(),
+            static function (EditableConfig $config): array { return $config->getHooks(); },
+            ['Hook1', 'Hook2'],
+        ];
+        yield 'MaxScoreThreshold' => [
+            new MaxScoreThreshold(),
+            static function (EditableConfig $config): ?float { return $config->getMaxScoreThreshold(); },
+            9.5,
+        ];
+        yield 'MinScoreToShow' => [
+            new MinScoreToShow(),
+            static function (EditableConfig $config): ?float { return $config->getMinScoreToShow(); },
+            5.0,
+        ];
+        yield 'ParallelJobs' => [
+            new ParallelJobs(),
+            static function (EditableConfig $config): int { return $config->getParallelJobs(); },
+            7,
+        ];
+        yield 'Vcs' => [
+            new Vcs(),
+            static function (EditableConfig $config): string { return $config->getVCS(); },
+            'none',
+        ];
     }
 
     /**
      * @test
      * @dataProvider provide_validators_accepting_null
      */
-    public function it_accepts_null(Validator $validator, string $method): void
+    public function it_accepts_null(Validator $validator, callable $getter): void
     {
         $config = new EditableConfig();
         // set non-null values to test they will be changed
@@ -90,19 +186,32 @@ class ValidatorTest extends BaseTestCase
 
         $validator->validate($config, [$validator->getKey() => null]);
 
-        $this->assertNull($config->$method());
+        self::assertNull($getter($config));
     }
 
+    /**
+     * @return iterable<array{Validator, callable}>
+     */
     public function provide_validators_accepting_null(): iterable
     {
-        yield 'CachePath' => [new CachePath(), 'getCachePath'];
-        yield 'MaxScoreThreshold' => [new MaxScoreThreshold(), 'getMaxScoreThreshold'];
-        yield 'MinScoreToShow' => [new MinScoreToShow(), 'getMinScoreToShow'];
+        yield 'CachePath' => [
+            new CachePath(),
+            static function (EditableConfig $config): ?string { return $config->getCachePath(); },
+        ];
+        yield 'MaxScoreThreshold' => [
+            new MaxScoreThreshold(),
+            static function (EditableConfig $config): ?float { return $config->getMaxScoreThreshold(); },
+        ];
+        yield 'MinScoreToShow' => [
+            new MinScoreToShow(),
+            static function (EditableConfig $config): ?float { return $config->getMinScoreToShow(); },
+        ];
     }
 
     /**
      * @test
      * @dataProvider provide_validators_with_invalid_value
+     * @param mixed $invalidValue
      */
     public function it_throws_with_invalid_value(Validator $validator, $invalidValue, string $errorMessage): void
     {
@@ -112,6 +221,9 @@ class ValidatorTest extends BaseTestCase
         $validator->validate($config, [$validator->getKey() => $invalidValue]);
     }
 
+    /**
+     * @return iterable<array{Validator, mixed, string}>
+     */
     public function provide_validators_with_invalid_value(): iterable
     {
         yield 'CachePath / int' => [new CachePath(), 123, 'Cache path should be a string'];
@@ -152,13 +264,13 @@ class ValidatorTest extends BaseTestCase
             $validator = new CommitsSince();
             $validator->validate($config, ['commitSince' => 'one day ago']);
 
-            $this->assertSame('one day ago', $config->getCommitsSince());
-            $this->assertSame('commitSince', $validator->getKey());
+            self::assertSame('one day ago', $config->getCommitsSince());
+            self::assertSame('commitSince', $validator->getKey());
 	} finally {
             restore_error_handler();
         }
 
-        $this->assertSame(
+        self::assertSame(
             'The "commitSince" configuration key is deprecated and won\'t be supported'
             . ' in the next major version anymore. Use "commitsSince" instead.',
             $deprecationMessage

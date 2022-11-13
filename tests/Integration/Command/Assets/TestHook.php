@@ -14,8 +14,11 @@ use Churn\Event\Hook\BeforeAnalysisHook;
 class TestHook implements AfterAnalysisHook, AfterFileAnalysisHook, BeforeAnalysisHook
 {
 
+    /** @var int */
     public static $nbAfterAnalysisEvent = 0;
+    /** @var int */
     public static $nbAfterFileAnalysisEvent = 0;
+    /** @var int */
     public static $nbBeforeAnalysisEvent = 0;
 
     public static function reset(): void

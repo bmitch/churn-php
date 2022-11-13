@@ -25,6 +25,9 @@ class CacheProcessFactoryTest extends BaseTestCase
         new CacheProcessFactory($cachePath, $factory);
     }
 
+    /**
+     * @return iterable<array{string, string}>
+     */
     public function provide_invalid_paths(): iterable
     {
         yield ['', 'Path cannot be empty'];
