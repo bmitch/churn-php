@@ -25,14 +25,14 @@ class ResultAccumulatorTest extends BaseTestCase
     }
 
     /** @test */
-    public function it_returns_max_commits()
+    public function it_returns_max_commits(): void
     {
         $accumulator = new ResultAccumulator(10, 0.1);
         $accumulator->add($this->mockResult(2, 1, 'file'));
         $accumulator->add($this->mockResult(1, 1, 'file'));
         $accumulator->add($this->mockResult(4, 1, 'file'));
         $accumulator->add($this->mockResult(3, 1, 'file'));
-        $this->assertSame(4, $accumulator->getMaxCommits());
+        self::assertSame(4, $accumulator->getMaxCommits());
     }
 
     /** @test */
@@ -43,7 +43,7 @@ class ResultAccumulatorTest extends BaseTestCase
         $accumulator->add($this->mockResult(1, 1, 'file'));
         $accumulator->add($this->mockResult(1, 4, 'file'));
         $accumulator->add($this->mockResult(1, 3, 'file'));
-        $this->assertSame(4, $accumulator->getMaxComplexity());
+        self::assertSame(4, $accumulator->getMaxComplexity());
     }
 
     /** @test */
@@ -53,7 +53,7 @@ class ResultAccumulatorTest extends BaseTestCase
         $accumulator->add($this->mockResult(1, 2, 'file'));
         $accumulator->add($this->mockResult(1, 1, 'file'));
         $accumulator->add($this->mockResult(1, 4, 'file'));
-        $this->assertSame(3, $accumulator->getNumberOfFiles());
+        self::assertSame(3, $accumulator->getNumberOfFiles());
     }
 
     /** @test */
@@ -70,7 +70,7 @@ class ResultAccumulatorTest extends BaseTestCase
             ['file3', 1, 4, 0.1],
         ];
 
-        $this->assertSame($expectedResult, $accumulator->toArray());
+        self::assertSame($expectedResult, $accumulator->toArray());
     }
 
     /** @test */
@@ -89,7 +89,7 @@ class ResultAccumulatorTest extends BaseTestCase
             ['file3', 1, 4, 0.1],
         ];
 
-        $this->assertSame($expectedResult, $accumulator->toArray());
+        self::assertSame($expectedResult, $accumulator->toArray());
     }
 
     /** @test */
@@ -100,7 +100,7 @@ class ResultAccumulatorTest extends BaseTestCase
         $accumulator->add($this->mockResult(1, 0, 'file2', 0.2));
         $accumulator->add($this->mockResult(0, 0, 'file3', 0.1));
 
-        $this->assertSame(0, $accumulator->getNumberOfFiles());
+        self::assertSame(0, $accumulator->getNumberOfFiles());
     }
 
     /** @test */
@@ -108,12 +108,12 @@ class ResultAccumulatorTest extends BaseTestCase
     {
         $accumulator = new ResultAccumulator(10, 0.1);
 
-        $this->assertNull($accumulator->getMaxScore());
+        self::assertNull($accumulator->getMaxScore());
 
         $accumulator->add($this->mockResult(5, 1, 'file2', 0.2));
         $accumulator->add($this->mockResult(10, 2, 'file1', 0.3));
         $accumulator->add($this->mockResult(1, 4, 'file3', 0.1));
 
-        $this->assertSame(0.3, $accumulator->getMaxScore());
+        self::assertSame(0.3, $accumulator->getMaxScore());
     }
 }

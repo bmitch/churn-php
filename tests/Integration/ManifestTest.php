@@ -10,15 +10,16 @@ use PharIo\Manifest\ManifestLoader;
 class ManifestTest extends BaseTestCase
 {
     /** @test */
-    public function manifest_is_valid()
+    public function manifest_is_valid(): void
     {
         $path = __DIR__ . '/../../manifest.xml';
-        $this->assertTrue(is_file($path), 'manifest.xml not found');
+        self::assertTrue(is_file($path), 'manifest.xml not found');
 
         $manifest = ManifestLoader::fromFile($path);
 
+        // @phpstan-ignore-next-line
         $name = method_exists($manifest->getName(), 'asString') ? $manifest->getName()->asString() : (string) $manifest->getName();
-        $this->assertSame('bmitch/churn-php', $name);
-        $this->assertGreaterThan(0, $manifest->getRequirements()->count());
+        self::assertSame('bmitch/churn-php', $name);
+        self::assertGreaterThan(0, $manifest->getRequirements()->count());
     }
 }

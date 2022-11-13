@@ -17,67 +17,67 @@ class ResultTest extends BaseTestCase
      */
     protected $result;
 
-    public function setup()
+    /** @return void */
+    public function setUp()
     {
+        parent::setUp();
+
         $this->result = new Result(new File('/filename.php', 'filename.php'));
         $this->result->setCommits(5);
         $this->result->setComplexity(7);
     }
 
     /** @test */
-    public function it_can_be_created()
+    public function it_can_return_the_file(): void
     {
-        $this->assertInstanceOf(Result::class, $this->result);
+        self::assertSame('filename.php', $this->result->getFile()->getDisplayPath());
     }
 
     /** @test */
-    public function it_can_return_the_file()
+    public function it_is_complete(): void
     {
-        $this->assertSame('filename.php', $this->result->getFile()->getDisplayPath());
+        self::assertTrue($this->result->isComplete());
     }
 
     /** @test */
-    public function it_is_complete()
+    public function it_can_return_the_commits(): void
     {
-        $this->assertTrue($this->result->isComplete());
+        self::assertSame(5, $this->result->getCommits());
     }
 
     /** @test */
-    public function it_can_return_the_commits()
+    public function it_can_return_the_complexity(): void
     {
-        $this->assertSame(5, $this->result->getCommits());
+        self::assertSame(7, $this->result->getComplexity());
     }
 
     /** @test */
-    public function it_can_return_the_complexity()
+    public function it_can_return_the_priority(): void
     {
-        $this->assertSame(7, $this->result->getComplexity());
+        self::assertSame(5 * 7, $this->result->getPriority());
     }
 
     /** @test */
-    public function it_can_return_the_priority()
-    {
-        $this->assertSame(5 * 7, $this->result->getPriority());
-    }
-
-    /** @test */
-    public function it_can_calculate_the_score()
+    public function it_can_calculate_the_score(): void
     {
         $maxCommits = 10;
         $maxComplexity = 10;
 
-        $this->assertSame(0.417, $this->result->getScore($maxCommits, $maxComplexity));
+        self::assertSame(0.417, $this->result->getScore($maxCommits, $maxComplexity));
     }
 
     /**
      * @test
      * @dataProvider provide_uncomplete_result
      */
-    public function it_returns_false_when_uncomplete(Result $result)
+    public function it_returns_false_when_uncomplete(Result $result): void
     {
-        $this->assertFalse($result->isComplete());
+        self::assertFalse($result->isComplete());
     }
 
+    /**
+     * @return iterable<array{Result}>
+     */
     public function provide_uncomplete_result(): iterable
     {
         $file = new File('/filename.php', 'filename.php');
@@ -97,13 +97,16 @@ class ResultTest extends BaseTestCase
      * @test
      * @dataProvider provide_invalid_score
      */
-    public function it_throws_when_score_is_invalid(int $maxCommits, int $maxComplexity)
+    public function it_throws_when_score_is_invalid(int $maxCommits, int $maxComplexity): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         $this->result->getScore($maxCommits, $maxComplexity);
     }
 
+    /**
+     * @return iterable<array{int, int}>
+     */
     public function provide_invalid_score(): iterable
     {
         yield [0, 0];

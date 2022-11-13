@@ -12,13 +12,16 @@ class CyclomaticComplexityAssessorTest extends BaseTestCase
     /**
      * @dataProvider provide_assess
      */
-    public function test_assess(int $expectedScore, string $code)
+    public function test_assess(int $expectedScore, string $code): void
     {
         $assessor = new CyclomaticComplexityAssessor();
 
-        $this->assertSame($expectedScore, $assessor->assess($code));
+        self::assertSame($expectedScore, $assessor->assess($code));
     }
 
+    /**
+     * @return iterable<array{int, string}>
+     */
     public function provide_assess(): iterable
     {
         yield 'an empty file' => [

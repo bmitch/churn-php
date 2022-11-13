@@ -26,9 +26,9 @@ class AfterFileAnalysisEventTest extends BaseTestCase
         $result->shouldReceive('getComplexity')->andReturn($cyclomaticComplexity);
 
         $event = new AfterFileAnalysisEvent($result);
-        $this->assertSame($result, $event->getResult());
-        $this->assertSame($fullPath, $event->getFilePath());
-        $this->assertSame($numberOfChanges, $event->getNumberOfChanges());
-        $this->assertSame($cyclomaticComplexity, $event->getCyclomaticComplexity());
+        self::assertSame($result, $event->getResult());
+        self::assertSame($fullPath, $event->getFilePath());
+        self::assertSame($numberOfChanges, $event->getNumberOfChanges());
+        self::assertSame($cyclomaticComplexity, $event->getCyclomaticComplexity());
     }
 }

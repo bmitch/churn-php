@@ -16,6 +16,8 @@ class FileHelperTest extends BaseTestCase
 
     protected function tearDown()
     {
+        parent::tearDown();
+
         (new Filesystem())->remove($this->filesToDelete);
     }
 
@@ -25,9 +27,12 @@ class FileHelperTest extends BaseTestCase
      */
     public function it_can_return_absolute_path(string $path, string $confPath, string $expectedPath): void
     {
-        $this->assertSame($expectedPath, FileHelper::toAbsolutePath($path, $confPath));
+        self::assertSame($expectedPath, FileHelper::toAbsolutePath($path, $confPath));
     }
 
+    /**
+     * @return iterable<array{string, string, string}>
+     */
     public function provide_absolute_paths(): iterable
     {
         yield ['/tmp', '/path', '/tmp'];
@@ -45,9 +50,12 @@ class FileHelperTest extends BaseTestCase
      */
     public function it_can_return_relative_path(string $path, string $confPath, string $expectedPath): void
     {
-        $this->assertSame($expectedPath, FileHelper::toRelativePath($path, $confPath));
+        self::assertSame($expectedPath, FileHelper::toRelativePath($path, $confPath));
     }
 
+    /**
+     * @return iterable<array{string, string, string}>
+     */
     public function provide_relative_paths(): iterable
     {
         yield ['/tmp/file.php', '/tmp', 'file.php'];
@@ -70,9 +78,12 @@ class FileHelperTest extends BaseTestCase
 
         FileHelper::ensureFileIsWritable($filePath);
 
-        $this->assertTrue(\is_dir($dirPath), "Directory should exist: " . $dirPath);
+        self::assertTrue(\is_dir($dirPath), "Directory should exist: " . $dirPath);
     }
 
+    /**
+     * @return iterable<array{string}>
+     */
     public function provide_writable_paths(): iterable
     {
         yield [__FILE__];
@@ -91,6 +102,9 @@ class FileHelperTest extends BaseTestCase
         FileHelper::ensureFileIsWritable($filePath);
     }
 
+    /**
+     * @return iterable<array{string}>
+     */
     public function provide_invalid_writable_paths(): iterable
     {
         yield [''];

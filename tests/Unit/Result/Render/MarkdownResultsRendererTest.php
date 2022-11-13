@@ -12,13 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class MarkdownResultsRendererTest extends BaseTestCase
 {
     /** @test */
-    public function it_can_be_instantiated()
-    {
-        $this->assertInstanceOf(MarkdownResultsRenderer::class, new MarkdownResultsRenderer());
-    }
-
-    /** @test */
-    public function it_can_render_the_results_as_markdown()
+    public function it_can_render_the_results_as_markdown(): void
     {
         $results = [
             ['filename1.php', 5, 7, 0.625],

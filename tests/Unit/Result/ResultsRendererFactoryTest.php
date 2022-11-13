@@ -19,47 +19,44 @@ class ResultsRendererFactoryTest extends BaseTestCase
      */
     private $factory;
 
-    /** @test */
-    public function it_can_be_created()
+    /** @return void */
+    public function setUp()
     {
-        $this->assertInstanceOf(ResultsRendererFactory::class, $this->factory);
+        parent::setUp();
+
+        $this->factory = new ResultsRendererFactory();
     }
 
     /** @test */
-    public function it_returns_the_json_renderer_when_provided_json_format()
+    public function it_returns_the_json_renderer_when_provided_json_format(): void
     {
-        $this->assertInstanceOf(JsonResultsRenderer::class, $this->factory->getRenderer('json'));
+        self::assertInstanceOf(JsonResultsRenderer::class, $this->factory->getRenderer('json'));
     }
 
     /** @test */
-    public function it_returns_the_csv_renderer_when_provided_csv_format()
+    public function it_returns_the_csv_renderer_when_provided_csv_format(): void
     {
-        $this->assertInstanceOf(CsvResultsRenderer::class, $this->factory->getRenderer('csv'));
+        self::assertInstanceOf(CsvResultsRenderer::class, $this->factory->getRenderer('csv'));
     }
 
     /** @test */
-    public function it_returns_the_markdown_renderer_when_provided_markdown_format()
+    public function it_returns_the_markdown_renderer_when_provided_markdown_format(): void
     {
-        $this->assertInstanceOf(MarkdownResultsRenderer::class, $this->factory->getRenderer('markdown'));
+        self::assertInstanceOf(MarkdownResultsRenderer::class, $this->factory->getRenderer('markdown'));
     }
 
     /** @test */
-    public function it_returns_the_console_renderer_when_provided_text_format()
+    public function it_returns_the_console_renderer_when_provided_text_format(): void
     {
         $factory = new ResultsRendererFactory();
-        $this->assertInstanceOf(ConsoleResultsRenderer::class, $this->factory->getRenderer('text'));
+        self::assertInstanceOf(ConsoleResultsRenderer::class, $this->factory->getRenderer('text'));
     }
 
     /** @test */
-    public function it_throws_exception_if_format_is_invalid()
+    public function it_throws_exception_if_format_is_invalid(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid output format provided');
         $this->factory->getRenderer('foobar');
-    }
-
-    public function setUp()
-    {
-        $this->factory = new ResultsRendererFactory();
     }
 }

@@ -13,6 +13,7 @@ use Churn\Event\Hook\BeforeAnalysisHook;
 
 class TestAfterAnalysisHook implements AfterAnalysisHook
 {
+    /** @var int */
     public static $nbAfterAnalysisEvent = 0;
 
     /**
@@ -26,6 +27,7 @@ class TestAfterAnalysisHook implements AfterAnalysisHook
 
 class TestAfterFileAnalysisHook implements AfterFileAnalysisHook
 {
+    /** @var int */
     public static $nbAfterFileAnalysisEvent = 0;
 
     /**
@@ -39,6 +41,7 @@ class TestAfterFileAnalysisHook implements AfterFileAnalysisHook
 
 class TestBeforeAnalysisHook implements BeforeAnalysisHook
 {
+    /** @var int */
     public static $nbBeforeAnalysisEvent = 0;
 
     /**
