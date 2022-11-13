@@ -26,7 +26,7 @@ class CacheProcessFactoryTest extends BaseTestCase
     }
 
     /**
-     * @return iterable<array{string, string}>
+     * @return iterable<int, array{string, string}>
      */
     public function provide_invalid_paths(): iterable
     {

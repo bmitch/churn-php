@@ -36,7 +36,7 @@ class ValidatorTest extends BaseTestCase
     }
 
     /**
-     * @return iterable<array{Validator, callable, mixed}>
+     * @return iterable<string, array{Validator, callable, mixed}>
      */
     public function provide_validators_with_default_value(): iterable
     {
@@ -111,7 +111,7 @@ class ValidatorTest extends BaseTestCase
     }
 
     /**
-     * @return iterable<array{Validator, callable, mixed}>
+     * @return iterable<string, array{Validator, callable, mixed}>
      */
     public function provide_validators_with_given_value(): iterable
     {
@@ -190,7 +190,7 @@ class ValidatorTest extends BaseTestCase
     }
 
     /**
-     * @return iterable<array{Validator, callable}>
+     * @return iterable<string, array{Validator, callable}>
      */
     public function provide_validators_accepting_null(): iterable
     {
@@ -222,7 +222,7 @@ class ValidatorTest extends BaseTestCase
     }
 
     /**
-     * @return iterable<array{Validator, mixed, string}>
+     * @return iterable<string, array{Validator, mixed, string}>
      */
     public function provide_validators_with_invalid_value(): iterable
     {

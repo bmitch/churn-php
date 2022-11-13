@@ -85,10 +85,9 @@ class RunCommandTest extends BaseTestCase
     public function it_can_return_a_json_report(): void
     {
         $exitCode = $this->commandTester->execute(['paths' => [__DIR__], '--format' => 'json']);
-        $data = \json_decode($this->commandTester->getDisplay(), true);
 
         self::assertSame(0, $exitCode);
-        self::assertReport($data);
+        self::assertReport($this->commandTester->getDisplay());
     }
 
     /** @test */
@@ -108,18 +107,16 @@ class RunCommandTest extends BaseTestCase
 
         self::assertFileExists($tmpFile);
         self::assertNotFalse($contents = \file_get_contents($tmpFile));
-        $data = \json_decode($contents, true);
-        self::assertReport($data);
+        self::assertReport($contents);
     }
 
-    /**
-     * @param mixed $data
-     */
-    private static function assertReport($data): void
+    private static function assertReport(string $contents): void
     {
+        $data = \json_decode($contents, true);
         self::assertTrue(is_array($data), 'Expected array, got ' . gettype($data) . ' (' . var_export($data, true) . ')');
         $i = 0;
         foreach ($data as $key => $value) {
+            self::assertTrue(is_array($value), 'Expected array at key ' . $key . ', got ' . gettype($value));
             self::assertSame($i++, $key);
             self::assertArrayHasKey('file', $value);
             self::assertArrayHasKey('commits', $value);
@@ -286,10 +283,9 @@ class RunCommandTest extends BaseTestCase
             '-c' => __DIR__ . '/config/unrecognized-keys.yml',
         ], ['capture_stderr_separately' => true]);
         $display = $this->commandTester->getErrorOutput();
-        $data = \json_decode($this->commandTester->getDisplay(), true);
 
         self::assertSame(0, $exitCode);
-        self::assertReport($data);
+        self::assertReport($this->commandTester->getDisplay());
         self::assertStringContainsString('Unrecognized configuration keys: foo, bar', $display);
     }
 }

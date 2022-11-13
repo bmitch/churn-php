@@ -20,7 +20,7 @@ class CyclomaticComplexityAssessorTest extends BaseTestCase
     }
 
     /**
-     * @return iterable<array{int, string}>
+     * @return iterable<string, array{int, string}>
      */
     public function provide_assess(): iterable
     {
