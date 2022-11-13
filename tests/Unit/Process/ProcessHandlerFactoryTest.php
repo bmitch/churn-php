@@ -27,20 +27,20 @@ class ProcessHandlerFactoryTest extends BaseTestCase
     }
 
     /**
-     * @return iterable<array{Config, string}>
+     * @return iterable<string, array{Config, string}>
      */
     public function provide_config_with_process_handler(): iterable
     {
         $config = m::mock(Config::class);
         $config->shouldReceive('getParallelJobs')->andReturn(0);
-        yield [$config, SequentialProcessHandler::class];
+        yield 'parallel=0' => [$config, SequentialProcessHandler::class];
 
         $config = m::mock(Config::class);
         $config->shouldReceive('getParallelJobs')->andReturn(1);
-        yield [$config, SequentialProcessHandler::class];
+        yield 'parallel=1' => [$config, SequentialProcessHandler::class];
 
         $config = m::mock(Config::class);
         $config->shouldReceive('getParallelJobs')->andReturn(2);
-        yield [$config, ParallelProcessHandler::class];
+        yield 'parallel=2' => [$config, ParallelProcessHandler::class];
     }
 }

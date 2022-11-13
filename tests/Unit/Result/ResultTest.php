@@ -76,21 +76,21 @@ class ResultTest extends BaseTestCase
     }
 
     /**
-     * @return iterable<array{Result}>
+     * @return iterable<string, array{Result}>
      */
     public function provide_uncomplete_result(): iterable
     {
         $file = new File('/filename.php', 'filename.php');
         $result = new Result($file);
-        yield [$result];
+        yield 'commits and complexity are null' => [$result];
 
         $result = new Result($file);
         $result->setCommits(42);
-        yield [$result];
+        yield 'only complexity is null' => [$result];
 
         $result = new Result($file);
         $result->setComplexity(100);
-        yield [$result];
+        yield 'only commits is null' => [$result];
     }
 
     /**
@@ -105,7 +105,7 @@ class ResultTest extends BaseTestCase
     }
 
     /**
-     * @return iterable<array{int, int}>
+     * @return iterable<int, array{int, int}>
      */
     public function provide_invalid_score(): iterable
     {

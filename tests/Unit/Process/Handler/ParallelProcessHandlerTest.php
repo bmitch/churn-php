@@ -56,6 +56,7 @@ class ParallelProcessHandlerTest extends BaseTestCase
         $processHandler->process($this->getFileGenerator($file), $processFactory);
     }
 
+    /** @return Generator<File> */
     private function getFileGenerator(File ...$files): Generator
     {
         foreach ($files as $file) {

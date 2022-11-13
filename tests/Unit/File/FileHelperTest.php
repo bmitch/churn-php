@@ -14,6 +14,7 @@ class FileHelperTest extends BaseTestCase
     /** @var string[] */
     private $filesToDelete = [];
 
+    /** @return void */
     protected function tearDown()
     {
         parent::tearDown();
@@ -31,7 +32,7 @@ class FileHelperTest extends BaseTestCase
     }
 
     /**
-     * @return iterable<array{string, string, string}>
+     * @return iterable<int, array{string, string, string}>
      */
     public function provide_absolute_paths(): iterable
     {
@@ -54,7 +55,7 @@ class FileHelperTest extends BaseTestCase
     }
 
     /**
-     * @return iterable<array{string, string, string}>
+     * @return iterable<int, array{string, string, string}>
      */
     public function provide_relative_paths(): iterable
     {
@@ -82,7 +83,7 @@ class FileHelperTest extends BaseTestCase
     }
 
     /**
-     * @return iterable<array{string}>
+     * @return iterable<int, array{string}>
      */
     public function provide_writable_paths(): iterable
     {
@@ -103,7 +104,7 @@ class FileHelperTest extends BaseTestCase
     }
 
     /**
-     * @return iterable<array{string}>
+     * @return iterable<int, array{string}>
      */
     public function provide_invalid_writable_paths(): iterable
     {

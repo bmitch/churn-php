@@ -44,7 +44,7 @@ class MaxScoreCheckerTest extends BaseTestCase
     }
 
     /**
-     * @return iterable<array{bool, ?float, ?float}>
+     * @return iterable<string, array{bool, ?float, ?float}>
      */
     public function provide_arguments(): iterable
     {
@@ -83,7 +83,7 @@ class MaxScoreCheckerTest extends BaseTestCase
     }
 
     /**
-     * @return iterable<array{string, ?string}>
+     * @return iterable<string, array{string, ?string}>
      */
     public function provide_format_and_output(): iterable
     {

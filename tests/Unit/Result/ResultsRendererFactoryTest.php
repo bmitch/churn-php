@@ -48,7 +48,6 @@ class ResultsRendererFactoryTest extends BaseTestCase
     /** @test */
     public function it_returns_the_console_renderer_when_provided_text_format(): void
     {
-        $factory = new ResultsRendererFactory();
         self::assertInstanceOf(ConsoleResultsRenderer::class, $this->factory->getRenderer('text'));
     }
 

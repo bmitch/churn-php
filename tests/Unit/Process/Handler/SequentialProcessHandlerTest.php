@@ -39,6 +39,7 @@ class SequentialProcessHandlerTest extends BaseTestCase
         $processHandler->process($this->getFileGenerator(), $processFactory);
     }
 
+    /** @return Generator<File> */
     private function getFileGenerator(): Generator
     {
         yield new File(__FILE__, __FILE__);
