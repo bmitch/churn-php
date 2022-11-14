@@ -30,7 +30,7 @@
         "webmozart/assert": "^1.2"
     },
     "require-dev": {
-        "bamarni/composer-bin-plugin": "^1.4",
+        "bamarni/composer-bin-plugin": "^1.5",
         "mockery/mockery": "^1.2.0",
         "phar-io/manifest": "^1.0 || ^2.0",
         "symfony/phpunit-bridge": "^5.1 || ^6.0"
@@ -55,14 +55,14 @@
         },
         "sort-packages": true
     },
+    "extra": {
+        "bamarni-bin": {
+            "bin-links": true,
+            "forward-command": true,
+            "target-directory": "vendor-bin"
+        }
+    },
     "scripts": {
-        "post-install-cmd": [
-            "@composer bin all install --ansi"
-        ],
-        "post-update-cmd": [
-            "@composer bin all update --ansi"
-        ],
-        "bin": "echo 'bin not installed'",
         "fix": [
             "phpcbf || true"
         ],
