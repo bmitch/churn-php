@@ -175,7 +175,7 @@ jobs:
           coverage: "none"
           ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
           php-version: "8.0"
-          tools: composer:v2, composer-normalize
+          tools: composer:v2, composer-normalize, composer-require-checker
 
       - name: "Validate composer.json"
         run: "composer validate --strict"
@@ -210,6 +210,9 @@ jobs:
 
       - name: "Normalize composer.json"
         run: "composer-normalize --dry-run --no-check-lock --no-update-lock"
+
+      - name: "Analyze Composer dependencies"
+        run: "composer-require-checker check ./composer.json"
 
   build:
     name: "Build Phar"
