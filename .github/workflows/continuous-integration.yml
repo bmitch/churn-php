@@ -206,7 +206,9 @@ jobs:
         run: "vendor/bin/phpstan"
 
       - name: "Run PHP_CodeSniffer"
-        run: "vendor/bin/phpcs"
+        run: |
+          vendor/bin/phpcs
+          vendor/bin/phpcs --standard=phpcs-tests.xml
 
       - name: "Normalize composer.json"
         run: "composer-normalize --dry-run --no-check-lock --no-update-lock"

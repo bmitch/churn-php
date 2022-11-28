@@ -14,6 +14,7 @@ infection.json export-ignore
 Makefile export-ignore
 manifest.xml export-ignore
 phpcs.xml export-ignore
+phpcs-tests.xml export-ignore
 phpmd.xml export-ignore
 phpstan.neon export-ignore
 phpunit.xml.dist export-ignore

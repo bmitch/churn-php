@@ -7,7 +7,7 @@ namespace Churn\Tests\Unit\File;
 use Churn\File\File;
 use Churn\Tests\BaseTestCase;
 
-class FileTest extends BaseTestCase
+final class FileTest extends BaseTestCase
 {
     /**
      * @var File

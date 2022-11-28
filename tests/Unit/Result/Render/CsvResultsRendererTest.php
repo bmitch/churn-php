@@ -9,7 +9,7 @@ use Churn\Tests\BaseTestCase;
 use Mockery as m;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CsvResultsRendererTest extends BaseTestCase
+final class CsvResultsRendererTest extends BaseTestCase
 {
     /** @test */
     public function it_can_render_the_results_as_csv(): void

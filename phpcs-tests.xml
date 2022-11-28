@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<ruleset name="MyStandard">
+  <description>My custom coding standard.</description>
+
+  <arg value="spn"/>
+
+  <config name="php_version" value="70103"/>
+
+  <file>./tests</file>
+  <exclude-pattern>**/Asset*</exclude-pattern>
+
+  <rule ref="PSR12">
+    <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps"/>
+  </rule>
+
+  <!-- PHPCompatibility -->
+  <config name="testVersion" value="7.1-"/>
+  <rule ref="PHPCompatibility"/>
+
+  <!-- Dock Blocks -->
+  <rule ref="Squiz.Commenting.FunctionComment" />
+  <rule ref="Squiz.Commenting.FunctionCommentThrowTag" />
+  <rule ref="Squiz.Commenting.VariableComment" />
+
+  <!-- Forbid some functions -->
+  <rule ref="Generic.PHP.ForbiddenFunctions">
+    <properties>
+      <property name="forbiddenFunctions" type="array" value="mysql_fetch_assoc=>null,mysql_query=>null,mysql_connect=>null,dd=>null,die=>null,var_dump=>null,sizeof=>count,delete=>unset,create_function=>null"/>
+    </properties>
+  </rule>
+
+  <rule ref="vendor-bin/phpcs/vendor/slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
+    <exclude name="SlevomatCodingStandard.Classes.ClassStructure.IncorrectGroupOrder"/>
+    <exclude name="SlevomatCodingStandard.Classes.EmptyLinesAroundClassBraces.NoEmptyLineAfterOpeningBrace"/>
+    <exclude name="SlevomatCodingStandard.Classes.EmptyLinesAroundClassBraces.NoEmptyLineBeforeClosingBrace"/>
+    <exclude name="SlevomatCodingStandard.Classes.SuperfluousInterfaceNaming.SuperfluousSuffix"/>
+    <exclude name="SlevomatCodingStandard.Commenting.RequireOneLineDocComment.MultiLineDocComment"/>
+    <exclude name="SlevomatCodingStandard.Commenting.RequireOneLinePropertyDocComment.MultiLinePropertyComment"/>
+    <exclude name="SlevomatCodingStandard.ControlStructures.BlockControlStructureSpacing.IncorrectLinesCountAfterControlStructure"/>
+    <exclude name="SlevomatCodingStandard.ControlStructures.BlockControlStructureSpacing.IncorrectLinesCountBeforeControlStructure"/>
+    <exclude name="SlevomatCodingStandard.ControlStructures.DisallowYodaComparison.DisallowedYodaComparison"/>
+    <exclude name="SlevomatCodingStandard.ControlStructures.NewWithoutParentheses.UselessParentheses"/>
+    <exclude name="SlevomatCodingStandard.ControlStructures.RequireNullCoalesceEqualOperator.RequiredNullCoalesceEqualOperator"/>
+    <exclude name="SlevomatCodingStandard.Files.TypeNameMatchesFileName"/>
+    <exclude name="SlevomatCodingStandard.Functions.RequireArrowFunction.RequiredArrowFunction"/>
+    <exclude name="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall.MissingTrailingComma"/>
+    <exclude name="SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter"/>
+    <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameInAnnotation"/>
+    <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions.NonFullyQualifiedException"/>
+    <exclude name="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.ReferenceViaFullyQualifiedName"/>
+    <exclude name="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces"/>
+    <exclude name="SlevomatCodingStandard.Operators.DisallowIncrementAndDecrementOperators.DisallowedPostDecrementOperator"/>
+    <exclude name="SlevomatCodingStandard.Operators.DisallowIncrementAndDecrementOperators.DisallowedPostIncrementOperator"/>
+    <exclude name="SlevomatCodingStandard.PHP.DisallowReference.DisallowedPassingByReference"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.IncorrectStrictTypesFormat"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.IncorrectWhitespaceBetweenOpenTagAndDeclare"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint"/>
+    <exclude name="SlevomatCodingStandard.Classes.TraitUseSpacing.IncorrectLinesCountAfterLastUse"/>
+    <exclude name="SlevomatCodingStandard.Classes.TraitUseSpacing.IncorrectLinesCountBeforeFirstUse"/>
+    <exclude name="Squiz.Commenting.FunctionComment.MissingReturn"/>
+    <exclude name="Squiz.Commenting.FunctionComment.ScalarTypeHintMissing"/>
+    <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamName"/>
+    <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType"/>
+  </rule>
+  <rule ref="vendor-bin/phpcs/vendor/squizlabs/php_codesniffer/src/Standards/Generic/Sniffs/Formatting/SpaceAfterCastSniff.php"/>
+</ruleset>

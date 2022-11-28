@@ -12,7 +12,7 @@ use Churn\Result\ResultsRendererFactory;
 use Churn\Tests\BaseTestCase;
 use InvalidArgumentException;
 
-class ResultsRendererFactoryTest extends BaseTestCase
+final class ResultsRendererFactoryTest extends BaseTestCase
 {
     /**
      * @var ResultsRendererFactory

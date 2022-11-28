@@ -8,9 +8,11 @@ use Churn\File\File;
 use Churn\File\FileFinder;
 use Churn\Tests\BaseTestCase;
 
-class FileFinderTest extends BaseTestCase
+final class FileFinderTest extends BaseTestCase
 {
-    /** @var FileFinder */
+    /**
+     * @var FileFinder
+     */
     private $fileFinder;
 
     /** @return void */
@@ -26,7 +28,7 @@ class FileFinderTest extends BaseTestCase
     {
         $paths = [__DIR__];
         /** @var array<mixed> $results */
-        $results = iterator_to_array($this->fileFinder->getPhpFiles($paths), false);
+        $results = \iterator_to_array($this->fileFinder->getPhpFiles($paths), false);
         self::assertCount(1, $results);
         self::assertInstanceOf(File::class, $results[0]);
     }

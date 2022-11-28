@@ -10,11 +10,13 @@ use Churn\Tests\BaseTestCase;
 use InvalidArgumentException;
 use Mockery as m;
 
-class CacheProcessFactoryTest extends BaseTestCase
+final class CacheProcessFactoryTest extends BaseTestCase
 {
     /**
      * @test
      * @dataProvider provide_invalid_paths
+     * @param string $cachePath The cache file path.
+     * @param string $errorMessage The expected error message.
      */
     public function it_throws_for_invalid_cache_path(string $cachePath, string $errorMessage): void
     {

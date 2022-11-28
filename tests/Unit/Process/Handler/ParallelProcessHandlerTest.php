@@ -7,15 +7,15 @@ namespace Churn\Tests\Unit\Process\Handler;
 use Churn\Event\Broker;
 use Churn\File\File;
 use Churn\Process\ChangesCountInterface;
+use Churn\Process\ConcreteProcessFactory;
 use Churn\Process\CyclomaticComplexityInterface;
 use Churn\Process\Handler\ParallelProcessHandler;
-use Churn\Process\ConcreteProcessFactory;
 use Churn\Process\ProcessFactory;
 use Churn\Tests\BaseTestCase;
 use Generator;
 use Mockery as m;
 
-class ParallelProcessHandlerTest extends BaseTestCase
+final class ParallelProcessHandlerTest extends BaseTestCase
 {
     /** @test */
     public function it_doesnt_call_the_observer_when_no_file(): void
@@ -56,7 +56,10 @@ class ParallelProcessHandlerTest extends BaseTestCase
         $processHandler->process($this->getFileGenerator($file), $processFactory);
     }
 
-    /** @return Generator<File> */
+    /**
+     * @param File ...$files The files to yield.
+     * @return Generator<File>
+     */
     private function getFileGenerator(File ...$files): Generator
     {
         foreach ($files as $file) {

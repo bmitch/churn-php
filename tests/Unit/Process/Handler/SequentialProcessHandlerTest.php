@@ -14,7 +14,7 @@ use Churn\Tests\BaseTestCase;
 use Generator;
 use Mockery as m;
 
-class SequentialProcessHandlerTest extends BaseTestCase
+final class SequentialProcessHandlerTest extends BaseTestCase
 {
     /** @test */
     public function it_calls_the_broker_for_one_file(): void
