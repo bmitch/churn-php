@@ -9,9 +9,11 @@ use Churn\Tests\BaseTestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class AssessComplexityCommandTest extends BaseTestCase
+final class AssessComplexityCommandTest extends BaseTestCase
 {
-    /** @var CommandTester */
+    /**
+     * @var CommandTester
+     */
     private $commandTester;
 
     /** @return void */

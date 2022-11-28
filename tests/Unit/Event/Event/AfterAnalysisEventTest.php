@@ -9,7 +9,7 @@ use Churn\Result\ResultReporter;
 use Churn\Tests\BaseTestCase;
 use Mockery as m;
 
-class AfterAnalysisEventTest extends BaseTestCase
+final class AfterAnalysisEventTest extends BaseTestCase
 {
     /** @test */
     public function it_can_return_metrics(): void

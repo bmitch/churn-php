@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Churn\Tests\Unit\Configuration;
 
-use Churn\Configuration\Config;
 use Churn\Configuration\ReadOnlyConfig;
 use Churn\Tests\BaseTestCase;
-use InvalidArgumentException;
 
-class ReadOnlyConfigTest extends BaseTestCase
+final class ReadOnlyConfigTest extends BaseTestCase
 {
     /** @test */
     public function it_returns_the_current_working_directory_by_default(): void

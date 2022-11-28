@@ -6,7 +6,6 @@ namespace Churn\Tests\Integration\Command;
 
 use Churn\Command\RunCommand;
 use Churn\Tests\BaseTestCase;
-use Churn\Tests\Integration\Command\Assets\PrintHook;
 use Churn\Tests\Integration\Command\Assets\TestAfterAnalysisHook;
 use Churn\Tests\Integration\Command\Assets\TestAfterFileAnalysisHook;
 use Churn\Tests\Integration\Command\Assets\TestBeforeAnalysisHook;
@@ -15,15 +14,18 @@ use InvalidArgumentException;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class RunCommandTest extends BaseTestCase
+final class RunCommandTest extends BaseTestCase
 {
-
     private const BAR = '0 [>---------------------------]';
 
-    /** @var CommandTester */
+    /**
+     * @var CommandTester
+     */
     private $commandTester;
 
-    /** @var string|null */
+    /**
+     * @var string|null
+     */
     private $tmpFile;
 
     /** @return void */
@@ -44,10 +46,12 @@ class RunCommandTest extends BaseTestCase
 
         unset($this->commandTester);
 
-        if ($this->tmpFile !== null && \is_file($this->tmpFile)) {
-            \unlink($this->tmpFile);
-            $this->tmpFile = null;
+        if (null === $this->tmpFile || !\is_file($this->tmpFile)) {
+            return;
         }
+
+        \unlink($this->tmpFile);
+        $this->tmpFile = null;
     }
 
     /** @test */
@@ -60,9 +64,9 @@ class RunCommandTest extends BaseTestCase
         $display = $this->commandTester->getDisplay();
 
         self::assertSame(0, $exitCode);
-        self::assertSame(RunCommand::LOGO, substr($display, 0, strlen(RunCommand::LOGO)));
+        self::assertSame(RunCommand::LOGO, \substr($display, 0, \strlen(RunCommand::LOGO)));
         // there is no progress bar by default
-        self::assertFalse(strpos($display, self::BAR), 'The progress bar shouldn\'t be displayed');
+        self::assertFalse(\strpos($display, self::BAR), 'The progress bar shouldn\'t be displayed');
     }
 
     /** @test */
@@ -75,10 +79,10 @@ class RunCommandTest extends BaseTestCase
         $display = $this->commandTester->getDisplay();
 
         self::assertSame(0, $exitCode);
-        self::assertSame(RunCommand::LOGO, substr($display, 0, strlen(RunCommand::LOGO)));
+        self::assertSame(RunCommand::LOGO, \substr($display, 0, \strlen(RunCommand::LOGO)));
         // the progress bar must be right after the logo
-        $display = ltrim(substr($display, strlen(RunCommand::LOGO)));
-        self::assertSame(self::BAR, substr($display, 0, strlen(self::BAR)));
+        $display = \ltrim(\substr($display, \strlen(RunCommand::LOGO)));
+        self::assertSame(self::BAR, \substr($display, 0, \strlen(self::BAR)));
     }
 
     /** @test */
@@ -103,25 +107,32 @@ class RunCommandTest extends BaseTestCase
         $display = $this->commandTester->getDisplay();
 
         self::assertSame(0, $exitCode);
-        self::assertSame(RunCommand::LOGO, substr($display, 0, strlen(RunCommand::LOGO)));
+        self::assertSame(RunCommand::LOGO, \substr($display, 0, \strlen(RunCommand::LOGO)));
 
         self::assertFileExists($tmpFile);
         self::assertNotFalse($contents = \file_get_contents($tmpFile));
         self::assertReport($contents);
     }
 
+    /**
+     * @param string $contents The contents of a JSON report.
+     */
     private static function assertReport(string $contents): void
     {
         $data = \json_decode($contents, true);
-        self::assertTrue(is_array($data), 'Expected array, got ' . gettype($data) . ' (' . var_export($data, true) . ')');
+        self::assertTrue(
+            \is_array($data),
+            'Expected array, got ' . \gettype($data) . ' (' . \var_export($data, true) . ')'
+        );
         $i = 0;
         foreach ($data as $key => $value) {
-            self::assertTrue(is_array($value), 'Expected array at key ' . $key . ', got ' . gettype($value));
-            self::assertSame($i++, $key);
+            self::assertTrue(\is_array($value), 'Expected array at key ' . $key . ', got ' . \gettype($value));
+            self::assertSame($i, $key);
             self::assertArrayHasKey('file', $value);
             self::assertArrayHasKey('commits', $value);
             self::assertArrayHasKey('complexity', $value);
             self::assertArrayHasKey('score', $value);
+            $i++;
         }
     }
 
@@ -160,33 +171,30 @@ class RunCommandTest extends BaseTestCase
     {
         // delete cache if any
         $cachePath = $this->tmpFile = __DIR__ . '/config/.churn.cache';
-        if (is_file($cachePath)) {
-            unlink($cachePath);
+        if (\is_file($cachePath)) {
+            \unlink($cachePath);
         }
-        self::assertFalse(file_exists($cachePath), "File $cachePath shouldn't exist");
+        self::assertFalse(\file_exists($cachePath), "File $cachePath shouldn't exist");
 
         // generate cache
-        $exitCode = $this->commandTester->execute([
+        self::assertSame(0, $this->commandTester->execute([
             'paths' => [],
             '-c' => __DIR__ . '/config/test-cache.yml',
-        ]);
+        ]));
         $displayBeforeCache = $this->commandTester->getDisplay();
 
-        self::assertSame(0, $exitCode);
-        self::assertTrue(file_exists($cachePath), "File $cachePath should exist");
-        self::assertGreaterThan(0, filesize($cachePath), 'Cache file is empty');
-
+        self::assertTrue(\file_exists($cachePath), "File $cachePath should exist");
+        self::assertGreaterThan(0, \filesize($cachePath), 'Cache file is empty');
         // use cache
-        $exitCode = $this->commandTester->execute([
+        self::assertSame(0, $this->commandTester->execute([
             'paths' => [],
             '-c' => __DIR__ . '/config/test-cache.yml',
-        ]);
+        ]));
         $displayAfterCache = $this->commandTester->getDisplay();
 
-        self::assertSame(0, $exitCode);
         self::assertSame($displayBeforeCache, $displayAfterCache);
-        self::assertTrue(file_exists($cachePath), "File $cachePath should exist");
-        self::assertGreaterThan(0, filesize($cachePath), 'Cache file is empty');
+        self::assertTrue(\file_exists($cachePath), "File $cachePath should exist");
+        self::assertGreaterThan(0, \filesize($cachePath), 'Cache file is empty');
     }
 
     /** @test */
@@ -235,14 +243,14 @@ class RunCommandTest extends BaseTestCase
     {
         TestHook::reset();
 
-        ob_start();
+        \ob_start();
         $exitCode = $this->commandTester->execute([
             'paths' => [__FILE__, __DIR__ . '/AssessComplexityCommandTest.php'],
             '-c' => __DIR__ . '/config/hook-print.yml',
             '--quiet' => null,
         ]);
-        $display = ob_get_contents();
-        ob_end_clean();
+        $display = \ob_get_contents();
+        \ob_end_clean();
 
         self::assertSame(0, $exitCode);
         self::assertSame('Churn: DONE', $display);
@@ -275,7 +283,7 @@ class RunCommandTest extends BaseTestCase
     }
 
     /** @test */
-    public function it_can_return_a_json_report_and_also_warn(): void
+    public function it_can_return_a_json_report_with_warnings(): void
     {
         $exitCode = $this->commandTester->execute([
             'paths' => [__DIR__],

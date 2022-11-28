@@ -7,13 +7,13 @@ namespace Churn\Tests\Unit\Process;
 use Churn\Configuration\ReadOnlyConfig;
 use Churn\File\File;
 use Churn\Process\ChangesCountInterface;
-use Churn\Process\CyclomaticComplexityInterface;
 use Churn\Process\ConcreteProcessFactory;
+use Churn\Process\CyclomaticComplexityInterface;
 use Churn\Tests\BaseTestCase;
 use InvalidArgumentException;
 use RuntimeException;
 
-class ConcreteProcessFactoryTest extends BaseTestCase
+final class ConcreteProcessFactoryTest extends BaseTestCase
 {
     /**
      * @var ConcreteProcessFactory
@@ -30,7 +30,9 @@ class ConcreteProcessFactoryTest extends BaseTestCase
     }
 
     /**
-     * @param iterable<object> $processes
+     * @param iterable $processes A collection of different processes.
+     * @psalm-param iterable<object> $processes
+     * @throws RuntimeException If the changes count process is not found.
      */
     private function extractChangesCountProcess(iterable $processes): ChangesCountInterface
     {
@@ -44,7 +46,9 @@ class ConcreteProcessFactoryTest extends BaseTestCase
     }
 
     /**
-     * @param iterable<object> $processes
+     * @param iterable $processes A collection of different processes.
+     * @psalm-param iterable<object> $processes
+     * @throws RuntimeException If the cyclomatic complexity process is not found.
      */
     private function extractCyclomaticComplexityProcess(iterable $processes): CyclomaticComplexityInterface
     {

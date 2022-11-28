@@ -6,13 +6,14 @@ namespace Churn\Tests\EndToEnd;
 
 use Churn\Command\RunCommand;
 use Churn\Tests\BaseTestCase;
-use InvalidArgumentException;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class MercurialTest extends BaseTestCase
+final class MercurialTest extends BaseTestCase
 {
-    /** @var CommandTester */
+    /**
+     * @var CommandTester
+     */
     private $commandTester;
 
     /** @return void */

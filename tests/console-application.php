@@ -6,6 +6,8 @@
  * @see https://github.com/phpstan/phpstan-symfony#analysis-of-symfony-console-commands
  */
 
+declare(strict_types=1);
+
 require_once __DIR__ . '/../bin/bootstrap.php';
 
 use Churn\Command\AssessComplexityCommand;

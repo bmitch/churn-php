@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Churn\Tests\Unit\Result;
 
-use Churn\Result\ResultInterface;
 use Churn\Result\HighestScores;
+use Churn\Result\ResultInterface;
 use Churn\Tests\BaseTestCase;
 use Mockery as m;
 
-class HighestScoresTest extends BaseTestCase
+final class HighestScoresTest extends BaseTestCase
 {
     /** @test */
     public function it_keeps_results_sorted_by_priority(): void

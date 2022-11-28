@@ -12,18 +12,20 @@ use Churn\Process\ProcessHandlerFactory;
 use Churn\Tests\BaseTestCase;
 use Mockery as m;
 
-class ProcessHandlerFactoryTest extends BaseTestCase
+final class ProcessHandlerFactoryTest extends BaseTestCase
 {
     /**
      * @test
      * @dataProvider provide_config_with_process_handler
+     * @param Config $config The application configuration.
+     * @param string $expectedClassName The process handle class name.
      */
     public function it_returns_the_right_process_handler(Config $config, string $expectedClassName): void
     {
         $broker = m::mock(Broker::class);
         $factory = new ProcessHandlerFactory();
         $processHandler = $factory->getProcessHandler($config, $broker);
-        self::assertSame($expectedClassName, get_class($processHandler));
+        self::assertSame($expectedClassName, \get_class($processHandler));
     }
 
     /**
@@ -33,14 +35,17 @@ class ProcessHandlerFactoryTest extends BaseTestCase
     {
         $config = m::mock(Config::class);
         $config->shouldReceive('getParallelJobs')->andReturn(0);
+
         yield 'parallel=0' => [$config, SequentialProcessHandler::class];
 
         $config = m::mock(Config::class);
         $config->shouldReceive('getParallelJobs')->andReturn(1);
+
         yield 'parallel=1' => [$config, SequentialProcessHandler::class];
 
         $config = m::mock(Config::class);
         $config->shouldReceive('getParallelJobs')->andReturn(2);
+
         yield 'parallel=2' => [$config, ParallelProcessHandler::class];
     }
 }

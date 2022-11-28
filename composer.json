@@ -66,7 +66,8 @@
     },
     "scripts": {
         "fix": [
-            "phpcbf || true"
+            "phpcbf --runtime-set ignore_errors_on_exit 1",
+            "phpcbf --standard=phpcs-tests.xml --runtime-set ignore_errors_on_exit 1"
         ],
         "test": [
             "@composer validate --strict",
@@ -78,6 +79,7 @@
             "simple-phpunit --colors=always --testdox --testsuite churn-tests --coverage-clover=coverage.xml",
             "@php bin/churn run src -p -vvv",
             "phpcs",
+            "phpcs --standard=phpcs-tests.xml",
             "psalm",
             "phpstan"
         ]

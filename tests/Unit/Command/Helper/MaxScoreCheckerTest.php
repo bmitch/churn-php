@@ -11,18 +11,17 @@ use Mockery as m;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MaxScoreCheckerTest extends BaseTestCase
+final class MaxScoreCheckerTest extends BaseTestCase
 {
-
     /**
      * @test
      * @dataProvider provide_arguments
+     * @param boolean $expectedResult The expected result of isOverThreshold().
+     * @param float|null $threshold The max score threshold.
+     * @param float|null $maxScore The highest score.
      */
-    public function it_can_check_the_max_score(
-        bool $expectedResult,
-        ?float $threshold,
-        ?float $maxScore
-    ): void {
+    public function it_can_check_the_max_score(bool $expectedResult, ?float $threshold, ?float $maxScore): void
+    {
         $input = m::mock(InputInterface::class);
         $input->shouldReceive('getOption')->with('format')->andReturn('text');
 
@@ -59,11 +58,11 @@ class MaxScoreCheckerTest extends BaseTestCase
     /**
      * @test
      * @dataProvider provide_format_and_output
+     * @param string $format The output format.
+     * @param string|null $outputPath The output path.
      */
-    public function it_prints_an_error_message(
-        string $format,
-        ?string $outputPath
-    ): void {
+    public function it_prints_an_error_message(string $format, ?string $outputPath): void
+    {
         $input = m::mock(InputInterface::class);
         $input->shouldReceive('getOption')->with('format')->andReturn($format);
         $input->shouldReceive('getOption')->with('output')->andReturn($outputPath);

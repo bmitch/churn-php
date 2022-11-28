@@ -4,27 +4,27 @@ declare(strict_types=1);
 
 namespace Churn\Tests\Unit\Configuration;
 
-use Churn\Configuration\ReadOnlyConfig;
 use Churn\Configuration\EditableConfig;
 use Churn\Configuration\Loader;
+use Churn\Configuration\ReadOnlyConfig;
 use Churn\Tests\BaseTestCase;
 use InvalidArgumentException;
 
-class LoaderTest extends BaseTestCase
+final class LoaderTest extends BaseTestCase
 {
     /** @test */
     public function it_returns_the_default_values_if_there_is_no_default_file(): void
     {
         self::assertNotFalse($cwd = \getcwd());
         try {
-            chdir(__DIR__);
+            \chdir(__DIR__);
             $config = Loader::fromPath('churn.yml', true);
 
             self::assertEqualsCanonicalizing(new ReadOnlyConfig(), $config);
             self::assertSame(\getcwd(), $config->getDirPath());
         } finally {
             // restore cwd
-            chdir($cwd);
+            \chdir($cwd);
         }
     }
 
@@ -48,7 +48,10 @@ class LoaderTest extends BaseTestCase
         self::assertNotFalse($dirPath = \realpath(__DIR__ . '/config/dist'));
         $config = Loader::fromPath($dirPath, false);
 
-        self::assertEqualsCanonicalizing(new EditableConfig($dirPath . DIRECTORY_SEPARATOR . 'churn.yml.dist'), $config);
+        self::assertEqualsCanonicalizing(
+            new EditableConfig($dirPath . \DIRECTORY_SEPARATOR . 'churn.yml.dist'),
+            $config
+        );
         self::assertSame($dirPath, $config->getDirPath());
     }
 
@@ -59,14 +62,17 @@ class LoaderTest extends BaseTestCase
         self::assertNotFalse($dirPath = \realpath(__DIR__ . '/config/dist'));
 
         try {
-            chdir($dirPath);
+            \chdir($dirPath);
             $config = Loader::fromPath('churn.yml', true);
 
-            self::assertEqualsCanonicalizing(new EditableConfig($dirPath . DIRECTORY_SEPARATOR . 'churn.yml.dist'), $config);
+            self::assertEqualsCanonicalizing(
+                new EditableConfig($dirPath . \DIRECTORY_SEPARATOR . 'churn.yml.dist'),
+                $config
+            );
             self::assertSame($dirPath, $config->getDirPath());
         } finally {
             // restore cwd
-            chdir($cwd);
+            \chdir($cwd);
         }
     }
 }

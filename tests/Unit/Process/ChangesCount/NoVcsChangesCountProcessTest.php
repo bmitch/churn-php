@@ -7,9 +7,8 @@ namespace Churn\Tests\Unit\Process\ChangesCount;
 use Churn\File\File;
 use Churn\Process\ChangesCount\NoVcsChangesCountProcess;
 use Churn\Tests\BaseTestCase;
-use Mockery as m;
 
-class NoVcsChangesCountProcessTest extends BaseTestCase
+final class NoVcsChangesCountProcessTest extends BaseTestCase
 {
     /**
      * @var NoVcsChangesCountProcess

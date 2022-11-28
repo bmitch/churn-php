@@ -9,10 +9,11 @@ use Churn\Result\Result;
 use Churn\Tests\BaseTestCase;
 use InvalidArgumentException;
 
-class ResultTest extends BaseTestCase
+final class ResultTest extends BaseTestCase
 {
     /**
      * The object we're testing.
+     *
      * @var Result
      */
     protected $result;
@@ -69,6 +70,7 @@ class ResultTest extends BaseTestCase
     /**
      * @test
      * @dataProvider provide_uncomplete_result
+     * @param Result $result The result to test.
      */
     public function it_returns_false_when_uncomplete(Result $result): void
     {
@@ -82,20 +84,25 @@ class ResultTest extends BaseTestCase
     {
         $file = new File('/filename.php', 'filename.php');
         $result = new Result($file);
+
         yield 'commits and complexity are null' => [$result];
 
         $result = new Result($file);
         $result->setCommits(42);
+
         yield 'only complexity is null' => [$result];
 
         $result = new Result($file);
         $result->setComplexity(100);
+
         yield 'only commits is null' => [$result];
     }
 
     /**
      * @test
      * @dataProvider provide_invalid_score
+     * @param integer $maxCommits The highest number of commits out of any file scanned.
+     * @param integer $maxComplexity The maximum complexity out of any file scanned.
      */
     public function it_throws_when_score_is_invalid(int $maxCommits, int $maxComplexity): void
     {

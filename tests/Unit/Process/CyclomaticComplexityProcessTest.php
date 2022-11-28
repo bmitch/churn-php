@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Churn\Tests\Unit\Process;
 
 use Churn\File\File;
-use Churn\Tests\BaseTestCase;
 use Churn\Process\CyclomaticComplexityProcess;
+use Churn\Tests\BaseTestCase;
 use Mockery as m;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-class CyclomaticComplexityProcessTest extends BaseTestCase
+final class CyclomaticComplexityProcessTest extends BaseTestCase
 {
     /** @test */
     public function it_can_be_started(): void

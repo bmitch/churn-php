@@ -5,13 +5,19 @@ declare(strict_types=1);
 namespace Churn\Tests\Unit\Result;
 
 use Churn\File\File;
-use Churn\Result\ResultInterface;
 use Churn\Result\ResultAccumulator;
+use Churn\Result\ResultInterface;
 use Churn\Tests\BaseTestCase;
 use Mockery as m;
 
-class ResultAccumulatorTest extends BaseTestCase
+final class ResultAccumulatorTest extends BaseTestCase
 {
+    /**
+     * @param integer $commits The number of changes.
+     * @param integer $complexity The file complexity.
+     * @param string $file The file path.
+     * @param float $score The score.
+     */
     private function mockResult(int $commits, int $complexity, string $file, float $score = 0.0): ResultInterface
     {
         $result = m::mock(ResultInterface::class);

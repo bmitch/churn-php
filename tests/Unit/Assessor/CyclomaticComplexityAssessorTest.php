@@ -4,44 +4,19 @@ declare(strict_types=1);
 
 namespace Churn\Tests\Unit\Assessor;
 
-use Churn\Tests\BaseTestCase;
 use Churn\Assessor\CyclomaticComplexityAssessor;
+use Churn\Tests\BaseTestCase;
 
-class CyclomaticComplexityAssessorTest extends BaseTestCase
+final class CyclomaticComplexityAssessorTest extends BaseTestCase
 {
-    /**
-     * @dataProvider provide_assess
-     */
-    public function test_assess(int $expectedScore, string $code): void
-    {
-        $assessor = new CyclomaticComplexityAssessor();
-
-        self::assertSame($expectedScore, $assessor->assess($code));
-    }
-
-    /**
-     * @return iterable<string, array{int, string}>
-     */
-    public function provide_assess(): iterable
-    {
-        yield 'an empty file' => [
-            1,
-            ''
-        ];
-
-        yield 'an empty class' => [
-            1,
-            <<<'EOC'
+    private const CODE_EMPTY_CLASS = <<<'EOC'
 <?php
 class EmptyClass
 {
 }
-EOC
-        ];
+EOC;
 
-        yield 'a class with one empty method' => [
-            1,
-            <<<'EOC'
+    private const CODE_ONE_METHOD_CLASS = <<<'EOC'
 <?php
 class ClassWithOneEmptyMethod
 {
@@ -49,12 +24,9 @@ class ClassWithOneEmptyMethod
     {
     }
 }
-EOC
-        ];
+EOC;
 
-        yield 'a class with a method containing one if statement' => [
-            2,
-            <<<'EOC'
+    private const CODE_ONE_CONDITION_IN_ONE_METHOD = <<<'EOC'
 <?php
 class ClassWithOneMethodWithOneIf
 {
@@ -67,12 +39,9 @@ class ClassWithOneMethodWithOneIf
         return false;
     }
 }
-EOC
-        ];
+EOC;
 
-        yield 'a class with a method containing a nested if statement' => [
-            3,
-            <<<'EOC'
+    private const CODE_ONE_NESTED_CONDITION = <<<'EOC'
 <?php
 class ClassWithOneMethodWithNestedIf
 {
@@ -87,12 +56,9 @@ class ClassWithOneMethodWithNestedIf
         return false;
     }
 }
-EOC
-        ];
+EOC;
 
-        yield 'a class with a method containing an if else if statement' => [
-            3,
-            <<<'EOC'
+    private const CODE_WITH_ELSE_IF_STATEMENT = <<<'EOC'
 <?php
 class ClassWithIfElseIf
 {
@@ -105,12 +71,9 @@ class ClassWithIfElseIf
         }
     }
 }
-EOC
-        ];
+EOC;
 
-        yield 'a class with a method containing a while loop' => [
-            2,
-            <<<'EOC'
+    private const CODE_WITH_WHILE_LOOP = <<<'EOC'
 <?php
 class ClassWithWhileLoop
 {
@@ -121,12 +84,9 @@ class ClassWithWhileLoop
         }
     }
 }
-EOC
-        ];
+EOC;
 
-        yield 'a class with a method containing a for loop' => [
-            2,
-            <<<'EOC'
+    private const CODE_WITH_FOR_LOOP = <<<'EOC'
 <?php
 class ClassWithForLoop
 {
@@ -137,12 +97,9 @@ class ClassWithForLoop
         }
     }
 }
-EOC
-        ];
+EOC;
 
-        yield 'a class with a method a switch statement with 3 cases' => [
-            4,
-            <<<'EOC'
+    private const CODE_WITH_SWITCH = <<<'EOC'
 <?php
 class ClassWithSwitch
 {
@@ -164,12 +121,9 @@ class ClassWithSwitch
         }
     }
 }
-EOC
-        ];
+EOC;
 
-        yield 'this class with many methods and many branches' => [
-            11,
-            <<<'EOC'
+    private const CODE_LONG_CLASS = <<<'EOC'
 <?php
 class LongClass
 {
@@ -228,12 +182,9 @@ class LongClass
         }
     }
 }
-EOC
-        ];
+EOC;
 
-        yield 'a class with a ternary operator' => [
-            2,
-            <<<'EOC'
+    private const CODE_WITH_TERNARY = <<<'EOC'
 <?php
 class ClassWithTernary
 {
@@ -242,12 +193,9 @@ class ClassWithTernary
         $foo == 'bar' ? $baz++ : $zug;
     }
 }
-EOC
-        ];
+EOC;
 
-        yield 'a class with a logical AND' => [
-            2,
-            <<<'EOC'
+    private const CODE_WITH_LOGICAL_AND = <<<'EOC'
 <?php
 class ClassWithLogicalAnd
 {
@@ -256,12 +204,9 @@ class ClassWithLogicalAnd
         return ($a == $b && $c == $d);
     }
 }
-EOC
-        ];
+EOC;
 
-        yield 'a class with a logical OR' => [
-            2,
-            <<<'EOC'
+    private const CODE_WITH_LOGICAL_OR = <<<'EOC'
 <?php
 class ClassWithLogicalOr
 {
@@ -270,29 +215,52 @@ class ClassWithLogicalOr
         return ($a == $b || $c == $d);
     }
 }
-EOC
-        ];
+EOC;
 
-        yield 'syntax error' => [
-            1,
-            '<?php echo'
-        ];
-
-        yield 'file with commented code' => [
-            1,
-            '<?php // if (true) {if (true) {if (true) {if (true) {}}}}'
-        ];
-
-        if (version_compare(PHP_VERSION, '7.4.0', '>=')) {
-            yield 'file with coalesce equal operator' => [
-                3,
-                <<<'EOC'
+    private const CODE_WITH_COALESCE_EQUAL = <<<'EOC'
 <?php
 $a ??= 'a';
 $a ??= 'a';
 $a ??= 'a';
-EOC
-            ];
+EOC;
+
+    /**
+     * @dataProvider provide_assess
+     * @param integer $expectedScore The expected score.
+     * @param string $code Some PHP code.
+     */
+    public function test_assess(int $expectedScore, string $code): void
+    {
+        $assessor = new CyclomaticComplexityAssessor();
+
+        self::assertSame($expectedScore, $assessor->assess($code));
+    }
+
+    /**
+     * @return iterable<string, array{int, string}>
+     */
+    public function provide_assess(): iterable
+    {
+        yield 'an empty file' => [1, ''];
+        yield 'an empty class' => [1, self::CODE_EMPTY_CLASS];
+        yield 'a class with one empty method' => [1, self::CODE_ONE_METHOD_CLASS];
+        yield 'a class with a method containing one if statement' => [2, self::CODE_ONE_CONDITION_IN_ONE_METHOD];
+        yield 'a class with a method containing a nested if statement' => [3, self::CODE_ONE_NESTED_CONDITION];
+        yield 'a class with a method containing an else if statement' => [3, self::CODE_WITH_ELSE_IF_STATEMENT];
+        yield 'a class with a method containing a while loop' => [2, self::CODE_WITH_WHILE_LOOP];
+        yield 'a class with a method containing a for loop' => [2, self::CODE_WITH_FOR_LOOP];
+        yield 'a class with a method a switch statement with 3 cases' => [4, self::CODE_WITH_SWITCH];
+        yield 'this class with many methods and many branches' => [11, self::CODE_LONG_CLASS];
+        yield 'a class with a ternary operator' => [2, self::CODE_WITH_TERNARY];
+        yield 'a class with a logical AND' => [2, self::CODE_WITH_LOGICAL_AND];
+        yield 'a class with a logical OR' => [2, self::CODE_WITH_LOGICAL_OR];
+        yield 'syntax error' => [1, '<?php echo'];
+        yield 'file with commented code' => [1, '<?php // if (true) {if (true) {if (true) {if (true) {}}}}'];
+
+        if (!\version_compare(\PHP_VERSION, '7.4.0', '>=')) {
+            return;
         }
+
+        yield 'file with coalesce equal operator' => [3, self::CODE_WITH_COALESCE_EQUAL];
     }
 }
