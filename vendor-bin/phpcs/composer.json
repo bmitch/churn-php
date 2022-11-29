@@ -2,7 +2,7 @@
     "require-dev": {
         "bmitch/codor": "^1.2",
         "phpcompatibility/php-compatibility": "^9.3",
-        "slevomat/coding-standard": "^7.0"
+        "slevomat/coding-standard": "^7.0 || ^8.0"
     },
     "config": {
         "allow-plugins": {

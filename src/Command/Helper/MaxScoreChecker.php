@@ -40,13 +40,24 @@ final class MaxScoreChecker
             return false;
         }
 
-        if ('text' === $input->getOption('format') || '' !== (string) $input->getOption('output')) {
-            $output = $output instanceof ConsoleOutputInterface
-                ? $output->getErrorOutput()
-                : $output;
-            $output->writeln('<error>Max score is over the threshold</>');
-        }
+        $this->printErrorMessage($input, $output);
 
         return true;
+    }
+
+    /**
+     * @param InputInterface $input Input.
+     * @param OutputInterface $output Output.
+     */
+    private function printErrorMessage(InputInterface $input, OutputInterface $output): void
+    {
+        if ('text' !== $input->getOption('format') && '' === (string) $input->getOption('output')) {
+            return;
+        }
+
+        $output = $output instanceof ConsoleOutputInterface
+            ? $output->getErrorOutput()
+            : $output;
+        $output->writeln('<error>Max score is over the threshold</>');
     }
 }
