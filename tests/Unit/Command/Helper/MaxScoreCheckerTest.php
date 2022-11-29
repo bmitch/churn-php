@@ -60,8 +60,9 @@ final class MaxScoreCheckerTest extends BaseTestCase
      * @dataProvider provide_format_and_output
      * @param string $format The output format.
      * @param string|null $outputPath The output path.
+     * @param boolean $mustPrint Indicates whether the error message must be printed.
      */
-    public function it_prints_an_error_message(string $format, ?string $outputPath): void
+    public function it_prints_an_error_message(string $format, ?string $outputPath, bool $mustPrint): void
     {
         $input = m::mock(InputInterface::class);
         $input->shouldReceive('getOption')->with('format')->andReturn($format);
@@ -70,7 +71,7 @@ final class MaxScoreCheckerTest extends BaseTestCase
         $output = m::mock(OutputInterface::class);
         $output->shouldReceive('writeln')
             ->with('<error>Max score is over the threshold</>')
-            ->once()
+            ->times((int) $mustPrint)
         ;
 
         $report = m::mock(ResultReporter::class);
@@ -82,12 +83,13 @@ final class MaxScoreCheckerTest extends BaseTestCase
     }
 
     /**
-     * @return iterable<string, array{string, ?string}>
+     * @return iterable<string, array{string, ?string, bool}>
      */
     public function provide_format_and_output(): iterable
     {
-        yield 'format=text, output is null' => ['text', null];
-        yield 'format=text, output is not null' => ['text', '/tmp'];
-        yield 'format=json, output is not null' => ['json', '/tmp'];
+        yield 'format=text, output is null' => ['text', null, true];
+        yield 'format=text, output is not null' => ['text', '/tmp', true];
+        yield 'format=json, output is not null' => ['json', '/tmp', true];
+        yield 'format=json, output is null' => ['json', null, false];
     }
 }
