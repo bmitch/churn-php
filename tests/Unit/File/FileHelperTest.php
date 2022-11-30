@@ -14,14 +14,16 @@ final class FileHelperTest extends BaseTestCase
     /**
      * @var array<string>
      */
-    private $filesToDelete = [];
+    private static $filesToDelete = [];
 
     /** @return void */
     protected function tearDown()
     {
         parent::tearDown();
 
-        (new Filesystem())->remove($this->filesToDelete);
+        (new Filesystem())->remove(self::$filesToDelete);
+
+        self::$filesToDelete = [];
     }
 
     /**
@@ -39,7 +41,7 @@ final class FileHelperTest extends BaseTestCase
     /**
      * @return iterable<int, array{string, string, string}>
      */
-    public function provide_absolute_paths(): iterable
+    public static function provide_absolute_paths(): iterable
     {
         yield ['/tmp', '/path', '/tmp'];
         yield ['foo', '/path', '/path/foo'];
@@ -65,7 +67,7 @@ final class FileHelperTest extends BaseTestCase
     /**
      * @return iterable<int, array{string, string, string}>
      */
-    public function provide_relative_paths(): iterable
+    public static function provide_relative_paths(): iterable
     {
         yield ['/tmp/file.php', '/tmp', 'file.php'];
         yield ['/tmp/file.php', '/tmp/', 'file.php'];
@@ -96,12 +98,12 @@ final class FileHelperTest extends BaseTestCase
     /**
      * @return iterable<int, array{string}>
      */
-    public function provide_writable_paths(): iterable
+    public static function provide_writable_paths(): iterable
     {
         yield [__FILE__];
         yield [__DIR__ . '/non-existing-file'];
 
-        $this->filesToDelete[] = __DIR__ . '/path';
+        self::$filesToDelete[] = __DIR__ . '/path';
 
         yield [__DIR__ . '/path/to/non-existing-file'];
     }
@@ -120,7 +122,7 @@ final class FileHelperTest extends BaseTestCase
     /**
      * @return iterable<int, array{string}>
      */
-    public function provide_invalid_writable_paths(): iterable
+    public static function provide_invalid_writable_paths(): iterable
     {
         yield [''];
         yield [__DIR__];

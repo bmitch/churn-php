@@ -7,7 +7,6 @@ namespace Churn\Tests\Unit\Configuration\Validator;
 use Churn\Configuration\Config;
 use Churn\Configuration\Validator;
 use Churn\Configuration\Validator\FileExtensions;
-use Churn\Tests\Unit\Configuration\ValidatorBaseTestCase;
 
 final class FileExtensionsTest extends ValidatorBaseTestCase
 {
@@ -33,13 +32,13 @@ final class FileExtensionsTest extends ValidatorBaseTestCase
     }
 
     /** {@inheritDoc} */
-    public function provideValidValues(): iterable
+    public static function provideValidValues(): iterable
     {
         yield 'FileExtensions' => [['php', 'inc']];
     }
 
     /** {@inheritDoc} */
-    public function provideInvalidValues(): iterable
+    public static function provideInvalidValues(): iterable
     {
         yield 'FileExtensions / string' => ['foo', 'File extensions should be an array of strings'];
         yield 'FileExtensions / null' => [null, 'File extensions should be an array of strings'];

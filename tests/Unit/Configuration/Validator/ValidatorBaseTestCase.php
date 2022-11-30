@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Churn\Tests\Unit\Configuration;
+namespace Churn\Tests\Unit\Configuration\Validator;
 
 use Churn\Configuration\Config;
 use Churn\Configuration\EditableConfig;
@@ -36,12 +36,12 @@ abstract class ValidatorBaseTestCase extends BaseTestCase
     /**
      * @return iterable<string, array{mixed}>
      */
-    abstract public function provideValidValues(): iterable;
+    abstract public static function provideValidValues(): iterable;
 
     /**
      * @return iterable<string, array{mixed, string}>
      */
-    abstract public function provideInvalidValues(): iterable;
+    abstract public static function provideInvalidValues(): iterable;
 
     /** @return void */
     public function setUp()

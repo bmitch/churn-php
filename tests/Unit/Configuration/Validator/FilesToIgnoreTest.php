@@ -7,7 +7,6 @@ namespace Churn\Tests\Unit\Configuration\Validator;
 use Churn\Configuration\Config;
 use Churn\Configuration\Validator;
 use Churn\Configuration\Validator\FilesToIgnore;
-use Churn\Tests\Unit\Configuration\ValidatorBaseTestCase;
 
 final class FilesToIgnoreTest extends ValidatorBaseTestCase
 {
@@ -33,13 +32,13 @@ final class FilesToIgnoreTest extends ValidatorBaseTestCase
     }
 
     /** {@inheritDoc} */
-    public function provideValidValues(): iterable
+    public static function provideValidValues(): iterable
     {
         yield 'FilesToIgnore' => [['foo.php', 'bar.php', 'baz.php']];
     }
 
     /** {@inheritDoc} */
-    public function provideInvalidValues(): iterable
+    public static function provideInvalidValues(): iterable
     {
         yield 'FilesToIgnore / string' => ['foo', 'Files to ignore should be an array of strings'];
         yield 'FilesToIgnore / null' => [null, 'Files to ignore should be an array of strings'];

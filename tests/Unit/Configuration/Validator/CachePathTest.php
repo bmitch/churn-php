@@ -8,7 +8,6 @@ use Churn\Configuration\Config;
 use Churn\Configuration\EditableConfig;
 use Churn\Configuration\Validator;
 use Churn\Configuration\Validator\CachePath;
-use Churn\Tests\Unit\Configuration\ValidatorBaseTestCase;
 
 final class CachePathTest extends ValidatorBaseTestCase
 {
@@ -34,13 +33,13 @@ final class CachePathTest extends ValidatorBaseTestCase
     }
 
     /** {@inheritDoc} */
-    public function provideValidValues(): iterable
+    public static function provideValidValues(): iterable
     {
         yield 'CachePath' => ['/tmp/.churn.cache'];
     }
 
     /** {@inheritDoc} */
-    public function provideInvalidValues(): iterable
+    public static function provideInvalidValues(): iterable
     {
         yield 'CachePath / int' => [123, 'Cache path should be a string'];
     }

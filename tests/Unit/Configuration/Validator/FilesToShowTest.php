@@ -7,7 +7,6 @@ namespace Churn\Tests\Unit\Configuration\Validator;
 use Churn\Configuration\Config;
 use Churn\Configuration\Validator;
 use Churn\Configuration\Validator\FilesToShow;
-use Churn\Tests\Unit\Configuration\ValidatorBaseTestCase;
 
 final class FilesToShowTest extends ValidatorBaseTestCase
 {
@@ -33,13 +32,13 @@ final class FilesToShowTest extends ValidatorBaseTestCase
     }
 
     /** {@inheritDoc} */
-    public function provideValidValues(): iterable
+    public static function provideValidValues(): iterable
     {
         yield 'FilesToShow' => [13];
     }
 
     /** {@inheritDoc} */
-    public function provideInvalidValues(): iterable
+    public static function provideInvalidValues(): iterable
     {
         yield 'FilesToShow / string' => ['foo', 'Files to show should be an integer'];
         yield 'FilesToShow / null' => [null, 'Files to show should be an integer'];

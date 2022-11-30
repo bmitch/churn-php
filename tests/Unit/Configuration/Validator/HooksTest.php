@@ -7,7 +7,6 @@ namespace Churn\Tests\Unit\Configuration\Validator;
 use Churn\Configuration\Config;
 use Churn\Configuration\Validator;
 use Churn\Configuration\Validator\Hooks;
-use Churn\Tests\Unit\Configuration\ValidatorBaseTestCase;
 
 final class HooksTest extends ValidatorBaseTestCase
 {
@@ -33,13 +32,13 @@ final class HooksTest extends ValidatorBaseTestCase
     }
 
     /** {@inheritDoc} */
-    public function provideValidValues(): iterable
+    public static function provideValidValues(): iterable
     {
         yield 'Hook' => [['Hook1', 'Hook2']];
     }
 
     /** {@inheritDoc} */
-    public function provideInvalidValues(): iterable
+    public static function provideInvalidValues(): iterable
     {
         yield 'Hooks / string' => ['foo', 'Hooks should be an array of strings'];
         yield 'Hooks / null' => [null, 'Hooks should be an array of strings'];

@@ -7,7 +7,6 @@ namespace Churn\Tests\Unit\Configuration\Validator;
 use Churn\Configuration\Config;
 use Churn\Configuration\Validator;
 use Churn\Configuration\Validator\Vcs;
-use Churn\Tests\Unit\Configuration\ValidatorBaseTestCase;
 
 final class VcsTest extends ValidatorBaseTestCase
 {
@@ -33,13 +32,13 @@ final class VcsTest extends ValidatorBaseTestCase
     }
 
     /** {@inheritDoc} */
-    public function provideValidValues(): iterable
+    public static function provideValidValues(): iterable
     {
         yield 'Vcs' => ['none'];
     }
 
     /** {@inheritDoc} */
-    public function provideInvalidValues(): iterable
+    public static function provideInvalidValues(): iterable
     {
         yield 'Vcs / int' => [123, 'VCS should be a string'];
         yield 'Vcs / null' => [null, 'VCS should be a string'];
