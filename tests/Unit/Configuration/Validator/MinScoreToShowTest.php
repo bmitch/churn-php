@@ -8,7 +8,6 @@ use Churn\Configuration\Config;
 use Churn\Configuration\EditableConfig;
 use Churn\Configuration\Validator;
 use Churn\Configuration\Validator\MinScoreToShow;
-use Churn\Tests\Unit\Configuration\ValidatorBaseTestCase;
 
 final class MinScoreToShowTest extends ValidatorBaseTestCase
 {
@@ -34,13 +33,13 @@ final class MinScoreToShowTest extends ValidatorBaseTestCase
     }
 
     /** {@inheritDoc} */
-    public function provideValidValues(): iterable
+    public static function provideValidValues(): iterable
     {
         yield 'MinScoreToShow' => [5.0];
     }
 
     /** {@inheritDoc} */
-    public function provideInvalidValues(): iterable
+    public static function provideInvalidValues(): iterable
     {
         yield 'MinScoreToShow / string' => ['foo', 'Minimum score to show should be a number'];
     }

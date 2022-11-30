@@ -7,7 +7,6 @@ namespace Churn\Tests\Unit\Configuration\Validator;
 use Churn\Configuration\Config;
 use Churn\Configuration\Validator;
 use Churn\Configuration\Validator\CommitsSince;
-use Churn\Tests\Unit\Configuration\ValidatorBaseTestCase;
 
 final class CommitsSinceTest extends ValidatorBaseTestCase
 {
@@ -46,13 +45,13 @@ final class CommitsSinceTest extends ValidatorBaseTestCase
     }
 
     /** {@inheritDoc} */
-    public function provideValidValues(): iterable
+    public static function provideValidValues(): iterable
     {
         yield 'CommitsSince' => ['4 years ago'];
     }
 
     /** {@inheritDoc} */
-    public function provideInvalidValues(): iterable
+    public static function provideInvalidValues(): iterable
     {
         yield 'CommitsSince / int' => [123, 'Commits since should be a string'];
         yield 'CommitsSince / null' => [null, 'Commits since should be a string'];

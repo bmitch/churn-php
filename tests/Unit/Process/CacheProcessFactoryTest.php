@@ -30,7 +30,7 @@ final class CacheProcessFactoryTest extends BaseTestCase
     /**
      * @return iterable<int, array{string, string}>
      */
-    public function provide_invalid_paths(): iterable
+    public static function provide_invalid_paths(): iterable
     {
         yield ['', 'Path cannot be empty'];
         yield [__DIR__, 'Path cannot be a folder'];

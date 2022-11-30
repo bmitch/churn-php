@@ -7,7 +7,6 @@ namespace Churn\Tests\Unit\Configuration\Validator;
 use Churn\Configuration\Config;
 use Churn\Configuration\Validator;
 use Churn\Configuration\Validator\DirectoriesToScan;
-use Churn\Tests\Unit\Configuration\ValidatorBaseTestCase;
 
 final class DirectoriesToScanTest extends ValidatorBaseTestCase
 {
@@ -33,13 +32,13 @@ final class DirectoriesToScanTest extends ValidatorBaseTestCase
     }
 
     /** {@inheritDoc} */
-    public function provideValidValues(): iterable
+    public static function provideValidValues(): iterable
     {
         yield 'DirectoriesToScan' => [['src', 'tests']];
     }
 
     /** {@inheritDoc} */
-    public function provideInvalidValues(): iterable
+    public static function provideInvalidValues(): iterable
     {
         yield 'DirectoriesToScan / string' => ['foo', 'Directories to scan should be an array of strings'];
         yield 'DirectoriesToScan / null' => [null, 'Directories to scan should be an array of strings'];

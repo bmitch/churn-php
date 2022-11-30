@@ -45,7 +45,7 @@ final class MaxScoreCheckerTest extends BaseTestCase
     /**
      * @return iterable<string, array{bool, ?float, ?float}>
      */
-    public function provide_arguments(): iterable
+    public static function provide_arguments(): iterable
     {
         yield 'threshold and score are null' => [false, null, null];
         yield 'score is null' => [false, 1, null];
@@ -85,7 +85,7 @@ final class MaxScoreCheckerTest extends BaseTestCase
     /**
      * @return iterable<string, array{string, ?string, bool}>
      */
-    public function provide_format_and_output(): iterable
+    public static function provide_format_and_output(): iterable
     {
         yield 'format=text, output is null' => ['text', null, true];
         yield 'format=text, output is not null' => ['text', '/tmp', true];

@@ -239,7 +239,7 @@ EOC;
     /**
      * @return iterable<string, array{int, string}>
      */
-    public function provide_assess(): iterable
+    public static function provide_assess(): iterable
     {
         yield 'an empty file' => [1, ''];
         yield 'an empty class' => [1, self::CODE_EMPTY_CLASS];

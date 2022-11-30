@@ -8,7 +8,6 @@ use Churn\Configuration\Config;
 use Churn\Configuration\EditableConfig;
 use Churn\Configuration\Validator;
 use Churn\Configuration\Validator\MaxScoreThreshold;
-use Churn\Tests\Unit\Configuration\ValidatorBaseTestCase;
 
 final class MaxScoreThresholdTest extends ValidatorBaseTestCase
 {
@@ -34,13 +33,13 @@ final class MaxScoreThresholdTest extends ValidatorBaseTestCase
     }
 
     /** {@inheritDoc} */
-    public function provideValidValues(): iterable
+    public static function provideValidValues(): iterable
     {
         yield 'MaxScoreThreshold' => [9.5];
     }
 
     /** {@inheritDoc} */
-    public function provideInvalidValues(): iterable
+    public static function provideInvalidValues(): iterable
     {
         yield 'MaxScoreThreshold / string' => ['foo', 'Maximum score threshold should be a number'];
     }

@@ -80,7 +80,7 @@ final class ResultTest extends BaseTestCase
     /**
      * @return iterable<string, array{Result}>
      */
-    public function provide_uncomplete_result(): iterable
+    public static function provide_uncomplete_result(): iterable
     {
         $file = new File('/filename.php', 'filename.php');
         $result = new Result($file);
@@ -114,7 +114,7 @@ final class ResultTest extends BaseTestCase
     /**
      * @return iterable<int, array{int, int}>
      */
-    public function provide_invalid_score(): iterable
+    public static function provide_invalid_score(): iterable
     {
         yield [0, 0];
         yield [0, 1];
