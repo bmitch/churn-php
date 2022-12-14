@@ -3,8 +3,9 @@
     "description": "Discover files in need of refactoring.",
     "license": "MIT",
     "keywords": [
-        "bmitch",
-        "churn-php",
+        "churn",
+        "complexity",
+        "refactoring",
         "static analysis"
     ],
     "authors": [
