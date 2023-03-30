@@ -13,21 +13,21 @@ final class CyclomaticComplexityAssessor implements Assessor
      * @var array<int, int>
      */
     private $tokens = [
+        \T_BOOLEAN_AND => 1,
+        \T_BOOLEAN_OR => 1,
+        \T_CASE => 1,
+        \T_CATCH => 1,
         \T_CLASS => 1,
-        \T_INTERFACE => 1,
-        \T_TRAIT => 1,
-        \T_IF => 1,
+        \T_COALESCE => 1,
         \T_ELSEIF => 1,
         \T_FOR => 1,
         \T_FOREACH => 1,
-        \T_WHILE => 1,
-        \T_CASE => 1,
-        \T_CATCH => 1,
-        \T_BOOLEAN_AND => 1,
+        \T_IF => 1,
+        \T_INTERFACE => 1,
         \T_LOGICAL_AND => 1,
-        \T_BOOLEAN_OR => 1,
         \T_LOGICAL_OR => 1,
-        \T_COALESCE => 1,
+        \T_TRAIT => 1,
+        \T_WHILE => 1,
     ];
 
     /**

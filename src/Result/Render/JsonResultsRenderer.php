@@ -23,9 +23,9 @@ final class JsonResultsRenderer implements ResultsRendererInterface
 
         foreach ($results as $result) {
             $data[] = [
-                'file' => $result[0],
                 'commits' => $result[1],
                 'complexity' => $result[2],
+                'file' => $result[0],
                 'score' => $result[3],
             ];
         }
