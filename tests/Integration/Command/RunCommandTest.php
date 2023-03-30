@@ -58,8 +58,8 @@ final class RunCommandTest extends BaseTestCase
     public function it_displays_the_logo_at_the_beginning_by_default(): void
     {
         $exitCode = $this->commandTester->execute([
-            'paths' => [__DIR__],
             '--parallel' => '1',
+            'paths' => [__DIR__],
         ]);
         $display = $this->commandTester->getDisplay();
 
@@ -73,8 +73,8 @@ final class RunCommandTest extends BaseTestCase
     public function it_can_show_a_progress_bar(): void
     {
         $exitCode = $this->commandTester->execute([
-            'paths' => [__DIR__],
             '--progress' => null,
+            'paths' => [__DIR__],
         ]);
         $display = $this->commandTester->getDisplay();
 
@@ -100,9 +100,9 @@ final class RunCommandTest extends BaseTestCase
         self::assertNotFalse($tmpFile = \tempnam(\sys_get_temp_dir(), 'churn-test-'));
         $this->tmpFile = $tmpFile;
         $exitCode = $this->commandTester->execute([
-            'paths' => [\realpath(__DIR__ . '/../../')],
             '--format' => 'json',
             '--output' => $this->tmpFile,
+            'paths' => [\realpath(__DIR__ . '/../../')],
         ]);
         $display = $this->commandTester->getDisplay();
 
@@ -141,8 +141,8 @@ final class RunCommandTest extends BaseTestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->commandTester->execute([
-            'paths' => [__DIR__],
             '--configuration' => 'not a valid configuration file',
+            'paths' => [__DIR__],
         ]);
     }
 
@@ -151,8 +151,8 @@ final class RunCommandTest extends BaseTestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->commandTester->execute([
-            'paths' => [],
             '-c' => __DIR__ . '/config/empty.yml',
+            'paths' => [],
         ]);
     }
 
@@ -161,8 +161,8 @@ final class RunCommandTest extends BaseTestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->commandTester->execute([
-            'paths' => [__DIR__],
             '--parallel' => 'foo',
+            'paths' => [__DIR__],
         ]);
     }
 
@@ -178,8 +178,8 @@ final class RunCommandTest extends BaseTestCase
 
         // generate cache
         self::assertSame(0, $this->commandTester->execute([
-            'paths' => [],
             '-c' => __DIR__ . '/config/test-cache.yml',
+            'paths' => [],
         ]));
         $displayBeforeCache = $this->commandTester->getDisplay();
 
@@ -187,8 +187,8 @@ final class RunCommandTest extends BaseTestCase
         self::assertGreaterThan(0, \filesize($cachePath), 'Cache file is empty');
         // use cache
         self::assertSame(0, $this->commandTester->execute([
-            'paths' => [],
             '-c' => __DIR__ . '/config/test-cache.yml',
+            'paths' => [],
         ]));
         $displayAfterCache = $this->commandTester->getDisplay();
 
@@ -203,8 +203,8 @@ final class RunCommandTest extends BaseTestCase
         TestHook::reset();
 
         $exitCode = $this->commandTester->execute([
-            'paths' => [__FILE__, __DIR__ . '/AssessComplexityCommandTest.php'],
             '-c' => __DIR__ . '/config/hook-by-classname.yml',
+            'paths' => [__FILE__, __DIR__ . '/AssessComplexityCommandTest.php'],
         ]);
 
         self::assertSame(0, $exitCode);
@@ -217,8 +217,8 @@ final class RunCommandTest extends BaseTestCase
     public function it_can_use_a_hook_by_path(): void
     {
         $exitCode = $this->commandTester->execute([
-            'paths' => [__FILE__, __DIR__ . '/AssessComplexityCommandTest.php'],
             '-c' => __DIR__ . '/config/hook-by-path.yml',
+            'paths' => [__FILE__, __DIR__ . '/AssessComplexityCommandTest.php'],
         ]);
 
         self::assertSame(0, $exitCode);
@@ -233,8 +233,8 @@ final class RunCommandTest extends BaseTestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid hook: invalid-hook');
         $this->commandTester->execute([
-            'paths' => [__FILE__, __DIR__ . '/AssessComplexityCommandTest.php'],
             '-c' => __DIR__ . '/config/hook-invalid.yml',
+            'paths' => [__FILE__, __DIR__ . '/AssessComplexityCommandTest.php'],
         ]);
     }
 
@@ -245,9 +245,9 @@ final class RunCommandTest extends BaseTestCase
 
         \ob_start();
         $exitCode = $this->commandTester->execute([
-            'paths' => [__FILE__, __DIR__ . '/AssessComplexityCommandTest.php'],
-            '-c' => __DIR__ . '/config/hook-print.yml',
             '--quiet' => null,
+            '-c' => __DIR__ . '/config/hook-print.yml',
+            'paths' => [__FILE__, __DIR__ . '/AssessComplexityCommandTest.php'],
         ]);
         $display = \ob_get_contents();
         \ob_end_clean();
@@ -260,8 +260,8 @@ final class RunCommandTest extends BaseTestCase
     public function it_can_return_one_as_exit_code(): void
     {
         $exitCode = $this->commandTester->execute([
-            'paths' => [__FILE__],
             '-c' => __DIR__ . '/config/test-threshold.yml',
+            'paths' => [__FILE__],
         ], ['capture_stderr_separately' => true]);
         $display = $this->commandTester->getErrorOutput();
 
@@ -273,8 +273,8 @@ final class RunCommandTest extends BaseTestCase
     public function it_can_warn_about_unrecognized_keys(): void
     {
         $exitCode = $this->commandTester->execute([
-            'paths' => [__FILE__],
             '-c' => __DIR__ . '/config/unrecognized-keys.yml',
+            'paths' => [__FILE__],
         ], ['capture_stderr_separately' => true]);
         $display = $this->commandTester->getErrorOutput();
 
@@ -286,9 +286,9 @@ final class RunCommandTest extends BaseTestCase
     public function it_can_return_a_json_report_with_warnings(): void
     {
         $exitCode = $this->commandTester->execute([
-            'paths' => [__DIR__],
             '--format' => 'json',
             '-c' => __DIR__ . '/config/unrecognized-keys.yml',
+            'paths' => [__DIR__],
         ], ['capture_stderr_separately' => true]);
         $display = $this->commandTester->getErrorOutput();
 

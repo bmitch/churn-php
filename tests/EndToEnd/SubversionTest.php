@@ -39,8 +39,8 @@ final class SubversionTest extends BaseTestCase
     public function it_works_with_subversion(): void
     {
         $exitCode = $this->commandTester->execute([
-            'paths' => [],
             '--configuration' => '/tmp/test',
+            'paths' => [],
         ]);
         $display = $this->commandTester->getDisplay();
 

@@ -39,8 +39,8 @@ final class FossilTest extends BaseTestCase
     public function it_works_with_fossil(): void
     {
         $exitCode = $this->commandTester->execute([
-            'paths' => [],
             '--configuration' => '/tmp/test',
+            'paths' => [],
         ]);
         $display = $this->commandTester->getDisplay();
 
