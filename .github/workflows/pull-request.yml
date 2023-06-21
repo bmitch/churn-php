@@ -20,7 +20,7 @@ jobs:
         with:
           coverage: "pcov"
           ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
-          php-version: "8.0"
+          php-version: "8.1"
           tools: composer:v2, infection
 
       - uses: "ramsey/composer-install@v2"
