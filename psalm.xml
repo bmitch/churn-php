@@ -2,6 +2,8 @@
 <psalm
     autoloader="tests/psalm-autoload.php"
     errorLevel="1"
+    findUnusedBaselineEntry="true"
+    findUnusedCode="false"
     hideExternalErrors="true"
     phpVersion="8.0"
     resolveFromConfigFile="true"
