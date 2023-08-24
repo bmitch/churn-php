@@ -1,8 +1,8 @@
-FROM php:8.0-cli
+FROM php:8.1-cli
 
 # Requirements for running phpunit
 RUN apt-get update && apt-get install -y git zip
-RUN pecl install xdebug-3.0.2 && docker-php-ext-enable xdebug
+RUN pecl install xdebug && docker-php-ext-enable xdebug
 ENV XDEBUG_MODE=coverage
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
