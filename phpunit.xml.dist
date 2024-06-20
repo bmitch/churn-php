@@ -25,5 +25,6 @@
     </coverage>
     <php>
         <env name="SYMFONY_PHPUNIT_REMOVE_RETURN_TYPEHINT" value="1" />
+        <env name="SYMFONY_PHPUNIT_REQUIRE" value="nikic/php-parser:^4.19"/>
     </php>
 </phpunit>
