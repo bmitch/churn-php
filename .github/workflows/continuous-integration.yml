@@ -154,7 +154,10 @@ jobs:
       - name: "List all coverage reports"
         run: echo coverage_reports=./coverage/$(ls -m coverage/ | sed "s/, */,.\/coverage\//g") >> $GITHUB_ENV
 
-      - uses: codecov/codecov-action@v4
+      - name: "Upload coverage to Codecov"
+        uses: codecov/codecov-action@v4
+        # No need to run this step on forks.
+        if: ${{ 'bmitch/churn-php' == github.repository }}
         with:
           files: ./coverage.xml,${{ env.coverage_reports }}
           fail_ci_if_error: true
