@@ -2,7 +2,47 @@
 
 ## [Unreleased](https://github.com/bmitch/churn-php/tree/HEAD)
 
-[Full Changelog](https://github.com/bmitch/churn-php/compare/1.7.1...HEAD)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.7.2...HEAD)
+
+## [1.7.2](https://github.com/bmitch/churn-php/tree/1.7.2) (2024-08-04)
+
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.7.1...1.7.2)
+
+**Implemented enhancements:**
+
+- Fix PSR violations [\#364](https://github.com/bmitch/churn-php/issues/364)
+- Add compatibility with Symfony 7 [\#392](https://github.com/bmitch/churn-php/pull/392) ([villfa](https://github.com/villfa))
+- Add "static analysis" Composer keyword [\#363](https://github.com/bmitch/churn-php/pull/363) ([villfa](https://github.com/villfa))
+
+**Merged pull requests:**
+
+- Skip Codecov on forks [\#394](https://github.com/bmitch/churn-php/pull/394) ([villfa](https://github.com/villfa))
+- Exclude assets from classmaps [\#393](https://github.com/bmitch/churn-php/pull/393) ([villfa](https://github.com/villfa))
+- Test against PHP 8.3 [\#391](https://github.com/bmitch/churn-php/pull/391) ([villfa](https://github.com/villfa))
+- Run CI with PHP 8.1 [\#390](https://github.com/bmitch/churn-php/pull/390) ([villfa](https://github.com/villfa))
+- Infection requires PHP 8.1 [\#388](https://github.com/bmitch/churn-php/pull/388) ([villfa](https://github.com/villfa))
+- Explicit Psalm settings [\#387](https://github.com/bmitch/churn-php/pull/387) ([villfa](https://github.com/villfa))
+- Sort keyed multi-line arrays [\#386](https://github.com/bmitch/churn-php/pull/386) ([villfa](https://github.com/villfa))
+- Fix Phar::running false positive error [\#385](https://github.com/bmitch/churn-php/pull/385) ([villfa](https://github.com/villfa))
+- Allow Psalm 5 installation [\#384](https://github.com/bmitch/churn-php/pull/384) ([villfa](https://github.com/villfa))
+- Use more relevant keywords [\#383](https://github.com/bmitch/churn-php/pull/383) ([villfa](https://github.com/villfa))
+- Use Box 3.16.0 [\#382](https://github.com/bmitch/churn-php/pull/382) ([villfa](https://github.com/villfa))
+- Add phpstan-deprecation-rules [\#381](https://github.com/bmitch/churn-php/pull/381) ([villfa](https://github.com/villfa))
+- Make data providers static [\#380](https://github.com/bmitch/churn-php/pull/380) ([villfa](https://github.com/villfa))
+- Allow installation of slevomat/coding-standard V8 [\#379](https://github.com/bmitch/churn-php/pull/379) ([villfa](https://github.com/villfa))
+- Analyse tests/ with PHP\_CodeSniffer [\#378](https://github.com/bmitch/churn-php/pull/378) ([villfa](https://github.com/villfa))
+- Add missing extension requirements to manifest.xml [\#377](https://github.com/bmitch/churn-php/pull/377) ([villfa](https://github.com/villfa))
+- Analyse Composer dependencies [\#376](https://github.com/bmitch/churn-php/pull/376) ([villfa](https://github.com/villfa))
+- Raise the min version for Mockery [\#375](https://github.com/bmitch/churn-php/pull/375) ([villfa](https://github.com/villfa))
+- Configure bamarni/composer-bin-plugin to prepare for v2 [\#374](https://github.com/bmitch/churn-php/pull/374) ([villfa](https://github.com/villfa))
+- Scan tests/ with Psalm [\#373](https://github.com/bmitch/churn-php/pull/373) ([villfa](https://github.com/villfa))
+- Scan tests/ with PHPStan [\#372](https://github.com/bmitch/churn-php/pull/372) ([villfa](https://github.com/villfa))
+- Remove usage of empty\(\) [\#371](https://github.com/bmitch/churn-php/pull/371) ([villfa](https://github.com/villfa))
+- Configure PHPStan to be a bit stricter [\#370](https://github.com/bmitch/churn-php/pull/370) ([villfa](https://github.com/villfa))
+- Upgrade GH actions to fix warnings [\#369](https://github.com/bmitch/churn-php/pull/369) ([villfa](https://github.com/villfa))
+- Test with stricter assertions [\#368](https://github.com/bmitch/churn-php/pull/368) ([villfa](https://github.com/villfa))
+- Fix GH actions warnings [\#367](https://github.com/bmitch/churn-php/pull/367) ([villfa](https://github.com/villfa))
+- Check for PSR-4 violations in CI [\#365](https://github.com/bmitch/churn-php/pull/365) ([villfa](https://github.com/villfa))
 
 ## [1.7.1](https://github.com/bmitch/churn-php/tree/1.7.1) (2022-09-18)
 
@@ -422,7 +462,7 @@
 - Big refactor [\#151](https://github.com/bmitch/churn-php/pull/151) ([bmitch](https://github.com/bmitch))
 - Fixes \#148 - better method name [\#150](https://github.com/bmitch/churn-php/pull/150) ([bmitch](https://github.com/bmitch))
 - Add Docker section to README.md [\#147](https://github.com/bmitch/churn-php/pull/147) ([tommy-muehle](https://github.com/tommy-muehle))
-- Discovered compatability issue [\#145](https://github.com/bmitch/churn-php/pull/145) ([metamaker](https://github.com/metamaker))
+- Discovered compatability issue [\#145](https://github.com/bmitch/churn-php/pull/145) ([dmytro-y-dev](https://github.com/dmytro-y-dev))
 - Added donate badge [\#144](https://github.com/bmitch/churn-php/pull/144) ([bmitch](https://github.com/bmitch))
 - churn.yml file not needed [\#143](https://github.com/bmitch/churn-php/pull/143) ([bmitch](https://github.com/bmitch))
 - Keep releases lean [\#142](https://github.com/bmitch/churn-php/pull/142) ([raphaelstolt](https://github.com/raphaelstolt))
