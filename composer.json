@@ -46,7 +46,11 @@
     "autoload-dev": {
         "psr-4": {
             "Churn\\Tests\\": "tests"
-        }
+        },
+        "exclude-from-classmap": [
+            "/tests/Unit/Assets",
+            "/tests/Unit/Assets2"
+        ]
     },
     "bin": [
         "bin/churn"
