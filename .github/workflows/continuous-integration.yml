@@ -154,11 +154,13 @@ jobs:
       - name: "List all coverage reports"
         run: echo coverage_reports=./coverage/$(ls -m coverage/ | sed "s/, */,.\/coverage\//g") >> $GITHUB_ENV
 
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         with:
           files: ./coverage.xml,${{ env.coverage_reports }}
           fail_ci_if_error: true
           verbose: true
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   analysis:
     name: "Static Analysis"
