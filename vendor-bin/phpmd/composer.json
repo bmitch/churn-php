@@ -1,6 +1,6 @@
 {
     "require-dev": {
         "phpmd/phpmd": "^2.5",
-        "pdepend/pdepend": "<2.16"
+        "pdepend/pdepend": "^2.16.1"
     }
 }
