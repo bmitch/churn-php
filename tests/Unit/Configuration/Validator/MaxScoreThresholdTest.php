@@ -12,6 +12,7 @@ use Churn\Configuration\Validator\MaxScoreThreshold;
 final class MaxScoreThresholdTest extends ValidatorBaseTestCase
 {
     /** {@inheritDoc} */
+    #[\Override]
     protected function getValidator(): Validator
     {
         return new MaxScoreThreshold();
@@ -21,24 +22,28 @@ final class MaxScoreThresholdTest extends ValidatorBaseTestCase
      * @param Config $config The configuration object.
      * @return mixed
      */
+    #[\Override]
     protected function getValue(Config $config)
     {
         return $config->getMaxScoreThreshold();
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     protected function getDefaultValue()
     {
         return null;
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     public static function provideValidValues(): iterable
     {
         yield 'MaxScoreThreshold' => [9.5];
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     public static function provideInvalidValues(): iterable
     {
         yield 'MaxScoreThreshold / string' => ['foo', 'Maximum score threshold should be a number'];

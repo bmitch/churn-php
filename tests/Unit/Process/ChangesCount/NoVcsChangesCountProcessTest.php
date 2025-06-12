@@ -16,6 +16,7 @@ final class NoVcsChangesCountProcessTest extends BaseTestCase
     private $process;
 
     /** @return void */
+    #[\Override]
     protected function setUp()
     {
         parent::setUp();

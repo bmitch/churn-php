@@ -24,6 +24,7 @@ final class FilesToIgnore extends BaseValidator
      * @param EditableConfig $config The configuration object.
      * @param mixed $value The value to validate.
      */
+    #[\Override]
     protected function validateValue(EditableConfig $config, $value): void
     {
         Assert::isArray($value, 'Files to ignore should be an array of strings');

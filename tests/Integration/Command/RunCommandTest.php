@@ -29,6 +29,7 @@ final class RunCommandTest extends BaseTestCase
     private $tmpFile;
 
     /** @return void */
+    #[\Override]
     protected function setUp()
     {
         parent::setUp();
@@ -40,6 +41,7 @@ final class RunCommandTest extends BaseTestCase
     }
 
     /** @return void */
+    #[\Override]
     protected function tearDown()
     {
         parent::tearDown();

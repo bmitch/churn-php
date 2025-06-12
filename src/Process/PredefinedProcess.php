@@ -41,6 +41,7 @@ final class PredefinedProcess implements ChangesCountInterface, CyclomaticComple
     /**
      * Start the process.
      */
+    #[\Override]
     public function start(): void
     {
         // nothing to do
@@ -49,6 +50,7 @@ final class PredefinedProcess implements ChangesCountInterface, CyclomaticComple
     /**
      * Determines if the process was successful.
      */
+    #[\Override]
     public function isSuccessful(): bool
     {
         return true;
@@ -57,6 +59,7 @@ final class PredefinedProcess implements ChangesCountInterface, CyclomaticComple
     /**
      * Gets the file the process is being executed on.
      */
+    #[\Override]
     public function getFile(): File
     {
         return $this->file;
@@ -65,6 +68,7 @@ final class PredefinedProcess implements ChangesCountInterface, CyclomaticComple
     /**
      * Returns the number of changes for a file.
      */
+    #[\Override]
     public function countChanges(): int
     {
         return $this->countChanges;
@@ -73,6 +77,7 @@ final class PredefinedProcess implements ChangesCountInterface, CyclomaticComple
     /**
      * Returns the cyclomatic complexity of a file.
      */
+    #[\Override]
     public function getCyclomaticComplexity(): int
     {
         return $this->cyclomaticComplexity;

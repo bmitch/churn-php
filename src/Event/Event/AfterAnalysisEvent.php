@@ -27,6 +27,7 @@ final class AfterAnalysisEvent implements AfterAnalysis
     /**
      * Returns the total number of files analysed.
      */
+    #[\Override]
     public function getNumberOfFiles(): int
     {
         return $this->resultReporter->getNumberOfFiles();
@@ -35,6 +36,7 @@ final class AfterAnalysisEvent implements AfterAnalysis
     /**
      * Returns the max number of changes among the analysed files.
      */
+    #[\Override]
     public function getMaxNumberOfChanges(): int
     {
         return $this->resultReporter->getMaxCommits();
@@ -43,6 +45,7 @@ final class AfterAnalysisEvent implements AfterAnalysis
     /**
      * Returns the max cyclomatic complexity among the analysed files.
      */
+    #[\Override]
     public function getMaxCyclomaticComplexity(): int
     {
         return $this->resultReporter->getMaxComplexity();
@@ -51,6 +54,7 @@ final class AfterAnalysisEvent implements AfterAnalysis
     /**
      * Returns the highest score among the analysed files.
      */
+    #[\Override]
     public function getMaxScore(): ?float
     {
         return $this->resultReporter->getMaxScore();

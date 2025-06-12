@@ -16,6 +16,7 @@ final class FileFinderTest extends BaseTestCase
     private $fileFinder;
 
     /** @return void */
+    #[\Override]
     public function setUp()
     {
         parent::setUp();

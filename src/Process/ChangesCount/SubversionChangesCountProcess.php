@@ -30,6 +30,7 @@ final class SubversionChangesCountProcess extends ChurnProcess implements Change
     /**
      * Returns the number of changes for a file.
      */
+    #[\Override]
     public function countChanges(): int
     {
         return (int) \floor(\substr_count($this->getOutput(), "\n") / 2);

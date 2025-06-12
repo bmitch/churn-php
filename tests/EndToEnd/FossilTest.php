@@ -17,6 +17,7 @@ final class FossilTest extends BaseTestCase
     private $commandTester;
 
     /** @return void */
+    #[\Override]
     protected function setUp()
     {
         parent::setUp();
@@ -28,6 +29,7 @@ final class FossilTest extends BaseTestCase
     }
 
     /** @return void */
+    #[\Override]
     protected function tearDown()
     {
         parent::tearDown();

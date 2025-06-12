@@ -12,6 +12,7 @@ use Churn\Configuration\Validator\MinScoreToShow;
 final class MinScoreToShowTest extends ValidatorBaseTestCase
 {
     /** {@inheritDoc} */
+    #[\Override]
     protected function getValidator(): Validator
     {
         return new MinScoreToShow();
@@ -21,24 +22,28 @@ final class MinScoreToShowTest extends ValidatorBaseTestCase
      * @param Config $config The configuration object.
      * @return mixed
      */
+    #[\Override]
     protected function getValue(Config $config)
     {
         return $config->getMinScoreToShow();
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     protected function getDefaultValue()
     {
         return 0.1;
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     public static function provideValidValues(): iterable
     {
         yield 'MinScoreToShow' => [5.0];
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     public static function provideInvalidValues(): iterable
     {
         yield 'MinScoreToShow / string' => ['foo', 'Minimum score to show should be a number'];

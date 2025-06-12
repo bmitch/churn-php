@@ -16,6 +16,7 @@ final class CommitsSinceTest extends ValidatorBaseTestCase
     private $validator;
 
     /** @return void */
+    #[\Override]
     public function setUp()
     {
         parent::setUp();
@@ -24,6 +25,7 @@ final class CommitsSinceTest extends ValidatorBaseTestCase
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     protected function getValidator(): Validator
     {
         return $this->validator;
@@ -33,24 +35,28 @@ final class CommitsSinceTest extends ValidatorBaseTestCase
      * @param Config $config The configuration object.
      * @return mixed
      */
+    #[\Override]
     protected function getValue(Config $config)
     {
         return $config->getCommitsSince();
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     protected function getDefaultValue()
     {
         return '10 years ago';
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     public static function provideValidValues(): iterable
     {
         yield 'CommitsSince' => ['4 years ago'];
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     public static function provideInvalidValues(): iterable
     {
         yield 'CommitsSince / int' => [123, 'Commits since should be a string'];

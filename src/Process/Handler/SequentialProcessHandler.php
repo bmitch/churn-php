@@ -36,6 +36,7 @@ final class SequentialProcessHandler extends BaseProcessHandler
      * @param ProcessFactory $processFactory Process Factory.
      * @psalm-param Generator<\Churn\File\File> $filesFinder
      */
+    #[\Override]
     public function process(Generator $filesFinder, ProcessFactory $processFactory): void
     {
         foreach ($filesFinder as $file) {

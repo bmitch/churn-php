@@ -35,6 +35,7 @@ final class AfterFileAnalysisEvent implements AfterFileAnalysis
     /**
      * Returns the absolute path of the file.
      */
+    #[\Override]
     public function getFilePath(): string
     {
         return $this->result->getFile()->getFullPath();
@@ -43,6 +44,7 @@ final class AfterFileAnalysisEvent implements AfterFileAnalysis
     /**
      * Returns the number of times the file has been changed.
      */
+    #[\Override]
     public function getNumberOfChanges(): int
     {
         return $this->result->getCommits();
@@ -51,6 +53,7 @@ final class AfterFileAnalysisEvent implements AfterFileAnalysis
     /**
      * Returns the cyclomatic complexity of the file.
      */
+    #[\Override]
     public function getCyclomaticComplexity(): int
     {
         return $this->result->getComplexity();

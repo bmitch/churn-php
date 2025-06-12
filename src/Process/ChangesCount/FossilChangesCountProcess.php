@@ -34,6 +34,7 @@ final class FossilChangesCountProcess extends ChurnProcess implements ChangesCou
     /**
      * Returns the number of changes for a file.
      */
+    #[\Override]
     public function countChanges(): int
     {
         $count = 0;

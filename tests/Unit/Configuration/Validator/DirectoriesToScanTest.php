@@ -11,6 +11,7 @@ use Churn\Configuration\Validator\DirectoriesToScan;
 final class DirectoriesToScanTest extends ValidatorBaseTestCase
 {
     /** {@inheritDoc} */
+    #[\Override]
     protected function getValidator(): Validator
     {
         return new DirectoriesToScan();
@@ -20,24 +21,28 @@ final class DirectoriesToScanTest extends ValidatorBaseTestCase
      * @param Config $config The configuration object.
      * @return mixed
      */
+    #[\Override]
     protected function getValue(Config $config)
     {
         return $config->getDirectoriesToScan();
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     protected function getDefaultValue()
     {
         return [];
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     public static function provideValidValues(): iterable
     {
         yield 'DirectoriesToScan' => [['src', 'tests']];
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     public static function provideInvalidValues(): iterable
     {
         yield 'DirectoriesToScan / string' => ['foo', 'Directories to scan should be an array of strings'];

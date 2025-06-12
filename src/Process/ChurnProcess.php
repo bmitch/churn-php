@@ -42,6 +42,7 @@ abstract class ChurnProcess implements ProcessInterface
     /**
      * Start the process.
      */
+    #[\Override]
     public function start(): void
     {
         $this->process->start();
@@ -52,6 +53,7 @@ abstract class ChurnProcess implements ProcessInterface
      *
      * @throws ProcessFailedException If the process failed.
      */
+    #[\Override]
     public function isSuccessful(): bool
     {
         $exitCode = $this->process->getExitCode();
@@ -66,6 +68,7 @@ abstract class ChurnProcess implements ProcessInterface
     /**
      * Gets the file the process is being executed on.
      */
+    #[\Override]
     public function getFile(): File
     {
         return $this->file;

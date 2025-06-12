@@ -34,6 +34,7 @@ final class GitChangesCountProcess extends ChurnProcess implements ChangesCountI
     /**
      * Returns the number of changes for a file.
      */
+    #[\Override]
     public function countChanges(): int
     {
         return (int) $this->getOutput();

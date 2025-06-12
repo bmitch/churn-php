@@ -34,6 +34,7 @@ abstract class BaseValidator implements Validator
     /**
      * Returns the configuration key.
      */
+    #[\Override]
     public function getKey(): string
     {
         return $this->key;
@@ -43,6 +44,7 @@ abstract class BaseValidator implements Validator
      * @param EditableConfig $config The configuration object.
      * @param array<mixed> $configuration The array containing the configuration values.
      */
+    #[\Override]
     public function validate(EditableConfig $config, array $configuration): void
     {
         if (!\array_key_exists($this->key, $configuration)) {

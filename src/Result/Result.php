@@ -46,6 +46,7 @@ final class Result implements ResultInterface
     /**
      * Return the file.
      */
+    #[\Override]
     public function getFile(): File
     {
         return $this->file;
@@ -72,6 +73,7 @@ final class Result implements ResultInterface
     /**
      * Get the number of changes.
      */
+    #[\Override]
     public function getCommits(): int
     {
         return $this->commits;
@@ -90,6 +92,7 @@ final class Result implements ResultInterface
     /**
      * Get the file complexity.
      */
+    #[\Override]
     public function getComplexity(): int
     {
         return $this->complexity;
@@ -98,6 +101,7 @@ final class Result implements ResultInterface
     /**
      * Get the file priority.
      */
+    #[\Override]
     public function getPriority(): int
     {
         return $this->commits * $this->complexity;
@@ -110,6 +114,7 @@ final class Result implements ResultInterface
      * @param integer $maxComplexity The maximum complexity out of any file scanned.
      * @codingStandardsIgnoreStart
      */
+    #[\Override]
     public function getScore(int $maxCommits, int $maxComplexity): float
     {
         Assert::greaterThan($maxComplexity, 0);

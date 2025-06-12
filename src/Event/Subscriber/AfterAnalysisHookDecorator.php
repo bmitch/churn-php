@@ -30,6 +30,7 @@ final class AfterAnalysisHookDecorator implements AfterAnalysis, HookDecorator
     /**
      * @param AfterAnalysisEvent $event The event triggered when the analysis is done.
      */
+    #[\Override]
     public function onAfterAnalysis(AfterAnalysisEvent $event): void
     {
         $this->hook::afterAnalysis($event);

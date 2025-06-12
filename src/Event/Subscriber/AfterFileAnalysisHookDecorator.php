@@ -30,6 +30,7 @@ final class AfterFileAnalysisHookDecorator implements AfterFileAnalysis, HookDec
     /**
      * @param AfterFileAnalysisEvent $event The event triggered when the analysis of a file is done.
      */
+    #[\Override]
     public function onAfterFileAnalysis(AfterFileAnalysisEvent $event): void
     {
         $this->hook::afterFileAnalysis($event);

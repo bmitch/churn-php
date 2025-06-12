@@ -32,6 +32,7 @@ final class NoVcsChangesCountProcess implements ChangesCountInterface
     /**
      * Returns the number of changes for a file.
      */
+    #[\Override]
     public function countChanges(): int
     {
         return 1;
@@ -40,6 +41,7 @@ final class NoVcsChangesCountProcess implements ChangesCountInterface
     /**
      * Start the process.
      */
+    #[\Override]
     public function start(): void
     {
         // nothing to do
@@ -48,6 +50,7 @@ final class NoVcsChangesCountProcess implements ChangesCountInterface
     /**
      * Determines if the process was successful.
      */
+    #[\Override]
     public function isSuccessful(): bool
     {
         return true;
@@ -56,6 +59,7 @@ final class NoVcsChangesCountProcess implements ChangesCountInterface
     /**
      * Gets the file the process is being executed on.
      */
+    #[\Override]
     public function getFile(): File
     {
         return $this->file;

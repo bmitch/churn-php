@@ -15,6 +15,7 @@ class PrintHook implements AfterAnalysisHook, BeforeAnalysisHook
     /**
      * @param AfterAnalysis $event The event triggered when the analysis is done.
      */
+    #[\Override]
     public static function afterAnalysis(AfterAnalysis $event): void
     {
         echo "DONE";
@@ -23,6 +24,7 @@ class PrintHook implements AfterAnalysisHook, BeforeAnalysisHook
     /**
      * @param BeforeAnalysis $event The event triggered when the analysis starts.
      */
+    #[\Override]
     public static function beforeAnalysis(BeforeAnalysis $event): void
     {
         echo "Churn: ";

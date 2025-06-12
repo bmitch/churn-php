@@ -54,6 +54,7 @@ final class ParallelProcessHandler extends BaseProcessHandler
      * @param ProcessFactory $processFactory Process Factory.
      * @psalm-param Generator<\Churn\File\File> $filesFinder
      */
+    #[\Override]
     public function process(Generator $filesFinder, ProcessFactory $processFactory): void
     {
         $pool = [];

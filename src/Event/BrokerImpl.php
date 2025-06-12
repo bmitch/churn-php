@@ -39,6 +39,7 @@ final class BrokerImpl implements Broker
     /**
      * @param object $subscriber A subscriber object.
      */
+    #[\Override]
     public function subscribe($subscriber): void
     {
         foreach ($this->channels as $channel) {
@@ -53,6 +54,7 @@ final class BrokerImpl implements Broker
     /**
      * @param Event $event The triggered event.
      */
+    #[\Override]
     public function notify(Event $event): void
     {
         foreach ($this->subscribers as $eventClass => $subscribers) {

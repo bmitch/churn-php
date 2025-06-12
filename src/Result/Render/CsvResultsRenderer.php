@@ -17,6 +17,7 @@ final class CsvResultsRenderer implements ResultsRendererInterface
      * @param OutputInterface $output Output Interface.
      * @param array<array<float|integer|string>> $results The results.
      */
+    #[\Override]
     public function render(OutputInterface $output, array $results): void
     {
         $output->writeln($this->getHeader());

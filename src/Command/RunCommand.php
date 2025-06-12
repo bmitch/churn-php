@@ -84,6 +84,7 @@ final class RunCommand extends Command
     /**
      * Configure the command
      */
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('run')
@@ -104,6 +105,7 @@ final class RunCommand extends Command
      * @param InputInterface $input Input.
      * @param OutputInterface $output Output.
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (true === $input->getOption('quiet')) {

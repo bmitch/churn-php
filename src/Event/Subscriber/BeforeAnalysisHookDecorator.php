@@ -30,6 +30,7 @@ final class BeforeAnalysisHookDecorator implements BeforeAnalysis, HookDecorator
     /**
      * @param BeforeAnalysisEvent $event The event triggered when the analysis starts.
      */
+    #[\Override]
     public function onBeforeAnalysis(BeforeAnalysisEvent $event): void
     {
         $this->hook::beforeAnalysis($event);

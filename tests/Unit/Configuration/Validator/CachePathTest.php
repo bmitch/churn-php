@@ -12,6 +12,7 @@ use Churn\Configuration\Validator\CachePath;
 final class CachePathTest extends ValidatorBaseTestCase
 {
     /** {@inheritDoc} */
+    #[\Override]
     protected function getValidator(): Validator
     {
         return new CachePath();
@@ -21,24 +22,28 @@ final class CachePathTest extends ValidatorBaseTestCase
      * @param Config $config The configuration object.
      * @return mixed
      */
+    #[\Override]
     protected function getValue(Config $config)
     {
         return $config->getCachePath();
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     protected function getDefaultValue()
     {
         return null;
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     public static function provideValidValues(): iterable
     {
         yield 'CachePath' => ['/tmp/.churn.cache'];
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     public static function provideInvalidValues(): iterable
     {
         yield 'CachePath / int' => [123, 'Cache path should be a string'];

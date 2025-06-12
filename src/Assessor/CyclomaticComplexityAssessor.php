@@ -43,6 +43,7 @@ final class CyclomaticComplexityAssessor implements Assessor
      *
      * @param string $contents The contents of a PHP file.
      */
+    #[\Override]
     public function assess(string $contents): int
     {
         $score = 0;

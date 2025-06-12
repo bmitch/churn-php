@@ -45,6 +45,7 @@ final class ConcreteProcessFactory implements ProcessFactory
      * @param File $file File that the processes will execute on.
      * @return iterable<ProcessInterface> The list of processes to execute.
      */
+    #[\Override]
     public function createProcesses(File $file): iterable
     {
         $processes = [];

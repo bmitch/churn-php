@@ -19,6 +19,7 @@ final class ResultTest extends BaseTestCase
     protected $result;
 
     /** @return void */
+    #[\Override]
     public function setUp()
     {
         parent::setUp();

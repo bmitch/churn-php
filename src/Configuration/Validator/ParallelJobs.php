@@ -24,6 +24,7 @@ final class ParallelJobs extends BaseValidator
      * @param EditableConfig $config The configuration object.
      * @param mixed $value The value to validate.
      */
+    #[\Override]
     protected function validateValue(EditableConfig $config, $value): void
     {
         Assert::integer($value, 'Amount of parallel jobs should be an integer');
