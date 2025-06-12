@@ -146,7 +146,7 @@ jobs:
         run: "vendor/bin/simple-phpunit --colors=always --testdox --testsuite churn-tests --coverage-clover=coverage.xml"
 
       - name: "Download other code coverage reports"
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           pattern: coverage-*
           merge-multiple: true
@@ -301,7 +301,7 @@ jobs:
           tools: none
 
       - name: Download churn.phar
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: churn.phar
 
@@ -343,7 +343,7 @@ jobs:
           tools: none
 
       - name: Download churn.phar
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: churn.phar
 
