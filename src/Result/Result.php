@@ -131,8 +131,8 @@ final class Result implements ResultInterface
          * Normalize these values over time, we first divide by the maximum
          * values, to always end up with distances between 0 and 1.
          */
-        $normalizedHorizontalDistance = floatval($horizontalDistance / $maxCommits);
-        $normalizedVerticalDistance = floatval($verticalDistance / $maxComplexity);
+        $normalizedHorizontalDistance = \floatval($horizontalDistance / $maxCommits);
+        $normalizedVerticalDistance = \floatval($verticalDistance / $maxComplexity);
 
         /*
          * Calculate the distance of this class from the "top right" corner,
