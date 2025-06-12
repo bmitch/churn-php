@@ -15,6 +15,7 @@ final class FileTest extends BaseTestCase
     private $file;
 
     /** @return void */
+    #[\Override]
     public function setUp()
     {
         parent::setUp();

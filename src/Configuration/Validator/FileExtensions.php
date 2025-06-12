@@ -24,6 +24,7 @@ final class FileExtensions extends BaseValidator
      * @param EditableConfig $config The configuration object.
      * @param mixed $value The value to validate.
      */
+    #[\Override]
     protected function validateValue(EditableConfig $config, $value): void
     {
         Assert::isArray($value, 'File extensions should be an array of strings');

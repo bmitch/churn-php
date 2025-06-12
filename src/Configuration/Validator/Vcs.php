@@ -24,6 +24,7 @@ final class Vcs extends BaseValidator
      * @param EditableConfig $config The configuration object.
      * @param mixed $value The value to validate.
      */
+    #[\Override]
     protected function validateValue(EditableConfig $config, $value): void
     {
         Assert::string($value, 'VCS should be a string');

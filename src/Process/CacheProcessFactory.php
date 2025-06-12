@@ -57,6 +57,7 @@ final class CacheProcessFactory implements AfterAnalysis, AfterFileAnalysis, Pro
      * @param File $file File that the processes will execute on.
      * @return iterable<ProcessInterface> The list of processes to execute.
      */
+    #[\Override]
     public function createProcesses(File $file): iterable
     {
         if (!$this->isCached($file)) {
@@ -75,6 +76,7 @@ final class CacheProcessFactory implements AfterAnalysis, AfterFileAnalysis, Pro
     /**
      * @param AfterAnalysisEvent $event The event triggered when the analysis is done.
      */
+    #[\Override]
     public function onAfterAnalysis(AfterAnalysisEvent $event): void
     {
         $this->writeCache();
@@ -83,6 +85,7 @@ final class CacheProcessFactory implements AfterAnalysis, AfterFileAnalysis, Pro
     /**
      * @param AfterFileAnalysisEvent $event The event triggered when the analysis of a file is done.
      */
+    #[\Override]
     public function onAfterFileAnalysis(AfterFileAnalysisEvent $event): void
     {
         $this->addToCache(

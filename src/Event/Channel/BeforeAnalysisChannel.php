@@ -18,6 +18,7 @@ final class BeforeAnalysisChannel implements Channel
     /**
      * @param object $subscriber A subscriber instance.
      */
+    #[\Override]
     public function accepts($subscriber): bool
     {
         return $subscriber instanceof BeforeAnalysis;
@@ -26,6 +27,7 @@ final class BeforeAnalysisChannel implements Channel
     /**
      * @psalm-return class-string<BeforeAnalysisEvent>
      */
+    #[\Override]
     public function getEventClassname(): string
     {
         return BeforeAnalysisEvent::class;
@@ -36,6 +38,7 @@ final class BeforeAnalysisChannel implements Channel
      * @psalm-param BeforeAnalysis $subscriber
      * @psalm-return Closure(BeforeAnalysisEvent): void
      */
+    #[\Override]
     public function buildEventHandler($subscriber): Closure
     {
         return static function (BeforeAnalysisEvent $event) use ($subscriber): void {

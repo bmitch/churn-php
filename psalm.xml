@@ -17,6 +17,7 @@
         <directory name="tests"/>
         <ignoreFiles>
             <file name="tests/console-application.php"/>
+            <directory name="tests/**/Assets*"/>
         </ignoreFiles>
     </projectFiles>
 

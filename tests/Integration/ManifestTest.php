@@ -17,6 +17,7 @@ final class ManifestTest extends BaseTestCase
     private $manifest;
 
     /** @return void */
+    #[\Override]
     public function setUp()
     {
         parent::setUp();

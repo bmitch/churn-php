@@ -20,6 +20,7 @@ final class ResultsRendererFactoryTest extends BaseTestCase
     private $factory;
 
     /** @return void */
+    #[\Override]
     public function setUp()
     {
         parent::setUp();

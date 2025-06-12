@@ -24,6 +24,7 @@ final class CommitsSince extends BaseValidator
      * @param EditableConfig $config The configuration object.
      * @param array<mixed> $configuration The array containing the configuration values.
      */
+    #[\Override]
     public function validate(EditableConfig $config, array $configuration): void
     {
         if (!$this->hasConfigurationKey($configuration)) {
@@ -40,6 +41,7 @@ final class CommitsSince extends BaseValidator
      * @param EditableConfig $config The configuration object.
      * @param mixed $value The value to validate.
      */
+    #[\Override]
     protected function validateValue(EditableConfig $config, $value): void
     {
         Assert::string($value, 'Commits since should be a string');

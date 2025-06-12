@@ -34,6 +34,7 @@ final class MercurialChangesCountProcess extends ChurnProcess implements Changes
     /**
      * Returns the number of changes for a file.
      */
+    #[\Override]
     public function countChanges(): int
     {
         return \substr_count($this->getOutput(), "\n");

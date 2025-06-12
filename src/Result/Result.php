@@ -46,6 +46,7 @@ final class Result implements ResultInterface
     /**
      * Return the file.
      */
+    #[\Override]
     public function getFile(): File
     {
         return $this->file;
@@ -72,6 +73,7 @@ final class Result implements ResultInterface
     /**
      * Get the number of changes.
      */
+    #[\Override]
     public function getCommits(): int
     {
         return $this->commits;
@@ -90,6 +92,7 @@ final class Result implements ResultInterface
     /**
      * Get the file complexity.
      */
+    #[\Override]
     public function getComplexity(): int
     {
         return $this->complexity;
@@ -98,6 +101,7 @@ final class Result implements ResultInterface
     /**
      * Get the file priority.
      */
+    #[\Override]
     public function getPriority(): int
     {
         return $this->commits * $this->complexity;
@@ -110,6 +114,7 @@ final class Result implements ResultInterface
      * @param integer $maxComplexity The maximum complexity out of any file scanned.
      * @codingStandardsIgnoreStart
      */
+    #[\Override]
     public function getScore(int $maxCommits, int $maxComplexity): float
     {
         Assert::greaterThan($maxComplexity, 0);
@@ -126,16 +131,16 @@ final class Result implements ResultInterface
          * Normalize these values over time, we first divide by the maximum
          * values, to always end up with distances between 0 and 1.
          */
-        $normalizedHorizontalDistance = $horizontalDistance / $maxCommits;
-        $normalizedVerticalDistance = $verticalDistance / $maxComplexity;
+        $normalizedHorizontalDistance = \floatval($horizontalDistance / $maxCommits);
+        $normalizedVerticalDistance = \floatval($verticalDistance / $maxComplexity);
 
         /*
          * Calculate the distance of this class from the "top right" corner,
          * using the simple formula A^2 + B^2 = C^2; or: C = sqrt(A^2 + B^2)).
          */
         $distanceFromTopRightCorner = \sqrt(
-            $normalizedHorizontalDistance ** 2
-            + $normalizedVerticalDistance ** 2
+            $normalizedHorizontalDistance ** 2.0
+            + $normalizedVerticalDistance ** 2.0
         );
 
         /*
@@ -143,7 +148,7 @@ final class Result implements ResultInterface
          * so in order to end up with a high score, we invert the value by
          * subtracting it from 1.
          */
-        return \round(1 - $distanceFromTopRightCorner, 3);
+        return \round(1.0 - $distanceFromTopRightCorner, 3);
         // @codingStandardsIgnoreEnd
     }
 }

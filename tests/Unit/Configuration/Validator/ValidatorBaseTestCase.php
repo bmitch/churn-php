@@ -44,6 +44,7 @@ abstract class ValidatorBaseTestCase extends BaseTestCase
     abstract public static function provideInvalidValues(): iterable;
 
     /** @return void */
+    #[\Override]
     public function setUp()
     {
         parent::setUp();

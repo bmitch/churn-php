@@ -12,6 +12,7 @@ final class CyclomaticComplexityProcess extends ChurnProcess implements Cyclomat
     /**
      * Returns the cyclomatic complexity of a file.
      */
+    #[\Override]
     public function getCyclomaticComplexity(): int
     {
         return (int) $this->getOutput();

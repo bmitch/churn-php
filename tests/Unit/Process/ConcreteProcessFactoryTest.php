@@ -21,6 +21,7 @@ final class ConcreteProcessFactoryTest extends BaseTestCase
     private $processFactory;
 
     /** @return void */
+    #[\Override]
     public function setUp()
     {
         parent::setUp();

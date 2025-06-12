@@ -11,6 +11,7 @@ use Churn\Configuration\Validator\Hooks;
 final class HooksTest extends ValidatorBaseTestCase
 {
     /** {@inheritDoc} */
+    #[\Override]
     protected function getValidator(): Validator
     {
         return new Hooks();
@@ -20,24 +21,28 @@ final class HooksTest extends ValidatorBaseTestCase
      * @param Config $config The configuration object.
      * @return mixed
      */
+    #[\Override]
     protected function getValue(Config $config)
     {
         return $config->getHooks();
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     protected function getDefaultValue()
     {
         return [];
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     public static function provideValidValues(): iterable
     {
         yield 'Hook' => [['Hook1', 'Hook2']];
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     public static function provideInvalidValues(): iterable
     {
         yield 'Hooks / string' => ['foo', 'Hooks should be an array of strings'];

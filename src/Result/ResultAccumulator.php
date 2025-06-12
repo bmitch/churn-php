@@ -54,6 +54,7 @@ final class ResultAccumulator implements AfterFileAnalysis, ResultReporter
     /**
      * @param AfterFileAnalysisEvent $event The event triggered when the analysis of a file is done.
      */
+    #[\Override]
     public function onAfterFileAnalysis(AfterFileAnalysisEvent $event): void
     {
         if (!($event instanceof AfterFileAnalysisEventWithResult)) {
@@ -88,6 +89,7 @@ final class ResultAccumulator implements AfterFileAnalysis, ResultReporter
     /**
      * Returns the maximum number of changes for a file.
      */
+    #[\Override]
     public function getMaxCommits(): int
     {
         return $this->maxCommits;
@@ -96,6 +98,7 @@ final class ResultAccumulator implements AfterFileAnalysis, ResultReporter
     /**
      * Returns the maximum complexity for a file.
      */
+    #[\Override]
     public function getMaxComplexity(): int
     {
         return $this->maxComplexity;
@@ -104,6 +107,7 @@ final class ResultAccumulator implements AfterFileAnalysis, ResultReporter
     /**
      * Returns the number of files processed.
      */
+    #[\Override]
     public function getNumberOfFiles(): int
     {
         return $this->numberOfFiles;
@@ -112,6 +116,7 @@ final class ResultAccumulator implements AfterFileAnalysis, ResultReporter
     /**
      * Returns the highest score.
      */
+    #[\Override]
     public function getMaxScore(): ?float
     {
         $result = $this->highestScores->toArray()[0] ?? null;

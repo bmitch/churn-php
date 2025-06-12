@@ -11,6 +11,7 @@ use Churn\Configuration\Validator\FilesToIgnore;
 final class FilesToIgnoreTest extends ValidatorBaseTestCase
 {
     /** {@inheritDoc} */
+    #[\Override]
     protected function getValidator(): Validator
     {
         return new FilesToIgnore();
@@ -20,24 +21,28 @@ final class FilesToIgnoreTest extends ValidatorBaseTestCase
      * @param Config $config The configuration object.
      * @return mixed
      */
+    #[\Override]
     protected function getValue(Config $config)
     {
         return $config->getFilesToIgnore();
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     protected function getDefaultValue()
     {
         return [];
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     public static function provideValidValues(): iterable
     {
         yield 'FilesToIgnore' => [['foo.php', 'bar.php', 'baz.php']];
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     public static function provideInvalidValues(): iterable
     {
         yield 'FilesToIgnore / string' => ['foo', 'Files to ignore should be an array of strings'];

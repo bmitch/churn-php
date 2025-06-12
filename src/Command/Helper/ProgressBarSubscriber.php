@@ -34,6 +34,7 @@ final class ProgressBarSubscriber implements AfterAnalysis, AfterFileAnalysis, B
     /**
      * @param AfterAnalysisEvent $event The event triggered when the analysis is done.
      */
+    #[\Override]
     public function onAfterAnalysis(AfterAnalysisEvent $event): void
     {
         $this->progressBar->finish();
@@ -42,6 +43,7 @@ final class ProgressBarSubscriber implements AfterAnalysis, AfterFileAnalysis, B
     /**
      * @param BeforeAnalysisEvent $event The event triggered when the analysis starts.
      */
+    #[\Override]
     public function onBeforeAnalysis(BeforeAnalysisEvent $event): void
     {
         $this->progressBar->start();
@@ -50,6 +52,7 @@ final class ProgressBarSubscriber implements AfterAnalysis, AfterFileAnalysis, B
     /**
      * @param AfterFileAnalysisEvent $event The event triggered when the analysis of a file is done.
      */
+    #[\Override]
     public function onAfterFileAnalysis(AfterFileAnalysisEvent $event): void
     {
         $this->progressBar->advance();

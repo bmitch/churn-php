@@ -44,6 +44,7 @@ final class AssessComplexityCommand extends Command
     /**
      * Configure the command
      */
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('assess-complexity')
@@ -57,6 +58,7 @@ final class AssessComplexityCommand extends Command
      * @param InputInterface $input Input.
      * @param OutputInterface $output Output.
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $file = (string) $input->getArgument('file');

@@ -31,6 +31,7 @@ class TestHook implements AfterAnalysisHook, AfterFileAnalysisHook, BeforeAnalys
     /**
      * @param AfterAnalysis $event The event triggered when the analysis is done.
      */
+    #[\Override]
     public static function afterAnalysis(AfterAnalysis $event): void
     {
         self::$nbAfterAnalysisEvent++;
@@ -39,6 +40,7 @@ class TestHook implements AfterAnalysisHook, AfterFileAnalysisHook, BeforeAnalys
     /**
      * @param AfterFileAnalysis $event The event triggered when the analysis of a file is done.
      */
+    #[\Override]
     public static function afterFileAnalysis(AfterFileAnalysis $event): void
     {
         self::$nbAfterFileAnalysisEvent++;
@@ -47,6 +49,7 @@ class TestHook implements AfterAnalysisHook, AfterFileAnalysisHook, BeforeAnalys
     /**
      * @param BeforeAnalysis $event The event triggered when the analysis starts.
      */
+    #[\Override]
     public static function beforeAnalysis(BeforeAnalysis $event): void
     {
         self::$nbBeforeAnalysisEvent++;
