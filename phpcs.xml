@@ -59,6 +59,11 @@
     <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamName"/>
     <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType"/>
   </rule>
+  <rule ref="SlevomatCodingStandard.Attributes.AttributesOrder">
+    <properties>
+      <property name="orderAlphabetically" value="true" />
+    </properties>
+  </rule>
   <rule ref="vendor-bin/phpcs/vendor/squizlabs/php_codesniffer/src/Standards/Generic/Sniffs/Formatting/SpaceAfterCastSniff.php"/>
 
   <!-- Codor rules -->
