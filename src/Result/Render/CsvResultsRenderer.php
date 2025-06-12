@@ -23,7 +23,7 @@ final class CsvResultsRenderer implements ResultsRendererInterface
         $output->writeln($this->getHeader());
 
         foreach ($results as $result) {
-            $output->writeln(\implode(';', ['"' . $result[0] . '"', $result[1], $result[2], $result[3]]));
+            $output->writeln(\implode(';', ['"' . strval($result[0]) . '"', $result[1], $result[2], $result[3]]));
         }
     }
 
