@@ -24,7 +24,7 @@ final class FossilChangesCountProcess extends ChurnProcess implements ChangesCou
     {
         $process = new Process([
             'fossil', 'timeline', '-t', 'ci',
-            '-W', '0', '-n', '0', 'after', $dateSince,
+            '-W', '0', 'after', $dateSince,
             '-p', $file->getFullPath(),
         ], \dirname($file->getFullPath()));
 

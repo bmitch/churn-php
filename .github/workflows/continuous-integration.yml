@@ -112,7 +112,7 @@ jobs:
       - name: "Run tests"
         run: |
           vcs=${{ matrix.vcs }}
-          docker run -i --rm -v $PWD:/churn ${{ matrix.vcs }} /churn/vendor/bin/simple-phpunit -c /churn/phpunit.xml.dist /churn/tests/EndToEnd/${vcs^}Test.php --coverage-clover=/churn/coverage-${{ matrix.vcs }}.xml
+          docker run -i --rm -v $PWD:/churn ${{ matrix.vcs }} /bin/bash -c "git config --global --add safe.directory /churn; /churn/vendor/bin/simple-phpunit -c /churn/phpunit.xml.dist /churn/tests/EndToEnd/${vcs^}Test.php --coverage-clover=/churn/coverage-${{ matrix.vcs }}.xml"
           sed -i 's/\/churn\/src/\/home\/runner\/work\/${{ github.event.repository.name }}\/${{ github.event.repository.name }}\/src/g' coverage-${{ matrix.vcs }}.xml
 
       - uses: actions/upload-artifact@v4

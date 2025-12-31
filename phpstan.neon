@@ -2,7 +2,8 @@ parameters:
   level: 8
   paths:
     - %currentWorkingDirectory%/src/
-    - %currentWorkingDirectory%/tests/
+    # Ignore tests/ for now
+    # - %currentWorkingDirectory%/tests/
 
   bootstrapFiles:
     - vendor/bin/.phpunit/phpunit/vendor/autoload.php

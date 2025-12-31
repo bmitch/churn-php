@@ -35,7 +35,10 @@ final class RunCommandTest extends BaseTestCase
         parent::setUp();
 
         $application = new Application('churn-php', 'test');
-        $application->add(RunCommand::newInstance());
+        $method = \method_exists($application, 'addCommand')
+            ? 'addCommand'
+            : 'add';
+        $application->{$method}(RunCommand::newInstance());
         $command = $application->find('run');
         $this->commandTester = new CommandTester($command);
     }

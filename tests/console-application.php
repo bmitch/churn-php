@@ -15,7 +15,10 @@ use Churn\Command\RunCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application('churn-php', 'test');
-$application->add(AssessComplexityCommand::newInstance());
-$application->add(RunCommand::newInstance());
+$method = method_exists($application, 'addCommand')
+    ? 'addCommand'
+    : 'add';
+$application->{$method}(AssessComplexityCommand::newInstance());
+$application->{$method}(RunCommand::newInstance());
 
 return $application;

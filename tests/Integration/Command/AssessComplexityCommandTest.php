@@ -23,7 +23,10 @@ final class AssessComplexityCommandTest extends BaseTestCase
         parent::setUp();
 
         $application = new Application('churn-php', 'test');
-        $application->add(AssessComplexityCommand::newInstance());
+        $method = \method_exists($application, 'addCommand')
+            ? 'addCommand'
+            : 'add';
+        $application->{$method}(AssessComplexityCommand::newInstance());
         $command = $application->find('assess-complexity');
         $this->commandTester = new CommandTester($command);
     }

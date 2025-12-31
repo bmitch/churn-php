@@ -86,7 +86,7 @@
             "phpcs",
             "phpcs --standard=phpcs-tests.xml",
             "psalm",
-            "phpstan"
+            "phpstan --memory-limit=-1"
         ]
     }
 }

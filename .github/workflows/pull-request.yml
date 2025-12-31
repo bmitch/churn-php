@@ -31,4 +31,4 @@ jobs:
       - name: "Run Infection"
         run: |
           git fetch --depth=1 origin $GITHUB_BASE_REF
-          infection -j$(nproc) --logger-github --show-mutations --only-covered --git-diff-filter=AM --git-diff-base=origin/$GITHUB_BASE_REF --ignore-msi-with-no-mutations --min-msi=75 --min-covered-msi=80
+          infection -j$(nproc) --logger-github --show-mutations --git-diff-filter=AM --git-diff-base=origin/$GITHUB_BASE_REF --ignore-msi-with-no-mutations --min-msi=75 --min-covered-msi=80
