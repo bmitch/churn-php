@@ -4,7 +4,7 @@
 
 [Full Changelog](https://github.com/bmitch/churn-php/compare/1.7.3...HEAD)
 
-## [1.7.3](https://github.com/bmitch/churn-php/tree/1.7.3 (2025-12-31)
+## [1.7.3](https://github.com/bmitch/churn-php/tree/1.7.3) (2025-12-31)
 
 [Full Changelog](https://github.com/bmitch/churn-php/compare/1.7.2...1.7.3)
 
