@@ -2,7 +2,23 @@
 
 ## [Unreleased](https://github.com/bmitch/churn-php/tree/HEAD)
 
-[Full Changelog](https://github.com/bmitch/churn-php/compare/1.7.2...HEAD)
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.7.3...HEAD)
+
+## [1.7.3](https://github.com/bmitch/churn-php/tree/1.7.3 (2025-12-31)
+
+[Full Changelog](https://github.com/bmitch/churn-php/compare/1.7.2...1.7.3)
+
+**Implemented enhancements:**
+
+- Add support for Symfony 8 [\#402](https://github.com/bmitch/churn-php/pull/402) ([villfa](https://github.com/villfa))
+- Update pdepend constraint [\#395](https://github.com/bmitch/churn-php/pull/395) ([villfa](https://github.com/villfa))
+
+**Merged pull requests:**
+
+- Run tests with PHP 8.5 [\#403](https://github.com/bmitch/churn-php/pull/403) ([villfa](https://github.com/villfa))
+- Fix newly detected violations [\#401](https://github.com/bmitch/churn-php/pull/401) ([villfa](https://github.com/villfa))
+- Run tests with PHP 8.4 [\#398](https://github.com/bmitch/churn-php/pull/398) ([villfa](https://github.com/villfa))
+- Fix broken pipeline by updating outdated steps [\#397](https://github.com/bmitch/churn-php/pull/397) ([villfa](https://github.com/villfa))
 
 ## [1.7.2](https://github.com/bmitch/churn-php/tree/1.7.2) (2024-08-04)
 
@@ -12,17 +28,20 @@
 
 - Fix PSR violations [\#364](https://github.com/bmitch/churn-php/issues/364)
 - Add compatibility with Symfony 7 [\#392](https://github.com/bmitch/churn-php/pull/392) ([villfa](https://github.com/villfa))
+- Sort keyed multi-line arrays [\#386](https://github.com/bmitch/churn-php/pull/386) ([villfa](https://github.com/villfa))
 - Add "static analysis" Composer keyword [\#363](https://github.com/bmitch/churn-php/pull/363) ([villfa](https://github.com/villfa))
+
+**Fixed bugs:**
+
+- Exclude assets from classmaps [\#393](https://github.com/bmitch/churn-php/pull/393) ([villfa](https://github.com/villfa))
 
 **Merged pull requests:**
 
 - Skip Codecov on forks [\#394](https://github.com/bmitch/churn-php/pull/394) ([villfa](https://github.com/villfa))
-- Exclude assets from classmaps [\#393](https://github.com/bmitch/churn-php/pull/393) ([villfa](https://github.com/villfa))
 - Test against PHP 8.3 [\#391](https://github.com/bmitch/churn-php/pull/391) ([villfa](https://github.com/villfa))
 - Run CI with PHP 8.1 [\#390](https://github.com/bmitch/churn-php/pull/390) ([villfa](https://github.com/villfa))
 - Infection requires PHP 8.1 [\#388](https://github.com/bmitch/churn-php/pull/388) ([villfa](https://github.com/villfa))
 - Explicit Psalm settings [\#387](https://github.com/bmitch/churn-php/pull/387) ([villfa](https://github.com/villfa))
-- Sort keyed multi-line arrays [\#386](https://github.com/bmitch/churn-php/pull/386) ([villfa](https://github.com/villfa))
 - Fix Phar::running false positive error [\#385](https://github.com/bmitch/churn-php/pull/385) ([villfa](https://github.com/villfa))
 - Allow Psalm 5 installation [\#384](https://github.com/bmitch/churn-php/pull/384) ([villfa](https://github.com/villfa))
 - Use more relevant keywords [\#383](https://github.com/bmitch/churn-php/pull/383) ([villfa](https://github.com/villfa))
@@ -305,6 +324,7 @@
 - Enable more phpmd rules [\#234](https://github.com/bmitch/churn-php/pull/234) ([villfa](https://github.com/villfa))
 - Add the ability to disable parallelization [\#233](https://github.com/bmitch/churn-php/pull/233) ([villfa](https://github.com/villfa))
 - Update tools to fix PHP warnings [\#231](https://github.com/bmitch/churn-php/pull/231) ([villfa](https://github.com/villfa))
+- Write Tests for Process Manager [\#221](https://github.com/bmitch/churn-php/pull/221) ([varunsingh87](https://github.com/varunsingh87))
 
 ## [1.1.0](https://github.com/bmitch/churn-php/tree/1.1.0) (2020-10-13)
 
@@ -328,7 +348,6 @@
 - Add application version [\#225](https://github.com/bmitch/churn-php/pull/225) ([villfa](https://github.com/villfa))
 - Update CHANGELOG.md [\#224](https://github.com/bmitch/churn-php/pull/224) ([villfa](https://github.com/villfa))
 - Update README.md [\#223](https://github.com/bmitch/churn-php/pull/223) ([villfa](https://github.com/villfa))
-- Write Tests for Process Manager [\#221](https://github.com/bmitch/churn-php/pull/221) ([varunsingh87](https://github.com/varunsingh87))
 - Fix unit test [\#220](https://github.com/bmitch/churn-php/pull/220) ([villfa](https://github.com/villfa))
 - Drop ChurnCommandOld [\#218](https://github.com/bmitch/churn-php/pull/218) ([simPod](https://github.com/simPod))
 - Allow Symfony 5 [\#217](https://github.com/bmitch/churn-php/pull/217) ([simPod](https://github.com/simPod))
@@ -602,7 +621,6 @@
 
 **Merged pull requests:**
 
-- Fixes \#42 [\#59](https://github.com/bmitch/churn-php/pull/59) ([bmitch](https://github.com/bmitch))
 - Fixes \#42 [\#52](https://github.com/bmitch/churn-php/pull/52) ([bmitch](https://github.com/bmitch))
 
 ## [0.0.4](https://github.com/bmitch/churn-php/tree/0.0.4) (2017-08-19)
@@ -629,6 +647,7 @@
 
 **Merged pull requests:**
 
+- Fixes \#42 [\#59](https://github.com/bmitch/churn-php/pull/59) ([bmitch](https://github.com/bmitch))
 - New test [\#49](https://github.com/bmitch/churn-php/pull/49) ([bmitch](https://github.com/bmitch))
 - Add PHP 7.2 to Travis-CI build [\#48](https://github.com/bmitch/churn-php/pull/48) ([bmitch](https://github.com/bmitch))
 - Fixes \#33 - FileManager returns FileCollection [\#47](https://github.com/bmitch/churn-php/pull/47) ([bmitch](https://github.com/bmitch))
