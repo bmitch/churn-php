@@ -1,57 +1,80 @@
-name: "Continuous Integration"
+name: Continuous Integration
 
 on:
   push:
     paths-ignore:
-      - '**.md'
-      - 'img/**'
+      - **.md
+      - img/**
   pull_request:
     paths-ignore:
-      - '**.md'
-      - 'img/**'
-  # Allow manually triggering the workflow
+      - **.md
+      - img/**
   workflow_dispatch:
 
 jobs:
   tests:
-    name: "CI"
+    name: CI
+
+
+
+
+
+
+
     runs-on: ${{ matrix.os }}
-    # We want to run on external PRs, but not on our own internal PRs as they'll be run by the push to the branch.
-    if: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
+
+
+
+    if: "${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}"
+
+
+
 
     strategy:
       matrix:
-        php-version:
-          - "7.1"
-          - "7.2"
-          - "7.3"
-          - "7.4"
-          - "8.0"
-          - "8.1"
-          - "8.2"
-          - "8.3"
-          - "8.4"
-          - "8.5"
-        os:
-          - ubuntu-latest
-          - windows-latest
+        php-version: ['7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
+        os: [ubuntu-latest, windows-latest]
+
+
+
+
+
+
 
     steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@v2"
+
+
+
+
+
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
         with:
-          coverage: "none"
-          ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
-          php-version: "${{ matrix.php-version }}"
+          coverage: none
+          ini-values: error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1
+          php-version: ${{ matrix.php-version }}
           tools: composer:v2
+
+
+
+
+
+
 
       - name: Get composer cache directory
         id: composercache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
         shell: bash
+
+
+
+
+
+
 
       - name: Cache composer dependencies
         uses: actions/cache@v3
@@ -63,25 +86,61 @@ jobs:
             composer-${{ runner.os }}-
             composer-
 
-      - name: "Install dependencies"
+
+
+
+
+
+
+      - name: Install dependencies
         run: |
           composer update --no-interaction --no-scripts --no-progress
           composer bin php-parallel-lint update --no-interaction --no-progress
 
-      - name: "Check PHP syntax"
-        run: "vendor/bin/parallel-lint src tests"
 
-      - name: "Run tests"
-        run: "vendor/bin/simple-phpunit --colors=always --testdox"
 
-      - name: "Run Churn"
-        run: "php bin/churn run src -p -vvv"
+
+
+
+
+      - name: Check PHP syntax
+        run: vendor/bin/parallel-lint src tests
+
+
+
+
+
+
+
+      - name: Run tests
+        run: vendor/bin/simple-phpunit --colors=always --testdox
+
+
+
+
+
+
+
+      - name: Run Churn
+        run: php bin/churn run src -p -vvv
 
   test-vcs:
-    name: "Test VCS"
+    name: Test VCS
+
+
+
+
+
+
+
     runs-on: ubuntu-latest
-    # We want to run on external PRs, but not on our own internal PRs as they'll be run by the push to the branch.
-    if: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
+
+
+
+    if: "${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}"
+
+
+
 
     strategy:
       matrix:
@@ -90,31 +149,59 @@ jobs:
           - mercurial
           - subversion
 
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
 
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@v2"
+
+
+
+
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+
+
+
+
+
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
         with:
-          coverage: "none"
-          ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
-          php-version: "8.1"
+          coverage: none
+          ini-values: error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1
+          php-version: '8.1'
           tools: composer:v2
 
-      - uses: "ramsey/composer-install@v2"
+
+
+      - uses: ramsey/composer-install@v2
         with:
-          dependency-versions: "highest"
-          composer-options: "--no-scripts"
+          dependency-versions: highest
+          composer-options: --no-scripts
 
-      - name: "Build Docker image"
-        run: "docker build -t ${{ matrix.vcs }} -f tests/docker/${{ matrix.vcs }}/Dockerfile tests/docker/${{ matrix.vcs }}"
 
-      - name: "Run tests"
+
+
+
+
+
+      - name: Build Docker image
+        run: docker build -t ${{ matrix.vcs }} -f tests/docker/${{ matrix.vcs }}/Dockerfile tests/docker/${{ matrix.vcs }}
+
+
+
+
+
+
+
+      - name: Run tests
         run: |
           vcs=${{ matrix.vcs }}
           docker run -i --rm -v $PWD:/churn ${{ matrix.vcs }} /bin/bash -c "git config --global --add safe.directory /churn; /churn/vendor/bin/simple-phpunit -c /churn/phpunit.xml.dist /churn/tests/EndToEnd/${vcs^}Test.php --coverage-clover=/churn/coverage-${{ matrix.vcs }}.xml"
           sed -i 's/\/churn\/src/\/home\/runner\/work\/${{ github.event.repository.name }}\/${{ github.event.repository.name }}\/src/g' coverage-${{ matrix.vcs }}.xml
+
+
 
       - uses: actions/upload-artifact@v4
         with:
@@ -122,45 +209,93 @@ jobs:
           path: ./coverage-${{ matrix.vcs }}.xml
 
   coverage:
-    name: "Code coverage"
+    name: Code coverage
+
+
+
+
+
+
+
     runs-on: ubuntu-latest
-    # Run after "test-vcs" to gather all code coverage reports
-    needs: [test-vcs]
+
+
+
+
+    needs:
+      - test-vcs
+
+
+
+
+
+
 
     steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@v2"
+
+
+
+
+
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
         with:
-          coverage: "pcov"
-          ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
-          php-version: "8.1"
+          coverage: pcov
+          ini-values: error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1
+          php-version: '8.1'
           tools: composer:v2
 
-      - uses: "ramsey/composer-install@v2"
+
+
+      - uses: ramsey/composer-install@v2
         with:
-          dependency-versions: "highest"
-          composer-options: "--no-scripts"
+          dependency-versions: highest
+          composer-options: --no-scripts
 
-      - name: "Calculate code coverage"
-        run: "vendor/bin/simple-phpunit --colors=always --testdox --testsuite churn-tests --coverage-clover=coverage.xml"
 
-      - name: "Download other code coverage reports"
+
+
+
+
+
+      - name: Calculate code coverage
+        run: vendor/bin/simple-phpunit --colors=always --testdox --testsuite churn-tests --coverage-clover=coverage.xml
+
+
+
+
+
+
+
+      - name: Download other code coverage reports
         uses: actions/download-artifact@v4
         with:
           pattern: coverage-*
           merge-multiple: true
           path: ./coverage
 
-      - name: "List all coverage reports"
+
+
+
+
+
+
+      - name: List all coverage reports
         run: echo coverage_reports=./coverage/$(ls -m coverage/ | sed "s/, */,.\/coverage\//g") >> $GITHUB_ENV
 
-      - name: "Upload coverage to Codecov"
+
+
+
+
+
+
+      - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
-        # No need to run this step on forks.
-        if: ${{ 'bmitch/churn-php' == github.repository }}
+        if: "${{ 'bmitch/churn-php' == github.repository }}"
         with:
           files: ./coverage.xml,${{ env.coverage_reports }}
           fail_ci_if_error: true
@@ -169,84 +304,210 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   analysis:
-    name: "Static Analysis"
+    name: Static Analysis
+
+
+
+
+
+
+
     runs-on: ubuntu-latest
-    # We want to run on external PRs, but not on our own internal PRs as they'll be run by the push to the branch.
-    if: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
+
+
+
+    if: "${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}"
+
+
+
+
+
+
 
     steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@v2"
+
+
+
+
+
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
         with:
-          coverage: "none"
-          ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
-          php-version: "8.1"
+          coverage: none
+          ini-values: error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1
+          php-version: '8.1'
           tools: composer:v2, composer-normalize, composer-require-checker
 
-      - name: "Validate composer.json"
-        run: "composer validate --strict"
 
-      - uses: "ramsey/composer-install@v2"
+
+
+
+
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+
+
+      - uses: ramsey/composer-install@v2
         with:
-          dependency-versions: "highest"
+          dependency-versions: highest
 
-      - name: "Check for PSR-4 violations"
-        run: "composer dump-autoload --optimize --strict-psr --no-scripts"
 
-      - name: "Run PHP Mess Detector"
-        run: "vendor/bin/phpmd src text phpmd.xml"
 
-      - name: "Run PHPLOC"
-        run: "vendor/bin/phploc src"
 
-      - name: "Run PHP Copy/Paste Detector"
-        run: "vendor/bin/phpcpd src"
 
-      - name: "Install PHPUnit"
-        run: "vendor/bin/simple-phpunit --version"
 
-      - name: "Run Psalm"
-        run: "vendor/bin/psalm --show-info=true"
 
-      - name: "Run PHPStan"
-        run: "vendor/bin/phpstan"
+      - name: Check for PSR-4 violations
+        run: composer dump-autoload --optimize --strict-psr --no-scripts
 
-      - name: "Run PHP_CodeSniffer"
+
+
+
+
+
+
+      - name: Run PHP Mess Detector
+        run: vendor/bin/phpmd src text phpmd.xml
+
+
+
+
+
+
+
+      - name: Run PHPLOC
+        run: vendor/bin/phploc src
+
+
+
+
+
+
+
+      - name: Run PHP Copy/Paste Detector
+        run: vendor/bin/phpcpd src
+
+
+
+
+
+
+
+      - name: Install PHPUnit
+        run: vendor/bin/simple-phpunit --version
+
+
+
+
+
+
+
+      - name: Run Psalm
+        run: vendor/bin/psalm --show-info=true
+
+
+
+
+
+
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan
+
+
+
+
+
+
+
+      - name: Run PHP_CodeSniffer
         run: |
           vendor/bin/phpcs
           vendor/bin/phpcs --standard=phpcs-tests.xml
 
-      - name: "Normalize composer.json"
-        run: "composer-normalize --dry-run --no-check-lock --no-update-lock"
 
-      - name: "Analyze Composer dependencies"
-        run: "composer-require-checker check ./composer.json"
+
+
+
+
+
+      - name: Normalize composer.json
+        run: composer-normalize --dry-run --no-check-lock --no-update-lock
+
+
+
+
+
+
+
+      - name: Analyze Composer dependencies
+        run: composer-require-checker check ./composer.json
 
   build:
-    name: "Build Phar"
+    name: Build Phar
+
+
+
+
+
+
+
     runs-on: ubuntu-latest
-    # Build when everything else is ok
-    needs: [tests, analysis, coverage]
+
+
+
+
+    needs:
+      - tests
+      - analysis
+      - coverage
+
+
+
+
+
+
 
     steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@v2"
+
+
+
+
+
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
         with:
-          coverage: "none"
-          ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
-          php-version: "8.1"
+          coverage: none
+          ini-values: error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1
+          php-version: '8.1'
           tools: composer:v2
+
+
+
+
+
+
 
       - name: Get composer cache directory
         id: composercache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
         shell: bash
+
+
+
+
+
+
 
       - name: Cache composer dependencies
         uses: actions/cache@v3
@@ -258,20 +519,44 @@ jobs:
             composer-${{ runner.os }}-
             composer-
 
-      - name: "Build Phar"
+
+
+
+
+
+
+      - name: Build Phar
         run: |
           make build
           mv build/churn.phar .
 
-      - name: "Test Version"
+
+
+
+
+
+
+      - name: Test Version
         run: |
           diff -u <(build/bin/churn -V) <(./churn.phar -V)
           ./churn.phar --version | grep -E '^churn-php .+@[0-9a-z]{7}$'
 
-      - name: "Test Phar"
+
+
+
+
+
+
+      - name: Test Phar
         run: diff -u <(build/bin/churn --format=csv | sort) <(./churn.phar --format=csv | sort)
 
-      - name: "Save Phar"
+
+
+
+
+
+
+      - name: Save Phar
         uses: actions/upload-artifact@v4
         with:
           name: churn.phar
@@ -279,36 +564,69 @@ jobs:
           if-no-files-found: error
 
   tests-phar-oldphp:
-    name: "Test Phar error message with PHP ${{ matrix.php-version }}"
+    name: Test Phar error message with PHP ${{ matrix.php-version }}
+
+
+
+
+
+
+
     runs-on: ubuntu-latest
-    # We need the phar file
-    needs: [build]
+
+
+
+
+    needs:
+      - build
+
+
+
 
     strategy:
       matrix:
-        php-version:
-          - "7.0"
-          - "5.6"
-          - "5.5"
-          - "5.4"
-          - "5.3"
+        php-version: ['5.3', '5.4', '5.5', '5.6', '7.0', '8.3', '8.4', '8.5']
+
+
+
+
+
+
 
     steps:
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@v2"
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
         with:
-          coverage: "none"
-          ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
+          coverage: none
+          ini-values: error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1
           php-version: ${{ matrix.php-version }}
           tools: none
+
+
+
+
+
+
 
       - name: Download churn.phar
         uses: actions/download-artifact@v4
         with:
           name: churn.phar
 
+
+
+
+
+
+
       - name: Make churn.phar executable
         run: chmod +x churn.phar
+
+
+
+
+
+
 
       - name: Test churn.phar error message
         run: |
@@ -317,40 +635,81 @@ jobs:
           grep 'The application requires the version ">=7.1.3" or greater' error
           echo "Everything is OK."
 
-
   tests-phar:
-    name: "Test Phar with PHP ${{ matrix.php-version }}"
+    name: Test Phar with PHP ${{ matrix.php-version }}
+
+
+
+
+
+
+
     runs-on: ubuntu-latest
-    # We need the phar file
-    needs: [build]
+
+
+
+
+    needs:
+      - build
+
+
+
 
     strategy:
       matrix:
-        php-version:
-          - "7.1"
-          - "8.1"
+        php-version: ['7.1', '8.1', '8.3', '8.4', '8.5']
+
+
+
+
+
+
 
     steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@v2"
+
+
+
+
+
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
         with:
-          coverage: "none"
-          ini-values: "error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1"
+          coverage: none
+          ini-values: error_reporting=-1, display_errors=On, display_startup_errors=On, zend.assertions=1
           php-version: ${{ matrix.php-version }}
           tools: none
+
+
+
+
+
+
 
       - name: Download churn.phar
         uses: actions/download-artifact@v4
         with:
           name: churn.phar
 
+
+
+
+
+
+
       - name: Make churn.phar executable
         run: chmod +x churn.phar
 
-      - name: "Run Phar"
+
+
+
+
+
+
+      - name: Run Phar
         run: ./churn.phar --format=markdown >> $GITHUB_STEP_SUMMARY
